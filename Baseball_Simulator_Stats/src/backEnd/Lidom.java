@@ -12,5 +12,8 @@ package backEnd;
 
 public class Lidom {
 	
+	public ArrayList<Team> listTeams;
+	public ArrayList<Player> listPlayers;
+	
 
 }
