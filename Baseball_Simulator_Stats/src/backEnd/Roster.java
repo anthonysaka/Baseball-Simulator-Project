@@ -1,11 +1,12 @@
 package backEnd;
 
-public class PlayerOfTeam {
+public class Roster {
 	
 	private Player player;
-
+	
 	/* Constructor */
-	public PlayerOfTeam(Player player) {
+
+	public Roster(Player player) {
 		super();
 		this.player = player;
 	}
@@ -17,6 +18,7 @@ public class PlayerOfTeam {
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
+	
 	
 	
 
