@@ -152,6 +152,7 @@ public class Pitcher extends Player {
 		Promedio = ((Carreras_Permitidas * 9) / Cantidad_Innings);
 		
 		return Promedio;
+		
 	}
 	
 	
