@@ -1,11 +1,12 @@
 package backEnd;
 
+import java.util.ArrayList;
 
 /*  Final project - Baseball Simulator -
 * 
 *  Developers: Anthony Sakamoto
-*              Arnold
-*              Victor Rodriguez
+*              Arnold Lantigua
+*              Victor Rosario
 *
 *              Controller Class - LIDOM (Liga de Béisbol Profesional de República Dominicana)
 */

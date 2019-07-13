@@ -16,7 +16,7 @@ public class Batter extends Player {
 	private int strikeOut;
 	private int stolenBase;
 	
-	/* Construcor */
+	/* Constructor */
 	
 	public Batter(String id, String name, String lastname, String teamName, Date birthdate, String birthplace,
 			float height, float weight, String position, int average, int runs, int h1, int h2, int h3, int hR, int rBI,
@@ -126,7 +126,15 @@ public class Batter extends Player {
 	}
 	
 	
-	
+	public float Average_Bateador(int contador, int contador2) {
+		
+	    float Resultado = 0;
+	    
+	    Resultado = contador / contador2;
+	    
+		return Resultado;
+		
+	}
 	
 	
 
