@@ -46,6 +46,11 @@ import java.awt.CardLayout;
 
 public class AddPlayer extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1658484356818098183L;
+	
 	private final JPanel contentPanel = new JPanel();
 	private JSeparator separator;
 	private JLabel lblRegistroJugador;
@@ -128,12 +133,14 @@ public class AddPlayer extends JDialog {
 	private JTextField textField_21;
 	private JLabel lblSb;
 	
+	@SuppressWarnings("unused")
 	private static int typePlayer= 0 ; // 1 - Pitcher, 2 - Bateador.
 
 
 	/**
 	 * Create the dialog.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public AddPlayer() {
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setUndecorated(true);
@@ -218,6 +225,11 @@ public class AddPlayer extends JDialog {
 
 			txtName = new JTextField()  {
 
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 4739881032280318705L;
+				
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -265,6 +277,11 @@ public class AddPlayer extends JDialog {
 
 			txtApellido = new JTextField() {
 
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 8565552011756206292L;
+				
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -365,6 +382,11 @@ public class AddPlayer extends JDialog {
 			panelBg.add(lblId);
 
 			txtId = new JTextField() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1505249453418318846L;
+				
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -434,6 +456,11 @@ public class AddPlayer extends JDialog {
 			panelBg.add(lblNmeroUniforme);
 
 			txtNumeroUniforme = new JTextField() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 5312005918110838593L;
+				
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -530,6 +557,11 @@ public class AddPlayer extends JDialog {
 			panelPitcher.add(lblW);
 			
 			textField = new JTextField() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 7247417383852758508L;
+				
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -658,14 +690,18 @@ public class AddPlayer extends JDialog {
 			panelPitcher.add(lblAvg);
 			
 			textField_1 = new JTextField() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 3956255546944534400L;
+				
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
 					if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
 						Graphics2D g2 = (Graphics2D) g.create();
 						g2.setPaint(getBackground());
-						g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
-								0, 0, getWidth() - 1, getHeight() - 1));
+						g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(0, 0, getWidth() - 1, getHeight() - 1));
 						g2.dispose();
 					}
 					super.paintComponent(g);
@@ -686,14 +722,18 @@ public class AddPlayer extends JDialog {
 			panelPitcher.add(textField_1);
 			
 			textField_2 = new JTextField() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 4059016494301269566L;
+				
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
 					if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
 						Graphics2D g2 = (Graphics2D) g.create();
 						g2.setPaint(getBackground());
-						g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
-								0, 0, getWidth() - 1, getHeight() - 1));
+						g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(0, 0, getWidth() - 1, getHeight() - 1));
 						g2.dispose();
 					}
 					super.paintComponent(g);
@@ -714,14 +754,18 @@ public class AddPlayer extends JDialog {
 			panelPitcher.add(textField_2);
 			
 			textField_3 = new JTextField() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -5199349132939587088L;
+				
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
 					if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
 						Graphics2D g2 = (Graphics2D) g.create();
 						g2.setPaint(getBackground());
-						g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
-								0, 0, getWidth() - 1, getHeight() - 1));
+						g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(0, 0, getWidth() - 1, getHeight() - 1));
 						g2.dispose();
 					}
 					super.paintComponent(g);
@@ -742,14 +786,18 @@ public class AddPlayer extends JDialog {
 			panelPitcher.add(textField_3);
 			
 			textField_4 = new JTextField() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 2109767031727162985L;
+				
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
 					if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
 						Graphics2D g2 = (Graphics2D) g.create();
 						g2.setPaint(getBackground());
-						g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
-								0, 0, getWidth() - 1, getHeight() - 1));
+						g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(0, 0, getWidth() - 1, getHeight() - 1));
 						g2.dispose();
 					}
 					super.paintComponent(g);
@@ -770,14 +818,18 @@ public class AddPlayer extends JDialog {
 			panelPitcher.add(textField_4);
 			
 			textField_5 = new JTextField() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 5032541922362533657L;
+				
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
 					if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
 						Graphics2D g2 = (Graphics2D) g.create();
 						g2.setPaint(getBackground());
-						g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
-								0, 0, getWidth() - 1, getHeight() - 1));
+						g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(0, 0, getWidth() - 1, getHeight() - 1));
 						g2.dispose();
 					}
 					super.paintComponent(g);
@@ -798,14 +850,18 @@ public class AddPlayer extends JDialog {
 			panelPitcher.add(textField_5);
 			
 			textField_6 = new JTextField() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 2751677839397771534L;
+				
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
 					if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
 						Graphics2D g2 = (Graphics2D) g.create();
 						g2.setPaint(getBackground());
-						g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
-								0, 0, getWidth() - 1, getHeight() - 1));
+						g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(0, 0, getWidth() - 1, getHeight() - 1));
 						g2.dispose();
 					}
 					super.paintComponent(g);
@@ -826,14 +882,18 @@ public class AddPlayer extends JDialog {
 			panelPitcher.add(textField_6);
 			
 			textField_7 = new JTextField() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -5169980214119263848L;
+				
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
 					if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
 						Graphics2D g2 = (Graphics2D) g.create();
 						g2.setPaint(getBackground());
-						g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
-								0, 0, getWidth() - 1, getHeight() - 1));
+						g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(0, 0, getWidth() - 1, getHeight() - 1));
 						g2.dispose();
 					}
 					super.paintComponent(g);
