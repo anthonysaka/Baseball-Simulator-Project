@@ -145,6 +145,7 @@ public class Pitcher extends Player {
 		this.average = average;
 	}
 	
+	
 	public float Efectividad_Pitcher (int Carreras_Permitidas, float Cantidad_Innings) {
 		
 		float Promedio = 0;
