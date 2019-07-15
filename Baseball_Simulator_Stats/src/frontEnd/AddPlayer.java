@@ -13,6 +13,8 @@ import java.awt.Component;
 
 import javax.swing.JSeparator;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -141,10 +143,10 @@ public class AddPlayer extends JDialog {
 	private JLabel lblEquipo_1;
 	private JSeparator separator_6;
 	private JLabel lblInformacinJugador;
-	private JButton button;
-	private JButton button_1;
+	private JButton btnRegistrar;
+	private JButton btnCancelar;
 	private JSeparator separator_7;
-	private JLabel label_1;
+	private JLabel lblInformacinJugador_1;
 	private JComboBox comboBox_3;
 	private JLabel label_2;
 	private JComboBox comboBox_4;
@@ -309,7 +311,7 @@ public class AddPlayer extends JDialog {
 			lblPasDeNacimiento.setBounds(358, 259, 238, 31);
 			panelBg.add(lblPasDeNacimiento);
 
-			lblInformacinPersonal = new JLabel("Informaci\u00F3n personal");
+			lblInformacinPersonal = new JLabel("Informaci\u00F3n Personal");
 			lblInformacinPersonal.setVerticalTextPosition(SwingConstants.BOTTOM);
 			lblInformacinPersonal.setVerticalAlignment(SwingConstants.BOTTOM);
 			lblInformacinPersonal.setHorizontalAlignment(SwingConstants.LEFT);
@@ -1039,7 +1041,6 @@ public class AddPlayer extends JDialog {
 
 			panelBateador = new JPanel();
 			panelBateador.setBorder(new LineBorder(new Color(0, 30, 72), 1, true));
-			panelBateador.setVisible(false);
 			panelBateador.setBackground(new Color(255, 255, 255));
 			panelInformacionJugador.add(panelBateador, "name_34931057259399");
 			panelBateador.setLayout(null);
@@ -1429,29 +1430,29 @@ public class AddPlayer extends JDialog {
 			lblSb.setFont(new Font("Consolas", Font.PLAIN, 20));
 			lblSb.setBounds(878, 164, 52, 31);
 			panelBateador.add(lblSb);
-			
+
 			separator_7 = new JSeparator();
 			separator_7.setOpaque(true);
 			separator_7.setBorder(null);
 			separator_7.setBackground(new Color(4, 10, 20));
 			separator_7.setBounds(30, 35, 621, 2);
 			panelBateador.add(separator_7);
-			
-			label_1 = new JLabel("Informaci\u00F3n jugador");
-			label_1.setVerticalTextPosition(SwingConstants.BOTTOM);
-			label_1.setVerticalAlignment(SwingConstants.BOTTOM);
-			label_1.setHorizontalAlignment(SwingConstants.LEFT);
-			label_1.setForeground(Color.BLACK);
-			label_1.setFont(new Font("Consolas", Font.PLAIN, 20));
-			label_1.setBounds(39, 13, 209, 24);
-			panelBateador.add(label_1);
-			
+
+			lblInformacinJugador_1 = new JLabel("Informaci\u00F3n Jugador");
+			lblInformacinJugador_1.setVerticalTextPosition(SwingConstants.BOTTOM);
+			lblInformacinJugador_1.setVerticalAlignment(SwingConstants.BOTTOM);
+			lblInformacinJugador_1.setHorizontalAlignment(SwingConstants.LEFT);
+			lblInformacinJugador_1.setForeground(Color.BLACK);
+			lblInformacinJugador_1.setFont(new Font("Consolas", Font.PLAIN, 20));
+			lblInformacinJugador_1.setBounds(39, 13, 209, 24);
+			panelBateador.add(lblInformacinJugador_1);
+
 			comboBox_3 = new JComboBox();
 			comboBox_3.setModel(new DefaultComboBoxModel(new String[] {"<Seleccionar>", "Pitcher", "Catcher", "Primera base", "Segunda base", "Tercera base", "Short stop", "Left fielder", "Center fielder", "Right fielder"}));
 			comboBox_3.setFont(new Font("Consolas", Font.PLAIN, 18));
 			comboBox_3.setBounds(134, 50, 163, 28);
 			panelBateador.add(comboBox_3);
-			
+
 			label_2 = new JLabel("Mano de lanzar");
 			label_2.setVerticalTextPosition(SwingConstants.BOTTOM);
 			label_2.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -1460,13 +1461,13 @@ public class AddPlayer extends JDialog {
 			label_2.setFont(new Font("Consolas", Font.PLAIN, 20));
 			label_2.setBounds(320, 50, 154, 24);
 			panelBateador.add(label_2);
-			
+
 			comboBox_4 = new JComboBox();
 			comboBox_4.setModel(new DefaultComboBoxModel(new String[] {"<Seleccionar>", "Derecha", "Izquierda", "Ambas"}));
 			comboBox_4.setFont(new Font("Consolas", Font.PLAIN, 18));
 			comboBox_4.setBounds(488, 50, 163, 28);
 			panelBateador.add(comboBox_4);
-			
+
 			label_3 = new JLabel("Equipo");
 			label_3.setVerticalTextPosition(SwingConstants.BOTTOM);
 			label_3.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -1475,12 +1476,12 @@ public class AddPlayer extends JDialog {
 			label_3.setFont(new Font("Consolas", Font.PLAIN, 20));
 			label_3.setBounds(715, 54, 66, 24);
 			panelBateador.add(label_3);
-			
+
 			comboBox_5 = new JComboBox();
 			comboBox_5.setFont(new Font("Consolas", Font.PLAIN, 18));
 			comboBox_5.setBounds(793, 50, 153, 28);
 			panelBateador.add(comboBox_5);
-			
+
 			label_4 = new JLabel("Seleccionar Equipo");
 			label_4.setVerticalTextPosition(SwingConstants.BOTTOM);
 			label_4.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -1489,7 +1490,7 @@ public class AddPlayer extends JDialog {
 			label_4.setFont(new Font("Consolas", Font.PLAIN, 20));
 			label_4.setBounds(693, 13, 209, 24);
 			panelBateador.add(label_4);
-			
+
 			lblPosicin = new JLabel("Posici\u00F3n");
 			lblPosicin.setVerticalTextPosition(SwingConstants.BOTTOM);
 			lblPosicin.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -1498,7 +1499,7 @@ public class AddPlayer extends JDialog {
 			lblPosicin.setFont(new Font("Consolas", Font.PLAIN, 20));
 			lblPosicin.setBounds(41, 54, 88, 24);
 			panelBateador.add(lblPosicin);
-			
+
 			separator_8 = new JSeparator();
 			separator_8.setOpaque(true);
 			separator_8.setBorder(null);
@@ -1564,27 +1565,59 @@ public class AddPlayer extends JDialog {
 			btnSeleccionarFoto.setBounds(825, 372, 156, 30);
 			panelBg.add(btnSeleccionarFoto);
 
-			button = new JButton("Registrar");
-			button.setIcon(new ImageIcon(AddPlayer.class.getResource("/imagenes/icons8_baseball_24px.png")));
-			button.setIconTextGap(5);
-			button.setHorizontalTextPosition(SwingConstants.RIGHT);
-			button.setForeground(new Color(255, 255, 240));
-			button.setFont(new Font("Consolas", Font.BOLD, 17));
-			button.setBorder(null);
-			button.setBackground(new Color(0, 30, 72));
-			button.setBounds(765, 737, 146, 30);
-			panelBg.add(button);
+			btnRegistrar = new JButton("Registrar");
+			btnRegistrar.setIcon(new ImageIcon(AddPlayer.class.getResource("/imagenes/icons8_baseball_24px.png")));
+			btnRegistrar.setIconTextGap(5);
+			btnRegistrar.setHorizontalTextPosition(SwingConstants.RIGHT);
+			btnRegistrar.setForeground(new Color(255, 255, 240));
+			btnRegistrar.setFont(new Font("Consolas", Font.BOLD, 17));
+			btnRegistrar.setBorder(null);
+			btnRegistrar.setBackground(new Color(0, 30, 72));
+			btnRegistrar.setBounds(765, 737, 146, 30);
+			panelBg.add(btnRegistrar);
 
-			button_1 = new JButton("Cancelar");
-			button_1.setIcon(new ImageIcon(AddPlayer.class.getResource("/imagenes/icons8_cancel_24px_2.png")));
-			button_1.setIconTextGap(5);
-			button_1.setHorizontalTextPosition(SwingConstants.RIGHT);
-			button_1.setForeground(new Color(255, 255, 240));
-			button_1.setFont(new Font("Consolas", Font.BOLD, 17));
-			button_1.setBorder(null);
-			button_1.setBackground(new Color(0, 30, 70));
-			button_1.setBounds(923, 737, 146, 30);
-			panelBg.add(button_1);
+			btnCancelar = new JButton("Cancelar");
+			btnCancelar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+
+					ImageIcon icon = new ImageIcon(getClass().getResource("/imagenes/icons8_cancel_2_48px_1.png"));
+					String[] options = {"Si", "No"};	
+
+
+
+
+					if (typePlayer == 0) {
+						int xOption	= JOptionPane.showOptionDialog(null, "Seguro que desea cancelar?, la ventana se cerrará.", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
+						if (xOption == 0) {
+							typePlayer = 0;
+							dispose();
+						}
+
+					}
+					else if (typePlayer !=0) {
+
+						int xOption	= JOptionPane.showOptionDialog(null, "Seguro que desea cancelar el tipo de jugador?", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
+						if (xOption == 0) {
+							// FALTA PONER METODO PARA LIMPIAR LOS CAMPOS.
+							typePlayer = 0;
+							panelInformacionJugador.setVisible(false);
+							btnBateador.setEnabled(true);
+							btnPitcher.setEnabled(true);
+						}
+					}
+
+
+				}
+			});
+			btnCancelar.setIcon(new ImageIcon(AddPlayer.class.getResource("/imagenes/icons8_cancel_24px_2.png")));
+			btnCancelar.setIconTextGap(5);
+			btnCancelar.setHorizontalTextPosition(SwingConstants.RIGHT);
+			btnCancelar.setForeground(new Color(255, 255, 240));
+			btnCancelar.setFont(new Font("Consolas", Font.BOLD, 17));
+			btnCancelar.setBorder(null);
+			btnCancelar.setBackground(new Color(0, 30, 70));
+			btnCancelar.setBounds(923, 737, 146, 30);
+			panelBg.add(btnCancelar);
 		}
 	}
 }

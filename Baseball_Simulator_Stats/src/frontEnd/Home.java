@@ -14,6 +14,7 @@ import java.awt.Image;
 
 import javax.swing.SwingConstants;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import java.awt.SystemColor;
 
@@ -43,8 +44,8 @@ public class Home extends JFrame {
 	private JPanel panelBgHome;
 	private JLabel lblBgImagen;
 	private JLabel label;
-	private JButton button;
-	private JButton button_1;
+	private JButton btnMini;
+	private JButton btnClose;
 
 	/**
 	 * Launch the application.
@@ -118,6 +119,7 @@ public class Home extends JFrame {
 				AddPlayer newPlayer = new AddPlayer();
 				newPlayer.setVisible(true);
 				newPlayer.setModal(true);
+
 			}
 		});
 		btnJugadores.setOpaque(false);
@@ -147,47 +149,60 @@ public class Home extends JFrame {
 		lblLogoLidom.setForeground(Color.WHITE);
 		lblLogoLidom.setFont(new Font("Consolas", Font.BOLD, 20));
 		lblLogoLidom.setBackground(Color.WHITE);
-		
-		button = new JButton("");
-		button.setIcon(new ImageIcon(Home.class.getResource("/imagenes/icons8_minimize_window_24px.png")));
-		button.setPreferredSize(new Dimension(100, 30));
-		button.setOpaque(false);
-		button.setHideActionText(true);
-		button.setForeground(Color.WHITE);
-		button.setFont(new Font("Consolas", Font.BOLD, 20));
-		button.setBorder(null);
-		button.setBackground(new Color(4, 10, 20));
-		button.setActionCommand("Cancel");
-		button.setBounds(1856, 0, 26, 30);
-		panelMenuBar.add(button);
-		
-		button_1 = new JButton("");
-		button_1.addActionListener(new ActionListener() {
+
+		btnMini = new JButton("");
+		btnMini.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				dispose();
+				setExtendedState(ICONIFIED);
 			}
 		});
-		button_1.setIcon(new ImageIcon(Home.class.getResource("/imagenes/icons8_close_window_24px_1.png")));
-		button_1.setPreferredSize(new Dimension(100, 30));
-		button_1.setOpaque(false);
-		button_1.setHideActionText(true);
-		button_1.setForeground(Color.WHITE);
-		button_1.setFont(new Font("Consolas", Font.BOLD, 20));
-		button_1.setBorder(null);
-		button_1.setBackground(new Color(4, 10, 20));
-		button_1.setActionCommand("Cancel");
-		button_1.setBounds(1884, 0, 26, 30);
-		panelMenuBar.add(button_1);
+		btnMini.setIcon(new ImageIcon(Home.class.getResource("/imagenes/icons8_minimize_window_24px.png")));
+		btnMini.setPreferredSize(new Dimension(100, 30));
+		btnMini.setOpaque(false);
+		btnMini.setHideActionText(true);
+		btnMini.setForeground(Color.WHITE);
+		btnMini.setFont(new Font("Consolas", Font.BOLD, 20));
+		btnMini.setBorder(null);
+		btnMini.setBackground(new Color(4, 10, 20));
+		btnMini.setActionCommand("Cancel");
+		btnMini.setBounds(1856, 0, 26, 30);
+		panelMenuBar.add(btnMini);
+
+		btnClose = new JButton("");
+		btnClose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				ImageIcon icon = new ImageIcon(getClass().getResource("/imagenes/icons8_cancel_2_48px_1.png"));
+				String[] options = {"Si", "No"};	
+				int xOption	= JOptionPane.showOptionDialog(null, "Seguro que desea cancelar?, la ventana se cerrará.", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
+
+				if (xOption == 0) {
+					dispose();
+				}
+			}
+
+		});
+		btnClose.setIcon(new ImageIcon(Home.class.getResource("/imagenes/icons8_close_window_24px_1.png")));
+		btnClose.setPreferredSize(new Dimension(100, 30));
+		btnClose.setOpaque(false);
+		btnClose.setHideActionText(true);
+		btnClose.setForeground(Color.WHITE);
+		btnClose.setFont(new Font("Consolas", Font.BOLD, 20));
+		btnClose.setBorder(null);
+		btnClose.setBackground(new Color(4, 10, 20));
+		btnClose.setActionCommand("Cancel");
+		btnClose.setBounds(1884, 0, 26, 30);
+		panelMenuBar.add(btnClose);
 
 		panelBgHome = new JPanel();
 		panelBgHome.setBounds(0, 63, 1910, 957);
 		panelBackGround.add(panelBgHome);
 		panelBgHome.setLayout(new CardLayout(0, 0));
-		
+
 		label = new JLabel("");
 		panelBgHome.add(label, "name_5748905232900");
 		label.setIcon(new ImageIcon(Home.class.getResource("/imagenes/fondoPlay.png")));
-		
-		
+
+
 	}
 }
