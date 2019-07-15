@@ -2,5 +2,6 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="Baseball_Simulator_Stats/src"/>
+	<classpathentry kind="lib" path="RSCalendar.jar"/>
 	<classpathentry kind="output" path="Baseball_Simulator_Stats/bin"/>
 </classpath>
