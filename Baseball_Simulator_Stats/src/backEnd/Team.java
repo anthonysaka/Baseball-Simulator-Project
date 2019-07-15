@@ -11,11 +11,12 @@ public class Team {
 	private int gamesWin;
 	private int gamesLose;
 	private ArrayList<Roster> lineUp;
+	private Stadium stadium;
 	
 	/* Constructor */
 	
 	public Team(String id, String name, String manager, ArrayList<Roster> rosterPlayers, int games, int gamesWin, int gamesLose,
-			ArrayList<Roster> lineUp) {
+			ArrayList<Roster> lineUp, Stadium stadium) {
 		super();
 		this.Id = id;
 		this.name = name;
@@ -25,6 +26,7 @@ public class Team {
 		this.gamesWin = gamesWin;
 		this.gamesLose = gamesLose;
 		this.lineUp = new ArrayList<Roster>();
+		this.stadium = stadium;
 	}
 	
 	
@@ -60,6 +62,10 @@ public class Team {
 	public ArrayList<Roster> getLineUp() {
 		return lineUp;
 	}
+	
+	public Stadium getStadium() {
+		return stadium;
+	}
 
 	public void setId(String id) {
 		this.Id = id;
@@ -91,6 +97,10 @@ public class Team {
 
 	public void setLineUp(ArrayList<Roster> lineUp) {
 		this.lineUp = lineUp;
+	}
+	
+	public void setStadium(Stadium stadium) {
+		this.stadium = stadium;
 	}
 	
 	
