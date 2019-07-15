@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Team {
 	private String Id;
+	private String name;
 	private String manager;
 	private ArrayList<Roster> rosterPlayers;
 	private int games;
@@ -13,10 +14,11 @@ public class Team {
 	
 	/* Constructor */
 	
-	public Team(String id, String manager, ArrayList<Roster> rosterPlayers, int games, int gamesWin, int gamesLose,
+	public Team(String id, String name, String manager, ArrayList<Roster> rosterPlayers, int games, int gamesWin, int gamesLose,
 			ArrayList<Roster> lineUp) {
 		super();
-		Id = id;
+		this.Id = id;
+		this.name = name;
 		this.manager = manager;
 		this.rosterPlayers = new ArrayList<Roster>();
 		this.games = games;
@@ -29,6 +31,10 @@ public class Team {
 
 	public String getId() {
 		return Id;
+	}
+	
+	public String getName() {
+		return name;
 	}
 
 	public String getManager() {
@@ -56,7 +62,11 @@ public class Team {
 	}
 
 	public void setId(String id) {
-		Id = id;
+		this.Id = id;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public void setManager(String manager) {
