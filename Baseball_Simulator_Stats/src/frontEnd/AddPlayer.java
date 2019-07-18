@@ -46,6 +46,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
 import java.awt.CardLayout;
 import javax.swing.border.LineBorder;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class AddPlayer extends JDialog {
 
@@ -237,6 +239,17 @@ public class AddPlayer extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
+			txtName.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					//Restringir a solo letras.
+					char c = e.getKeyChar();
+					if (Character.isDigit(c)) {
+						getToolkit().beep();
+						e.consume();
+					}
+				}
+			});
 			/**********************************************************/
 
 			txtName.setHorizontalAlignment(SwingConstants.CENTER);
@@ -284,6 +297,17 @@ public class AddPlayer extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
+			txtApellido.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					//Restringir a solo letras.
+					char c = e.getKeyChar();
+					if (Character.isDigit(c)) {
+						getToolkit().beep();
+						e.consume();
+					}
+				}
+			});
 			/**********************************************************/
 
 			txtApellido.setHorizontalAlignment(SwingConstants.CENTER);
@@ -1584,13 +1608,11 @@ public class AddPlayer extends JDialog {
 					String[] options = {"Si", "No"};	
 
 
-
-
 					if (typePlayer == 0) {
 						int xOption	= JOptionPane.showOptionDialog(null, "Seguro que desea cancelar?, la ventana se cerrará.", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
 						if (xOption == 0) {
 							typePlayer = 0;
-							dispose();
+							dispose(); // chequear tiene un comportamiento extrano
 						}
 
 					}

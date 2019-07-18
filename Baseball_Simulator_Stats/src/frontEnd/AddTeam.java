@@ -44,6 +44,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
 import java.awt.CardLayout;
 import javax.swing.border.LineBorder;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class AddTeam extends JDialog {
 
@@ -154,6 +156,17 @@ public class AddTeam extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
+			txtName.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					//Restringir a solo letras.
+					char c = e.getKeyChar();
+					if (Character.isDigit(c)) {
+						getToolkit().beep();
+						e.consume();
+					}
+				}
+			});
 			/**********************************************************/
 
 			txtName.setHorizontalAlignment(SwingConstants.CENTER);
@@ -279,6 +292,17 @@ public class AddTeam extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
+			txtNumeroUniforme.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					//Restringir a solo letras.
+					char c = e.getKeyChar();
+					if (Character.isDigit(c)) {
+						getToolkit().beep();
+						e.consume();
+					}
+				}
+			});
 			/**********************************************************/
 			txtNumeroUniforme.setHorizontalAlignment(SwingConstants.CENTER);
 			txtNumeroUniforme.setFont(new Font("Consolas", Font.PLAIN, 18));
