@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.border.AbstractBorder;
 import javax.swing.border.EmptyBorder;
@@ -27,6 +28,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.text.ParseException;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
@@ -44,6 +46,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
 import java.awt.CardLayout;
 import javax.swing.border.LineBorder;
+import javax.swing.text.MaskFormatter;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -62,7 +66,7 @@ public class AddTeam extends JDialog {
 	private RSDateChooser dateChooser;
 	private JComboBox<String> cbxCountries;
 	private JLabel lblId;
-	private JTextField txtId;
+	private JFormattedTextField txtId;
 	private JLabel lblNmeroUniforme;
 	private JTextField txtNumeroUniforme;
 	private JPanel panelPhoto;
@@ -221,12 +225,12 @@ public class AddTeam extends JDialog {
 			dateChooser.setBounds(55, 292, 270, 30);
 			panelBg.add(dateChooser);
 
-			cbxCountries = new JComboBox();
+			cbxCountries = new JComboBox<String>();
 			cbxCountries.setFont(new Font("Consolas", Font.PLAIN, 18));
 			cbxCountries.setBounds(358, 292, 270, 30);
 			panelBg.add(cbxCountries);
 
-			lblId = new JLabel("  N\u00FAmero RNC");
+			lblId = new JLabel("  N\u00FAmero ID");
 			lblId.setVerticalTextPosition(SwingConstants.BOTTOM);
 			lblId.setVerticalAlignment(SwingConstants.BOTTOM);
 			lblId.setHorizontalAlignment(SwingConstants.LEFT);
@@ -235,28 +239,47 @@ public class AddTeam extends JDialog {
 			lblId.setBounds(55, 107, 137, 31);
 			panelBg.add(lblId);
 
-			txtId = new JTextField() {
-				/************* PARA REDONDEAR JTEXTFIELD *************/
-				@Override 
-				protected void paintComponent(Graphics g) {
-					if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
-						Graphics2D g2 = (Graphics2D) g.create();
-						g2.setPaint(getBackground());
-						g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
-								0, 0, getWidth() - 1, getHeight() - 1));
-						g2.dispose();
-					}
-					super.paintComponent(g);
-				}
-				@Override 
-				public void updateUI() {
-					super.updateUI();
-					setOpaque(false);
-					setBorder(new RoundedCornerBorder());
-				}
-			};
-			/**********************************************************/
 
+
+		
+			
+			try {
+				// Definición de la máscara para ID.
+				MaskFormatter maskID = null;
+				maskID = new MaskFormatter("##-###-###");
+				maskID.setPlaceholderCharacter('#');
+				//maskID.setPlaceholder("AC-000-001");
+				
+				txtId = new JFormattedTextField(maskID) {
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = 1L;
+					/************* PARA REDONDEAR JTEXTFIELD *************/
+					@Override 
+					protected void paintComponent(Graphics g) {
+						if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+							Graphics2D g2 = (Graphics2D) g.create();
+							g2.setPaint(getBackground());
+							g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+									0, 0, getWidth() - 1, getHeight() - 1));
+							g2.dispose();
+						}
+						super.paintComponent(g);
+					}
+					@Override 
+					public void updateUI() {
+						super.updateUI();
+						setOpaque(false);
+						setBorder(new RoundedCornerBorder());
+					}
+				};
+				/**********************************************************/		
+			} 
+			catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
 			txtId.setHorizontalAlignment(SwingConstants.CENTER);
 			txtId.setFont(new Font("Consolas", Font.PLAIN, 18));
 			txtId.setDisabledTextColor(Color.BLACK);
@@ -352,7 +375,7 @@ public class AddTeam extends JDialog {
 			button = new JButton("Registrar");
 			button.setIcon(new ImageIcon(AddPlayer.class.getResource("/imagenes/icons8_baseball_24px.png")));
 			button.setIconTextGap(5);
-			button.setHorizontalTextPosition(SwingConstants.RIGHT);
+			button.setHorizontalTextPosition(SwingConstants.LEFT);
 			button.setForeground(new Color(255, 255, 240));
 			button.setFont(new Font("Consolas", Font.BOLD, 17));
 			button.setBorder(null);
@@ -363,7 +386,7 @@ public class AddTeam extends JDialog {
 			button_1 = new JButton("Cancelar");
 			button_1.setIcon(new ImageIcon(AddPlayer.class.getResource("/imagenes/icons8_cancel_24px_2.png")));
 			button_1.setIconTextGap(5);
-			button_1.setHorizontalTextPosition(SwingConstants.RIGHT);
+			button_1.setHorizontalTextPosition(SwingConstants.LEFT);
 			button_1.setForeground(new Color(255, 255, 240));
 			button_1.setFont(new Font("Consolas", Font.BOLD, 17));
 			button_1.setBorder(null);
@@ -372,4 +395,5 @@ public class AddTeam extends JDialog {
 			panelBg.add(button_1);
 		}
 	}
+
 }

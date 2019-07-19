@@ -24,7 +24,7 @@ public class ViewTeam extends JDialog {
 			e.printStackTrace();
 		}
 	}
-
+	
 	/**
 	 * Create the dialog.
 	 */

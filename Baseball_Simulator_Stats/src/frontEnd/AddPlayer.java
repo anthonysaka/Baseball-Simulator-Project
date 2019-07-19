@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.border.AbstractBorder;
 import javax.swing.border.EmptyBorder;
@@ -29,6 +30,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.text.ParseException;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
@@ -46,6 +48,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
 import java.awt.CardLayout;
 import javax.swing.border.LineBorder;
+import javax.swing.text.MaskFormatter;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -136,24 +140,24 @@ public class AddPlayer extends JDialog {
 	private static int typePlayer= 0 ; // 1 - Pitcher, 2 - Bateador.
 	private JButton btnSeleccionarFoto;
 	private JLabel lblTipo;
-	private JComboBox comboBox;
+	private JComboBox cbxTipoPitcher;
 	private JLabel lblManoDeLanzar;
-	private JComboBox comboBox_1;
+	private JComboBox cbxManoPitcher;
 	private JLabel lblEquipo;
-	private JComboBox comboBox_2;
+	private JComboBox cbxEquipoPit;
 	private JSeparator separator_5;
 	private JLabel lblEquipo_1;
 	private JSeparator separator_6;
 	private JLabel lblInformacinJugador;
-	private JButton btnRegistrar;
-	private JButton btnCancelar;
+	private JButton btnRegistrarJugador;
+	private JButton btnCancelarJugador;
 	private JSeparator separator_7;
 	private JLabel lblInformacinJugador_1;
-	private JComboBox comboBox_3;
+	private JComboBox cbxPosicionBat;
 	private JLabel label_2;
-	private JComboBox comboBox_4;
+	private JComboBox cbxManoBat;
 	private JLabel label_3;
-	private JComboBox comboBox_5;
+	private JComboBox cbxEquipoBat;
 	private JLabel label_4;
 	private JLabel lblPosicin;
 	private JSeparator separator_8;
@@ -367,28 +371,43 @@ public class AddPlayer extends JDialog {
 			lblId.setFont(new Font("Consolas", Font.PLAIN, 20));
 			lblId.setBounds(55, 107, 137, 31);
 			panelBg.add(lblId);
-
-			txtId = new JTextField() {
-				/************* PARA REDONDEAR JTEXTFIELD *************/
-				@Override 
-				protected void paintComponent(Graphics g) {
-					if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
-						Graphics2D g2 = (Graphics2D) g.create();
-						g2.setPaint(getBackground());
-						g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
-								0, 0, getWidth() - 1, getHeight() - 1));
-						g2.dispose();
+			
+			try {
+				// Definición de la máscara para ID.
+				MaskFormatter maskID = null;
+				maskID = new MaskFormatter("##-###-###");
+				maskID.setPlaceholderCharacter('#');
+				//maskID.setPlaceholder("AC-000-001");
+				
+				txtId = new JFormattedTextField(maskID) {
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = 1L;
+					/************* PARA REDONDEAR JTEXTFIELD *************/
+					@Override 
+					protected void paintComponent(Graphics g) {
+						if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+							Graphics2D g2 = (Graphics2D) g.create();
+							g2.setPaint(getBackground());
+							g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+									0, 0, getWidth() - 1, getHeight() - 1));
+							g2.dispose();
+						}
+						super.paintComponent(g);
 					}
-					super.paintComponent(g);
-				}
-				@Override 
-				public void updateUI() {
-					super.updateUI();
-					setOpaque(false);
-					setBorder(new RoundedCornerBorder());
-				}
-			};
-			/**********************************************************/
+					@Override 
+					public void updateUI() {
+						super.updateUI();
+						setOpaque(false);
+						setBorder(new RoundedCornerBorder());
+					}
+				};
+				/**********************************************************/		
+			} 
+			catch (ParseException e) {
+				e.printStackTrace();
+			}
 
 			txtId.setHorizontalAlignment(SwingConstants.CENTER);
 			txtId.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -436,28 +455,45 @@ public class AddPlayer extends JDialog {
 			lblNmeroUniforme.setFont(new Font("Consolas", Font.PLAIN, 20));
 			lblNmeroUniforme.setBounds(441, 107, 187, 31);
 			panelBg.add(lblNmeroUniforme);
-
-			txtNumeroUniforme = new JTextField() {
-				/************* PARA REDONDEAR JTEXTFIELD *************/
-				@Override 
-				protected void paintComponent(Graphics g) {
-					if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
-						Graphics2D g2 = (Graphics2D) g.create();
-						g2.setPaint(getBackground());
-						g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
-								0, 0, getWidth() - 1, getHeight() - 1));
-						g2.dispose();
+			
+			
+			try {
+				// Definición de la máscara para ID.
+				MaskFormatter maskUniNumber = null;
+				maskUniNumber = new MaskFormatter("##");
+				maskUniNumber.setPlaceholderCharacter('#');
+				//maskID.setPlaceholder("AC-000-001");
+				
+				txtNumeroUniforme = new JFormattedTextField(maskUniNumber) {
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = 1L;
+					/************* PARA REDONDEAR JTEXTFIELD *************/
+					@Override 
+					protected void paintComponent(Graphics g) {
+						if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+							Graphics2D g2 = (Graphics2D) g.create();
+							g2.setPaint(getBackground());
+							g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+									0, 0, getWidth() - 1, getHeight() - 1));
+							g2.dispose();
+						}
+						super.paintComponent(g);
 					}
-					super.paintComponent(g);
-				}
-				@Override 
-				public void updateUI() {
-					super.updateUI();
-					setOpaque(false);
-					setBorder(new RoundedCornerBorder());
-				}
-			};
-			/**********************************************************/
+					@Override 
+					public void updateUI() {
+						super.updateUI();
+						setOpaque(false);
+						setBorder(new RoundedCornerBorder());
+					}
+				};
+				/**********************************************************/		
+			} 
+			catch (ParseException e) {
+				e.printStackTrace();
+			}
+
 			txtNumeroUniforme.setHorizontalAlignment(SwingConstants.CENTER);
 			txtNumeroUniforme.setFont(new Font("Consolas", Font.PLAIN, 18));
 			txtNumeroUniforme.setDisabledTextColor(Color.BLACK);
@@ -996,11 +1032,11 @@ public class AddPlayer extends JDialog {
 			lblTipo.setBounds(35, 61, 44, 24);
 			panelPitcher.add(lblTipo);
 
-			comboBox = new JComboBox();
-			comboBox.setModel(new DefaultComboBoxModel(new String[] {"<Seleccionar>", "Abridor", "Cerrador"}));
-			comboBox.setFont(new Font("Consolas", Font.PLAIN, 18));
-			comboBox.setBounds(91, 57, 163, 28);
-			panelPitcher.add(comboBox);
+			cbxTipoPitcher = new JComboBox();
+			cbxTipoPitcher.setModel(new DefaultComboBoxModel(new String[] {"<Seleccionar>", "Abridor", "Cerrador"}));
+			cbxTipoPitcher.setFont(new Font("Consolas", Font.PLAIN, 18));
+			cbxTipoPitcher.setBounds(91, 57, 163, 28);
+			panelPitcher.add(cbxTipoPitcher);
 
 			lblManoDeLanzar = new JLabel("Mano de lanzar");
 			lblManoDeLanzar.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -1011,11 +1047,11 @@ public class AddPlayer extends JDialog {
 			lblManoDeLanzar.setBounds(285, 61, 154, 24);
 			panelPitcher.add(lblManoDeLanzar);
 
-			comboBox_1 = new JComboBox();
-			comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"<Seleccionar>", "Derecha", "Izquierda", "Ambas"}));
-			comboBox_1.setFont(new Font("Consolas", Font.PLAIN, 18));
-			comboBox_1.setBounds(451, 57, 163, 28);
-			panelPitcher.add(comboBox_1);
+			cbxManoPitcher = new JComboBox();
+			cbxManoPitcher.setModel(new DefaultComboBoxModel(new String[] {"<Seleccionar>", "Derecha", "Izquierda", "Ambas"}));
+			cbxManoPitcher.setFont(new Font("Consolas", Font.PLAIN, 18));
+			cbxManoPitcher.setBounds(451, 57, 163, 28);
+			panelPitcher.add(cbxManoPitcher);
 
 			lblEquipo = new JLabel("Equipo");
 			lblEquipo.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -1026,10 +1062,10 @@ public class AddPlayer extends JDialog {
 			lblEquipo.setBounds(679, 61, 66, 24);
 			panelPitcher.add(lblEquipo);
 
-			comboBox_2 = new JComboBox();
-			comboBox_2.setFont(new Font("Consolas", Font.PLAIN, 18));
-			comboBox_2.setBounds(780, 57, 153, 28);
-			panelPitcher.add(comboBox_2);
+			cbxEquipoPit = new JComboBox();
+			cbxEquipoPit.setFont(new Font("Consolas", Font.PLAIN, 18));
+			cbxEquipoPit.setBounds(780, 57, 153, 28);
+			panelPitcher.add(cbxEquipoPit);
 
 			separator_5 = new JSeparator();
 			separator_5.setOpaque(true);
@@ -1471,11 +1507,11 @@ public class AddPlayer extends JDialog {
 			lblInformacinJugador_1.setBounds(39, 13, 209, 24);
 			panelBateador.add(lblInformacinJugador_1);
 
-			comboBox_3 = new JComboBox();
-			comboBox_3.setModel(new DefaultComboBoxModel(new String[] {"<Seleccionar>", "Pitcher", "Catcher", "Primera base", "Segunda base", "Tercera base", "Short stop", "Left fielder", "Center fielder", "Right fielder"}));
-			comboBox_3.setFont(new Font("Consolas", Font.PLAIN, 18));
-			comboBox_3.setBounds(134, 50, 163, 28);
-			panelBateador.add(comboBox_3);
+			cbxPosicionBat = new JComboBox();
+			cbxPosicionBat.setModel(new DefaultComboBoxModel(new String[] {"<Seleccionar>", "Pitcher", "Catcher", "Primera base", "Segunda base", "Tercera base", "Short stop", "Left fielder", "Center fielder", "Right fielder"}));
+			cbxPosicionBat.setFont(new Font("Consolas", Font.PLAIN, 18));
+			cbxPosicionBat.setBounds(134, 50, 163, 28);
+			panelBateador.add(cbxPosicionBat);
 
 			label_2 = new JLabel("Mano de lanzar");
 			label_2.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -1486,11 +1522,11 @@ public class AddPlayer extends JDialog {
 			label_2.setBounds(320, 50, 154, 24);
 			panelBateador.add(label_2);
 
-			comboBox_4 = new JComboBox();
-			comboBox_4.setModel(new DefaultComboBoxModel(new String[] {"<Seleccionar>", "Derecha", "Izquierda", "Ambas"}));
-			comboBox_4.setFont(new Font("Consolas", Font.PLAIN, 18));
-			comboBox_4.setBounds(488, 50, 163, 28);
-			panelBateador.add(comboBox_4);
+			cbxManoBat = new JComboBox();
+			cbxManoBat.setModel(new DefaultComboBoxModel(new String[] {"<Seleccionar>", "Derecha", "Izquierda", "Ambas"}));
+			cbxManoBat.setFont(new Font("Consolas", Font.PLAIN, 18));
+			cbxManoBat.setBounds(488, 50, 163, 28);
+			panelBateador.add(cbxManoBat);
 
 			label_3 = new JLabel("Equipo");
 			label_3.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -1501,10 +1537,10 @@ public class AddPlayer extends JDialog {
 			label_3.setBounds(715, 54, 66, 24);
 			panelBateador.add(label_3);
 
-			comboBox_5 = new JComboBox();
-			comboBox_5.setFont(new Font("Consolas", Font.PLAIN, 18));
-			comboBox_5.setBounds(793, 50, 153, 28);
-			panelBateador.add(comboBox_5);
+			cbxEquipoBat = new JComboBox();
+			cbxEquipoBat.setFont(new Font("Consolas", Font.PLAIN, 18));
+			cbxEquipoBat.setBounds(793, 50, 153, 28);
+			panelBateador.add(cbxEquipoBat);
 
 			label_4 = new JLabel("Seleccionar Equipo");
 			label_4.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -1589,19 +1625,19 @@ public class AddPlayer extends JDialog {
 			btnSeleccionarFoto.setBounds(825, 372, 156, 30);
 			panelBg.add(btnSeleccionarFoto);
 
-			btnRegistrar = new JButton("Registrar");
-			btnRegistrar.setIcon(new ImageIcon(AddPlayer.class.getResource("/imagenes/icons8_baseball_24px.png")));
-			btnRegistrar.setIconTextGap(5);
-			btnRegistrar.setHorizontalTextPosition(SwingConstants.RIGHT);
-			btnRegistrar.setForeground(new Color(255, 255, 240));
-			btnRegistrar.setFont(new Font("Consolas", Font.BOLD, 17));
-			btnRegistrar.setBorder(null);
-			btnRegistrar.setBackground(new Color(0, 30, 72));
-			btnRegistrar.setBounds(765, 737, 146, 30);
-			panelBg.add(btnRegistrar);
+			btnRegistrarJugador = new JButton("Registrar");
+			btnRegistrarJugador.setIcon(new ImageIcon(AddPlayer.class.getResource("/imagenes/icons8_baseball_24px.png")));
+			btnRegistrarJugador.setIconTextGap(5);
+			btnRegistrarJugador.setHorizontalTextPosition(SwingConstants.LEFT);
+			btnRegistrarJugador.setForeground(new Color(255, 255, 240));
+			btnRegistrarJugador.setFont(new Font("Consolas", Font.BOLD, 17));
+			btnRegistrarJugador.setBorder(null);
+			btnRegistrarJugador.setBackground(new Color(0, 30, 72));
+			btnRegistrarJugador.setBounds(765, 737, 146, 30);
+			panelBg.add(btnRegistrarJugador);
 
-			btnCancelar = new JButton("Cancelar");
-			btnCancelar.addActionListener(new ActionListener() {
+			btnCancelarJugador = new JButton("Cancelar");
+			btnCancelarJugador.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
 					ImageIcon icon = new ImageIcon(getClass().getResource("/imagenes/icons8_cancel_2_48px_1.png"));
@@ -1631,15 +1667,15 @@ public class AddPlayer extends JDialog {
 
 				}
 			});
-			btnCancelar.setIcon(new ImageIcon(AddPlayer.class.getResource("/imagenes/icons8_cancel_24px_2.png")));
-			btnCancelar.setIconTextGap(5);
-			btnCancelar.setHorizontalTextPosition(SwingConstants.RIGHT);
-			btnCancelar.setForeground(new Color(255, 255, 240));
-			btnCancelar.setFont(new Font("Consolas", Font.BOLD, 17));
-			btnCancelar.setBorder(null);
-			btnCancelar.setBackground(new Color(0, 30, 70));
-			btnCancelar.setBounds(923, 737, 146, 30);
-			panelBg.add(btnCancelar);
+			btnCancelarJugador.setIcon(new ImageIcon(AddPlayer.class.getResource("/imagenes/icons8_cancel_24px_2.png")));
+			btnCancelarJugador.setIconTextGap(5);
+			btnCancelarJugador.setHorizontalTextPosition(SwingConstants.LEFT);
+			btnCancelarJugador.setForeground(new Color(255, 255, 240));
+			btnCancelarJugador.setFont(new Font("Consolas", Font.BOLD, 17));
+			btnCancelarJugador.setBorder(null);
+			btnCancelarJugador.setBackground(new Color(0, 30, 70));
+			btnCancelarJugador.setBounds(923, 737, 146, 30);
+			panelBg.add(btnCancelarJugador);
 		}
 	}
 }
