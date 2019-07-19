@@ -23,6 +23,7 @@ import javax.swing.ImageIcon;
 import java.awt.Cursor;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
+
 import java.awt.FlowLayout;
 import java.awt.CardLayout;
 import java.awt.event.ActionListener;
@@ -55,11 +56,16 @@ public class Home extends JFrame {
 	private JButton btnRegistrarPlayer;
 	private JButton btnListarPlayers;
 	private JButton btnNa_1;
+	private JButton btnEstadios;
+	private JPanel panelMenuEstadio;
+	private JButton btnregistrarEstadio;
+	private JButton btnListarEstadio;
+	private JButton button_3;
 
 	/**
 	 * Launch the application.
 	 */
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -70,7 +76,7 @@ public class Home extends JFrame {
 				}
 			}
 		});
-	}                 ESTA VENTANA SE LEVANTARA AUTOMATICAMENTE DESDE LA CLASE SplashScreen*/
+	}             /*    ESTA VENTANA SE LEVANTARA AUTOMATICAMENTE DESDE LA CLASE SplashScreen*/
 
 	/**
 	 * Create the frame.
@@ -190,7 +196,7 @@ public class Home extends JFrame {
 
 				ImageIcon icon = new ImageIcon(getClass().getResource("/imagenes/icons8_cancel_2_48px_1.png"));
 				String[] options = {"Si", "No"};	
-				int xOption	= JOptionPane.showOptionDialog(null, "Seguro que desea cancelar?, la ventana se cerrará.", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
+				int xOption	= JOptionPane.showOptionDialog(null, "¿Seguro que desea cerrar la aplicación?", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
 
 				if (xOption == 0) {
 					dispose();
@@ -209,6 +215,30 @@ public class Home extends JFrame {
 		btnClose.setActionCommand("Cancel");
 		btnClose.setBounds(1884, 0, 26, 30);
 		panelMenuBar.add(btnClose);
+		
+		btnEstadios = new JButton("ESTADIOS");
+		btnEstadios.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				//	panelMenuJugadores.setSize(170,218);
+				setColorBlue(btnEstadios);
+				panelMenuEstadio.setVisible(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				//panelMenuJugadores.setSize(0,0);
+				resetColor(btnEstadios);
+				panelMenuEstadio.setVisible(false);
+			}
+		});
+		btnEstadios.setIconTextGap(10);
+		btnEstadios.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnEstadios.setForeground(new Color(255, 255, 240));
+		btnEstadios.setFont(new Font("Consolas", Font.BOLD, 22));
+		btnEstadios.setBorder(null);
+		btnEstadios.setBackground(new Color(0, 30, 72));
+		btnEstadios.setBounds(693, 0, 170, 50);
+		panelMenuBar.add(btnEstadios);
 
 		panelMenuEquipo = new JPanel();
 		panelMenuEquipo.setVisible(false);
@@ -227,6 +257,101 @@ public class Home extends JFrame {
 				panelMenuEquipo.setVisible(false);
 			}
 		});
+		
+		panelMenuEstadio = new JPanel();
+		panelMenuEstadio.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				//panelMenuJugadores.setSize(170,218);
+				setColorBlue(btnEstadios);
+				panelMenuEstadio.setVisible(true);
+
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				//panelMenuJugadores.setSize(0,0);
+				resetColor(btnEstadios);
+				panelMenuEstadio.setVisible(false);
+			}
+		});
+		panelMenuEstadio.setVisible(false);
+		panelMenuEstadio.setBounds(693, 50, 170, 218);
+		panelMenuEstadio.setBackground(new Color(0, 30, 72));
+		panelBackGround.add(panelMenuEstadio);
+		panelMenuEstadio.setLayout(null);
+		
+		btnregistrarEstadio = new JButton("Registrar");
+		btnregistrarEstadio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddStadium newStadio= new AddStadium();
+				newStadio.setModal(true);
+				newStadio.setVisible(true);
+			}
+		});
+		btnregistrarEstadio.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnregistrarEstadio.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				setColorBlue(btnEstadios);
+				setColorOrange(btnregistrarEstadio);
+				panelMenuEstadio.setVisible(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				resetColor(btnregistrarEstadio);
+				resetColor(btnEstadios);
+				panelMenuEstadio.setVisible(false);
+			}
+		});
+		btnregistrarEstadio.setIconTextGap(10);
+		btnregistrarEstadio.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnregistrarEstadio.setForeground(new Color(255, 255, 240));
+		btnregistrarEstadio.setFont(new Font("Consolas", Font.BOLD, 22));
+		btnregistrarEstadio.setBorder(null);
+		btnregistrarEstadio.setBackground(new Color(0, 30, 72));
+		btnregistrarEstadio.setBounds(0, 13, 170, 50);
+		panelMenuEstadio.add(btnregistrarEstadio);
+		
+		btnListarEstadio = new JButton("Listar");
+		btnListarEstadio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ViewStadium listStadio = new ViewStadium();
+				listStadio.setModal(true);
+				listStadio.setVisible(true);
+			}
+		});
+		btnListarEstadio.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				setColorBlue(btnEstadios);
+				setColorOrange(btnListarEstadio);
+				panelMenuEstadio.setVisible(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				resetColor(btnListarEstadio);
+				resetColor(btnEstadios);
+				panelMenuEstadio.setVisible(false);
+			}
+		});
+		btnListarEstadio.setIconTextGap(10);
+		btnListarEstadio.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnListarEstadio.setForeground(new Color(255, 255, 240));
+		btnListarEstadio.setFont(new Font("Consolas", Font.BOLD, 22));
+		btnListarEstadio.setBorder(null);
+		btnListarEstadio.setBackground(new Color(0, 30, 72));
+		btnListarEstadio.setBounds(0, 76, 170, 50);
+		panelMenuEstadio.add(btnListarEstadio);
+		
+		button_3 = new JButton("n/a");
+		button_3.setIconTextGap(10);
+		button_3.setHorizontalTextPosition(SwingConstants.RIGHT);
+		button_3.setForeground(new Color(255, 255, 240));
+		button_3.setFont(new Font("Consolas", Font.BOLD, 22));
+		button_3.setBorder(null);
+		button_3.setBackground(new Color(0, 30, 72));
+		button_3.setBounds(0, 139, 170, 50);
+		panelMenuEstadio.add(button_3);
 		panelMenuEquipo.setBounds(329, 50, 170, 218);
 		panelBackGround.add(panelMenuEquipo);
 		panelMenuEquipo.setLayout(null);
@@ -235,8 +360,9 @@ public class Home extends JFrame {
 		btnRegistrarTeam.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AddTeam newTeam = new AddTeam();
-				newTeam.setVisible(true);
 				newTeam.setModal(true);
+				newTeam.setVisible(true);
+				
 			}
 		});
 		btnRegistrarTeam.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -333,8 +459,9 @@ public class Home extends JFrame {
 		btnRegistrarPlayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AddPlayer newPlayer = new AddPlayer();
-				newPlayer.setVisible(true);
 				newPlayer.setModal(true);
+				newPlayer.setVisible(true);
+		
 			}
 		});
 		btnRegistrarPlayer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
