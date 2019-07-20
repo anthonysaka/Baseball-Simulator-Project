@@ -230,6 +230,8 @@ public class Lidom {
 		return auxStadium; //Retorna el ESTADIO del NOMBRE encontrado.
 	}
 	
+	
+	
 	//metodo para filtrar el mejor bateador en HR, hit, 2b, 3b o averages.
 	   public Player mayor (String caso) {
 		   Player mejor= listPlayer.get(0);
