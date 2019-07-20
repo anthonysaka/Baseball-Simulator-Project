@@ -15,7 +15,7 @@ public class Batter extends Player {
 	private int baseBall;
 	private int strikeOut;
 	private int stolenBase;
-	
+	//a123456
 	/* Constructor */
 	public Batter(String id, String name, String lastname, String teamName, String birthdate, String birthplace,
 			float height, float weight, String position, float average, int runs, int h1, int h2, int h3, int hR,
