@@ -5,7 +5,7 @@ import java.util.Date;
 public class Batter extends Player {
 	
 	private String position;
-	private int average;
+	private float average;
 	private int runs;
 	private int H1;
 	private int H2;
@@ -17,10 +17,9 @@ public class Batter extends Player {
 	private int stolenBase;
 	
 	/* Constructor */
-	
-	public Batter(String id, String name, String lastname, String teamName, Date birthdate, String birthplace,
-			float height, float weight, String position, int average, int runs, int h1, int h2, int h3, int hR, int rBI,
-			int baseBall, int strikeOut, int stolenBase) {
+	public Batter(String id, String name, String lastname, String teamName, String birthdate, String birthplace,
+			float height, float weight, String position, float average, int runs, int h1, int h2, int h3, int hR,
+			int rBI, int baseBall, int strikeOut, int stolenBase) {
 		super(id, name, lastname, teamName, birthdate, birthplace, height, weight);
 		this.position = position;
 		this.average = average;
@@ -34,6 +33,7 @@ public class Batter extends Player {
 		this.strikeOut = strikeOut;
 		this.stolenBase = stolenBase;
 	}
+	
 
 	
 	
@@ -41,7 +41,9 @@ public class Batter extends Player {
 		return position;
 	}
 
-	public int getAverage() {
+	
+
+	public float getAverage() {
 		return average;
 	}
 

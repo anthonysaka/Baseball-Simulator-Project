@@ -211,12 +211,12 @@ public class Lidom {
    public Player mayor (String caso) {
 	   Player mejor= listPlayer.get(0);
 	   switch (caso) {
-	case " HR": 
+	case "HR": 
 		
 		for (int i = 0; i < listPlayer.size(); i++) {
 			Player p = listPlayer.get(i); 
 			 if(p instanceof Batter) {
-				 if( ((Batter)p).getHR()<((Batter)mejor).getHR() ) {
+				 if( ((Batter)p).getHR()>((Batter)mejor).getHR() ) {
 					 
 					 mejor = p; 
 				 }
@@ -224,15 +224,17 @@ public class Lidom {
 			
 		}
 		
+	
+		
 		
 		break;
 		
-	case " hit":
+	case "hit":
 		
 		for (int i = 0; i < listPlayer.size(); i++) {
 			Player p = listPlayer.get(i); 
 			 if(p instanceof Batter) {
-				 if( ((Batter)p).getH1()<((Batter)mejor).getH1() ) {
+				 if( ((Batter)p).getH1()>((Batter)mejor).getH1() ) {
 					 
 					 mejor = p; 
 				 }
@@ -243,11 +245,11 @@ public class Lidom {
 		break;
 		
 		
-	case " Doble":
+	case "Doble":
 		for (int i = 0; i < listPlayer.size(); i++) {
 			Player p = listPlayer.get(i); 
 			 if(p instanceof Batter) {
-				 if( ((Batter)p).getH2()<((Batter)mejor).getH2() ) {
+				 if( ((Batter)p).getH2()>((Batter)mejor).getH2() ) {
 					 
 					 mejor = p; 
 				 }
@@ -262,7 +264,7 @@ public class Lidom {
 		for (int i = 0; i < listPlayer.size(); i++) {
 			Player p = listPlayer.get(i); 
 			 if(p instanceof Batter) {
-				 if( ((Batter)p).getH2()<((Batter)mejor).getH2() ) {
+				 if( ((Batter)p).getH2()>((Batter)mejor).getH2() ) {
 					 
 					 mejor = p; 
 				 }
@@ -273,12 +275,12 @@ public class Lidom {
 		break;
 		
 		
-case " avr":
+case "avr":
 		
 		for (int i = 0; i < listPlayer.size(); i++) {
 			Player p = listPlayer.get(i); 
 			 if(p instanceof Batter) {
-				 if( ((Batter)p).getAverage()<((Batter)mejor).getAverage() ) {
+				 if( ((Batter)p).getAverage()>((Batter)mejor).getAverage() ) {
 					 
 					 mejor = p; 
 				 }
