@@ -20,6 +20,11 @@ public class Lidom {
 
 	private static Lidom LIDOM;
 
+	public static int generateIdPlayer = 1;
+	public static int generateIdTeam = 1;
+	public static int generateIdStadium = 1;
+	public static int generateIdGame = 1;
+
 	/* Constructor */
 	private Lidom() {
 		super();
@@ -70,45 +75,64 @@ public class Lidom {
 
 	/************** METODOS DE AGREGAR Y REMOVER - LISTAS (ARRAYLIST) ************/
 
+	//Add Player.
+	public void addPlayer(Player player) {
+		listPlayer.add(player);
+		generateIdPlayer++;
+	}
+
 	//Add Team.
 	public void addTeam(Team team) {
 		listTeams.add(team);
+		generateIdTeam++;
 	}
 
 	//Add Stadium.
 	public void addStadium(Stadium stadium) {
 		listStadium.add(stadium);
+	//	generateIdStadium++;
 	}
 
 	//Add Game.
 	public void addGame(Game game) {
 		listGame.add(game);
+		generateIdGame++;
+	}
+
+	//Delete Player.
+	public void deletePlayer(Player player) {
+		listPlayer.remove(player);
+	//	generateIdPlayer--;
 	}
 
 	//Delete Team.
 	public void deleteTeam(Team team) {
 		listTeams.remove(team);
+	//	generateIdTeam--;
 	}
 
 	//Delete Stadium.
 	public void deleteStadium(Stadium stadium) {
 		listStadium.remove(stadium);
+		System.out.println("Entre");
+	//	generateIdStadium--;
 	}
 
 	//Delete Game.
 	public void deleteGame(Game game) {
 		listGame.remove(game);
+	//	generateIdGame--;
 	}
 
 	/**************************************************************/
 
 	/************** METODOS PARA LLEVAR A CABO EL FUNCIONAMIENTO DEL BACKEND ************/
 
-               /*** 
-                  * LOS METODOS BUSCAR SI HUBIERON PODIDO HACER UTILIZANDO FOREACH, 
-                  * PERO YO PREFIERO PROGRAMAR CON WHILE LOOP XD! 
-               ***/
-	
+	/*** 
+	 * LOS METODOS BUSCAR SI HUBIERON PODIDO HACER UTILIZANDO FOREACH, 
+	 * PERO YO PREFIERO PROGRAMAR CON WHILE LOOP XD! 
+	 ***/
+
 	//Search Player by ID.
 	public Player searchPlayerByID(String idPlayer) {
 		Player auxPlayer = null;

@@ -48,6 +48,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
 import java.awt.CardLayout;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
@@ -58,18 +59,27 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ViewStadium extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JLabel lblRegistroEquipo;
+	private JLabel lblListaEstadios;
 	private JPanel panelHeader;
-	private JButton btnClose;
 	private JScrollPane scrollPane;
 
 	private static DefaultTableModel model;
 	private static JTable tableStadiums;
 	private static Object[] column;
+	private JButton btnEliminar;
+	private JButton btnCancelar;
+	private JButton btnBuscar;
+	private JTextField txtBuscar;
+	private JLabel lblBuscarPor;
+	private JComboBox cbxOptionsSearch;
+	private String codeEstadio;
+	private String nameEstadio;
 
 
 	/**
@@ -99,65 +109,186 @@ public class ViewStadium extends JDialog {
 			panelHeader.setBounds(0, 0, 687, 45);
 			panelBg.add(panelHeader);
 
-			lblRegistroEquipo = new JLabel("REGISTRO ESTADIO");
-			lblRegistroEquipo.setHorizontalTextPosition(SwingConstants.CENTER);
-			lblRegistroEquipo.setBounds(244, 0, 192, 45);
-			panelHeader.add(lblRegistroEquipo);
-			lblRegistroEquipo.setHorizontalAlignment(SwingConstants.CENTER);
-			lblRegistroEquipo.setForeground(new Color(255, 255, 255));
-			lblRegistroEquipo.setFont(new Font("Consolas", Font.BOLD, 20));
+			lblListaEstadios = new JLabel("LISTA ESTADIOS");
+			lblListaEstadios.setHorizontalTextPosition(SwingConstants.CENTER);
+			lblListaEstadios.setBounds(244, 0, 192, 45);
+			panelHeader.add(lblListaEstadios);
+			lblListaEstadios.setHorizontalAlignment(SwingConstants.CENTER);
+			lblListaEstadios.setForeground(new Color(255, 255, 255));
+			lblListaEstadios.setFont(new Font("Consolas", Font.BOLD, 20));
 
-			btnClose = new JButton("");
-			btnClose.setOpaque(false);
-			btnClose.setIcon(new ImageIcon(AddPlayer.class.getResource("/imagenes/icons8_close_window_24px_1.png")));
-			btnClose.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					dispose();
+			scrollPane = new JScrollPane();
+			scrollPane.setBackground(new Color(255, 255, 255));
+			scrollPane.setBounds(10, 149, 665, 334);
+			panelBg.add(scrollPane);
+
+			DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
+			dtcr.setHorizontalTextPosition(DefaultTableCellRenderer.CENTER);
+
+			tableStadiums = new JTable();
+			tableStadiums.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+
+					if (tableStadiums.getSelectedRow() >= 0) {
+						int index = tableStadiums.getSelectedRow();
+						btnEliminar.setEnabled(true);
+						codeEstadio = (String) tableStadiums.getModel().getValueAt(index, 0);	
+						nameEstadio = (String) tableStadiums.getModel().getValueAt(index, 1);
+					}
 				}
 			});
-			btnClose.setPreferredSize(new Dimension(100, 30));
-			btnClose.setHideActionText(true);
-			btnClose.setForeground(new Color(255, 255, 255));
-			btnClose.setFont(new Font("Consolas", Font.BOLD, 20));
-			btnClose.setBorder(null);
-			btnClose.setBackground(new Color(4, 10, 20));
-			btnClose.setActionCommand("Cancel");
-			btnClose.setBounds(661, 0, 26, 30);
-			panelHeader.add(btnClose);
-			
-			scrollPane = new JScrollPane();
-			scrollPane.setBounds(10, 58, 665, 425);
-			panelBg.add(scrollPane);
-			
-			tableStadiums = new JTable();
+			tableStadiums.setRowMargin(0);
+			tableStadiums.setFocusable(false);
+			tableStadiums.setRowHeight(20);
+			tableStadiums.setIntercellSpacing(new Dimension(0, 0));
+			tableStadiums.setGridColor(new Color(255, 255, 255));
+			tableStadiums.setShowVerticalLines(false);
+			tableStadiums.getTableHeader().setReorderingAllowed(false);
+			tableStadiums.setSelectionBackground(new Color(239, 108, 0));
+			tableStadiums.getTableHeader().setFont(new Font("Consolas", Font.BOLD, 16));
+			tableStadiums.getTableHeader().setOpaque(false);
+
+			tableStadiums.getTableHeader().setBackground(new Color(255,255,255));
+			tableStadiums.setFont(new Font("Consolas", Font.PLAIN, 15));
 			tableStadiums.setModel(new DefaultTableModel(
-				new Object[][] {
-				},
-				new String[] {
-					"N\u00FAmero ID", "Nombre", "Direcci\u00F3n"
-				}
-			) {
+					new Object[][] {
+					},
+					new String[] {
+							"N\u00FAmero ID", "Nombre", "Direcci\u00F3n"
+					}
+					) {
 				/**
 				 * 
 				 */
 				private static final long serialVersionUID = 1L;
 				Class[] columnTypes = new Class[] {
-					String.class, String.class, String.class
+						String.class, String.class, String.class
 				};
 				public Class getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
 				}
 				boolean[] columnEditables = new boolean[] {
-					false, false, false
+						false, false, false
 				};
 				public boolean isCellEditable(int row, int column) {
 					return columnEditables[column];
 				}
 			});
 			tableStadiums.getColumnModel().getColumn(0).setResizable(false);
-			tableStadiums.getColumnModel().getColumn(1).setResizable(false);
-			tableStadiums.getColumnModel().getColumn(2).setResizable(false);
+			tableStadiums.getColumnModel().getColumn(1).setResizable(true);
+			tableStadiums.getColumnModel().getColumn(2).setResizable(true);
 			scrollPane.setViewportView(tableStadiums);
+
+			btnEliminar = new JButton("Eliminar");
+			btnEliminar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+
+
+					ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
+					String[] options = {"Si", "No"};	
+					int xOption	= JOptionPane.showOptionDialog(null, "¿Seguro que desea eliminar el estadio? " + codeEstadio + nameEstadio, "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
+
+					if (xOption == 0) {
+						Stadium auxEstadio = Lidom.getInstance().searchStadiumByID(codeEstadio);
+						Lidom.getInstance().deleteStadium(auxEstadio);
+
+						ImageIcon icon1 = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_checked_48px_1.png"));
+						String[] options1 = {"Ok"};	
+						JOptionPane.showOptionDialog(null, "Eliminado con exito!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1);
+						loadTableStadiums();
+						btnEliminar.setEnabled(false);
+					}
+
+				}
+			});
+			btnEliminar.setIconTextGap(5);
+			btnEliminar.setHorizontalTextPosition(SwingConstants.LEFT);
+			btnEliminar.setForeground(new Color(255, 255, 240));
+			btnEliminar.setFont(new Font("Consolas", Font.BOLD, 17));
+			btnEliminar.setBorder(null);
+			btnEliminar.setBackground(new Color(0, 30, 72));
+			btnEliminar.setBounds(183, 523, 146, 30);
+			panelBg.add(btnEliminar);
+
+			btnCancelar = new JButton("Cancelar");
+			btnCancelar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
+					String[] options = {"Si", "No"};	
+
+					int xOption	= JOptionPane.showOptionDialog(null, "¿Seguro que desea cancelar?, la ventana se cerrará.", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
+
+					if (xOption == 0) {
+						dispose(); 
+					}
+				}
+			});
+			btnCancelar.setIconTextGap(5);
+			btnCancelar.setHorizontalTextPosition(SwingConstants.LEFT);
+			btnCancelar.setForeground(new Color(255, 255, 240));
+			btnCancelar.setFont(new Font("Consolas", Font.BOLD, 17));
+			btnCancelar.setBorder(null);
+			btnCancelar.setBackground(new Color(0, 30, 70));
+			btnCancelar.setBounds(341, 523, 146, 30);
+			panelBg.add(btnCancelar);
+
+			btnBuscar = new JButton("Buscar");
+			btnBuscar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+				}
+			});
+			btnBuscar.setIconTextGap(30);
+			btnBuscar.setHorizontalTextPosition(SwingConstants.RIGHT);
+			btnBuscar.setForeground(new Color(255, 255, 240));
+			btnBuscar.setFont(new Font("Consolas", Font.BOLD, 20));
+			btnBuscar.setBorder(null);
+			btnBuscar.setBackground(new Color(4, 10, 20));
+			btnBuscar.setBounds(550, 74, 125, 30);
+			panelBg.add(btnBuscar);
+
+			txtBuscar = new JTextField() {
+				private static final long serialVersionUID = 1L;
+				/************* PARA REDONDEAR JTEXTFIELD *************/
+				@Override 
+				protected void paintComponent(Graphics g) {
+					if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+						Graphics2D g2 = (Graphics2D) g.create();
+						g2.setPaint(getBackground());
+						g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+								0, 0, getWidth() - 1, getHeight() - 1));
+						g2.dispose();
+					}
+					super.paintComponent(g);
+				}
+				@Override 
+				public void updateUI() {
+					super.updateUI();
+					setOpaque(false);
+					setBorder(new RoundedCornerBorder());
+				}
+			};
+			/**********************************************************/
+			txtBuscar.setHorizontalAlignment(SwingConstants.CENTER);
+			txtBuscar.setFont(new Font("Consolas", Font.PLAIN, 18));
+			txtBuscar.setDisabledTextColor(Color.BLACK);
+			txtBuscar.setColumns(10);
+			txtBuscar.setBounds(272, 75, 266, 30);
+			panelBg.add(txtBuscar);
+
+			lblBuscarPor = new JLabel("Buscar por:");
+			lblBuscarPor.setVerticalTextPosition(SwingConstants.BOTTOM);
+			lblBuscarPor.setVerticalAlignment(SwingConstants.BOTTOM);
+			lblBuscarPor.setHorizontalAlignment(SwingConstants.LEFT);
+			lblBuscarPor.setForeground(Color.BLACK);
+			lblBuscarPor.setFont(new Font("Consolas", Font.PLAIN, 20));
+			lblBuscarPor.setBounds(10, 74, 125, 31);
+			panelBg.add(lblBuscarPor);
+
+			cbxOptionsSearch = new JComboBox();
+			cbxOptionsSearch.setFont(new Font("Consolas", Font.PLAIN, 18));
+			cbxOptionsSearch.setBounds(135, 75, 125, 30);
+			panelBg.add(cbxOptionsSearch);
 
 			try {
 				// Definición de la máscara para ID.
@@ -170,16 +301,16 @@ public class ViewStadium extends JDialog {
 				e.printStackTrace();
 			}
 		}
-		
-		
+
+
 		loadTableStadiums(); // para cargar la tabla de los estadios registrados.
 	}
 
 
 
 	/** Metodos **/
-	
-	public void loadTableStadiums() {
+
+	public static void loadTableStadiums() {
 		model = (DefaultTableModel) tableStadiums.getModel();
 		model.setRowCount(0);
 		column = new Object[model.getColumnCount()];
@@ -188,11 +319,8 @@ public class ViewStadium extends JDialog {
 			column[0] = Lidom.getInstance().getListStadium().get(i).getId();
 			column[1] =  Lidom.getInstance().getListStadium().get(i).getName();
 			column[2] =  Lidom.getInstance().getListStadium().get(i).getAddress();
-			
-				model.addRow(column);
-			}
+
+			model.addRow(column);
+		}
 	}
-
-
-
 }

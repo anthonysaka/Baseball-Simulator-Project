@@ -31,6 +31,8 @@ import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
@@ -50,6 +52,12 @@ import java.awt.CardLayout;
 import javax.swing.border.LineBorder;
 import javax.swing.text.MaskFormatter;
 
+import backEnd.Batter;
+import backEnd.Lidom;
+import backEnd.Pitcher;
+import backEnd.Player;
+import backEnd.Team;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -59,7 +67,6 @@ public class AddPlayer extends JDialog {
 	private JSeparator separator;
 	private JLabel lblRegistroJugador;
 	private JPanel panelHeader;
-	private JButton btnClose;
 	private JTextField txtName;
 	private JLabel lblNombre;
 	private JLabel lblApellido;
@@ -67,14 +74,14 @@ public class AddPlayer extends JDialog {
 	private JLabel lblFechaDeNacimiento;
 	private JLabel lblPasDeNacimiento;
 	private JLabel lblInformacinPersonal;
-	private RSDateChooser dateChooser;
+	private RSDateChooser dateChooserDateBorn;
 	private JComboBox<String> cbxCountries;
 	private JLabel lblId;
 	private JTextField txtId;
-	private JSpinner spinner;
+	private JSpinner spnLibra;
 	private JLabel lblPeso;
 	private JLabel lblAltura;
-	private JSpinner spinner_1;
+	private JSpinner spnAltura;
 	private JLabel lblNmeroUniforme;
 	private JTextField txtNumeroUniforme;
 	private JPanel panelPhoto;
@@ -88,7 +95,7 @@ public class AddPlayer extends JDialog {
 	private JButton btnBateador;
 	private JPanel panelPitcher;
 	private JLabel lblW;
-	private JTextField textField;
+	private JTextField txtWinp;
 	private JLabel lblGl;
 	private JLabel lblEra;
 	private JLabel lblG;
@@ -100,41 +107,41 @@ public class AddPlayer extends JDialog {
 	private JLabel lblSo;
 	private JLabel lblIp;
 	private JLabel lblAvg;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
-	private JTextField textField_9;
-	private JTextField textField_10;
-	private JTextField textField_11;
+	private JTextField txtLosep;
+	private JTextField txtErap;
+	private JTextField txtGamesp;
+	private JTextField txtGSp;
+	private JTextField txtSVp;
+	private JTextField txtHRp;
+	private JTextField txtHp;
+	private JTextField txtRp;
+	private JTextField txtSOp;
+	private JTextField txtIPp;
+	private JTextField txtAVGp;
 	private JSeparator separator_3;
 	private JLabel lblEstadsticaLanzador;
 	private JPanel panelBateador;
 	private JSeparator separator_4;
 	private JLabel lblEstadsticaBateador;
 	private JLabel lblAvg_1;
-	private JTextField textField_12;
-	private JTextField textField_13;
+	private JTextField txtAVGb;
+	private JTextField txtRb;
 	private JLabel lblR_1;
 	private JLabel lblH;
-	private JTextField textField_14;
-	private JTextField textField_15;
+	private JTextField txtH1b;
+	private JTextField txtH2b;
 	private JLabel lblH_1;
 	private JLabel lblH_2;
-	private JTextField textField_16;
-	private JTextField textField_17;
+	private JTextField txtH3b;
+	private JTextField txtHRb;
 	private JLabel lblHr_1;
 	private JLabel lblRbi;
-	private JTextField textField_18;
-	private JTextField textField_19;
+	private JTextField txtRBIb;
+	private JTextField txtBBb;
 	private JLabel lblBb;
 	private JLabel lblSo_1;
-	private JTextField textField_20;
-	private JTextField textField_21;
+	private JTextField txtSOb;
+	private JTextField txtSBb;
 	private JLabel lblSb;
 
 	private static int typePlayer= 0 ; // 1 - Pitcher, 2 - Bateador.
@@ -162,11 +169,15 @@ public class AddPlayer extends JDialog {
 	private JLabel lblPosicin;
 	private JSeparator separator_8;
 
+	private Player myPlayer;
+
 
 	/**
 	 * Create the dialog.
 	 */
-	public AddPlayer() {
+	public AddPlayer(Player player) {
+		this.myPlayer = player;
+
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setUndecorated(true);
 		setBounds(100, 100, 1092, 780);
@@ -196,31 +207,21 @@ public class AddPlayer extends JDialog {
 			panelHeader.setBounds(0, 0, 1092, 45);
 			panelBg.add(panelHeader);
 
-			lblRegistroJugador = new JLabel("REGISTRO JUGADOR");
+			if (myPlayer == null) {
+				lblRegistroJugador = new JLabel("REGISTRO JUGADOR");
+
+			} 
+			else {
+				lblRegistroJugador = new JLabel("MODIFICAR JUGADOR");
+			}
+
+
 			lblRegistroJugador.setHorizontalTextPosition(SwingConstants.CENTER);
 			lblRegistroJugador.setBounds(453, 0, 192, 45);
 			panelHeader.add(lblRegistroJugador);
 			lblRegistroJugador.setHorizontalAlignment(SwingConstants.CENTER);
 			lblRegistroJugador.setForeground(new Color(255, 255, 255));
 			lblRegistroJugador.setFont(new Font("Consolas", Font.BOLD, 20));
-
-			btnClose = new JButton("");
-			btnClose.setOpaque(false);
-			btnClose.setIcon(new ImageIcon(AddPlayer.class.getResource("/imagenes/icons8_close_window_24px_1.png")));
-			btnClose.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					dispose();
-				}
-			});
-			btnClose.setPreferredSize(new Dimension(100, 30));
-			btnClose.setHideActionText(true);
-			btnClose.setForeground(new Color(255, 255, 255));
-			btnClose.setFont(new Font("Consolas", Font.BOLD, 20));
-			btnClose.setBorder(null);
-			btnClose.setBackground(new Color(4, 10, 20));
-			btnClose.setActionCommand("Cancel");
-			btnClose.setBounds(1066, 0, 26, 30);
-			panelHeader.add(btnClose);
 
 			txtName = new JTextField()  {
 
@@ -348,14 +349,14 @@ public class AddPlayer extends JDialog {
 			lblInformacinPersonal.setBounds(55, 63, 225, 31);
 			panelBg.add(lblInformacinPersonal);
 
-			dateChooser = new RSDateChooser();
-			dateChooser.setPlaceholder("");
-			dateChooser.setFormatoFecha("dd/MM/yyyy");
-			dateChooser.setFuente(new Font("Consolas", Font.PLAIN, 18));
-			dateChooser.setColorForeground(Color.BLACK);
-			dateChooser.setColorBackground(new Color(0, 30, 72));
-			dateChooser.setBounds(55, 292, 270, 30);
-			panelBg.add(dateChooser);
+			dateChooserDateBorn = new RSDateChooser();
+			dateChooserDateBorn.setPlaceholder("");
+			dateChooserDateBorn.setFormatoFecha("dd/MM/yyyy");
+			dateChooserDateBorn.setFuente(new Font("Consolas", Font.PLAIN, 18));
+			dateChooserDateBorn.setColorForeground(Color.BLACK);
+			dateChooserDateBorn.setColorBackground(new Color(0, 30, 72));
+			dateChooserDateBorn.setBounds(55, 292, 270, 30);
+			panelBg.add(dateChooserDateBorn);
 
 			cbxCountries = new JComboBox();
 			cbxCountries.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -371,14 +372,14 @@ public class AddPlayer extends JDialog {
 			lblId.setFont(new Font("Consolas", Font.PLAIN, 20));
 			lblId.setBounds(55, 107, 137, 31);
 			panelBg.add(lblId);
-			
+
 			try {
 				// Definición de la máscara para ID.
 				MaskFormatter maskID = null;
 				maskID = new MaskFormatter("##-###-###");
 				maskID.setPlaceholderCharacter('#');
 				//maskID.setPlaceholder("AC-000-001");
-				
+
 				txtId = new JFormattedTextField(maskID) {
 					/**
 					 * 
@@ -416,11 +417,11 @@ public class AddPlayer extends JDialog {
 			txtId.setBounds(55, 140, 270, 30);
 			panelBg.add(txtId);
 
-			spinner = new JSpinner();
-			spinner.setModel(new SpinnerNumberModel(new Float(100.00), new Float(1.00), new Float(400.00), new Float(0.10)));
-			spinner.setFont(new Font("Consolas", Font.PLAIN, 18));
-			spinner.setBounds(116, 346, 99, 30);
-			panelBg.add(spinner);
+			spnLibra = new JSpinner();
+			spnLibra.setModel(new SpinnerNumberModel(new Float(100.00), new Float(100.00), new Float(400.00), new Float(0.10)));
+			spnLibra.setFont(new Font("Consolas", Font.PLAIN, 18));
+			spnLibra.setBounds(116, 346, 99, 30);
+			panelBg.add(spnLibra);
 
 
 
@@ -442,11 +443,11 @@ public class AddPlayer extends JDialog {
 			lblAltura.setBounds(358, 346, 75, 31);
 			panelBg.add(lblAltura);
 
-			spinner_1 = new JSpinner();
-			spinner_1.setModel(new SpinnerNumberModel(new Float(5.00), new Float(1.00), new Float(8.00), new Float(0.10)));
-			spinner_1.setFont(new Font("Consolas", Font.PLAIN, 18));
-			spinner_1.setBounds(445, 346, 99, 30);
-			panelBg.add(spinner_1);
+			spnAltura = new JSpinner();
+			spnAltura.setModel(new SpinnerNumberModel(new Float(5.00), new Float(5.00), new Float(8.00), new Float(0.10)));
+			spnAltura.setFont(new Font("Consolas", Font.PLAIN, 18));
+			spnAltura.setBounds(445, 346, 99, 30);
+			panelBg.add(spnAltura);
 
 			lblNmeroUniforme = new JLabel(" N\u00FAmero uniforme");
 			lblNmeroUniforme.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -455,15 +456,15 @@ public class AddPlayer extends JDialog {
 			lblNmeroUniforme.setFont(new Font("Consolas", Font.PLAIN, 20));
 			lblNmeroUniforme.setBounds(441, 107, 187, 31);
 			panelBg.add(lblNmeroUniforme);
-			
-			
+
+
 			try {
 				// Definición de la máscara para ID.
 				MaskFormatter maskUniNumber = null;
 				maskUniNumber = new MaskFormatter("##");
 				maskUniNumber.setPlaceholderCharacter('#');
 				//maskID.setPlaceholder("AC-000-001");
-				
+
 				txtNumeroUniforme = new JFormattedTextField(maskUniNumber) {
 					/**
 					 * 
@@ -571,7 +572,7 @@ public class AddPlayer extends JDialog {
 			lblW.setBounds(35, 164, 52, 31);
 			panelPitcher.add(lblW);
 
-			textField = new JTextField() {
+			txtWinp = new JTextField() {
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -593,12 +594,12 @@ public class AddPlayer extends JDialog {
 			};
 			/**********************************************************/
 
-			textField.setHorizontalAlignment(SwingConstants.CENTER);
-			textField.setFont(new Font("Consolas", Font.PLAIN, 18));
-			textField.setDisabledTextColor(Color.BLACK);
-			textField.setColumns(10);
-			textField.setBounds(35, 198, 52, 30);
-			panelPitcher.add(textField);
+			txtWinp.setHorizontalAlignment(SwingConstants.CENTER);
+			txtWinp.setFont(new Font("Consolas", Font.PLAIN, 18));
+			txtWinp.setDisabledTextColor(Color.BLACK);
+			txtWinp.setColumns(10);
+			txtWinp.setBounds(35, 198, 52, 30);
+			panelPitcher.add(txtWinp);
 
 			lblGl = new JLabel("L");
 			lblGl.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -699,7 +700,7 @@ public class AddPlayer extends JDialog {
 			lblAvg.setBounds(893, 164, 52, 31);
 			panelPitcher.add(lblAvg);
 
-			textField_1 = new JTextField() {
+			txtLosep = new JTextField() {
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -720,14 +721,14 @@ public class AddPlayer extends JDialog {
 				}
 			};
 			/**********************************************************/
-			textField_1.setHorizontalAlignment(SwingConstants.CENTER);
-			textField_1.setFont(new Font("Consolas", Font.PLAIN, 18));
-			textField_1.setDisabledTextColor(Color.BLACK);
-			textField_1.setColumns(10);
-			textField_1.setBounds(113, 198, 52, 30);
-			panelPitcher.add(textField_1);
+			txtLosep.setHorizontalAlignment(SwingConstants.CENTER);
+			txtLosep.setFont(new Font("Consolas", Font.PLAIN, 18));
+			txtLosep.setDisabledTextColor(Color.BLACK);
+			txtLosep.setColumns(10);
+			txtLosep.setBounds(113, 198, 52, 30);
+			panelPitcher.add(txtLosep);
 
-			textField_2 = new JTextField() {
+			txtErap = new JTextField() {
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -748,14 +749,14 @@ public class AddPlayer extends JDialog {
 				}
 			};
 			/**********************************************************/
-			textField_2.setHorizontalAlignment(SwingConstants.CENTER);
-			textField_2.setFont(new Font("Consolas", Font.PLAIN, 18));
-			textField_2.setDisabledTextColor(Color.BLACK);
-			textField_2.setColumns(10);
-			textField_2.setBounds(191, 198, 52, 30);
-			panelPitcher.add(textField_2);
+			txtErap.setHorizontalAlignment(SwingConstants.CENTER);
+			txtErap.setFont(new Font("Consolas", Font.PLAIN, 18));
+			txtErap.setDisabledTextColor(Color.BLACK);
+			txtErap.setColumns(10);
+			txtErap.setBounds(191, 198, 52, 30);
+			panelPitcher.add(txtErap);
 
-			textField_3 = new JTextField() {
+			txtGamesp = new JTextField() {
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -776,14 +777,14 @@ public class AddPlayer extends JDialog {
 				}
 			};
 			/**********************************************************/
-			textField_3.setHorizontalAlignment(SwingConstants.CENTER);
-			textField_3.setFont(new Font("Consolas", Font.PLAIN, 18));
-			textField_3.setDisabledTextColor(Color.BLACK);
-			textField_3.setColumns(10);
-			textField_3.setBounds(269, 198, 52, 30);
-			panelPitcher.add(textField_3);
+			txtGamesp.setHorizontalAlignment(SwingConstants.CENTER);
+			txtGamesp.setFont(new Font("Consolas", Font.PLAIN, 18));
+			txtGamesp.setDisabledTextColor(Color.BLACK);
+			txtGamesp.setColumns(10);
+			txtGamesp.setBounds(269, 198, 52, 30);
+			panelPitcher.add(txtGamesp);
 
-			textField_4 = new JTextField() {
+			txtGSp = new JTextField() {
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -804,14 +805,14 @@ public class AddPlayer extends JDialog {
 				}
 			};
 			/**********************************************************/
-			textField_4.setHorizontalAlignment(SwingConstants.CENTER);
-			textField_4.setFont(new Font("Consolas", Font.PLAIN, 18));
-			textField_4.setDisabledTextColor(Color.BLACK);
-			textField_4.setColumns(10);
-			textField_4.setBounds(347, 198, 52, 30);
-			panelPitcher.add(textField_4);
+			txtGSp.setHorizontalAlignment(SwingConstants.CENTER);
+			txtGSp.setFont(new Font("Consolas", Font.PLAIN, 18));
+			txtGSp.setDisabledTextColor(Color.BLACK);
+			txtGSp.setColumns(10);
+			txtGSp.setBounds(347, 198, 52, 30);
+			panelPitcher.add(txtGSp);
 
-			textField_5 = new JTextField() {
+			txtSVp = new JTextField() {
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -832,14 +833,14 @@ public class AddPlayer extends JDialog {
 				}
 			};
 			/**********************************************************/
-			textField_5.setHorizontalAlignment(SwingConstants.CENTER);
-			textField_5.setFont(new Font("Consolas", Font.PLAIN, 18));
-			textField_5.setDisabledTextColor(Color.BLACK);
-			textField_5.setColumns(10);
-			textField_5.setBounds(425, 198, 52, 30);
-			panelPitcher.add(textField_5);
+			txtSVp.setHorizontalAlignment(SwingConstants.CENTER);
+			txtSVp.setFont(new Font("Consolas", Font.PLAIN, 18));
+			txtSVp.setDisabledTextColor(Color.BLACK);
+			txtSVp.setColumns(10);
+			txtSVp.setBounds(425, 198, 52, 30);
+			panelPitcher.add(txtSVp);
 
-			textField_6 = new JTextField() {
+			txtHRp = new JTextField() {
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -860,14 +861,14 @@ public class AddPlayer extends JDialog {
 				}
 			};
 			/**********************************************************/
-			textField_6.setHorizontalAlignment(SwingConstants.CENTER);
-			textField_6.setFont(new Font("Consolas", Font.PLAIN, 18));
-			textField_6.setDisabledTextColor(Color.BLACK);
-			textField_6.setColumns(10);
-			textField_6.setBounds(503, 198, 52, 30);
-			panelPitcher.add(textField_6);
+			txtHRp.setHorizontalAlignment(SwingConstants.CENTER);
+			txtHRp.setFont(new Font("Consolas", Font.PLAIN, 18));
+			txtHRp.setDisabledTextColor(Color.BLACK);
+			txtHRp.setColumns(10);
+			txtHRp.setBounds(503, 198, 52, 30);
+			panelPitcher.add(txtHRp);
 
-			textField_7 = new JTextField() {
+			txtHp = new JTextField() {
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -888,14 +889,14 @@ public class AddPlayer extends JDialog {
 				}
 			};
 			/**********************************************************/
-			textField_7.setHorizontalAlignment(SwingConstants.CENTER);
-			textField_7.setFont(new Font("Consolas", Font.PLAIN, 18));
-			textField_7.setDisabledTextColor(Color.BLACK);
-			textField_7.setColumns(10);
-			textField_7.setBounds(581, 198, 52, 30);
-			panelPitcher.add(textField_7);
+			txtHp.setHorizontalAlignment(SwingConstants.CENTER);
+			txtHp.setFont(new Font("Consolas", Font.PLAIN, 18));
+			txtHp.setDisabledTextColor(Color.BLACK);
+			txtHp.setColumns(10);
+			txtHp.setBounds(581, 198, 52, 30);
+			panelPitcher.add(txtHp);
 
-			textField_8 = new JTextField() {
+			txtRp = new JTextField() {
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -916,14 +917,14 @@ public class AddPlayer extends JDialog {
 				}
 			};
 			/**********************************************************/
-			textField_8.setHorizontalAlignment(SwingConstants.CENTER);
-			textField_8.setFont(new Font("Consolas", Font.PLAIN, 18));
-			textField_8.setDisabledTextColor(Color.BLACK);
-			textField_8.setColumns(10);
-			textField_8.setBounds(659, 198, 52, 30);
-			panelPitcher.add(textField_8);
+			txtRp.setHorizontalAlignment(SwingConstants.CENTER);
+			txtRp.setFont(new Font("Consolas", Font.PLAIN, 18));
+			txtRp.setDisabledTextColor(Color.BLACK);
+			txtRp.setColumns(10);
+			txtRp.setBounds(659, 198, 52, 30);
+			panelPitcher.add(txtRp);
 
-			textField_9 = new JTextField() {
+			txtSOp = new JTextField() {
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -944,14 +945,14 @@ public class AddPlayer extends JDialog {
 				}
 			};
 			/**********************************************************/
-			textField_9.setHorizontalAlignment(SwingConstants.CENTER);
-			textField_9.setFont(new Font("Consolas", Font.PLAIN, 18));
-			textField_9.setDisabledTextColor(Color.BLACK);
-			textField_9.setColumns(10);
-			textField_9.setBounds(737, 198, 52, 30);
-			panelPitcher.add(textField_9);
+			txtSOp.setHorizontalAlignment(SwingConstants.CENTER);
+			txtSOp.setFont(new Font("Consolas", Font.PLAIN, 18));
+			txtSOp.setDisabledTextColor(Color.BLACK);
+			txtSOp.setColumns(10);
+			txtSOp.setBounds(737, 198, 52, 30);
+			panelPitcher.add(txtSOp);
 
-			textField_11 = new JTextField() {
+			txtAVGp = new JTextField() {
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -972,14 +973,14 @@ public class AddPlayer extends JDialog {
 				}
 			};
 			/**********************************************************/
-			textField_11.setHorizontalAlignment(SwingConstants.CENTER);
-			textField_11.setFont(new Font("Consolas", Font.PLAIN, 18));
-			textField_11.setDisabledTextColor(Color.BLACK);
-			textField_11.setColumns(10);
-			textField_11.setBounds(893, 198, 52, 30);
-			panelPitcher.add(textField_11);
+			txtAVGp.setHorizontalAlignment(SwingConstants.CENTER);
+			txtAVGp.setFont(new Font("Consolas", Font.PLAIN, 18));
+			txtAVGp.setDisabledTextColor(Color.BLACK);
+			txtAVGp.setColumns(10);
+			txtAVGp.setBounds(893, 198, 52, 30);
+			panelPitcher.add(txtAVGp);
 
-			textField_10 = new JTextField() {
+			txtIPp = new JTextField() {
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -1000,12 +1001,12 @@ public class AddPlayer extends JDialog {
 				}
 			};
 			/**********************************************************/
-			textField_10.setHorizontalAlignment(SwingConstants.CENTER);
-			textField_10.setFont(new Font("Consolas", Font.PLAIN, 18));
-			textField_10.setDisabledTextColor(Color.BLACK);
-			textField_10.setColumns(10);
-			textField_10.setBounds(815, 198, 52, 30);
-			panelPitcher.add(textField_10);
+			txtIPp.setHorizontalAlignment(SwingConstants.CENTER);
+			txtIPp.setFont(new Font("Consolas", Font.PLAIN, 18));
+			txtIPp.setDisabledTextColor(Color.BLACK);
+			txtIPp.setColumns(10);
+			txtIPp.setBounds(815, 198, 52, 30);
+			panelPitcher.add(txtIPp);
 
 			separator_3 = new JSeparator();
 			separator_3.setOpaque(true);
@@ -1064,7 +1065,7 @@ public class AddPlayer extends JDialog {
 
 			cbxEquipoPit = new JComboBox();
 			cbxEquipoPit.setFont(new Font("Consolas", Font.PLAIN, 18));
-			cbxEquipoPit.setBounds(780, 57, 153, 28);
+			cbxEquipoPit.setBounds(757, 57, 176, 28);
 			panelPitcher.add(cbxEquipoPit);
 
 			separator_5 = new JSeparator();
@@ -1130,7 +1131,7 @@ public class AddPlayer extends JDialog {
 			lblAvg_1.setBounds(41, 164, 52, 31);
 			panelBateador.add(lblAvg_1);
 
-			textField_12 = new JTextField() {
+			txtAVGb = new JTextField() {
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -1151,14 +1152,14 @@ public class AddPlayer extends JDialog {
 				}
 			};
 			/**********************************************************/
-			textField_12.setHorizontalAlignment(SwingConstants.CENTER);
-			textField_12.setFont(new Font("Consolas", Font.PLAIN, 18));
-			textField_12.setDisabledTextColor(Color.BLACK);
-			textField_12.setColumns(10);
-			textField_12.setBounds(41, 198, 52, 30);
-			panelBateador.add(textField_12);
+			txtAVGb.setHorizontalAlignment(SwingConstants.CENTER);
+			txtAVGb.setFont(new Font("Consolas", Font.PLAIN, 18));
+			txtAVGb.setDisabledTextColor(Color.BLACK);
+			txtAVGb.setColumns(10);
+			txtAVGb.setBounds(41, 198, 52, 30);
+			panelBateador.add(txtAVGb);
 
-			textField_13 = new JTextField() {
+			txtRb = new JTextField() {
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -1179,12 +1180,12 @@ public class AddPlayer extends JDialog {
 				}
 			};
 			/**********************************************************/
-			textField_13.setHorizontalAlignment(SwingConstants.CENTER);
-			textField_13.setFont(new Font("Consolas", Font.PLAIN, 18));
-			textField_13.setDisabledTextColor(Color.BLACK);
-			textField_13.setColumns(10);
-			textField_13.setBounds(134, 198, 52, 30);
-			panelBateador.add(textField_13);
+			txtRb.setHorizontalAlignment(SwingConstants.CENTER);
+			txtRb.setFont(new Font("Consolas", Font.PLAIN, 18));
+			txtRb.setDisabledTextColor(Color.BLACK);
+			txtRb.setColumns(10);
+			txtRb.setBounds(134, 198, 52, 30);
+			panelBateador.add(txtRb);
 
 			lblR_1 = new JLabel("R");
 			lblR_1.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -1204,7 +1205,7 @@ public class AddPlayer extends JDialog {
 			lblH.setBounds(227, 164, 52, 31);
 			panelBateador.add(lblH);
 
-			textField_14 = new JTextField() {
+			txtH1b = new JTextField() {
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -1225,14 +1226,14 @@ public class AddPlayer extends JDialog {
 				}
 			};
 			/**********************************************************/
-			textField_14.setHorizontalAlignment(SwingConstants.CENTER);
-			textField_14.setFont(new Font("Consolas", Font.PLAIN, 18));
-			textField_14.setDisabledTextColor(Color.BLACK);
-			textField_14.setColumns(10);
-			textField_14.setBounds(227, 198, 52, 30);
-			panelBateador.add(textField_14);
+			txtH1b.setHorizontalAlignment(SwingConstants.CENTER);
+			txtH1b.setFont(new Font("Consolas", Font.PLAIN, 18));
+			txtH1b.setDisabledTextColor(Color.BLACK);
+			txtH1b.setColumns(10);
+			txtH1b.setBounds(227, 198, 52, 30);
+			panelBateador.add(txtH1b);
 
-			textField_15 = new JTextField() {
+			txtH2b = new JTextField() {
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -1253,12 +1254,12 @@ public class AddPlayer extends JDialog {
 				}
 			};
 			/**********************************************************/
-			textField_15.setHorizontalAlignment(SwingConstants.CENTER);
-			textField_15.setFont(new Font("Consolas", Font.PLAIN, 18));
-			textField_15.setDisabledTextColor(Color.BLACK);
-			textField_15.setColumns(10);
-			textField_15.setBounds(320, 198, 52, 30);
-			panelBateador.add(textField_15);
+			txtH2b.setHorizontalAlignment(SwingConstants.CENTER);
+			txtH2b.setFont(new Font("Consolas", Font.PLAIN, 18));
+			txtH2b.setDisabledTextColor(Color.BLACK);
+			txtH2b.setColumns(10);
+			txtH2b.setBounds(320, 198, 52, 30);
+			panelBateador.add(txtH2b);
 
 			lblH_1 = new JLabel("H2");
 			lblH_1.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -1278,7 +1279,7 @@ public class AddPlayer extends JDialog {
 			lblH_2.setBounds(413, 164, 52, 31);
 			panelBateador.add(lblH_2);
 
-			textField_16 = new JTextField() {
+			txtH3b = new JTextField() {
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -1299,14 +1300,14 @@ public class AddPlayer extends JDialog {
 				}
 			};
 			/**********************************************************/
-			textField_16.setHorizontalAlignment(SwingConstants.CENTER);
-			textField_16.setFont(new Font("Consolas", Font.PLAIN, 18));
-			textField_16.setDisabledTextColor(Color.BLACK);
-			textField_16.setColumns(10);
-			textField_16.setBounds(413, 198, 52, 30);
-			panelBateador.add(textField_16);
+			txtH3b.setHorizontalAlignment(SwingConstants.CENTER);
+			txtH3b.setFont(new Font("Consolas", Font.PLAIN, 18));
+			txtH3b.setDisabledTextColor(Color.BLACK);
+			txtH3b.setColumns(10);
+			txtH3b.setBounds(413, 198, 52, 30);
+			panelBateador.add(txtH3b);
 
-			textField_17 = new JTextField() {
+			txtHRb = new JTextField() {
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -1327,12 +1328,12 @@ public class AddPlayer extends JDialog {
 				}
 			};
 			/**********************************************************/
-			textField_17.setHorizontalAlignment(SwingConstants.CENTER);
-			textField_17.setFont(new Font("Consolas", Font.PLAIN, 18));
-			textField_17.setDisabledTextColor(Color.BLACK);
-			textField_17.setColumns(10);
-			textField_17.setBounds(506, 198, 52, 30);
-			panelBateador.add(textField_17);
+			txtHRb.setHorizontalAlignment(SwingConstants.CENTER);
+			txtHRb.setFont(new Font("Consolas", Font.PLAIN, 18));
+			txtHRb.setDisabledTextColor(Color.BLACK);
+			txtHRb.setColumns(10);
+			txtHRb.setBounds(506, 198, 52, 30);
+			panelBateador.add(txtHRb);
 
 			lblHr_1 = new JLabel("HR");
 			lblHr_1.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -1352,7 +1353,7 @@ public class AddPlayer extends JDialog {
 			lblRbi.setBounds(599, 164, 52, 31);
 			panelBateador.add(lblRbi);
 
-			textField_18 = new JTextField() {
+			txtRBIb = new JTextField() {
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -1373,14 +1374,14 @@ public class AddPlayer extends JDialog {
 				}
 			};
 			/**********************************************************/
-			textField_18.setHorizontalAlignment(SwingConstants.CENTER);
-			textField_18.setFont(new Font("Consolas", Font.PLAIN, 18));
-			textField_18.setDisabledTextColor(Color.BLACK);
-			textField_18.setColumns(10);
-			textField_18.setBounds(599, 198, 52, 30);
-			panelBateador.add(textField_18);
+			txtRBIb.setHorizontalAlignment(SwingConstants.CENTER);
+			txtRBIb.setFont(new Font("Consolas", Font.PLAIN, 18));
+			txtRBIb.setDisabledTextColor(Color.BLACK);
+			txtRBIb.setColumns(10);
+			txtRBIb.setBounds(599, 198, 52, 30);
+			panelBateador.add(txtRBIb);
 
-			textField_19 = new JTextField() {
+			txtBBb = new JTextField() {
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -1401,12 +1402,12 @@ public class AddPlayer extends JDialog {
 				}
 			};
 			/**********************************************************/
-			textField_19.setHorizontalAlignment(SwingConstants.CENTER);
-			textField_19.setFont(new Font("Consolas", Font.PLAIN, 18));
-			textField_19.setDisabledTextColor(Color.BLACK);
-			textField_19.setColumns(10);
-			textField_19.setBounds(692, 198, 52, 30);
-			panelBateador.add(textField_19);
+			txtBBb.setHorizontalAlignment(SwingConstants.CENTER);
+			txtBBb.setFont(new Font("Consolas", Font.PLAIN, 18));
+			txtBBb.setDisabledTextColor(Color.BLACK);
+			txtBBb.setColumns(10);
+			txtBBb.setBounds(692, 198, 52, 30);
+			panelBateador.add(txtBBb);
 
 			lblBb = new JLabel("BB");
 			lblBb.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -1426,7 +1427,7 @@ public class AddPlayer extends JDialog {
 			lblSo_1.setBounds(785, 164, 52, 31);
 			panelBateador.add(lblSo_1);
 
-			textField_20 = new JTextField() {
+			txtSOb = new JTextField() {
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -1447,14 +1448,14 @@ public class AddPlayer extends JDialog {
 				}
 			};
 			/**********************************************************/
-			textField_20.setHorizontalAlignment(SwingConstants.CENTER);
-			textField_20.setFont(new Font("Consolas", Font.PLAIN, 18));
-			textField_20.setDisabledTextColor(Color.BLACK);
-			textField_20.setColumns(10);
-			textField_20.setBounds(785, 198, 52, 30);
-			panelBateador.add(textField_20);
+			txtSOb.setHorizontalAlignment(SwingConstants.CENTER);
+			txtSOb.setFont(new Font("Consolas", Font.PLAIN, 18));
+			txtSOb.setDisabledTextColor(Color.BLACK);
+			txtSOb.setColumns(10);
+			txtSOb.setBounds(785, 198, 52, 30);
+			panelBateador.add(txtSOb);
 
-			textField_21 = new JTextField() {
+			txtSBb = new JTextField() {
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -1475,12 +1476,12 @@ public class AddPlayer extends JDialog {
 				}
 			};
 			/**********************************************************/
-			textField_21.setHorizontalAlignment(SwingConstants.CENTER);
-			textField_21.setFont(new Font("Consolas", Font.PLAIN, 18));
-			textField_21.setDisabledTextColor(Color.BLACK);
-			textField_21.setColumns(10);
-			textField_21.setBounds(878, 198, 52, 30);
-			panelBateador.add(textField_21);
+			txtSBb.setHorizontalAlignment(SwingConstants.CENTER);
+			txtSBb.setFont(new Font("Consolas", Font.PLAIN, 18));
+			txtSBb.setDisabledTextColor(Color.BLACK);
+			txtSBb.setColumns(10);
+			txtSBb.setBounds(878, 198, 52, 30);
+			panelBateador.add(txtSBb);
 
 			lblSb = new JLabel("SB");
 			lblSb.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -1508,7 +1509,7 @@ public class AddPlayer extends JDialog {
 			panelBateador.add(lblInformacinJugador_1);
 
 			cbxPosicionBat = new JComboBox();
-			cbxPosicionBat.setModel(new DefaultComboBoxModel(new String[] {"<Seleccionar>", "Pitcher", "Catcher", "Primera base", "Segunda base", "Tercera base", "Short stop", "Left fielder", "Center fielder", "Right fielder"}));
+			cbxPosicionBat.setModel(new DefaultComboBoxModel(new String[] {"<Seleccionar>", "Catcher", "Primera base", "Segunda base", "Tercera base", "Short stop", "Left fielder", "Center fielder", "Right fielder"}));
 			cbxPosicionBat.setFont(new Font("Consolas", Font.PLAIN, 18));
 			cbxPosicionBat.setBounds(134, 50, 163, 28);
 			panelBateador.add(cbxPosicionBat);
@@ -1534,12 +1535,12 @@ public class AddPlayer extends JDialog {
 			label_3.setHorizontalAlignment(SwingConstants.LEFT);
 			label_3.setForeground(Color.BLACK);
 			label_3.setFont(new Font("Consolas", Font.PLAIN, 20));
-			label_3.setBounds(715, 54, 66, 24);
+			label_3.setBounds(693, 54, 66, 24);
 			panelBateador.add(label_3);
 
 			cbxEquipoBat = new JComboBox();
 			cbxEquipoBat.setFont(new Font("Consolas", Font.PLAIN, 18));
-			cbxEquipoBat.setBounds(793, 50, 153, 28);
+			cbxEquipoBat.setBounds(771, 50, 175, 28);
 			panelBateador.add(cbxEquipoBat);
 
 			label_4 = new JLabel("Seleccionar Equipo");
@@ -1625,8 +1626,102 @@ public class AddPlayer extends JDialog {
 			btnSeleccionarFoto.setBounds(825, 372, 156, 30);
 			panelBg.add(btnSeleccionarFoto);
 
-			btnRegistrarJugador = new JButton("Registrar");
-			btnRegistrarJugador.setIcon(new ImageIcon(AddPlayer.class.getResource("/imagenes/icons8_baseball_24px.png")));
+			btnRegistrarJugador = new JButton();
+			if (myPlayer == null) {
+				btnRegistrarJugador.setText("Registrar");
+
+			}
+			else {
+				btnRegistrarJugador.setText("Guardar");
+			}
+
+			btnRegistrarJugador.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+
+					ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_checked_48px_1.png"));
+					String[] options = {"Ok"};
+					ImageIcon icon1 = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
+
+					if (myPlayer == null) {
+
+						String id = txtId.getText();
+						String number = txtNumeroUniforme.getText();
+						String name = txtName.getText();
+						String lastname = txtApellido.getText();
+						String placeBorn = cbxCountries.getSelectedItem().toString();
+						Date dateBorn = dateChooserDateBorn.getDatoFecha();
+						float weight = Float.parseFloat(spnLibra.getValue().toString());
+						float height = Float.parseFloat(spnAltura.getValue().toString());
+
+
+						if ((!id.equalsIgnoreCase("##-###-###")) && (!number.equalsIgnoreCase("##")) && (!name.equalsIgnoreCase("")) && (!lastname.equalsIgnoreCase("")) && (cbxCountries.getSelectedIndex() > 0) && (cbxCountries.getSelectedIndex() > 0) && (dateBorn != null) && (weight >= 100.00f) && (height >= 5.00f )) {
+
+
+							if (typePlayer == 1) { // un pitcher.
+
+								String tipoPitcher = cbxTipoPitcher.getSelectedItem().toString();
+								String manoPitcher = cbxManoPitcher.getSelectedItem().toString();
+								String equipoPitcher = cbxEquipoPit.getSelectedItem().toString();
+
+								if ( (cbxTipoPitcher.getSelectedIndex() > 0)  && (cbxManoPitcher.getSelectedIndex() > 0) && (cbxEquipoPit.getSelectedIndex() > 0) ) {
+
+									Player pitcher = new Pitcher(id, lastname, number, lastname, equipoPitcher, dateBorn, placeBorn, height, weight, tipoPitcher);
+									Lidom.getInstance().addPlayer(pitcher);
+
+									JOptionPane.showOptionDialog(null, "Registro de un PITCHER con exito!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
+									clean();
+									typePlayer = 0;
+									panelInformacionJugador.setVisible(false);
+									btnBateador.setEnabled(true);
+									btnPitcher.setEnabled(true);
+
+								}
+								else {
+
+									JOptionPane.showOptionDialog(null, "Complete todos los campos, correctamente!", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options, options);
+								}
+
+							}
+							else if (typePlayer == 2) { // un bateador.
+
+								String posicion = cbxPosicionBat.getSelectedItem().toString();
+								String manobateador = cbxManoBat.getSelectedItem().toString();
+								String equipoBateeador = cbxEquipoBat.getSelectedItem().toString();
+
+								if ((cbxPosicionBat.getSelectedIndex() > 0)  && (cbxManoBat.getSelectedIndex() > 0) && (cbxEquipoBat.getSelectedIndex() > 0) ) {
+									Player bateador = new Batter(id, name, number, lastname, equipoBateeador, dateBorn, placeBorn, height, weight, posicion);
+									Lidom.getInstance().addPlayer(bateador);
+
+									JOptionPane.showOptionDialog(null, "Registro de un BATEADOR con exito!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
+									clean();
+									typePlayer = 0;
+									panelInformacionJugador.setVisible(false);
+									btnBateador.setEnabled(true);
+									btnPitcher.setEnabled(true);
+
+								}
+								else {
+
+									JOptionPane.showOptionDialog(null, "Complete todos los campos, correctamente!", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options, options);
+
+								}
+
+							}
+						}
+						else {
+
+							JOptionPane.showOptionDialog(null, "Complete todos los campos, correctamente!", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options, options);
+
+						}
+					}
+					else {
+
+						// para eeditar aqui
+					}
+
+				}
+			});
+			btnRegistrarJugador.setIcon(new ImageIcon(AddPlayer.class.getResource("/iconos_imagenes/icons8_baseball_24px.png")));
 			btnRegistrarJugador.setIconTextGap(5);
 			btnRegistrarJugador.setHorizontalTextPosition(SwingConstants.LEFT);
 			btnRegistrarJugador.setForeground(new Color(255, 255, 240));
@@ -1640,12 +1735,12 @@ public class AddPlayer extends JDialog {
 			btnCancelarJugador.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
-					ImageIcon icon = new ImageIcon(getClass().getResource("/imagenes/icons8_cancel_2_48px_1.png"));
+					ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
 					String[] options = {"Si", "No"};	
 
 
 					if (typePlayer == 0) {
-						int xOption	= JOptionPane.showOptionDialog(null, "Seguro que desea cancelar?, la ventana se cerrará.", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
+						int xOption	= JOptionPane.showOptionDialog(null, "¿Seguro que desea cancelar?, la ventana se cerrará.", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
 						if (xOption == 0) {
 							typePlayer = 0;
 							dispose(); // chequear tiene un comportamiento extrano
@@ -1667,7 +1762,7 @@ public class AddPlayer extends JDialog {
 
 				}
 			});
-			btnCancelarJugador.setIcon(new ImageIcon(AddPlayer.class.getResource("/imagenes/icons8_cancel_24px_2.png")));
+			btnCancelarJugador.setIcon(new ImageIcon(AddPlayer.class.getResource("/iconos_imagenes/icons8_cancel_24px_2.png")));
 			btnCancelarJugador.setIconTextGap(5);
 			btnCancelarJugador.setHorizontalTextPosition(SwingConstants.LEFT);
 			btnCancelarJugador.setForeground(new Color(255, 255, 240));
@@ -1677,5 +1772,108 @@ public class AddPlayer extends JDialog {
 			btnCancelarJugador.setBounds(923, 737, 146, 30);
 			panelBg.add(btnCancelarJugador);
 		}
+
+		
+		controlStats();
+		loadTeamsCbx();
+		
 	}
+
+
+
+	/* Metodos */
+
+	private void clean() {
+		txtId.setText("");
+		txtNumeroUniforme.setText("");
+		txtName.setText("");
+		txtApellido.setText("");
+		dateChooserDateBorn.setDatoFecha(null);
+		cbxCountries.setSelectedIndex(0);
+		cbxEquipoBat.setSelectedIndex(0);
+		cbxEquipoPit.setSelectedIndex(0);
+		cbxManoBat.setSelectedIndex(0);
+		cbxManoPitcher.setSelectedIndex(0);
+		cbxPosicionBat.setSelectedIndex(0);
+		cbxTipoPitcher.setSelectedIndex(0);
+
+	}
+
+	private void controlStats() {
+
+
+		if (myPlayer == null) {
+
+			txtWinp.setEditable(false);
+			txtLosep.setEditable(false);
+			txtErap.setEditable(false);
+			txtGamesp.setEditable(false);
+			txtGSp.setEditable(false);
+			txtSVp.setEditable(false);
+			txtHRp.setEditable(false);
+			txtHp.setEditable(false);
+			txtRp.setEditable(false);
+			txtSOp.setEditable(false);
+			txtIPp.setEditable(false);
+			txtAVGp.setEditable(false);
+
+			txtAVGb.setEditable(false);
+			txtRb.setEditable(false);
+			txtH1b.setEditable(false);
+			txtH2b.setEditable(false);
+			txtH3b.setEditable(false);
+			txtHRb.setEditable(false);
+			txtRBIb.setEditable(false);
+			txtBBb.setEditable(false);
+			txtSOb.setEditable(false);
+			txtSBb.setEditable(false);
+
+			txtWinp.setText("0");
+			txtLosep.setText("0");
+			txtErap.setText("0");
+			txtGamesp.setText("0");
+			txtGSp.setText("0");
+			txtSVp.setText("0");
+			txtHRp.setText("0");
+			txtHp.setText("0");
+			txtRp.setText("0");
+			txtSOp.setText("0");
+			txtIPp.setText("0");
+			txtAVGp.setText("0");
+
+			txtAVGb.setText("0");
+			txtRb.setText("0");
+			txtH1b.setText("0");
+			txtH2b.setText("0");
+			txtH3b.setText("0");
+			txtHRb.setText("0");
+			txtRBIb.setText("0");
+			txtBBb.setText("0");
+			txtSOb.setText("0");
+			txtSBb.setText("0");
+
+
+		}
+
+
+	}
+
+	private void loadTeamsCbx() {
+
+		cbxEquipoBat.removeAllItems();
+		cbxEquipoPit.removeAllItems();
+
+		for (Team t : Lidom.getInstance().getListTeams()) {
+			cbxEquipoBat.addItem(t.getName());
+			cbxEquipoPit.addItem(t.getName());
+		}
+			
+		
+		cbxEquipoBat.insertItemAt(new String("<Seleccionar"), 0);
+		cbxEquipoPit.insertItemAt(new String("<Seleccionar"), 0);
+		cbxEquipoBat.setSelectedIndex(0);
+		cbxEquipoPit.setSelectedIndex(0);
+
+	}
+
 }

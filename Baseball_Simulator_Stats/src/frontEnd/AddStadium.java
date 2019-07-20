@@ -31,6 +31,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.ParseException;
+import java.util.UUID;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
@@ -119,7 +120,7 @@ public class AddStadium extends JDialog {
 
 			btnClose = new JButton("");
 			btnClose.setOpaque(false);
-			btnClose.setIcon(new ImageIcon(AddPlayer.class.getResource("/imagenes/icons8_close_window_24px_1.png")));
+			btnClose.setIcon(new ImageIcon(AddPlayer.class.getResource("/iconos_imagenes/icons8_close_window_24px_1.png")));
 			btnClose.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					dispose();
@@ -156,17 +157,6 @@ public class AddStadium extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
-			txtDireccion.addKeyListener(new KeyAdapter() {
-				@Override
-				public void keyTyped(KeyEvent e) {
-					//Restringir a solo letras.
-					char c = e.getKeyChar();
-					if (Character.isDigit(c)) {
-						getToolkit().beep();
-						e.consume();
-					}
-				}
-			});
 			/**********************************************************/
 
 			txtDireccion.setHorizontalAlignment(SwingConstants.CENTER);
@@ -203,45 +193,37 @@ public class AddStadium extends JDialog {
 			lblId.setBounds(55, 107, 137, 31);
 			panelBg.add(lblId);
 
-			try {
-				// Definición de la máscara para ID.
-				MaskFormatter maskID = null;
-				maskID = new MaskFormatter("##-###-###");
-				maskID.setPlaceholderCharacter('#');
-				//maskID.setPlaceholder("AC-000-001");
 
-				txtId = new JFormattedTextField(maskID) {
-					/**
-					 * 
-					 */
-					private static final long serialVersionUID = 1L;
-					/************* PARA REDONDEAR JTEXTFIELD *************/
-					@Override 
-					protected void paintComponent(Graphics g) {
-						if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
-							Graphics2D g2 = (Graphics2D) g.create();
-							g2.setPaint(getBackground());
-							g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
-									0, 0, getWidth() - 1, getHeight() - 1));
-							g2.dispose();
-						}
-						super.paintComponent(g);
+			txtId = new JFormattedTextField() {
+
+				private static final long serialVersionUID = 1L;
+				/************* PARA REDONDEAR JTEXTFIELD *************/
+				@Override 
+				protected void paintComponent(Graphics g) {
+					if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+						Graphics2D g2 = (Graphics2D) g.create();
+						g2.setPaint(getBackground());
+						g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+								0, 0, getWidth() - 1, getHeight() - 1));
+						g2.dispose();
 					}
-					@Override 
-					public void updateUI() {
-						super.updateUI();
-						setOpaque(false);
-						setBorder(new RoundedCornerBorder());
-					}
-				};
-				/**********************************************************/		
-			} 
-			catch (ParseException e) {
-				e.printStackTrace();
-			}
+					super.paintComponent(g);
+				}
+				@Override 
+				public void updateUI() {
+					super.updateUI();
+					setOpaque(false);
+					setBorder(new RoundedCornerBorder());
+				}
+			};
+			txtId.setEditable(false);
+			/**********************************************************/		
+
+			Lidom.getInstance();
+			txtId.setText("EST-"+ Lidom.generateIdStadium);
 
 			txtId.setHorizontalAlignment(SwingConstants.CENTER);
-			txtId.setFont(new Font("Consolas", Font.PLAIN, 18));
+			txtId.setFont(new Font("Consolas", Font.BOLD, 18));
 			txtId.setDisabledTextColor(Color.BLACK);
 			txtId.setColumns(10);
 			txtId.setBounds(55, 140, 270, 30);
@@ -306,13 +288,13 @@ public class AddStadium extends JDialog {
 						Stadium stadio = new Stadium(id, name, address);
 						Lidom.getInstance().addStadium(stadio);
 
-						ImageIcon icon = new ImageIcon(getClass().getResource("/imagenes/icons8_checked_48px_1.png"));
+						ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_checked_48px_1.png"));
 						String[] options = {"Ok"};	
 						JOptionPane.showOptionDialog(null, "Registro con exito!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
 						clean();
 					}
 					else {
-						ImageIcon icon = new ImageIcon(getClass().getResource("/imagenes/icons8_cancel_2_48px_1.png"));
+						ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
 						String[] options = {"Ok"};	
 						JOptionPane.showOptionDialog(null, "Complete todos los campos, correctamente!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
 
@@ -322,7 +304,7 @@ public class AddStadium extends JDialog {
 
 				}
 			});
-			btnRegistrar.setIcon(new ImageIcon(AddPlayer.class.getResource("/imagenes/icons8_baseball_24px.png")));
+			btnRegistrar.setIcon(new ImageIcon(AddPlayer.class.getResource("/iconos_imagenes/icons8_baseball_24px.png")));
 			btnRegistrar.setIconTextGap(5);
 			btnRegistrar.setHorizontalTextPosition(SwingConstants.LEFT);
 			btnRegistrar.setForeground(new Color(255, 255, 240));
@@ -335,9 +317,17 @@ public class AddStadium extends JDialog {
 			btnCancelar = new JButton("Cancelar");
 			btnCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
+					String[] options = {"Si", "No"};	
+					int xOption	= JOptionPane.showOptionDialog(null, "¿Seguro que desea cancelar?, la ventana se cerrará.", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
+
+					if (xOption == 0) {
+						clean();
+						dispose();
+					}
 				}
 			});
-			btnCancelar.setIcon(new ImageIcon(AddPlayer.class.getResource("/imagenes/icons8_cancel_24px_2.png")));
+			btnCancelar.setIcon(new ImageIcon(AddPlayer.class.getResource("/iconos_imagenes/icons8_cancel_24px_2.png")));
 			btnCancelar.setIconTextGap(5);
 			btnCancelar.setHorizontalTextPosition(SwingConstants.LEFT);
 			btnCancelar.setForeground(new Color(255, 255, 240));
@@ -354,10 +344,8 @@ public class AddStadium extends JDialog {
 	/** Metodos **/
 
 
-
-
 	private void clean() {
-		txtId.setText("");
+		txtId.setText("EST-"+ Lidom.generateIdStadium);
 		txtName.setText("");
 		txtDireccion.setText("");
 	}

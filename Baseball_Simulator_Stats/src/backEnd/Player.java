@@ -2,10 +2,11 @@ package backEnd;
 
 import java.util.Date;
 
-public class Player {
+public abstract class Player {
 	
 	protected String Id;
 	protected String name;
+	protected String number;
 	protected String lastname;
 	protected String teamName;
 	protected Date birthdate;
@@ -15,11 +16,12 @@ public class Player {
 	
 	/* Constructor */
 	
-	public Player(String id, String name, String lastname, String teamName, Date birthdate, String birthplace,
+	public Player(String id, String name, String number, String lastname, String teamName, Date birthdate, String birthplace,
 			float height, float weight) {
 		super();
-		Id = id;
+		this.Id = id;
 		this.name = name;
+		this.number = number;
 		this.lastname = lastname;
 		this.teamName = teamName;
 		this.birthdate = birthdate;
@@ -36,6 +38,10 @@ public class Player {
 
 	public String getName() {
 		return name;
+	}
+	
+	public String getNumber() {
+		return number;
 	}
 
 	public String getLastname() {
@@ -68,6 +74,10 @@ public class Player {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public void setNumber (String number) {
+		this.number = number;
 	}
 
 	public void setLastname(String lastname) {

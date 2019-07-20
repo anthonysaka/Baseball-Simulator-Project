@@ -1,3 +1,4 @@
+
 package frontEnd;
 
 import java.awt.BorderLayout;
@@ -14,6 +15,8 @@ import java.awt.Component;
 
 import javax.swing.JSeparator;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -29,6 +32,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.ParseException;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
@@ -48,6 +52,10 @@ import java.awt.CardLayout;
 import javax.swing.border.LineBorder;
 import javax.swing.text.MaskFormatter;
 
+import backEnd.Lidom;
+import backEnd.Stadium;
+import backEnd.Team;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -57,18 +65,17 @@ public class AddTeam extends JDialog {
 	private JSeparator separator;
 	private JLabel lblRegistroEquipo;
 	private JPanel panelHeader;
-	private JButton btnClose;
-	private JTextField txtName;
+	private JTextField txtNameEquipo;
 	private JLabel lblNombre;
 	private JLabel lblFechaDeNacimiento;
 	private JLabel lblPasDeNacimiento;
 	private JLabel lblInformacinPersonal;
-	private RSDateChooser dateChooser;
-	private JComboBox<String> cbxCountries;
+	private RSDateChooser dateChooserFechaFundacion;
+	private JComboBox<String> cbxEstadios;
 	private JLabel lblId;
-	private JFormattedTextField txtId;
+	private JFormattedTextField txtIdEquipo;
 	private JLabel lblNmeroUniforme;
-	private JTextField txtNumeroUniforme;
+	private JTextField txtManager;
 	private JPanel panelPhoto;
 	private JSeparator separator_1;
 	private JLabel lblFoto;
@@ -76,8 +83,8 @@ public class AddTeam extends JDialog {
 
 	private static int typePlayer= 0 ; // 1 - Pitcher, 2 - Bateador.
 	private JButton btnSeleccionarFoto;
-	private JButton button;
-	private JButton button_1;
+	private JButton btnRegistrarEquipo;
+	private JButton btnCancelarEquipo;
 
 
 	/**
@@ -121,25 +128,7 @@ public class AddTeam extends JDialog {
 			lblRegistroEquipo.setForeground(new Color(255, 255, 255));
 			lblRegistroEquipo.setFont(new Font("Consolas", Font.BOLD, 20));
 
-			btnClose = new JButton("");
-			btnClose.setOpaque(false);
-			btnClose.setIcon(new ImageIcon(AddPlayer.class.getResource("/imagenes/icons8_close_window_24px_1.png")));
-			btnClose.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					dispose();
-				}
-			});
-			btnClose.setPreferredSize(new Dimension(100, 30));
-			btnClose.setHideActionText(true);
-			btnClose.setForeground(new Color(255, 255, 255));
-			btnClose.setFont(new Font("Consolas", Font.BOLD, 20));
-			btnClose.setBorder(null);
-			btnClose.setBackground(new Color(4, 10, 20));
-			btnClose.setActionCommand("Cancel");
-			btnClose.setBounds(1066, 0, 26, 30);
-			panelHeader.add(btnClose);
-
-			txtName = new JTextField()  {
+			txtNameEquipo = new JTextField()  {
 
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
@@ -160,7 +149,7 @@ public class AddTeam extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
-			txtName.addKeyListener(new KeyAdapter() {
+			txtNameEquipo.addKeyListener(new KeyAdapter() {
 				@Override
 				public void keyTyped(KeyEvent e) {
 					//Restringir a solo letras.
@@ -173,12 +162,12 @@ public class AddTeam extends JDialog {
 			});
 			/**********************************************************/
 
-			txtName.setHorizontalAlignment(SwingConstants.CENTER);
-			txtName.setFont(new Font("Consolas", Font.PLAIN, 18));
-			txtName.setDisabledTextColor(Color.BLACK);
-			txtName.setColumns(10);
-			txtName.setBounds(55, 216, 573, 30);
-			panelBg.add(txtName);
+			txtNameEquipo.setHorizontalAlignment(SwingConstants.CENTER);
+			txtNameEquipo.setFont(new Font("Consolas", Font.PLAIN, 18));
+			txtNameEquipo.setDisabledTextColor(Color.BLACK);
+			txtNameEquipo.setColumns(10);
+			txtNameEquipo.setBounds(55, 216, 573, 30);
+			panelBg.add(txtNameEquipo);
 
 			lblNombre = new JLabel("  Nombre del equipo");
 			lblNombre.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -216,19 +205,20 @@ public class AddTeam extends JDialog {
 			lblInformacinPersonal.setBounds(55, 63, 225, 31);
 			panelBg.add(lblInformacinPersonal);
 
-			dateChooser = new RSDateChooser();
-			dateChooser.setPlaceholder("");
-			dateChooser.setFormatoFecha("dd/MM/yyyy");
-			dateChooser.setFuente(new Font("Consolas", Font.PLAIN, 18));
-			dateChooser.setColorForeground(Color.BLACK);
-			dateChooser.setColorBackground(new Color(0, 30, 72));
-			dateChooser.setBounds(55, 292, 270, 30);
-			panelBg.add(dateChooser);
+			dateChooserFechaFundacion = new RSDateChooser();
+			dateChooserFechaFundacion.setPlaceholder("");
+			dateChooserFechaFundacion.setFormatoFecha("dd/MM/yyyy");
+			dateChooserFechaFundacion.setFuente(new Font("Consolas", Font.PLAIN, 18));
+			dateChooserFechaFundacion.setColorForeground(Color.BLACK);
+			dateChooserFechaFundacion.setColorBackground(new Color(0, 30, 72));
+			dateChooserFechaFundacion.setBounds(55, 292, 270, 30);
+			panelBg.add(dateChooserFechaFundacion);
 
-			cbxCountries = new JComboBox<String>();
-			cbxCountries.setFont(new Font("Consolas", Font.PLAIN, 18));
-			cbxCountries.setBounds(358, 292, 270, 30);
-			panelBg.add(cbxCountries);
+			cbxEstadios = new JComboBox<String>();
+			cbxEstadios.setModel(new DefaultComboBoxModel(new String[] {"<Seleccionar>", "Aguilas"}));
+			cbxEstadios.setFont(new Font("Consolas", Font.PLAIN, 18));
+			cbxEstadios.setBounds(358, 292, 270, 30);
+			panelBg.add(cbxEstadios);
 
 			lblId = new JLabel("  N\u00FAmero ID");
 			lblId.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -241,61 +231,9 @@ public class AddTeam extends JDialog {
 
 
 
-		
-			
-			try {
-				// Definición de la máscara para ID.
-				MaskFormatter maskID = null;
-				maskID = new MaskFormatter("##-###-###");
-				maskID.setPlaceholderCharacter('#');
-				//maskID.setPlaceholder("AC-000-001");
-				
-				txtId = new JFormattedTextField(maskID) {
-					/**
-					 * 
-					 */
-					private static final long serialVersionUID = 1L;
-					/************* PARA REDONDEAR JTEXTFIELD *************/
-					@Override 
-					protected void paintComponent(Graphics g) {
-						if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
-							Graphics2D g2 = (Graphics2D) g.create();
-							g2.setPaint(getBackground());
-							g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
-									0, 0, getWidth() - 1, getHeight() - 1));
-							g2.dispose();
-						}
-						super.paintComponent(g);
-					}
-					@Override 
-					public void updateUI() {
-						super.updateUI();
-						setOpaque(false);
-						setBorder(new RoundedCornerBorder());
-					}
-				};
-				/**********************************************************/		
-			} 
-			catch (ParseException e) {
-				e.printStackTrace();
-			}
-			
-			txtId.setHorizontalAlignment(SwingConstants.CENTER);
-			txtId.setFont(new Font("Consolas", Font.PLAIN, 18));
-			txtId.setDisabledTextColor(Color.BLACK);
-			txtId.setColumns(10);
-			txtId.setBounds(55, 140, 270, 30);
-			panelBg.add(txtId);
+			txtIdEquipo = new JFormattedTextField() {
 
-			lblNmeroUniforme = new JLabel("  Manager");
-			lblNmeroUniforme.setVerticalAlignment(SwingConstants.BOTTOM);
-			lblNmeroUniforme.setHorizontalAlignment(SwingConstants.LEFT);
-			lblNmeroUniforme.setForeground(Color.BLACK);
-			lblNmeroUniforme.setFont(new Font("Consolas", Font.PLAIN, 20));
-			lblNmeroUniforme.setBounds(358, 107, 187, 31);
-			panelBg.add(lblNmeroUniforme);
-
-			txtNumeroUniforme = new JTextField() {
+				private static final long serialVersionUID = 1L;
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -315,7 +253,48 @@ public class AddTeam extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
-			txtNumeroUniforme.addKeyListener(new KeyAdapter() {
+			txtIdEquipo.setEditable(false);
+			/**********************************************************/	
+
+			Lidom.getInstance();
+			txtIdEquipo.setText("EQP-"+ Lidom.generateIdTeam);
+
+			txtIdEquipo.setHorizontalAlignment(SwingConstants.CENTER);
+			txtIdEquipo.setFont(new Font("Consolas", Font.BOLD, 18));
+			txtIdEquipo.setDisabledTextColor(Color.BLACK);
+			txtIdEquipo.setColumns(10);
+			txtIdEquipo.setBounds(55, 140, 270, 30);
+			panelBg.add(txtIdEquipo);
+
+			lblNmeroUniforme = new JLabel("  Manager");
+			lblNmeroUniforme.setVerticalAlignment(SwingConstants.BOTTOM);
+			lblNmeroUniforme.setHorizontalAlignment(SwingConstants.LEFT);
+			lblNmeroUniforme.setForeground(Color.BLACK);
+			lblNmeroUniforme.setFont(new Font("Consolas", Font.PLAIN, 20));
+			lblNmeroUniforme.setBounds(358, 107, 187, 31);
+			panelBg.add(lblNmeroUniforme);
+
+			txtManager = new JTextField() {
+				/************* PARA REDONDEAR JTEXTFIELD *************/
+				@Override 
+				protected void paintComponent(Graphics g) {
+					if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+						Graphics2D g2 = (Graphics2D) g.create();
+						g2.setPaint(getBackground());
+						g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+								0, 0, getWidth() - 1, getHeight() - 1));
+						g2.dispose();
+					}
+					super.paintComponent(g);
+				}
+				@Override 
+				public void updateUI() {
+					super.updateUI();
+					setOpaque(false);
+					setBorder(new RoundedCornerBorder());
+				}
+			};
+			txtManager.addKeyListener(new KeyAdapter() {
 				@Override
 				public void keyTyped(KeyEvent e) {
 					//Restringir a solo letras.
@@ -327,12 +306,12 @@ public class AddTeam extends JDialog {
 				}
 			});
 			/**********************************************************/
-			txtNumeroUniforme.setHorizontalAlignment(SwingConstants.CENTER);
-			txtNumeroUniforme.setFont(new Font("Consolas", Font.PLAIN, 18));
-			txtNumeroUniforme.setDisabledTextColor(Color.BLACK);
-			txtNumeroUniforme.setColumns(10);
-			txtNumeroUniforme.setBounds(358, 140, 270, 30);
-			panelBg.add(txtNumeroUniforme);
+			txtManager.setHorizontalAlignment(SwingConstants.CENTER);
+			txtManager.setFont(new Font("Consolas", Font.PLAIN, 18));
+			txtManager.setDisabledTextColor(Color.BLACK);
+			txtManager.setColumns(10);
+			txtManager.setBounds(358, 140, 270, 30);
+			panelBg.add(txtManager);
 
 			panelPhoto = new JPanel();
 			panelPhoto.setBorder(new LineBorder(new Color(0, 30, 72)));
@@ -372,28 +351,84 @@ public class AddTeam extends JDialog {
 			btnSeleccionarFoto.setBounds(830, 335, 156, 30);
 			panelBg.add(btnSeleccionarFoto);
 
-			button = new JButton("Registrar");
-			button.setIcon(new ImageIcon(AddPlayer.class.getResource("/imagenes/icons8_baseball_24px.png")));
-			button.setIconTextGap(5);
-			button.setHorizontalTextPosition(SwingConstants.LEFT);
-			button.setForeground(new Color(255, 255, 240));
-			button.setFont(new Font("Consolas", Font.BOLD, 17));
-			button.setBorder(null);
-			button.setBackground(new Color(0, 30, 72));
-			button.setBounds(755, 442, 146, 30);
-			panelBg.add(button);
+			btnRegistrarEquipo = new JButton("Registrar");
+			btnRegistrarEquipo.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
 
-			button_1 = new JButton("Cancelar");
-			button_1.setIcon(new ImageIcon(AddPlayer.class.getResource("/imagenes/icons8_cancel_24px_2.png")));
-			button_1.setIconTextGap(5);
-			button_1.setHorizontalTextPosition(SwingConstants.LEFT);
-			button_1.setForeground(new Color(255, 255, 240));
-			button_1.setFont(new Font("Consolas", Font.BOLD, 17));
-			button_1.setBorder(null);
-			button_1.setBackground(new Color(0, 30, 70));
-			button_1.setBounds(913, 442, 146, 30);
-			panelBg.add(button_1);
+					String id = txtIdEquipo.getText();
+					String name = txtNameEquipo.getText();
+					String manager = txtManager.getText();
+					String stadio = cbxEstadios.getSelectedItem().toString();
+					Date fechaFundacion = dateChooserFechaFundacion.getDatoFecha();
+
+
+					if ((!id.equalsIgnoreCase("##-###-###")) && (!name.equalsIgnoreCase("")) && (!manager.equalsIgnoreCase("")) && (cbxEstadios.getSelectedIndex() > 0) && (fechaFundacion != null)) {
+
+						Team team = new Team(id, name, manager, fechaFundacion, stadio);
+						Lidom.getInstance().addTeam(team);
+
+						ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_checked_48px_1.png"));
+						String[] options = {"Ok"};	
+						JOptionPane.showOptionDialog(null, "Registro con exito!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
+						clean();
+					}
+					else {
+
+
+
+						ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
+						String[] options = {"Ok"};	
+						JOptionPane.showOptionDialog(null, "Complete todos los campos, correctamente!", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
+
+					}
+				}
+			});
+			btnRegistrarEquipo.setIcon(new ImageIcon(AddPlayer.class.getResource("/iconos_imagenes/icons8_baseball_24px.png")));
+			btnRegistrarEquipo.setIconTextGap(5);
+			btnRegistrarEquipo.setHorizontalTextPosition(SwingConstants.LEFT);
+			btnRegistrarEquipo.setForeground(new Color(255, 255, 240));
+			btnRegistrarEquipo.setFont(new Font("Consolas", Font.BOLD, 17));
+			btnRegistrarEquipo.setBorder(null);
+			btnRegistrarEquipo.setBackground(new Color(0, 30, 72));
+			btnRegistrarEquipo.setBounds(755, 442, 146, 30);
+			panelBg.add(btnRegistrarEquipo);
+
+			btnCancelarEquipo = new JButton("Cancelar");
+			btnCancelarEquipo.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+
+					ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
+					String[] options = {"Si", "No"};	
+					int xOption	= JOptionPane.showOptionDialog(null, "¿Seguro que desea cancelar?, la ventana se cerrará.", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
+
+					if (xOption == 0) {
+						clean();
+						dispose();
+					}
+				}
+			});
+			btnCancelarEquipo.setIcon(new ImageIcon(AddPlayer.class.getResource("/iconos_imagenes/icons8_cancel_24px_2.png")));
+			btnCancelarEquipo.setIconTextGap(5);
+			btnCancelarEquipo.setHorizontalTextPosition(SwingConstants.LEFT);
+			btnCancelarEquipo.setForeground(new Color(255, 255, 240));
+			btnCancelarEquipo.setFont(new Font("Consolas", Font.BOLD, 17));
+			btnCancelarEquipo.setBorder(null);
+			btnCancelarEquipo.setBackground(new Color(0, 30, 70));
+			btnCancelarEquipo.setBounds(913, 442, 146, 30);
+			panelBg.add(btnCancelarEquipo);
 		}
 	}
 
+
+	private void clean() {
+		txtIdEquipo.setText("EQP-"+ Lidom.generateIdTeam);
+		txtManager.setText("");
+		txtNameEquipo.setText("");
+		cbxEstadios.setSelectedIndex(0);
+		dateChooserFechaFundacion.setDatoFecha(null);
+
+	}
+
+
 }
+

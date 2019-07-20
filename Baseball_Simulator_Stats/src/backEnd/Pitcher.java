@@ -20,24 +20,22 @@ public class Pitcher extends Player {
 	
 	/* Constructor */
 	
-	public Pitcher(String id, String name, String lastname, String teamName, Date birthdate, String birthplace,
-			float height, float weight, String tipo, int gameWin, int gameLose, float eRA, int playedGame,
-			int startedGame, int savedGame, int numberHR, int numberHit, int numberRun, int numberStrikeOut, float iP,
-			float average) {
-		super(id, name, lastname, teamName, birthdate, birthplace, height, weight);
+	public Pitcher(String id, String name, String number, String lastname, String teamName, Date birthdate, String birthplace,
+			float height, float weight, String tipo) {
+		super(id, name, number, lastname, teamName, birthdate, birthplace, height, weight);
 		this.tipo = tipo;
-		this.gameWin = gameWin;
-		this.gameLose = gameLose;
-		ERA = eRA;
-		this.playedGame = playedGame;
-		this.startedGame = startedGame;
-		this.savedGame = savedGame;
-		this.numberHR = numberHR;
-		this.numberHit = numberHit;
-		this.numberRun = numberRun;
-		this.numberStrikeOut = numberStrikeOut;
-		IP = iP;
-		this.average = average;
+		//this.gameWin = gameWin;
+	//	this.gameLose = gameLose;
+	//	this.ERA = eRA;
+	//	this.playedGame = playedGame;
+	//	this.startedGame = startedGame;
+	//	this.savedGame = savedGame;
+	//	this.numberHR = numberHR;
+	//	this.numberHit = numberHit;
+	//	this.numberRun = numberRun;
+	//	this.numberStrikeOut = numberStrikeOut;
+	//	this.IP = iP;
+	//	this.average = average;
 	}
 
 	

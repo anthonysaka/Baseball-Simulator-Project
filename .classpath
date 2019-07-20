@@ -2,6 +2,8 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="Baseball_Simulator_Stats/src"/>
-	<classpathentry kind="lib" path="RSCalendar.jar"/>
+	<classpathentry kind="src" path="Libraries"/>
+	<classpathentry kind="lib" path="Libraries/NefAnimacion_V2.1_jdk18.jar"/>
+	<classpathentry kind="lib" path="Libraries/RSCalendar.jar"/>
 	<classpathentry kind="output" path="Baseball_Simulator_Stats/bin"/>
 </classpath>

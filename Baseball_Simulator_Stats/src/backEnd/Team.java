@@ -1,31 +1,33 @@
 package backEnd;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Team {
 	private String Id;
 	private String name;
 	private String manager;
-	private ArrayList<Roster> rosterPlayers;
+	private Date foundationDate;
+	private ArrayList<Player> rosterPlayers;
 	private int games;
 	private int gamesWin;
 	private int gamesLose;
-	private ArrayList<Roster> lineUp;
-	private Stadium stadium;
+	private ArrayList<Player> lineUp;
+	private String stadium;
 	
 	/* Constructor */
 	
-	public Team(String id, String name, String manager, ArrayList<Roster> rosterPlayers, int games, int gamesWin, int gamesLose,
-			ArrayList<Roster> lineUp, Stadium stadium) {
+	public Team(String id, String name, String manager, Date foundationDate, String stadium) {
 		super();
 		this.Id = id;
 		this.name = name;
 		this.manager = manager;
-		this.rosterPlayers = new ArrayList<Roster>();
-		this.games = games;
-		this.gamesWin = gamesWin;
-		this.gamesLose = gamesLose;
-		this.lineUp = new ArrayList<Roster>();
+		this.foundationDate = foundationDate;
+		//this.rosterPlayers = new ArrayList<Roster>();
+	//	this.games = games;
+	//	this.gamesWin = gamesWin;
+	//	this.gamesLose = gamesLose;
+		//this.lineUp = new ArrayList<Roster>();
 		this.stadium = stadium;
 	}
 	
@@ -42,8 +44,12 @@ public class Team {
 	public String getManager() {
 		return manager;
 	}
+	
+	public Date getFoundationDate() {
+		return foundationDate;
+	}
 
-	public ArrayList<Roster> getRosterPlayers() {
+	public ArrayList<Player> getRosterPlayers() {
 		return rosterPlayers;
 	}
 
@@ -59,11 +65,11 @@ public class Team {
 		return gamesLose;
 	}
 
-	public ArrayList<Roster> getLineUp() {
+	public ArrayList<Player> getLineUp() {
 		return lineUp;
 	}
 	
-	public Stadium getStadium() {
+	public String getStadium() {
 		return stadium;
 	}
 
@@ -78,8 +84,12 @@ public class Team {
 	public void setManager(String manager) {
 		this.manager = manager;
 	}
+	
+	public void setFoundationDate(Date foundationDate) {
+		this.foundationDate = foundationDate;
+	}
 
-	public void setRosterPlayers(ArrayList<Roster> rosterPlayers) {
+	public void setRosterPlayers(ArrayList<Player> rosterPlayers) {
 		this.rosterPlayers = rosterPlayers;
 	}
 
@@ -95,11 +105,11 @@ public class Team {
 		this.gamesLose = gamesLose;
 	}
 
-	public void setLineUp(ArrayList<Roster> lineUp) {
+	public void setLineUp(ArrayList<Player> lineUp) {
 		this.lineUp = lineUp;
 	}
 	
-	public void setStadium(Stadium stadium) {
+	public void setStadium(String stadium) {
 		this.stadium = stadium;
 	}
 	

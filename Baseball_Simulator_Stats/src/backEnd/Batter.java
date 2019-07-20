@@ -18,21 +18,20 @@ public class Batter extends Player {
 	
 	/* Constructor */
 	
-	public Batter(String id, String name, String lastname, String teamName, Date birthdate, String birthplace,
-			float height, float weight, String position, int average, int runs, int h1, int h2, int h3, int hR, int rBI,
-			int baseBall, int strikeOut, int stolenBase) {
-		super(id, name, lastname, teamName, birthdate, birthplace, height, weight);
+	public Batter(String id, String name, String number, String lastname, String teamName, Date birthdate, String birthplace,
+			float height, float weight, String position) {
+		super(id, name, number, lastname, teamName, birthdate, birthplace, height, weight);
 		this.position = position;
-		this.average = average;
-		this.runs = runs;
-		H1 = h1;
-		H2 = h2;
-		H3 = h3;
-		HR = hR;
-		RBI = rBI;
-		this.baseBall = baseBall;
-		this.strikeOut = strikeOut;
-		this.stolenBase = stolenBase;
+	//	this.average = average;
+	//	this.runs = runs;
+	//	H1 = h1;
+	///	H2 = h2;
+	//	H3 = h3;
+	//	HR = hR;
+	//	RBI = rBI;
+	//	this.baseBall = baseBall;
+	//	this.strikeOut = strikeOut;
+	//	this.stolenBase = stolenBase;
 	}
 
 	

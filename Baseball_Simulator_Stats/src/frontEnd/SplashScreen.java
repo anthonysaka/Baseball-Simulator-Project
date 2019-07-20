@@ -70,11 +70,11 @@ public class SplashScreen extends JFrame {
 		contentPane.setLayout(null);
 
 		lblLogo = new JLabel("");
-		lblLogo.setIcon(new ImageIcon(SplashScreen.class.getResource("/imagenes/lindonLogo.png")));
+		lblLogo.setIcon(new ImageIcon(SplashScreen.class.getResource("/iconos_imagenes/lindonLogo.png")));
 		lblLogo.setBounds(50, 13, 355, 406);
 		contentPane.add(lblLogo);
 		/** to adjust image at size of JLabel **/
-		ImageIcon logoLidom = new ImageIcon(Home.class.getResource("/imagenes/preview-lidom (2).png"));
+		ImageIcon logoLidom = new ImageIcon(Home.class.getResource("/iconos_imagenes/preview-lidom (2).png"));
 		Icon lgLidom = new ImageIcon(logoLidom.getImage().getScaledInstance(lblLogo.getWidth(), lblLogo.getHeight(), Image.SCALE_SMOOTH));
 		lblLogo.setIcon(lgLidom);
 
