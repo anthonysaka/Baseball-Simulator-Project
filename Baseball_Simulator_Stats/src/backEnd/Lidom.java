@@ -206,101 +206,101 @@ public class Lidom {
 		return auxStadium; //Retorna el ESTADIO del NOMBRE encontrado.
 	}
 
-
 	//metodo para filtrar el mejor bateador en HR, hit, 2b, 3b o averages.
-   public Player mayor (String caso) {
-	   Player mejor= listPlayer.get(0);
-	   switch (caso) {
-	case "HR": 
-		
-		for (int i = 0; i < listPlayer.size(); i++) {
-			Player p = listPlayer.get(i); 
-			 if(p instanceof Batter) {
-				 if( ((Batter)p).getHR()>((Batter)mejor).getHR() ) {
-					 
-					 mejor = p; 
-				 }
-			 }
+	   public Player mayor (String caso) {
+		   Player mejor= listPlayer.get(0);
+		   switch (caso) {
+		case "HR": 
 			
-		}
+			for (int i = 0; i < listPlayer.size(); i++) {
+				Player p = listPlayer.get(i); 
+				 if(p instanceof Batter) {
+					 if( ((Batter)p).getHR()>((Batter)mejor).getHR() ) {
+						 
+						 mejor = p; 
+					 }
+				 }
+				
+			}
+			
 		
+			
+			
+			break;
+			
+		case "hit":
+			
+			for (int i = 0; i < listPlayer.size(); i++) {
+				Player p = listPlayer.get(i); 
+				 if(p instanceof Batter) {
+					 if( ((Batter)p).getH1()>((Batter)mejor).getH1() ) {
+						 
+						 mejor = p; 
+					 }
+				 }
+				
+			}
+			
+			break;
+			
+			
+		case "Doble":
+			for (int i = 0; i < listPlayer.size(); i++) {
+				Player p = listPlayer.get(i); 
+				 if(p instanceof Batter) {
+					 if( ((Batter)p).getH2()>((Batter)mejor).getH2() ) {
+						 
+						 mejor = p; 
+					 }
+				 }
+				
+			}
+			
+			break;
+			
+		case " Triple":
+			
+			for (int i = 0; i < listPlayer.size(); i++) {
+				Player p = listPlayer.get(i); 
+				 if(p instanceof Batter) {
+					 if( ((Batter)p).getH2()>((Batter)mejor).getH2() ) {
+						 
+						 mejor = p; 
+					 }
+				 }
+				
+			}
+			
+			break;
+			
+			
+	case "avr":
+			
+			for (int i = 0; i < listPlayer.size(); i++) {
+				Player p = listPlayer.get(i); 
+				 if(p instanceof Batter) {
+					 if( ((Batter)p).getAverage()>((Batter)mejor).getAverage() ) {
+						 
+						 mejor = p; 
+					 }
+				 }
+				
+			}
+			
+			break;
+			
+
+		default:
+			break;
+		}
+		   
+		   
+		   return mejor;//retorna el jugador con mas HR o estadisticas que el usuario diga.
+		   
+		   
+	   }
+
 	
-		
-		
-		break;
-		
-	case "hit":
-		
-		for (int i = 0; i < listPlayer.size(); i++) {
-			Player p = listPlayer.get(i); 
-			 if(p instanceof Batter) {
-				 if( ((Batter)p).getH1()>((Batter)mejor).getH1() ) {
-					 
-					 mejor = p; 
-				 }
-			 }
-			
-		}
-		
-		break;
-		
-		
-	case "Doble":
-		for (int i = 0; i < listPlayer.size(); i++) {
-			Player p = listPlayer.get(i); 
-			 if(p instanceof Batter) {
-				 if( ((Batter)p).getH2()>((Batter)mejor).getH2() ) {
-					 
-					 mejor = p; 
-				 }
-			 }
-			
-		}
-		
-		break;
-		
-	case " Triple":
-		
-		for (int i = 0; i < listPlayer.size(); i++) {
-			Player p = listPlayer.get(i); 
-			 if(p instanceof Batter) {
-				 if( ((Batter)p).getH2()>((Batter)mejor).getH2() ) {
-					 
-					 mejor = p; 
-				 }
-			 }
-			
-		}
-		
-		break;
-		
-		
-case "avr":
-		
-		for (int i = 0; i < listPlayer.size(); i++) {
-			Player p = listPlayer.get(i); 
-			 if(p instanceof Batter) {
-				 if( ((Batter)p).getAverage()>((Batter)mejor).getAverage() ) {
-					 
-					 mejor = p; 
-				 }
-			 }
-			
-		}
-		
-		break;
-		
-
-	default:
-		break;
-	}
-	   
-	   
-	   return mejor;//retornal el jugador con mas HR o estadisticas que el usuario diga.
-	   
-	   
-   }
-
 
 
 
