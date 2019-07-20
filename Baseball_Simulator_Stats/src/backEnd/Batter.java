@@ -5,7 +5,7 @@ import java.util.Date;
 public class Batter extends Player {
 	
 	private String position;
-	private int average;
+	private float average;
 	private int runs;
 	private int H1;
 	private int H2;
@@ -40,7 +40,7 @@ public class Batter extends Player {
 		return position;
 	}
 
-	public int getAverage() {
+	public float getAverage() {
 		return average;
 	}
 
@@ -84,7 +84,7 @@ public class Batter extends Player {
 		this.position = position;
 	}
 
-	public void setAverage(int average) {
+	public void setAverage(float average) {
 		this.average = average;
 	}
 
