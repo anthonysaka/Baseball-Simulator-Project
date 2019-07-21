@@ -21,13 +21,15 @@ public class Batter extends Player implements Serializable {
 	private int baseBall;
 	private int strikeOut;
 	private int stolenBase;
+	private String manoDeBateo;
 	
 	/* Constructor */
 	
 	public Batter(String id, String name, String number, String lastname, String teamName, Date birthdate, String birthplace,
-			float height, float weight, String position) {
-		super(id, name, number, lastname, teamName, birthdate, birthplace, height, weight);
+			float height, float weight, String manoLanzar, String position, String manoDeBateo) {
+		super(id, name, number, lastname, teamName, birthdate, birthplace, height, weight, manoLanzar);
 		this.position = position;
+		this.manoDeBateo = manoDeBateo;
 	//	this.average = average;
 	//	this.runs = runs;
 	//	H1 = h1;
@@ -40,8 +42,15 @@ public class Batter extends Player implements Serializable {
 	//	this.stolenBase = stolenBase;
 	}
 
-	
-	
+
+	public String getManoDeBateo() {
+		return manoDeBateo;
+	}
+
+	public void setManoDeBateo(String manoDeBateo) {
+		this.manoDeBateo = manoDeBateo;
+	}
+
 	public String getPosition() {
 		return position;
 	}

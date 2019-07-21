@@ -26,7 +26,10 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 
 import Animacion.Animacion;
+import backEnd.Batter;
 import backEnd.Lidom;
+import backEnd.Pitcher;
+import backEnd.Player;
 import backEnd.Team;
 
 import java.awt.FlowLayout;
@@ -40,6 +43,8 @@ import java.io.File;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 
 public class Home extends JFrame {
 
@@ -87,14 +92,13 @@ public class Home extends JFrame {
 	private JSeparator separator_3;
 	private static JLabel lblNameTeam;
 	private JScrollPane scrollPaneRoster;
-	private JTable tableRoster;
+	
 	private JLabel lblRoster;
 	private JScrollPane scrollPaneLineUp;
 	private JScrollPane scrollPaneLesionados;
 	private JLabel lblLineUp;
 	private JLabel lblLesionados;
-	private JTable tableLineUp;
-	private JTable tableLesionados;
+	
 	private JPanel panel;
 	private static JPanel panelBgDashboard;
 	private JLabel lblPlay_Blur;
@@ -106,6 +110,19 @@ public class Home extends JFrame {
 	private JButton btnFuncionesNa_4;
 	private JButton btnFuncionesNa_5;
 	private JLabel lblLineUp_1;
+	
+	/*** tables ***/
+	private static JTable tableRoster;
+	private static JTable tableLineUp;
+	private static JTable tableLesionados;
+	
+	private static DefaultTableModel modelRoster;
+	private static DefaultTableModel modelLineUp;
+	private static DefaultTableModel modelLesionados;
+	
+	private static Object[] columnRoster;
+	private static Object[] columnLineUp;
+	private static Object[] columnLesionados;
 
 
 	/**
@@ -586,10 +603,20 @@ public class Home extends JFrame {
 		btnRegistrarTeam = new JButton("Registrar");
 		btnRegistrarTeam.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AddTeam newTeam = new AddTeam();
-				newTeam.setModal(true);
-				newTeam.setVisible(true);
 
+				String[] options = {"Ok"};
+				ImageIcon icon1 = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
+
+				
+				if (backEnd.Lidom.getInstance().getListStadium().size() > 0) {
+					AddTeam newTeam = new AddTeam();
+					newTeam.setModal(true);
+					newTeam.setVisible(true);
+					
+				}else {
+					JOptionPane.showOptionDialog(null, "No hay estadio. Debe existir 1 estadio mínimo.", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options, options);
+				}
+				
 			}
 		});
 		btnRegistrarTeam.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -673,10 +700,18 @@ public class Home extends JFrame {
 		btnRegistrarPlayer = new JButton("Registrar");
 		btnRegistrarPlayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AddPlayer newPlayer = new AddPlayer(null);
-				newPlayer.setModal(true);
-				newPlayer.setVisible(true);
-
+				
+				String[] options = {"Ok"};
+				ImageIcon icon1 = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
+				
+				if (backEnd.Lidom.getInstance().getListTeams().size() > 0) {
+					AddPlayer newPlayer = new AddPlayer(null);
+					newPlayer.setModal(true);
+					newPlayer.setVisible(true);
+	
+				}else {
+					JOptionPane.showOptionDialog(null, "No hay equipo. Debe existir 1 equipo mínimo.", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options, options);
+				}		
 			}
 		});
 		btnRegistrarPlayer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -805,6 +840,19 @@ public class Home extends JFrame {
 		panelManageTeams.add(scrollPaneRoster);
 
 		tableRoster = new JTable();
+		tableRoster.setRowMargin(0);
+		tableRoster .setFocusable(false);
+		tableRoster.setRowHeight(20);
+		tableRoster.setIntercellSpacing(new Dimension(0, 0));
+		tableRoster.setGridColor(new Color(255, 255, 255));
+		tableRoster.setShowVerticalLines(false);
+		tableRoster.getTableHeader().setReorderingAllowed(false);
+		tableRoster.setSelectionBackground(new Color(239, 108, 0));
+		tableRoster.getTableHeader().setFont(new Font("Consolas", Font.BOLD, 16));
+		tableRoster.getTableHeader().setOpaque(false);
+
+		tableRoster.getTableHeader().setBackground(new Color(255,255,255));
+		tableRoster.setFont(new Font("Consolas", Font.PLAIN, 15));
 		tableRoster.setModel(new DefaultTableModel(
 				new Object[][] {
 				},
@@ -832,6 +880,19 @@ public class Home extends JFrame {
 		panelManageTeams.add(scrollPaneLineUp);
 
 		tableLineUp = new JTable();
+		tableLineUp.setRowMargin(0);
+		tableLineUp .setFocusable(false);
+		tableLineUp.setRowHeight(20);
+		tableLineUp.setIntercellSpacing(new Dimension(0, 0));
+		tableLineUp.setGridColor(new Color(255, 255, 255));
+		tableLineUp.setShowVerticalLines(false);
+		tableLineUp.getTableHeader().setReorderingAllowed(false);
+		tableLineUp.setSelectionBackground(new Color(239, 108, 0));
+		tableLineUp.getTableHeader().setFont(new Font("Consolas", Font.BOLD, 16));
+		tableLineUp.getTableHeader().setOpaque(false);
+
+		tableLineUp.getTableHeader().setBackground(new Color(255,255,255));
+		tableLineUp.setFont(new Font("Consolas", Font.PLAIN, 15));
 		tableLineUp.setModel(new DefaultTableModel(
 				new Object[][] {
 				},
@@ -859,6 +920,19 @@ public class Home extends JFrame {
 		panelManageTeams.add(scrollPaneLesionados);
 
 		tableLesionados = new JTable();
+		tableLesionados.setRowMargin(0);
+		tableLesionados .setFocusable(false);
+		tableLesionados.setRowHeight(20);
+		tableLesionados.setIntercellSpacing(new Dimension(0, 0));
+		tableLesionados.setGridColor(new Color(255, 255, 255));
+		tableLesionados.setShowVerticalLines(false);
+		tableLesionados.getTableHeader().setReorderingAllowed(false);
+		tableLesionados.setSelectionBackground(new Color(239, 108, 0));
+		tableLesionados.getTableHeader().setFont(new Font("Consolas", Font.BOLD, 16));
+		tableLesionados.getTableHeader().setOpaque(false);
+
+		tableLesionados.getTableHeader().setBackground(new Color(255,255,255));
+		tableLesionados.setFont(new Font("Consolas", Font.PLAIN, 15));
 		tableLesionados.setModel(new DefaultTableModel(
 				new Object[][] {
 				},
@@ -990,7 +1064,20 @@ public class Home extends JFrame {
 
 	/****************************************/
 	/* Metodos */
+	
+	private void setColorBlue (JButton button) {
+		button.setBackground(new Color(21, 101, 192));
+	}
 
+	private void setColorOrange (JButton button) {
+		button.setBackground(new Color(239, 108, 0));
+	}
+
+	private void resetColor (JButton button) {
+		button.setBackground(new Color(0,30,72));
+	}
+
+	
 	public static void manageTeamOpen(Team auxTeam) {
 		
 		if (auxTeam!=null) {
@@ -1005,22 +1092,33 @@ public class Home extends JFrame {
 			Icon fotoJ = new ImageIcon(fotoJugador.getImage().getScaledInstance(lblLogoTeam.getWidth(), lblLogoTeam.getHeight(), Image.SCALE_SMOOTH));
 			lblLogoTeam.setIcon(fotoJ);
 			
-			
 		}
 	}
 	
+	public static void loadRosterPlayerByTeam(Team team) {
+		
+		modelRoster= (DefaultTableModel) tableRoster.getModel();
+		modelRoster.setRowCount(0);
+		columnRoster = new Object[modelRoster.getColumnCount()];
+		
+		for (Player playerR : team.getRosterPlayers()) {
+			columnRoster[0] = playerR.getId();
+			columnRoster[1] = playerR.getName() + " " + playerR.getLastname();
+			
+			if (playerR instanceof Pitcher) {
+				columnRoster[2] = "P - " + ((Pitcher) playerR).getTipo();	
+			}
+			else if (playerR instanceof Batter) {
+				columnRoster[2] = "B - " + ((Batter) playerR).getPosition();
+			}
+		
+			modelRoster.addRow(columnRoster);
+			
+		}
+
+	}
+	
 	
 
-	private void setColorBlue (JButton button) {
-		button.setBackground(new Color(21, 101, 192));
-	}
 
-	private void setColorOrange (JButton button) {
-		button.setBackground(new Color(239, 108, 0));
-	}
-
-
-	private void resetColor (JButton button) {
-		button.setBackground(new Color(0,30,72));
-	}
 }

@@ -53,12 +53,16 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
 import backEnd.Lidom;
+import backEnd.Player;
 import backEnd.Stadium;
+import backEnd.Team;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ViewPlayer extends JDialog {
 
@@ -76,6 +80,9 @@ public class ViewPlayer extends JDialog {
 	private JComboBox comboBox;
 	private JTextField textField;
 	private JButton button_2;
+	
+	private String codePlayer;
+	private String namePlayer;
 
 
 	/**
@@ -118,6 +125,17 @@ public class ViewPlayer extends JDialog {
 			panelBg.add(scrollPane);
 
 			tablePlayer = new JTable();
+			tablePlayer.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if (tablePlayer.getSelectedRow() >= 0) {
+						int index = tablePlayer.getSelectedRow();
+						button.setEnabled(true);
+						codePlayer = (String) tablePlayer.getModel().getValueAt(index, 0);	
+						namePlayer = (String) tablePlayer.getModel().getValueAt(index, 1);
+					}
+				}
+			});
 			tablePlayer.setRowMargin(0);
 			tablePlayer .setFocusable(false);
 			tablePlayer.setRowHeight(20);
@@ -154,6 +172,26 @@ public class ViewPlayer extends JDialog {
 			scrollPane.setViewportView(tablePlayer);
 
 			button = new JButton("Registrar");
+			button.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
+					String[] options = {"Si", "No"};	
+					int xOption	= JOptionPane.showOptionDialog(null, "¿Seguro que desea eliminar el estadio? " + codePlayer + namePlayer, "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
+
+					if (xOption == 0) {
+						Player auxPlayer = Lidom.getInstance().searchPlayerByID(codePlayer);
+						Lidom.getInstance().deletePlayer(auxPlayer);
+
+						ImageIcon icon1 = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_checked_48px_1.png"));
+						String[] options1 = {"Ok"};	
+						JOptionPane.showOptionDialog(null, "Eliminado con exito!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1);
+
+						loadTablePlayer();
+						button.setEnabled(false);
+					}
+				}
+			});
 			button.setIconTextGap(5);
 			button.setHorizontalTextPosition(SwingConstants.LEFT);
 			button.setForeground(new Color(255, 255, 240));

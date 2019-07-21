@@ -179,6 +179,8 @@ public class AddPlayer extends JDialog {
 
 	private Player myPlayer;
 	private JLabel lblFotoJugador;
+	private JComboBox cbxManoBateo;
+	private JLabel lblManoBateo;
 
 
 	/**
@@ -516,7 +518,7 @@ public class AddPlayer extends JDialog {
 			panelPhoto.setBounds(775, 106, 256, 248);
 			panelBg.add(panelPhoto);
 			panelPhoto.setLayout(null);
-			
+
 			lblFotoJugador = new JLabel("");
 			lblFotoJugador.setBounds(0, 0, 256, 248);
 			panelPhoto.add(lblFotoJugador);
@@ -1581,6 +1583,21 @@ public class AddPlayer extends JDialog {
 			separator_8.setBackground(new Color(4, 10, 20));
 			separator_8.setBounds(692, 35, 256, 2);
 			panelBateador.add(separator_8);
+			
+			cbxManoBateo = new JComboBox();
+			cbxManoBateo.setModel(new DefaultComboBoxModel(new String[] {"<Seleccionar>", "Derecha", "Izquierda", "Ambas"}));
+			cbxManoBateo.setFont(new Font("Consolas", Font.PLAIN, 18));
+			cbxManoBateo.setBounds(486, 87, 163, 28);
+			panelBateador.add(cbxManoBateo);
+			
+			lblManoBateo = new JLabel("Mano de bato");
+			lblManoBateo.setVerticalTextPosition(SwingConstants.BOTTOM);
+			lblManoBateo.setVerticalAlignment(SwingConstants.BOTTOM);
+			lblManoBateo.setHorizontalAlignment(SwingConstants.LEFT);
+			lblManoBateo.setForeground(Color.BLACK);
+			lblManoBateo.setFont(new Font("Consolas", Font.PLAIN, 20));
+			lblManoBateo.setBounds(320, 91, 154, 24);
+			panelBateador.add(lblManoBateo);
 
 			btnPitcher = new JButton("Pitcher");
 			btnPitcher.addActionListener(new ActionListener() {
@@ -1633,18 +1650,18 @@ public class AddPlayer extends JDialog {
 			btnSeleccionarFoto = new JButton("Seleccionar");
 			btnSeleccionarFoto.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+
 					JFileChooser fileChooser = new JFileChooser();
 					fileChooser.showOpenDialog(null);
-					
+
 					BufferedImage foto;
 					File fileFoto = fileChooser.getSelectedFile();
-			
+
 					String routeOfFoto=null;
-					
+
 					try {
-						 routeOfFoto = fileFoto.getAbsolutePath();
-						
+						routeOfFoto = fileFoto.getAbsolutePath();
+
 					}catch (NullPointerException  e1) {
 						e1.printStackTrace();
 					}
@@ -1657,7 +1674,7 @@ public class AddPlayer extends JDialog {
 						Icon fotoJ = new ImageIcon(fotoJugador.getImage().getScaledInstance(lblFotoJugador.getWidth(), lblFotoJugador.getHeight(), Image.SCALE_SMOOTH));
 						lblFotoJugador.setIcon(fotoJ);
 						selectionFoto = true;
-						
+
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}catch (IllegalArgumentException e2) {
@@ -1685,7 +1702,7 @@ public class AddPlayer extends JDialog {
 
 			btnRegistrarJugador.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-
+					
 					ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_checked_48px_1.png"));
 					String[] options = {"Ok"};
 					ImageIcon icon1 = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
@@ -1703,77 +1720,98 @@ public class AddPlayer extends JDialog {
 
 
 						if ((selectionFoto == true) && (!id.equalsIgnoreCase("##-###-###")) && (!number.equalsIgnoreCase("##")) && (!name.equalsIgnoreCase("")) && (!lastname.equalsIgnoreCase("")) && (cbxCountries.getSelectedIndex() > 0) && (cbxCountries.getSelectedIndex() > 0) && (dateBorn != null) && (weight >= 100.00f) && (height >= 5.00f )) {
+							if (Lidom.getInstance().checkIdPlayer(id)) {
+
+								if (typePlayer == 1) { // un pitcher.
+
+									String tipoPitcher = cbxTipoPitcher.getSelectedItem().toString();
+									String manoPitcher = cbxManoPitcher.getSelectedItem().toString(); // OJO crear artributo
+									String equipoPitcher = cbxEquipoPit.getSelectedItem().toString();
+
+									if ( (cbxTipoPitcher.getSelectedIndex() > 0)  && (cbxManoPitcher.getSelectedIndex() > 0) && (cbxEquipoPit.getSelectedIndex() > 0) ) {
+										
+										if (Lidom.getInstance().checkNumberPlayer(number, equipoPitcher)) {
+											
+											Player pitcher = new Pitcher(id, name, number, lastname, equipoPitcher, dateBorn, placeBorn, height, weight, manoPitcher, tipoPitcher);
+											Lidom.getInstance().addPlayer(pitcher); // agrego lista de lidom
+											Lidom.getInstance().addPlayerToTeam(equipoPitcher, pitcher); // agrego a lista de roster del equipo
 
 
-							if (typePlayer == 1) { // un pitcher.
+											JOptionPane.showOptionDialog(null, "Registro de un PITCHER con exito!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
+											clean();
+											typePlayer = 0;
+											panelInformacionJugador.setVisible(false);
+											btnBateador.setEnabled(true);
+											btnPitcher.setEnabled(true);
+											selectionFoto = false;
+											
+										}
+										else {
+											
+											JOptionPane.showOptionDialog(null, "El número de uniforme ya existe!", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options, options);
+											
+										}		
+									}
+									else {
 
-								String tipoPitcher = cbxTipoPitcher.getSelectedItem().toString();
-								String manoPitcher = cbxManoPitcher.getSelectedItem().toString(); // OJO crear artributo
-								String equipoPitcher = cbxEquipoPit.getSelectedItem().toString();
+										JOptionPane.showOptionDialog(null, "Complete todos los campos, correctamente!", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options, options);
+									}
 
-								if ( (cbxTipoPitcher.getSelectedIndex() > 0)  && (cbxManoPitcher.getSelectedIndex() > 0) && (cbxEquipoPit.getSelectedIndex() > 0) ) {
+								}
+								else if (typePlayer == 2) { // un bateador.
+									
 
-									Player pitcher = new Pitcher(id, lastname, number, lastname, equipoPitcher, dateBorn, placeBorn, height, weight, tipoPitcher);
-									Lidom.getInstance().addPlayer(pitcher);
-								//	Team auxTeam = Lidom.getInstance().searchTeamByName(equipoPitcher);
-								//	auxTeam.getRosterPlayers().add(pitcher);
 
-									JOptionPane.showOptionDialog(null, "Registro de un PITCHER con exito!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
-									clean();
-									typePlayer = 0;
-									panelInformacionJugador.setVisible(false);
-									btnBateador.setEnabled(true);
-									btnPitcher.setEnabled(true);
-									selectionFoto = false;
+									String posicion = cbxPosicionBat.getSelectedItem().toString();
+									String manobateador = cbxManoBat.getSelectedItem().toString(); // Ojo crear atributo
+									String manoDeBateo = cbxManoBateo.getSelectedItem().toString();
+									String equipoBateeador = cbxEquipoBat.getSelectedItem().toString();
 
+									if ((cbxManoBateo.getSelectedIndex() > 0) && (cbxPosicionBat.getSelectedIndex() > 0)  && (cbxManoBat.getSelectedIndex() > 0) && (cbxEquipoBat.getSelectedIndex() > 0) ) {
+										
+										if (Lidom.getInstance().checkNumberPlayer(number, equipoBateeador)) {
+											Player bateador = new Batter(id, name, number, lastname, equipoBateeador, dateBorn, placeBorn, height, weight, manobateador, posicion, manoDeBateo);
+											Lidom.getInstance().addPlayer(bateador);// agrego lista de lidom
+											Lidom.getInstance().addPlayerToTeam(equipoBateeador, bateador); // agrego a lista de roster del equipo
+
+											JOptionPane.showOptionDialog(null, "Registro de un BATEADOR con exito!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
+											clean();
+											typePlayer = 0;
+											panelInformacionJugador.setVisible(false);
+											btnBateador.setEnabled(true);
+											btnPitcher.setEnabled(true);
+											selectionFoto = false;
+											
+										}else {
+											JOptionPane.showOptionDialog(null, "El número de uniforme ya existe!", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options, options);
+											
+										}			
+									}
+									else {
+
+										JOptionPane.showOptionDialog(null, "Complete todos los campos, correctamente!", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options, options);
+									}
 								}
 								else {
-
-									JOptionPane.showOptionDialog(null, "Complete todos los campos, correctamente!", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options, options);
+									JOptionPane.showOptionDialog(null, "Eliga Pitcher / Bateador", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options, options);
 								}
-
-							}
-							else if (typePlayer == 2) { // un bateador.
-
-								String posicion = cbxPosicionBat.getSelectedItem().toString();
-								String manobateador = cbxManoBat.getSelectedItem().toString(); // Ojo crear atributo
-								String equipoBateeador = cbxEquipoBat.getSelectedItem().toString();
-
-								if ((cbxPosicionBat.getSelectedIndex() > 0)  && (cbxManoBat.getSelectedIndex() > 0) && (cbxEquipoBat.getSelectedIndex() > 0) ) {
-									Player bateador = new Batter(id, name, number, lastname, equipoBateeador, dateBorn, placeBorn, height, weight, posicion);
-									Lidom.getInstance().addPlayer(bateador);
-								//	Team auxTeam = Lidom.getInstance().searchTeamByName(equipoBateeador);
-								//	auxTeam.getRosterPlayers().add(bateador);
-
-									JOptionPane.showOptionDialog(null, "Registro de un BATEADOR con exito!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
-									clean();
-									typePlayer = 0;
-									panelInformacionJugador.setVisible(false);
-									btnBateador.setEnabled(true);
-									btnPitcher.setEnabled(true);
-									selectionFoto = false;
-
-								}
-								else {
-
-									JOptionPane.showOptionDialog(null, "Complete todos los campos, correctamente!", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options, options);
-
-								}
-
 							}
 							else {
-								JOptionPane.showOptionDialog(null, "Eliga Pitcher / Bateador", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options, options);
+								JOptionPane.showOptionDialog(null, "El número de ID ya existe!", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options, options);		
+							}
+							}
+							else {
+
+								JOptionPane.showOptionDialog(null, "Complete todos los campos, correctamente!", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options, options);
+
 							}
 						}
-						else {
-
-							JOptionPane.showOptionDialog(null, "Complete todos los campos, correctamente!", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options, options);
-
-						}
-					}
+						
 					else {
 
-						// para eeditar aqui
+						/*
+						 *  ***************** PARA EDITAR AQUI ***************
+						 */
 					}
 
 				}
@@ -1830,10 +1868,10 @@ public class AddPlayer extends JDialog {
 			panelBg.add(btnCancelarJugador);
 		}
 
-		
+
 		controlStats();
 		loadTeamsCbx();
-		
+
 	}
 
 
@@ -1924,8 +1962,8 @@ public class AddPlayer extends JDialog {
 			cbxEquipoBat.addItem(t.getName());
 			cbxEquipoPit.addItem(t.getName());
 		}
-			
-		
+
+
 		cbxEquipoBat.insertItemAt(new String("<Seleccionar"), 0);
 		cbxEquipoPit.insertItemAt(new String("<Seleccionar"), 0);
 		cbxEquipoBat.setSelectedIndex(0);

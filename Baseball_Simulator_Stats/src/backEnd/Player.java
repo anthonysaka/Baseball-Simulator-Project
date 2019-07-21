@@ -18,11 +18,12 @@ public abstract class Player implements Serializable {
 	protected String birthplace;
 	protected float height;
 	protected float weight;
+	protected String manoLanzar;
 	
 	/* Constructor */
 	
 	public Player(String id, String name, String number, String lastname, String teamName, Date birthdate, String birthplace,
-			float height, float weight) {
+			float height, float weight, String manoLanzar) {
 		super();
 		this.Id = id;
 		this.name = name;
@@ -33,9 +34,18 @@ public abstract class Player implements Serializable {
 		this.birthplace = birthplace;
 		this.height = height;
 		this.weight = weight;
+		this.manoLanzar = manoLanzar;
 	}
 	
 
+
+	public String getManoLanzar() {
+		return manoLanzar;
+	}
+
+	public void setManoLanzar(String manoLanzar) {
+		this.manoLanzar = manoLanzar;
+	}
 
 	public String getId() {
 		return Id;

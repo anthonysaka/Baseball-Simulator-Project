@@ -13,7 +13,7 @@ public class Team implements Serializable{
 	private String name;
 	private String manager;
 	private Date foundationDate;
-	private ArrayList<Player> rosterPlayers;
+	private ArrayList<Player> rosterPlayers = new ArrayList<Player>();
 	private int games;
 	private int gamesWin;
 	private int gamesLose;
@@ -28,11 +28,11 @@ public class Team implements Serializable{
 		this.name = name;
 		this.manager = manager;
 		this.foundationDate = foundationDate;
-		//this.rosterPlayers = new ArrayList<Roster>();
+	//	this.rosterPlayers = new ArrayList<Player>();
 	//	this.games = games;
 	//	this.gamesWin = gamesWin;
 	//	this.gamesLose = gamesLose;
-		//this.lineUp = new ArrayList<Roster>();
+	//	this.lineUp = new ArrayList<Player>();
 		this.stadium = stadium;
 	}
 	
@@ -118,6 +118,11 @@ public class Team implements Serializable{
 		this.stadium = stadium;
 	}
 	
+	
+	public void addPlayer(Player player) {
+		rosterPlayers.add(player);
+		//generateIdPlayer++;
+	}
 	
 	
 	

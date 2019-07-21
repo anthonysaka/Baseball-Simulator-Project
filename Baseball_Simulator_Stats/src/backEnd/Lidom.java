@@ -152,7 +152,7 @@ public class Lidom implements Serializable {
 	/************** METODOS PARA LLEVAR A CABO EL FUNCIONAMIENTO DEL BACKEND ************/
 
 	/*** 
-	 * LOS METODOS BUSCAR SI HUBIERON PODIDO HACER UTILIZANDO FOREACH, 
+	 * LOS METODOS BUSCAR SE HUBIERON PODIDO HACER UTILIZANDO FOREACH, 
 	 * PERO YO PREFIERO PROGRAMAR CON WHILE LOOP XD! 
 	 ***/
 
@@ -187,7 +187,6 @@ public class Lidom implements Serializable {
 		}
 		return auxPlayer; //Retorna el JUGADOR del NOMBRE encontrado.
 	}
-
 
 	//Search Team by ID.
 	public Team searchTeamByID(String idTeam) {
@@ -252,8 +251,6 @@ public class Lidom implements Serializable {
 		}
 		return auxStadium; //Retorna el ESTADIO del NOMBRE encontrado.
 	}
-
-
 
 	//metodo para filtrar el mejor bateador en HR, hit, 2b, 3b o averages.
 	public Player mayor (String caso) {
@@ -348,6 +345,41 @@ public class Lidom implements Serializable {
 	}
 
 
+	public void addPlayerToTeam(String nameTeam, Player player) {
+		Team auxTeam = searchTeamByName(nameTeam); //Buscar el equipo correspondiente.
+		auxTeam.addPlayer(player);
+	}
+	
+	public Boolean checkIdPlayer(String myPlayerId) {
+		
+		Boolean correct = true;
+		
+		for (Player p : listPlayer) {
+			if (myPlayerId.equalsIgnoreCase(p.getId())) {
+				correct = false;
+				break;		
+			}
+		}
+			
+		return correct; // return true si el ID no se encuentra en otro jugador, o sea el id se puede registrar.
+		
+		
+	}
+	
+	public Boolean checkNumberPlayer(String myPlayerNumber, String playerTeam) {
+		Team auxTeam = searchTeamByName(playerTeam);
+		Boolean correct = true;
+		
+		for (Player p : auxTeam.getRosterPlayers()) {
+			if (myPlayerNumber.equalsIgnoreCase(p.getNumber())) {
+				correct = false;
+				break;		
+			}
+			
+		}
+			
+		return correct; // return true si el Numero no se encuentra en otro jugador del equipo, o sea que el numero se puede usar.
+	}
 
 
 
