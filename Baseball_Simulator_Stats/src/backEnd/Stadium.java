@@ -1,7 +1,13 @@
 package backEnd;
 
-public class Stadium {
+import java.io.Serializable;
+
+public class Stadium implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 612892115097455052L;
 	private String Id;
 	private String name;
 	private String address;

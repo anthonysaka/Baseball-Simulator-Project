@@ -1,5 +1,13 @@
 package backEnd;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /*  Final project - Baseball Simulator -
@@ -11,8 +19,13 @@ import java.util.ArrayList;
  *              Controller Class - LIDOM (Liga de Béisbol Profesional de República Dominicana)
  */
 
-public class Lidom {
+public class Lidom implements Serializable {
 
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5337891823986950253L;
 	private ArrayList<Team> listTeams;
 	private ArrayList<Stadium>listStadium;
 	private ArrayList<Game> listGame;
@@ -41,6 +54,16 @@ public class Lidom {
 			LIDOM = new Lidom();
 		}
 		return LIDOM;
+	}
+
+
+	public static Lidom getLIDOM() {
+		return LIDOM;
+	}
+
+
+	public static void setLIDOM(Lidom lIDOM) {
+		LIDOM = lIDOM;
 	}
 
 
@@ -90,7 +113,7 @@ public class Lidom {
 	//Add Stadium.
 	public void addStadium(Stadium stadium) {
 		listStadium.add(stadium);
-	//	generateIdStadium++;
+		generateIdStadium++;
 	}
 
 	//Add Game.
@@ -102,26 +125,26 @@ public class Lidom {
 	//Delete Player.
 	public void deletePlayer(Player player) {
 		listPlayer.remove(player);
-	//	generateIdPlayer--;
+		//	generateIdPlayer--;
 	}
 
 	//Delete Team.
 	public void deleteTeam(Team team) {
 		listTeams.remove(team);
-	//	generateIdTeam--;
+		//	generateIdTeam--;
 	}
 
 	//Delete Stadium.
 	public void deleteStadium(Stadium stadium) {
 		listStadium.remove(stadium);
 		System.out.println("Entre");
-	//	generateIdStadium--;
+		//	generateIdStadium--;
 	}
 
 	//Delete Game.
 	public void deleteGame(Game game) {
 		listGame.remove(game);
-	//	generateIdGame--;
+		//	generateIdGame--;
 	}
 
 	/**************************************************************/
@@ -229,103 +252,161 @@ public class Lidom {
 		}
 		return auxStadium; //Retorna el ESTADIO del NOMBRE encontrado.
 	}
-	
-	
-	
+
+
+
 	//metodo para filtrar el mejor bateador en HR, hit, 2b, 3b o averages.
-	   public Player mayor (String caso) {
-		   Player mejor= listPlayer.get(0);
-		   switch (caso) {
+	public Player mayor (String caso) {
+		Player mejor= listPlayer.get(0);
+		switch (caso) {
 		case "HR": 
-			
+
 			for (int i = 0; i < listPlayer.size(); i++) {
 				Player p = listPlayer.get(i); 
-				 if(p instanceof Batter) {
-					 if( ((Batter)p).getHR()>((Batter)mejor).getHR() ) {
-						 
-						 mejor = p; 
-					 }
-				 }
-				
+				if(p instanceof Batter) {
+					if( ((Batter)p).getHR()>((Batter)mejor).getHR() ) {
+
+						mejor = p; 
+					}
+				}
+
 			}
-			
-			
+
+
 			break;
-			
+
 		case "hit":
-			
+
 			for (int i = 0; i < listPlayer.size(); i++) {
 				Player p = listPlayer.get(i); 
-				 if(p instanceof Batter) {
-					 if( ((Batter)p).getH1()>((Batter)mejor).getH1() ) {
-						 
-						 mejor = p; 
-					 }
-				 }
-				
+				if(p instanceof Batter) {
+					if( ((Batter)p).getH1()>((Batter)mejor).getH1() ) {
+
+						mejor = p; 
+					}
+				}
+
 			}
-			
+
 			break;
-			
-			
+
+
 		case "Doble":
 			for (int i = 0; i < listPlayer.size(); i++) {
 				Player p = listPlayer.get(i); 
-				 if(p instanceof Batter) {
-					 if( ((Batter)p).getH2()>((Batter)mejor).getH2() ) {
-						 
-						 mejor = p; 
-					 }
-				 }
-				
+				if(p instanceof Batter) {
+					if( ((Batter)p).getH2()>((Batter)mejor).getH2() ) {
+
+						mejor = p; 
+					}
+				}
+
 			}
-			
+
 			break;
-			
+
 		case " Triple":
-			
+
 			for (int i = 0; i < listPlayer.size(); i++) {
 				Player p = listPlayer.get(i); 
-				 if(p instanceof Batter) {
-					 if( ((Batter)p).getH2()>((Batter)mejor).getH2() ) {
-						 
-						 mejor = p; 
-					 }
-				 }
-				
+				if(p instanceof Batter) {
+					if( ((Batter)p).getH2()>((Batter)mejor).getH2() ) {
+
+						mejor = p; 
+					}
+				}
+
 			}
-			
+
 			break;
-			
-			
-	case "avr":
-			
+
+
+		case "avr":
+
 			for (int i = 0; i < listPlayer.size(); i++) {
 				Player p = listPlayer.get(i); 
-				 if(p instanceof Batter) {
-					 if( ((Batter)p).getAverage()>((Batter)mejor).getAverage() ) {
-						 
-						 mejor = p; 
-					 }
-				 }
-				
+				if(p instanceof Batter) {
+					if( ((Batter)p).getAverage()>((Batter)mejor).getAverage() ) {
+
+						mejor = p; 
+					}
+				}
+
 			}
-			
+
 			break;
-			
+
 
 		default:
 			break;
 		}
-		   
-		   
-		   return mejor;//retorna el jugador con mas HR o estadisticas que el usuario diga.
-		   
-		   
-	   }
+
+
+		return mejor;//retorna el jugador con mas HR o estadisticas que el usuario diga.
+
+
+	}
+
+
+
+
+
+	/************************ METODOS PARA CARGAR FILE Y GUARDAR FILE *******************************/
+
+	// Para cargar los datos de la clase controladora.
+	public void loadInitData(Lidom myLidom) {
+		
+		File file = new File("DatosGeneralesLidom.dat");
+		FileInputStream fileInput;
+		ObjectInputStream fileObjectInput;
+
+		try {
+			fileInput = new FileInputStream (file);
+			fileObjectInput = new ObjectInputStream(fileInput);
+
+			Lidom lidom = (Lidom) fileObjectInput.readObject();
+			Lidom.setLIDOM(lidom);
+			fileInput.close();
+			fileObjectInput.close();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+	}
 	
-
-
+	
+	public void saveInitData(Lidom myLidom) {
+		File file = new File("DatosGeneralesLidom.dat");
+		FileOutputStream fileOutput;
+		ObjectOutputStream fileObjectOutput = null;
+		
+		try {
+			fileOutput = new FileOutputStream(file);
+			fileObjectOutput = new ObjectOutputStream(fileOutput);
+			fileObjectOutput.writeObject(myLidom);
+			
+			fileOutput.close();
+			fileObjectOutput.close();
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				fileObjectOutput.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+	}
 
 
 

@@ -1,9 +1,14 @@
 package backEnd;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Pitcher extends Player {
+public class Pitcher extends Player implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4166937134475914074L;
 	private String tipo;
 	private int gameWin;
 	private int gameLose;

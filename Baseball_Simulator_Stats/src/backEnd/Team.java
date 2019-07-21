@@ -1,9 +1,14 @@
 package backEnd;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Team {
+public class Team implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6485039811763326860L;
 	private String Id;
 	private String name;
 	private String manager;

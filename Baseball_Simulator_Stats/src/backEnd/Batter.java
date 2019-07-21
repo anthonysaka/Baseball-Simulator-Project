@@ -1,9 +1,15 @@
 package backEnd;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Batter extends Player {
+public class Batter extends Player implements Serializable {
 	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6386883874716748621L;
 	private String position;
 	private float average;
 	private int runs;

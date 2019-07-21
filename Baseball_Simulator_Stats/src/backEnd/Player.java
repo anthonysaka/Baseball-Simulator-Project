@@ -1,9 +1,14 @@
 package backEnd;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public abstract class Player {
+public abstract class Player implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6515373590338509750L;
 	protected String Id;
 	protected String name;
 	protected String number;

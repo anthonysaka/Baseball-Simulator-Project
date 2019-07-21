@@ -54,6 +54,7 @@ import javax.swing.text.MaskFormatter;
 
 import backEnd.Lidom;
 import backEnd.Stadium;
+import backEnd.Team;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -183,21 +184,43 @@ public class ViewStadium extends JDialog {
 			btnEliminar = new JButton("Eliminar");
 			btnEliminar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					Boolean found = false;
 
 
 					ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
 					String[] options = {"Si", "No"};	
+					
+					ImageIcon icon1 = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_checked_48px_1.png"));
+					String[] options1 = {"Ok"};	
+					
+					// Este foreach es para no permitir que se elimine un estadio si esta asignado a un equipo.
+					for (Team t : Lidom.getInstance().getListTeams()) {
+						if (nameEstadio.equalsIgnoreCase(t.getStadium())) {
+							found = true;
+						}	
+					}
+					
 					int xOption	= JOptionPane.showOptionDialog(null, "¿Seguro que desea eliminar el estadio? " + codeEstadio + nameEstadio, "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
 
 					if (xOption == 0) {
-						Stadium auxEstadio = Lidom.getInstance().searchStadiumByID(codeEstadio);
-						Lidom.getInstance().deleteStadium(auxEstadio);
+						
+					
+						if (found == false) {
+							Stadium auxEstadio = Lidom.getInstance().searchStadiumByID(codeEstadio);
+							Lidom.getInstance().deleteStadium(auxEstadio);
 
-						ImageIcon icon1 = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_checked_48px_1.png"));
-						String[] options1 = {"Ok"};	
-						JOptionPane.showOptionDialog(null, "Eliminado con exito!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1);
-						loadTableStadiums();
-						btnEliminar.setEnabled(false);
+							
+							JOptionPane.showOptionDialog(null, "Eliminado con exito!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1);
+							loadTableStadiums();
+							btnEliminar.setEnabled(false);
+							
+						}else {
+							JOptionPane.showOptionDialog(null, "No se puede eliminar, porque esta asignado a un equipo", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options1, options1);
+							loadTableStadiums();
+							btnEliminar.setEnabled(false);
+							
+						}
+						
 					}
 
 				}

@@ -26,6 +26,10 @@ import javax.swing.SwingConstants;
 
 public class SplashScreen extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2256781198012375640L;
 	private JPanel contentPane;
 	private JLabel lblLogo;
 	private JProgressBar progressBar;

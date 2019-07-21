@@ -1,9 +1,14 @@
 package backEnd;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Game {
+public class Game implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3155127998866144L;
 	private Team homeTeam;
 	private Team awayTeam;
 	private Stadium stadium;

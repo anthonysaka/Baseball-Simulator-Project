@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.border.AbstractBorder;
@@ -20,6 +21,7 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.Shape;
@@ -31,6 +33,9 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
 import java.awt.event.ActionEvent;
@@ -42,8 +47,10 @@ import sun.java2d.pipe.TextPipe;
 import rojeru_san.componentes.RSCalendar;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.Icon;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JCheckBox;
@@ -81,10 +88,11 @@ public class AddTeam extends JDialog {
 	private JLabel lblFoto;
 	private JSeparator separator_2;
 
-	private static int typePlayer= 0 ; // 1 - Pitcher, 2 - Bateador.
+	private static Boolean selectionFoto = false;
 	private JButton btnSeleccionarFoto;
 	private JButton btnRegistrarEquipo;
 	private JButton btnCancelarEquipo;
+	private JLabel lblLogoEquipo;
 
 
 	/**
@@ -215,7 +223,6 @@ public class AddTeam extends JDialog {
 			panelBg.add(dateChooserFechaFundacion);
 
 			cbxEstadios = new JComboBox<String>();
-			cbxEstadios.setModel(new DefaultComboBoxModel(new String[] {"<Seleccionar>", "Aguilas"}));
 			cbxEstadios.setFont(new Font("Consolas", Font.PLAIN, 18));
 			cbxEstadios.setBounds(358, 292, 270, 30);
 			panelBg.add(cbxEstadios);
@@ -317,6 +324,12 @@ public class AddTeam extends JDialog {
 			panelPhoto.setBorder(new LineBorder(new Color(0, 30, 72)));
 			panelPhoto.setBounds(785, 106, 246, 216);
 			panelBg.add(panelPhoto);
+			panelPhoto.setLayout(null);
+			
+			lblLogoEquipo = new JLabel("");
+			lblLogoEquipo.setHorizontalAlignment(SwingConstants.CENTER);
+			lblLogoEquipo.setBounds(0, 0, 246, 216);
+			panelPhoto.add(lblLogoEquipo);
 
 			separator_1 = new JSeparator();
 			separator_1.setOpaque(true);
@@ -342,6 +355,42 @@ public class AddTeam extends JDialog {
 			panelBg.add(separator_2);
 
 			btnSeleccionarFoto = new JButton("Seleccionar");
+			btnSeleccionarFoto.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					
+					JFileChooser fileChooser = new JFileChooser();
+					fileChooser.showOpenDialog(null);
+					
+					BufferedImage foto;
+					File fileFoto = fileChooser.getSelectedFile();
+			
+					String routeOfFoto=null;
+					
+					try {
+						 routeOfFoto = fileFoto.getAbsolutePath();
+						
+					}catch (NullPointerException  e1) {
+						e1.printStackTrace();
+					}
+					try {
+						foto = ImageIO.read(fileFoto);
+						String routetosave = "Fotos_Equipos/"+ txtNameEquipo.getText() + ".png";
+						ImageIO.write(foto, "png", new File(routetosave));
+						/** to adjust image at size of JLabel **/
+						ImageIcon fotoJugador = new ImageIcon(routeOfFoto);
+						Icon fotoJ = new ImageIcon(fotoJugador.getImage().getScaledInstance(lblLogoEquipo.getWidth(), lblLogoEquipo.getHeight(), Image.SCALE_SMOOTH));
+						lblLogoEquipo.setIcon(fotoJ);
+						selectionFoto = true;
+						
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}catch (IllegalArgumentException e2) {
+						JOptionPane.showMessageDialog(null, "Solo se permiten fotos." , "Error:", JOptionPane.ERROR_MESSAGE);
+					}	
+
+				}
+			});
 			btnSeleccionarFoto.setIconTextGap(30);
 			btnSeleccionarFoto.setHorizontalTextPosition(SwingConstants.RIGHT);
 			btnSeleccionarFoto.setForeground(new Color(255, 255, 240));
@@ -362,7 +411,7 @@ public class AddTeam extends JDialog {
 					Date fechaFundacion = dateChooserFechaFundacion.getDatoFecha();
 
 
-					if ((!id.equalsIgnoreCase("##-###-###")) && (!name.equalsIgnoreCase("")) && (!manager.equalsIgnoreCase("")) && (cbxEstadios.getSelectedIndex() > 0) && (fechaFundacion != null)) {
+					if ((selectionFoto == true) && (!id.equalsIgnoreCase("##-###-###")) && (!name.equalsIgnoreCase("")) && (!manager.equalsIgnoreCase("")) && (cbxEstadios.getSelectedIndex() > 0) && (fechaFundacion != null)) {
 
 						Team team = new Team(id, name, manager, fechaFundacion, stadio);
 						Lidom.getInstance().addTeam(team);
@@ -417,6 +466,9 @@ public class AddTeam extends JDialog {
 			btnCancelarEquipo.setBounds(913, 442, 146, 30);
 			panelBg.add(btnCancelarEquipo);
 		}
+		
+		
+		loadStadiumsCbx();
 	}
 
 
@@ -426,6 +478,20 @@ public class AddTeam extends JDialog {
 		txtNameEquipo.setText("");
 		cbxEstadios.setSelectedIndex(0);
 		dateChooserFechaFundacion.setDatoFecha(null);
+
+	}
+	
+	private void loadStadiumsCbx() {
+
+		cbxEstadios.removeAllItems();
+
+		for (Stadium s : Lidom.getInstance().getListStadium()) {
+			cbxEstadios.addItem(s.getName());	
+		}
+		
+		cbxEstadios.insertItemAt(new String("<Seleccionar"), 0);
+		cbxEstadios.setSelectedIndex(0);
+		
 
 	}
 

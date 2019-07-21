@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.border.AbstractBorder;
@@ -19,6 +20,7 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.Shape;
@@ -30,6 +32,9 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,8 +47,10 @@ import sun.java2d.pipe.TextPipe;
 import rojeru_san.componentes.RSCalendar;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.Icon;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JCheckBox;
@@ -145,6 +152,7 @@ public class AddPlayer extends JDialog {
 	private JLabel lblSb;
 
 	private static int typePlayer= 0 ; // 1 - Pitcher, 2 - Bateador.
+	private static Boolean selectionFoto = false;
 	private JButton btnSeleccionarFoto;
 	private JLabel lblTipo;
 	private JComboBox cbxTipoPitcher;
@@ -170,6 +178,7 @@ public class AddPlayer extends JDialog {
 	private JSeparator separator_8;
 
 	private Player myPlayer;
+	private JLabel lblFotoJugador;
 
 
 	/**
@@ -506,6 +515,11 @@ public class AddPlayer extends JDialog {
 			panelPhoto.setBorder(new LineBorder(new Color(0, 30, 72)));
 			panelPhoto.setBounds(775, 106, 256, 248);
 			panelBg.add(panelPhoto);
+			panelPhoto.setLayout(null);
+			
+			lblFotoJugador = new JLabel("");
+			lblFotoJugador.setBounds(0, 0, 256, 248);
+			panelPhoto.add(lblFotoJugador);
 
 			separator_1 = new JSeparator();
 			separator_1.setOpaque(true);
@@ -1617,6 +1631,40 @@ public class AddPlayer extends JDialog {
 			panelBg.add(btnBateador);
 
 			btnSeleccionarFoto = new JButton("Seleccionar");
+			btnSeleccionarFoto.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					JFileChooser fileChooser = new JFileChooser();
+					fileChooser.showOpenDialog(null);
+					
+					BufferedImage foto;
+					File fileFoto = fileChooser.getSelectedFile();
+			
+					String routeOfFoto=null;
+					
+					try {
+						 routeOfFoto = fileFoto.getAbsolutePath();
+						
+					}catch (NullPointerException  e1) {
+						e1.printStackTrace();
+					}
+					try {
+						foto = ImageIO.read(fileFoto);
+						String routetosave = "Fotos_Jugadores/"+ txtName.getText() + ".png";
+						ImageIO.write(foto, "png", new File(routetosave));
+						/** to adjust image at size of JLabel **/
+						ImageIcon fotoJugador = new ImageIcon(routeOfFoto);
+						Icon fotoJ = new ImageIcon(fotoJugador.getImage().getScaledInstance(lblFotoJugador.getWidth(), lblFotoJugador.getHeight(), Image.SCALE_SMOOTH));
+						lblFotoJugador.setIcon(fotoJ);
+						selectionFoto = true;
+						
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}catch (IllegalArgumentException e2) {
+						JOptionPane.showMessageDialog(null, "Solo se permiten fotos." , "Error:", JOptionPane.ERROR_MESSAGE);
+					}	
+				}
+			});
 			btnSeleccionarFoto.setIconTextGap(30);
 			btnSeleccionarFoto.setHorizontalTextPosition(SwingConstants.RIGHT);
 			btnSeleccionarFoto.setForeground(new Color(255, 255, 240));
@@ -1654,19 +1702,21 @@ public class AddPlayer extends JDialog {
 						float height = Float.parseFloat(spnAltura.getValue().toString());
 
 
-						if ((!id.equalsIgnoreCase("##-###-###")) && (!number.equalsIgnoreCase("##")) && (!name.equalsIgnoreCase("")) && (!lastname.equalsIgnoreCase("")) && (cbxCountries.getSelectedIndex() > 0) && (cbxCountries.getSelectedIndex() > 0) && (dateBorn != null) && (weight >= 100.00f) && (height >= 5.00f )) {
+						if ((selectionFoto == true) && (!id.equalsIgnoreCase("##-###-###")) && (!number.equalsIgnoreCase("##")) && (!name.equalsIgnoreCase("")) && (!lastname.equalsIgnoreCase("")) && (cbxCountries.getSelectedIndex() > 0) && (cbxCountries.getSelectedIndex() > 0) && (dateBorn != null) && (weight >= 100.00f) && (height >= 5.00f )) {
 
 
 							if (typePlayer == 1) { // un pitcher.
 
 								String tipoPitcher = cbxTipoPitcher.getSelectedItem().toString();
-								String manoPitcher = cbxManoPitcher.getSelectedItem().toString();
+								String manoPitcher = cbxManoPitcher.getSelectedItem().toString(); // OJO crear artributo
 								String equipoPitcher = cbxEquipoPit.getSelectedItem().toString();
 
 								if ( (cbxTipoPitcher.getSelectedIndex() > 0)  && (cbxManoPitcher.getSelectedIndex() > 0) && (cbxEquipoPit.getSelectedIndex() > 0) ) {
 
 									Player pitcher = new Pitcher(id, lastname, number, lastname, equipoPitcher, dateBorn, placeBorn, height, weight, tipoPitcher);
 									Lidom.getInstance().addPlayer(pitcher);
+								//	Team auxTeam = Lidom.getInstance().searchTeamByName(equipoPitcher);
+								//	auxTeam.getRosterPlayers().add(pitcher);
 
 									JOptionPane.showOptionDialog(null, "Registro de un PITCHER con exito!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
 									clean();
@@ -1674,6 +1724,7 @@ public class AddPlayer extends JDialog {
 									panelInformacionJugador.setVisible(false);
 									btnBateador.setEnabled(true);
 									btnPitcher.setEnabled(true);
+									selectionFoto = false;
 
 								}
 								else {
@@ -1685,12 +1736,14 @@ public class AddPlayer extends JDialog {
 							else if (typePlayer == 2) { // un bateador.
 
 								String posicion = cbxPosicionBat.getSelectedItem().toString();
-								String manobateador = cbxManoBat.getSelectedItem().toString();
+								String manobateador = cbxManoBat.getSelectedItem().toString(); // Ojo crear atributo
 								String equipoBateeador = cbxEquipoBat.getSelectedItem().toString();
 
 								if ((cbxPosicionBat.getSelectedIndex() > 0)  && (cbxManoBat.getSelectedIndex() > 0) && (cbxEquipoBat.getSelectedIndex() > 0) ) {
 									Player bateador = new Batter(id, name, number, lastname, equipoBateeador, dateBorn, placeBorn, height, weight, posicion);
 									Lidom.getInstance().addPlayer(bateador);
+								//	Team auxTeam = Lidom.getInstance().searchTeamByName(equipoBateeador);
+								//	auxTeam.getRosterPlayers().add(bateador);
 
 									JOptionPane.showOptionDialog(null, "Registro de un BATEADOR con exito!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
 									clean();
@@ -1698,6 +1751,7 @@ public class AddPlayer extends JDialog {
 									panelInformacionJugador.setVisible(false);
 									btnBateador.setEnabled(true);
 									btnPitcher.setEnabled(true);
+									selectionFoto = false;
 
 								}
 								else {
@@ -1706,6 +1760,9 @@ public class AddPlayer extends JDialog {
 
 								}
 
+							}
+							else {
+								JOptionPane.showOptionDialog(null, "Eliga Pitcher / Bateador", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options, options);
 							}
 						}
 						else {
