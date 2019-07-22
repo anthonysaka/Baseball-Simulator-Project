@@ -17,7 +17,7 @@ public class Team implements Serializable{
 	private int games;
 	private int gamesWin;
 	private int gamesLose;
-	private ArrayList<Player> lineUp;
+	private ArrayList<Player> lineUp = new ArrayList<Player>();
 	private String stadium;
 	
 	/* Constructor */
@@ -119,9 +119,13 @@ public class Team implements Serializable{
 	}
 	
 	
-	public void addPlayer(Player player) {
+	public void addPlayerRoster(Player player) {
 		rosterPlayers.add(player);
 		//generateIdPlayer++;
+	}
+	
+	public void addPlayerLineUp(Player player) {
+		lineUp.add(player);
 	}
 	
 	

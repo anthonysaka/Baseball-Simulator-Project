@@ -26,8 +26,8 @@ public class Pitcher extends Player implements Serializable {
 	/* Constructor */
 	
 	public Pitcher(String id, String name, String number, String lastname, String teamName, Date birthdate, String birthplace,
-			float height, float weight, String manoLanzar, String tipo) {
-		super(id, name, number, lastname, teamName, birthdate, birthplace, height, weight, manoLanzar);
+			float height, float weight, String manoLanzar, Boolean lesionado, String tipo) {
+		super(id, name, number, lastname, teamName, birthdate, birthplace, height, weight, manoLanzar, lesionado);
 		this.tipo = tipo;
 		//this.gameWin = gameWin;
 	//	this.gameLose = gameLose;

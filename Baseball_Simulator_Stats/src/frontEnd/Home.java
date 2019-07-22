@@ -39,6 +39,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -92,37 +94,63 @@ public class Home extends JFrame {
 	private JSeparator separator_3;
 	private static JLabel lblNameTeam;
 	private JScrollPane scrollPaneRoster;
-	
+
 	private JLabel lblRoster;
 	private JScrollPane scrollPaneLineUp;
 	private JScrollPane scrollPaneLesionados;
 	private JLabel lblLineUp;
 	private JLabel lblLesionados;
-	
+
 	private JPanel panel;
 	private static JPanel panelBgDashboard;
 	private JLabel lblPlay_Blur;
-	private JPanel panel_1;
-	private JButton btnFuncionesNa;
+	private JPanel panelMenuInfo;
+	private JButton btnPanelLineUp;
 	private JButton btnFuncionesNa_1;
 	private JButton btnFuncionesNa_2;
 	private JButton btnFuncionesNa_3;
 	private JButton btnFuncionesNa_4;
 	private JButton btnFuncionesNa_5;
 	private JLabel lblLineUp_1;
-	
+
 	/*** tables ***/
 	private static JTable tableRoster;
 	private static JTable tableLineUp;
 	private static JTable tableLesionados;
-	
+
 	private static DefaultTableModel modelRoster;
 	private static DefaultTableModel modelLineUp;
 	private static DefaultTableModel modelLesionados;
-	
+
 	private static Object[] columnRoster;
 	private static Object[] columnLineUp;
 	private static Object[] columnLesionados;
+	private JPanel panelLineUp;
+	private JLabel lblBgPlayLineUp;
+	private JLabel lblCrearLineUp;
+	private JButton btnCf;
+	private JButton btnLf;
+	private JButton btnRf;
+	private JButton btnss;
+	private JButton btn3b;
+	private JButton btn2b;
+	private JButton btnP;
+	private JButton btnC;
+	private JButton btn1b;
+	private JButton btnHome;
+
+	private String seleccionarjugador;
+	private JLabel lblP;
+	private JButton btnLineUp;
+	private JLabel lblC;
+	private JLabel lbl3b;
+	private JLabel lblss;
+	private JLabel lbl2b;
+	private JLabel lbl1b;
+	private JLabel lblLf;
+	private JLabel lblCf;
+	private JLabel lblRf;
+	private JPanel panel_1;
 
 
 	/**
@@ -152,8 +180,10 @@ public class Home extends JFrame {
 		dimention = super.getToolkit().getScreenSize();
 		super.setSize(dimention.width, (dimention.height-50));
 		setLocationRelativeTo(null);
-
+		Lidom.getInstance().readStadiumCodes(Lidom.generateIdStadium, "codeStadium");
+		Lidom.getInstance().readTeamCodes(Lidom.generateIdTeam, "codeTeam");
 		Lidom.getInstance().loadInitData(Lidom.getInstance());
+
 
 		contentPane = new JPanel();
 		//contentPane.setBackground(SystemColor.desktop);
@@ -260,6 +290,9 @@ public class Home extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				Lidom.getInstance().saveInitData(Lidom.getInstance());
+				Lidom.getInstance().writeCodes(Lidom.generateIdStadium, "codeStadium");
+				Lidom.getInstance().writeCodes(Lidom.generateIdTeam, "codeTeam");
+				// agregar cualquier otro
 
 				ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
 				String[] options = {"Si", "No"};	
@@ -332,6 +365,24 @@ public class Home extends JFrame {
 		btnMenu.setBounds(12, 0, 65, 50);
 		panelMenuBar.add(btnMenu);
 
+		btnHome = new JButton("Home");
+
+		btnHome.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelBgDashboard.setVisible(true);
+				panelManageTeams.setVisible(false);
+				//	btnHome.setEnabled(false);
+			}
+		});
+		btnHome.setIconTextGap(10);
+		btnHome.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnHome.setForeground(new Color(255, 255, 240));
+		btnHome.setFont(new Font("Consolas", Font.BOLD, 22));
+		btnHome.setBorder(null);
+		btnHome.setBackground(new Color(0, 30, 72));
+		btnHome.setBounds(1633, 0, 170, 50);
+		panelMenuBar.add(btnHome);
+
 		panelMenuEquipo = new JPanel();
 		panelMenuEquipo.setVisible(false);
 		panelMenuEquipo.setBackground(new Color(0,30,72));
@@ -369,7 +420,7 @@ public class Home extends JFrame {
 		panelMenuEstadio.setVisible(false);
 
 		panelMenuLateral = new JPanel();
-		panelMenuLateral.setBounds(0, 63, 400, 957);
+		panelMenuLateral.setBounds(-400, 63, 400, 957);
 		panelBackGround.add(panelMenuLateral);
 		panelMenuLateral.setLayout(null);
 		panelMenuLateral.setBackground(new Color(0, 30, 72));
@@ -390,8 +441,8 @@ public class Home extends JFrame {
 
 		/** to adjust image at size of JLabel **/
 		ImageIcon logoIconLidom= new ImageIcon(getClass().getResource("/iconos_imagenes/preview-lidom (2).png"));
-		Icon Lidom = new ImageIcon(logoIconLidom.getImage().getScaledInstance(lblLogoLidomMenuLateral.getWidth(), lblLogoLidomMenuLateral.getHeight(), Image.SCALE_SMOOTH));
-		lblLogoLidomMenuLateral.setIcon(Lidom);
+		Icon LidomIco = new ImageIcon(logoIconLidom.getImage().getScaledInstance(lblLogoLidomMenuLateral.getWidth(), lblLogoLidomMenuLateral.getHeight(), Image.SCALE_SMOOTH));
+		lblLogoLidomMenuLateral.setIcon(LidomIco);
 
 
 		lblSimuladorEstadsticasBeisbol = new JLabel("Simulador Estad\u00EDsticas B\u00E9isbol");
@@ -423,7 +474,7 @@ public class Home extends JFrame {
 				SelectionTeamToManage aux = new SelectionTeamToManage();
 				aux.setModal(true);
 				aux.setVisible(true);
-				//panelBgDashboard.setVisible(false);
+				panelBgDashboard.setVisible(false);
 				//panelManageTeams.setVisible(true);
 
 			}
@@ -607,16 +658,16 @@ public class Home extends JFrame {
 				String[] options = {"Ok"};
 				ImageIcon icon1 = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
 
-				
+
 				if (backEnd.Lidom.getInstance().getListStadium().size() > 0) {
 					AddTeam newTeam = new AddTeam();
 					newTeam.setModal(true);
 					newTeam.setVisible(true);
-					
+
 				}else {
 					JOptionPane.showOptionDialog(null, "No hay estadio. Debe existir 1 estadio mínimo.", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options, options);
 				}
-				
+
 			}
 		});
 		btnRegistrarTeam.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -700,15 +751,17 @@ public class Home extends JFrame {
 		btnRegistrarPlayer = new JButton("Registrar");
 		btnRegistrarPlayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
+
+
 				String[] options = {"Ok"};
 				ImageIcon icon1 = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
-				
+
 				if (backEnd.Lidom.getInstance().getListTeams().size() > 0) {
 					AddPlayer newPlayer = new AddPlayer(null);
 					newPlayer.setModal(true);
 					newPlayer.setVisible(true);
-	
+
 				}else {
 					JOptionPane.showOptionDialog(null, "No hay equipo. Debe existir 1 equipo mínimo.", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options, options);
 				}		
@@ -789,7 +842,7 @@ public class Home extends JFrame {
 		ImageIcon bgPlay = new ImageIcon(getClass().getResource("/iconos_imagenes/fondoPlay.png"));
 		Icon play = new ImageIcon(bgPlay.getImage().getScaledInstance(lblPlay_Blur.getWidth(), lblPlay_Blur.getHeight(), Image.SCALE_SMOOTH));
 		lblPlay_Blur.setIcon(play);
-		
+
 
 
 		panelManageTeams = new JPanel();
@@ -797,7 +850,7 @@ public class Home extends JFrame {
 		panelManageTeams.setBackground(new Color(255, 255, 255));
 		panelBgHome.add(panelManageTeams, "name_546922147272900");
 		panelManageTeams.setLayout(null);
-		
+
 
 
 		lblLogoTeam = new JLabel("");
@@ -806,8 +859,9 @@ public class Home extends JFrame {
 		lblLogoTeam.setBackground(Color.BLACK);
 		lblLogoTeam.setBounds(85, 38, 205, 205);
 		panelManageTeams.add(lblLogoTeam);
-		
+
 		lblNameTeam = new JLabel();
+		lblNameTeam.setEnabled(false);
 		lblNameTeam.setVerticalTextPosition(SwingConstants.BOTTOM);
 		lblNameTeam.setVerticalAlignment(SwingConstants.BOTTOM);
 		lblNameTeam.setHorizontalAlignment(SwingConstants.CENTER);
@@ -976,21 +1030,495 @@ public class Home extends JFrame {
 		lblLesionados.setFont(new Font("Consolas", Font.PLAIN, 20));
 		lblLesionados.setBounds(1495, 560, 403, 31);
 		panelManageTeams.add(lblLesionados);
+
+		panelMenuInfo = new JPanel();
+		panelMenuInfo.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		panelMenuInfo.setBackground(new Color(255, 255, 255));
+		panelMenuInfo.setBounds(12, 275, 1056, 669);
+		panelManageTeams.add(panelMenuInfo);
+		panelMenuInfo.setLayout(new CardLayout(0, 0));
+
+		panelLineUp = new JPanel();
+		panelLineUp.setVisible(false);
 		
 		panel_1 = new JPanel();
-		panel_1.setBounds(12, 275, 1056, 669);
-		panelManageTeams.add(panel_1);
-		
-		btnFuncionesNa = new JButton("Funciones n/a");
-		btnFuncionesNa.setIconTextGap(5);
-		btnFuncionesNa.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btnFuncionesNa.setForeground(new Color(255, 255, 240));
-		btnFuncionesNa.setFont(new Font("Consolas", Font.BOLD, 22));
-		btnFuncionesNa.setBorder(null);
-		btnFuncionesNa.setBackground(new Color(4, 10, 20));
-		btnFuncionesNa.setBounds(1090, 606, 383, 37);
-		panelManageTeams.add(btnFuncionesNa);
-		
+		panelMenuInfo.add(panel_1, "name_633036105551300");
+		panelLineUp.setBackground(new Color(255, 255, 255));
+		panelMenuInfo.add(panelLineUp, "name_616045152774500");
+		panelLineUp.setLayout(null);
+
+
+		lblCrearLineUp = new JLabel("CREAR LINE UP  DEL EQUIPO");
+		lblCrearLineUp.setVerticalTextPosition(SwingConstants.BOTTOM);
+		lblCrearLineUp.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblCrearLineUp.setOpaque(true);
+		lblCrearLineUp.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblCrearLineUp.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCrearLineUp.setForeground(Color.WHITE);
+		lblCrearLineUp.setFont(new Font("Consolas", Font.PLAIN, 20));
+		lblCrearLineUp.setBackground(new Color(0, 30, 72));
+		lblCrearLineUp.setBounds(335, 13, 403, 31);
+		panelLineUp.add(lblCrearLineUp);
+
+		btnCf = new JButton("CF");
+		btnCf.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
+				ArrayList<String> playerAvailable = new ArrayList<String>();
+
+				for (Player auxPlayer : auxTeam.getRosterPlayers()) {
+					if (auxPlayer instanceof Batter) {		
+						if (((Batter) auxPlayer).getPosition().equalsIgnoreCase("Center fielder") && auxPlayer.getLesionado() == false) {
+							playerAvailable.add(auxPlayer.getName()); // agregar a un arraylist temporal para mostrar en cbxbox				
+						}
+					}		
+				}
+				try {
+					String[] copyPlayerAvailable = new String[playerAvailable.size()];
+					copyPlayerAvailable = playerAvailable.toArray(copyPlayerAvailable);
+
+					seleccionarjugador = (String) JOptionPane.showInputDialog(null, "Seleccione un jugador", "Seleccionar Jugador",  JOptionPane.QUESTION_MESSAGE,  null,  copyPlayerAvailable, copyPlayerAvailable[0]);
+					Player auxPlayerN = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
+
+					lblCf.setText(seleccionarjugador+ " " +  auxPlayerN.getLastname());
+					Player auxPlayer = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
+					auxTeam.addPlayerLineUp(auxPlayer);
+
+				}
+				catch(ArrayIndexOutOfBoundsException e2){
+					JOptionPane.showMessageDialog(null, "No hay jugadores para esta posición!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		btnCf.setIconTextGap(5);
+		btnCf.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnCf.setForeground(new Color(255, 255, 240));
+		btnCf.setFont(new Font("Consolas", Font.BOLD, 22));
+		btnCf.setBorder(null);
+		btnCf.setBackground(new Color(4, 10, 20));
+		btnCf.setBounds(493, 98, 60, 37);
+		panelLineUp.add(btnCf);
+
+		btnLf = new JButton("LF");
+		btnLf.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
+				ArrayList<String> playerAvailable = new ArrayList<String>();
+
+				for (Player auxPlayer : auxTeam.getRosterPlayers()) {
+					if (auxPlayer instanceof Batter) {		
+						if (((Batter) auxPlayer).getPosition().equalsIgnoreCase("Left fielder") && auxPlayer.getLesionado() == false) {
+							playerAvailable.add(auxPlayer.getName()); // agregar a un arraylist temporal para mostrar en cbxbox				
+						}
+					}		
+				}
+				try {
+					String[] copyPlayerAvailable = new String[playerAvailable.size()];
+					copyPlayerAvailable = playerAvailable.toArray(copyPlayerAvailable);
+
+					seleccionarjugador = (String) JOptionPane.showInputDialog(null, "Seleccione un jugador", "Seleccionar Jugador",  JOptionPane.QUESTION_MESSAGE,  null,  copyPlayerAvailable, copyPlayerAvailable[0]);
+					Player auxPlayerN = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
+					lblLf.setText(seleccionarjugador + " " +  auxPlayerN.getLastname());
+					Player auxPlayer = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
+					auxTeam.addPlayerLineUp(auxPlayer);
+
+				}
+				catch(ArrayIndexOutOfBoundsException e2){
+					JOptionPane.showMessageDialog(null, "No hay jugadores para esta posición!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+
+			}
+		});
+		btnLf.setIconTextGap(5);
+		btnLf.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnLf.setForeground(new Color(255, 255, 240));
+		btnLf.setFont(new Font("Consolas", Font.BOLD, 22));
+		btnLf.setBorder(null);
+		btnLf.setBackground(new Color(4, 10, 20));
+		btnLf.setBounds(291, 142, 60, 37);
+		panelLineUp.add(btnLf);
+
+		btnRf = new JButton("RF");
+		btnRf.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
+				ArrayList<String> playerAvailable = new ArrayList<String>();
+
+				for (Player auxPlayer : auxTeam.getRosterPlayers()) {
+					if (auxPlayer instanceof Batter) {		
+						if (((Batter) auxPlayer).getPosition().equalsIgnoreCase("Right fielder") && auxPlayer.getLesionado() == false) {
+							playerAvailable.add(auxPlayer.getName()); // agregar a un arraylist temporal para mostrar en cbxbox				
+						}
+					}		
+				}
+				try {
+					String[] copyPlayerAvailable = new String[playerAvailable.size()];
+					copyPlayerAvailable = playerAvailable.toArray(copyPlayerAvailable);
+
+					seleccionarjugador = (String) JOptionPane.showInputDialog(null, "Seleccione un jugador", "Seleccionar Jugador",  JOptionPane.QUESTION_MESSAGE,  null,  copyPlayerAvailable, copyPlayerAvailable[0]);
+					Player auxPlayerN = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
+
+					lblRf.setText(seleccionarjugador+ " " +  auxPlayerN.getLastname());
+					Player auxPlayer = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
+					auxTeam.addPlayerLineUp(auxPlayer);
+
+				}
+				catch(ArrayIndexOutOfBoundsException e2){
+					JOptionPane.showMessageDialog(null, "No hay jugadores para esta posición!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		btnRf.setIconTextGap(5);
+		btnRf.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnRf.setForeground(new Color(255, 255, 240));
+		btnRf.setFont(new Font("Consolas", Font.BOLD, 22));
+		btnRf.setBorder(null);
+		btnRf.setBackground(new Color(4, 10, 20));
+		btnRf.setBounds(694, 142, 60, 37);
+		panelLineUp.add(btnRf);
+
+		btnss = new JButton("SS");
+		btnss.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+
+				Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
+				ArrayList<String> playerAvailable = new ArrayList<String>();
+
+				for (Player auxPlayer : auxTeam.getRosterPlayers()) {
+					if (auxPlayer instanceof Batter) {		
+						if (((Batter) auxPlayer).getPosition().equalsIgnoreCase("Short stop") && auxPlayer.getLesionado() == false) {
+							playerAvailable.add(auxPlayer.getName()); // agregar a un arraylist temporal para mostrar en cbxbox				
+						}
+					}		
+				}
+				try {
+					String[] copyPlayerAvailable = new String[playerAvailable.size()];
+					copyPlayerAvailable = playerAvailable.toArray(copyPlayerAvailable);
+
+					seleccionarjugador = (String) JOptionPane.showInputDialog(null, "Seleccione un jugador", "Seleccionar Jugador",  JOptionPane.QUESTION_MESSAGE,  null,  copyPlayerAvailable, copyPlayerAvailable[0]);
+					Player auxPlayerN = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
+
+					lblss.setText(seleccionarjugador+ " " +  auxPlayerN.getLastname());
+					Player auxPlayer = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
+					auxTeam.addPlayerLineUp(auxPlayer);
+
+				}
+				catch(ArrayIndexOutOfBoundsException e2){
+					JOptionPane.showMessageDialog(null, "No hay jugadores para esta posición!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+
+			}
+		});
+		btnss.setIconTextGap(5);
+		btnss.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnss.setForeground(new Color(255, 255, 240));
+		btnss.setFont(new Font("Consolas", Font.BOLD, 22));
+		btnss.setBorder(null);
+		btnss.setBackground(new Color(4, 10, 20));
+		btnss.setBounds(395, 268, 60, 37);
+		panelLineUp.add(btnss);
+
+		btn3b = new JButton("3B");
+		btn3b.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
+				ArrayList<String> playerAvailable = new ArrayList<String>();
+
+				for (Player auxPlayer : auxTeam.getRosterPlayers()) {
+					if (auxPlayer instanceof Batter) {		
+						if (((Batter) auxPlayer).getPosition().equalsIgnoreCase("Tercera base") && auxPlayer.getLesionado() == false) {
+							playerAvailable.add(auxPlayer.getName()); // agregar a un arraylist temporal para mostrar en cbxbox				
+						}
+					}		
+				}
+				try {
+					String[] copyPlayerAvailable = new String[playerAvailable.size()];
+					copyPlayerAvailable = playerAvailable.toArray(copyPlayerAvailable);
+
+					seleccionarjugador = (String) JOptionPane.showInputDialog(null, "Seleccione un jugador", "Seleccionar Jugador",  JOptionPane.QUESTION_MESSAGE,  null,  copyPlayerAvailable, copyPlayerAvailable[0]);
+					Player auxPlayerN = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
+
+					lbl3b.setText(seleccionarjugador+ " " +  auxPlayerN.getLastname());
+					Player auxPlayer = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
+					auxTeam.addPlayerLineUp(auxPlayer);
+
+				}
+				catch(ArrayIndexOutOfBoundsException e2){
+					JOptionPane.showMessageDialog(null, "No hay jugadores para esta posición!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+
+			}
+		});
+		btn3b.setIconTextGap(5);
+		btn3b.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btn3b.setForeground(new Color(255, 255, 240));
+		btn3b.setFont(new Font("Consolas", Font.BOLD, 22));
+		btn3b.setBorder(null);
+		btn3b.setBackground(new Color(4, 10, 20));
+		btn3b.setBounds(366, 344, 60, 37);
+		panelLineUp.add(btn3b);
+
+		btn2b = new JButton("2B");
+		btn2b.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
+				ArrayList<String> playerAvailable = new ArrayList<String>();
+
+				for (Player auxPlayer : auxTeam.getRosterPlayers()) {
+					if (auxPlayer instanceof Batter) {		
+						if (((Batter) auxPlayer).getPosition().equalsIgnoreCase("Segunda base") && auxPlayer.getLesionado() == false) {
+							playerAvailable.add(auxPlayer.getName()); // agregar a un arraylist temporal para mostrar en cbxbox				
+						}
+					}		
+				}
+				try {
+					String[] copyPlayerAvailable = new String[playerAvailable.size()];
+					copyPlayerAvailable = playerAvailable.toArray(copyPlayerAvailable);
+
+					seleccionarjugador = (String) JOptionPane.showInputDialog(null, "Seleccione un jugador", "Seleccionar Jugador",  JOptionPane.QUESTION_MESSAGE,  null,  copyPlayerAvailable, copyPlayerAvailable[0]);
+					Player auxPlayerN = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
+
+
+					lbl2b.setText(seleccionarjugador+ " " +  auxPlayerN.getLastname());
+					Player auxPlayer = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
+					auxTeam.addPlayerLineUp(auxPlayer);
+
+				}
+				catch(ArrayIndexOutOfBoundsException e2){
+					JOptionPane.showMessageDialog(null, "No hay jugadores para esta posición!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		btn2b.setIconTextGap(5);
+		btn2b.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btn2b.setForeground(new Color(255, 255, 240));
+		btn2b.setFont(new Font("Consolas", Font.BOLD, 22));
+		btn2b.setBorder(null);
+		btn2b.setBackground(new Color(4, 10, 20));
+		btn2b.setBounds(574, 268, 60, 37);
+		panelLineUp.add(btn2b);
+
+		btnP = new JButton("P");
+		btnP.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
+				ArrayList<String> playerAvailable = new ArrayList<String>();
+
+				for (Player auxPlayer : auxTeam.getRosterPlayers()) {
+					if (auxPlayer instanceof Pitcher) {		
+						if (auxPlayer.getLesionado() == false) {
+							playerAvailable.add(auxPlayer.getName()); // agregar a un arraylist temporal para mostrar en cbxbox				
+						}
+					}		
+				}
+				try {
+					String[] copyPlayerAvailable = new String[playerAvailable.size()];
+					copyPlayerAvailable = playerAvailable.toArray(copyPlayerAvailable);
+
+					seleccionarjugador = (String) JOptionPane.showInputDialog(null, "Seleccione un jugador", "Seleccionar Jugador",  JOptionPane.QUESTION_MESSAGE,  null,  copyPlayerAvailable, copyPlayerAvailable[0]);
+					Player auxPlayerN = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
+
+					lblP.setText(seleccionarjugador+ " " +  auxPlayerN.getLastname());
+					Player auxPlayer = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
+					auxTeam.addPlayerLineUp(auxPlayer);
+
+				}
+				catch(ArrayIndexOutOfBoundsException e2){
+					JOptionPane.showMessageDialog(null, "No hay jugadores para esta posición!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+
+			}
+		});
+		btnP.setIconTextGap(5);
+		btnP.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnP.setForeground(new Color(255, 255, 240));
+		btnP.setFont(new Font("Consolas", Font.BOLD, 22));
+		btnP.setBorder(null);
+		btnP.setBackground(new Color(4, 10, 20));
+		btnP.setBounds(493, 363, 60, 37);
+		panelLineUp.add(btnP);
+
+		btnC = new JButton("C");
+		btnC.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
+				ArrayList<String> playerAvailable = new ArrayList<String>();
+
+				for (Player auxPlayer : auxTeam.getRosterPlayers()) {
+					if (auxPlayer instanceof Batter) {		
+						if (((Batter) auxPlayer).getPosition().equalsIgnoreCase("Catcher") && auxPlayer.getLesionado() == false) {
+							playerAvailable.add(auxPlayer.getName()); // agregar a un arraylist temporal para mostrar en cbxbox				
+						}
+					}		
+				}
+				try {
+					String[] copyPlayerAvailable = new String[playerAvailable.size()];
+					copyPlayerAvailable = playerAvailable.toArray(copyPlayerAvailable);
+
+					seleccionarjugador = (String) JOptionPane.showInputDialog(null, "Seleccione un jugador", "Seleccionar Jugador",  JOptionPane.QUESTION_MESSAGE,  null,  copyPlayerAvailable, copyPlayerAvailable[0]);
+					Player auxPlayerN = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
+
+					lblC.setText(seleccionarjugador+ " " +  auxPlayerN.getLastname());
+					Player auxPlayer = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
+					auxTeam.addPlayerLineUp(auxPlayer);
+
+				}
+				catch(ArrayIndexOutOfBoundsException e2){
+					JOptionPane.showMessageDialog(null, "No hay jugadores para esta posición!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+
+			}
+		});
+		btnC.setIconTextGap(5);
+		btnC.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnC.setForeground(new Color(255, 255, 240));
+		btnC.setFont(new Font("Consolas", Font.BOLD, 22));
+		btnC.setBorder(null);
+		btnC.setBackground(new Color(4, 10, 20));
+		btnC.setBounds(493, 549, 60, 37);
+		panelLineUp.add(btnC);
+
+		btn1b = new JButton("1B");
+		btn1b.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
+				ArrayList<String> playerAvailable = new ArrayList<String>();
+
+				for (Player auxPlayer : auxTeam.getRosterPlayers()) {
+					if (auxPlayer instanceof Batter) {		
+						if (((Batter) auxPlayer).getPosition().equalsIgnoreCase("Primera base") && auxPlayer.getLesionado() == false) {
+							playerAvailable.add(auxPlayer.getName()); // agregar a un arraylist temporal para mostrar en cbxbox				
+						}
+					}		
+				}
+				try {
+					String[] copyPlayerAvailable = new String[playerAvailable.size()];
+					copyPlayerAvailable = playerAvailable.toArray(copyPlayerAvailable);
+
+					seleccionarjugador = (String) JOptionPane.showInputDialog(null, "Seleccione un jugador", "Seleccionar Jugador",  JOptionPane.QUESTION_MESSAGE,  null,  copyPlayerAvailable, copyPlayerAvailable[0]);
+					Player auxPlayerN = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
+
+
+
+					lbl1b.setText(seleccionarjugador+ " " +  auxPlayerN.getLastname());
+					Player auxPlayer = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
+					auxTeam.addPlayerLineUp(auxPlayer);
+
+				}
+				catch(ArrayIndexOutOfBoundsException e2){
+					JOptionPane.showMessageDialog(null, "No hay jugadores para esta posición!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		btn1b.setIconTextGap(5);
+		btn1b.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btn1b.setForeground(new Color(255, 255, 240));
+		btn1b.setFont(new Font("Consolas", Font.BOLD, 22));
+		btn1b.setBorder(null);
+		btn1b.setBackground(new Color(4, 10, 20));
+		btn1b.setBounds(607, 351, 60, 37);
+		panelLineUp.add(btn1b);
+
+		lblP = new JLabel("");
+		lblP.setFont(new Font("Consolas", Font.ITALIC, 14));
+		lblP.setBounds(473, 344, 100, 16);
+		panelLineUp.add(lblP);
+
+		lblC = new JLabel("");
+		lblC.setFont(new Font("Consolas", Font.ITALIC, 14));
+		lblC.setBounds(473, 531, 100, 16);
+		panelLineUp.add(lblC);
+
+		lbl3b = new JLabel("");
+		lbl3b.setFont(new Font("Consolas", Font.ITALIC, 14));
+		lbl3b.setBounds(346, 327, 100, 16);
+		panelLineUp.add(lbl3b);
+
+		lblss = new JLabel("");
+		lblss.setFont(new Font("Consolas", Font.ITALIC, 14));
+		lblss.setBounds(375, 251, 100, 16);
+		panelLineUp.add(lblss);
+
+		lbl2b = new JLabel("");
+		lbl2b.setFont(new Font("Consolas", Font.ITALIC, 14));
+		lbl2b.setBounds(554, 251, 100, 16);
+		panelLineUp.add(lbl2b);
+
+		lbl1b = new JLabel("");
+		lbl1b.setFont(new Font("Consolas", Font.ITALIC, 14));
+		lbl1b.setBounds(587, 332, 100, 16);
+		panelLineUp.add(lbl1b);
+
+		lblLf = new JLabel("");
+		lblLf.setFont(new Font("Consolas", Font.ITALIC, 14));
+		lblLf.setBounds(271, 123, 100, 16);
+		panelLineUp.add(lblLf);
+
+		lblCf = new JLabel("");
+		lblCf.setFont(new Font("Consolas", Font.ITALIC, 14));
+		lblCf.setBounds(473, 77, 100, 16);
+		panelLineUp.add(lblCf);
+
+		lblRf = new JLabel("");
+		lblRf.setFont(new Font("Consolas", Font.ITALIC, 14));
+		lblRf.setBounds(674, 119, 100, 16);
+		panelLineUp.add(lblRf);
+
+		lblBgPlayLineUp = new JLabel("");
+		lblBgPlayLineUp.setBounds(163, 62, 711, 542);
+		panelLineUp.add(lblBgPlayLineUp);
+		/** to adjust image at size of JLabel **/
+		ImageIcon bgLinePlay = new ImageIcon(getClass().getResource("/iconos_imagenes/Baseball_diamond_clean.png"));
+		Icon playLine = new ImageIcon(bgLinePlay.getImage().getScaledInstance(lblBgPlayLineUp.getWidth(), lblBgPlayLineUp.getHeight(), Image.SCALE_SMOOTH));
+		lblBgPlayLineUp.setIcon(playLine);
+
+		btnLineUp = new JButton("Finalizar Line Up");
+		btnLineUp.setEnabled(false);
+		btnLineUp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Team auxTeam = Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
+				loadLineUpPlayerByTeam(auxTeam);
+				btnLineUp.setEnabled(false);
+				panelLineUp.setVisible(false);
+				panel_1.setVisible(true);
+			}
+		});
+		btnLineUp.setIconTextGap(5);
+		btnLineUp.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnLineUp.setForeground(new Color(255, 255, 240));
+		btnLineUp.setFont(new Font("Consolas", Font.BOLD, 22));
+		btnLineUp.setBorder(null);
+		btnLineUp.setBackground(new Color(4, 10, 20));
+		btnLineUp.setBounds(376, 615, 284, 37);
+		panelLineUp.add(btnLineUp);
+
+
+
+		btnPanelLineUp = new JButton("Crear Line Up");
+		btnPanelLineUp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel_1.setVisible(false);
+				panelLineUp.setVisible(true);
+				btnLineUp.setEnabled(true);
+			}
+		});
+		btnPanelLineUp.setIconTextGap(5);
+		btnPanelLineUp.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnPanelLineUp.setForeground(new Color(255, 255, 240));
+		btnPanelLineUp.setFont(new Font("Consolas", Font.BOLD, 22));
+		btnPanelLineUp.setBorder(null);
+		btnPanelLineUp.setBackground(new Color(4, 10, 20));
+		btnPanelLineUp.setBounds(1090, 606, 383, 37);
+		panelManageTeams.add(btnPanelLineUp);
+
 		btnFuncionesNa_1 = new JButton("Funciones n/a");
 		btnFuncionesNa_1.setIconTextGap(5);
 		btnFuncionesNa_1.setHorizontalTextPosition(SwingConstants.RIGHT);
@@ -1000,7 +1528,7 @@ public class Home extends JFrame {
 		btnFuncionesNa_1.setBackground(new Color(4, 10, 20));
 		btnFuncionesNa_1.setBounds(1090, 656, 383, 37);
 		panelManageTeams.add(btnFuncionesNa_1);
-		
+
 		btnFuncionesNa_2 = new JButton("Funciones n/a");
 		btnFuncionesNa_2.setIconTextGap(5);
 		btnFuncionesNa_2.setHorizontalTextPosition(SwingConstants.RIGHT);
@@ -1010,7 +1538,7 @@ public class Home extends JFrame {
 		btnFuncionesNa_2.setBackground(new Color(4, 10, 20));
 		btnFuncionesNa_2.setBounds(1090, 706, 383, 37);
 		panelManageTeams.add(btnFuncionesNa_2);
-		
+
 		btnFuncionesNa_3 = new JButton("Funciones n/a");
 		btnFuncionesNa_3.setIconTextGap(5);
 		btnFuncionesNa_3.setHorizontalTextPosition(SwingConstants.RIGHT);
@@ -1020,7 +1548,7 @@ public class Home extends JFrame {
 		btnFuncionesNa_3.setBackground(new Color(4, 10, 20));
 		btnFuncionesNa_3.setBounds(1090, 756, 383, 37);
 		panelManageTeams.add(btnFuncionesNa_3);
-		
+
 		btnFuncionesNa_4 = new JButton("Funciones n/a");
 		btnFuncionesNa_4.setIconTextGap(5);
 		btnFuncionesNa_4.setHorizontalTextPosition(SwingConstants.RIGHT);
@@ -1030,7 +1558,7 @@ public class Home extends JFrame {
 		btnFuncionesNa_4.setBackground(new Color(4, 10, 20));
 		btnFuncionesNa_4.setBounds(1090, 806, 383, 37);
 		panelManageTeams.add(btnFuncionesNa_4);
-		
+
 		btnFuncionesNa_5 = new JButton("Funciones n/a");
 		btnFuncionesNa_5.setIconTextGap(5);
 		btnFuncionesNa_5.setHorizontalTextPosition(SwingConstants.RIGHT);
@@ -1040,7 +1568,7 @@ public class Home extends JFrame {
 		btnFuncionesNa_5.setBackground(new Color(4, 10, 20));
 		btnFuncionesNa_5.setBounds(1090, 856, 383, 37);
 		panelManageTeams.add(btnFuncionesNa_5);
-		
+
 		lblLineUp_1 = new JLabel("Line Up / Jugadores Regulares");
 		lblLineUp_1.setVerticalTextPosition(SwingConstants.BOTTOM);
 		lblLineUp_1.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -1055,7 +1583,6 @@ public class Home extends JFrame {
 
 		panel = new JPanel();
 		panel.setBounds(85, 373, 449, 366);
-		
 
 
 	}
@@ -1064,7 +1591,7 @@ public class Home extends JFrame {
 
 	/****************************************/
 	/* Metodos */
-	
+
 	private void setColorBlue (JButton button) {
 		button.setBackground(new Color(21, 101, 192));
 	}
@@ -1077,48 +1604,72 @@ public class Home extends JFrame {
 		button.setBackground(new Color(0,30,72));
 	}
 
-	
+	// metodo para abrir la ventana de admin equipo con los datos correspondientes.
 	public static void manageTeamOpen(Team auxTeam) {
-		
+
 		if (auxTeam!=null) {
 			panelBgDashboard.setVisible(false);
 			panelManageTeams.setVisible(true);
-			
+
 			lblNameTeam.setText(auxTeam.getName());
-			
+
 			String routetosave = "Fotos_Equipos/"+ auxTeam.getName() + ".png";
 			/** to adjust image at size of JLabel **/
 			ImageIcon fotoJugador = new ImageIcon(routetosave);
 			Icon fotoJ = new ImageIcon(fotoJugador.getImage().getScaledInstance(lblLogoTeam.getWidth(), lblLogoTeam.getHeight(), Image.SCALE_SMOOTH));
 			lblLogoTeam.setIcon(fotoJ);
-			
+
 		}
 	}
-	
+	// Metodo para cargar la lista de jugadores de un equipo, roster.
 	public static void loadRosterPlayerByTeam(Team team) {
-		
+
 		modelRoster= (DefaultTableModel) tableRoster.getModel();
 		modelRoster.setRowCount(0);
 		columnRoster = new Object[modelRoster.getColumnCount()];
-		
+
 		for (Player playerR : team.getRosterPlayers()) {
 			columnRoster[0] = playerR.getId();
 			columnRoster[1] = playerR.getName() + " " + playerR.getLastname();
-			
+
 			if (playerR instanceof Pitcher) {
 				columnRoster[2] = "P - " + ((Pitcher) playerR).getTipo();	
 			}
 			else if (playerR instanceof Batter) {
 				columnRoster[2] = "B - " + ((Batter) playerR).getPosition();
 			}
-		
+
 			modelRoster.addRow(columnRoster);
-			
+
 		}
 
 	}
-	
-	
+
+	// Metodo para cargar la lista de jugadores de un equipo, roster.
+	public static void loadLineUpPlayerByTeam(Team team) {
+
+		modelLineUp= (DefaultTableModel) tableLineUp.getModel();
+		modelLineUp.setRowCount(0);
+		columnLineUp = new Object[modelLineUp.getColumnCount()];
+
+		for (Player playerR : team.getLineUp()) {
+			columnLineUp[0] = playerR.getId();
+			columnLineUp[1] = playerR.getName() + " " + playerR.getLastname();
+
+			if (playerR instanceof Pitcher) {
+				columnLineUp[2] = "P - " + ((Pitcher) playerR).getTipo();	
+			}
+			else if (playerR instanceof Batter) {
+				columnLineUp[2] = "B - " + ((Batter) playerR).getPosition();
+			}
+
+			modelLineUp.addRow(columnLineUp);
+
+		}
+
+	}
+
+
 
 
 }

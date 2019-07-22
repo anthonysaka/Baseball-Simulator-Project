@@ -1701,8 +1701,7 @@ public class AddPlayer extends JDialog {
 			}
 
 			btnRegistrarJugador.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					
+				public void actionPerformed(ActionEvent e) {					
 					ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_checked_48px_1.png"));
 					String[] options = {"Ok"};
 					ImageIcon icon1 = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
@@ -1732,7 +1731,7 @@ public class AddPlayer extends JDialog {
 										
 										if (Lidom.getInstance().checkNumberPlayer(number, equipoPitcher)) {
 											
-											Player pitcher = new Pitcher(id, name, number, lastname, equipoPitcher, dateBorn, placeBorn, height, weight, manoPitcher, tipoPitcher);
+											Player pitcher = new Pitcher(id, name, number, lastname, equipoPitcher, dateBorn, placeBorn, height, weight, manoPitcher, false, tipoPitcher);
 											Lidom.getInstance().addPlayer(pitcher); // agrego lista de lidom
 											Lidom.getInstance().addPlayerToTeam(equipoPitcher, pitcher); // agrego a lista de roster del equipo
 
@@ -1770,7 +1769,7 @@ public class AddPlayer extends JDialog {
 									if ((cbxManoBateo.getSelectedIndex() > 0) && (cbxPosicionBat.getSelectedIndex() > 0)  && (cbxManoBat.getSelectedIndex() > 0) && (cbxEquipoBat.getSelectedIndex() > 0) ) {
 										
 										if (Lidom.getInstance().checkNumberPlayer(number, equipoBateeador)) {
-											Player bateador = new Batter(id, name, number, lastname, equipoBateeador, dateBorn, placeBorn, height, weight, manobateador, posicion, manoDeBateo);
+											Player bateador = new Batter(id, name, number, lastname, equipoBateeador, dateBorn, placeBorn, height, weight, manobateador, false, posicion, manoDeBateo);
 											Lidom.getInstance().addPlayer(bateador);// agrego lista de lidom
 											Lidom.getInstance().addPlayerToTeam(equipoBateeador, bateador); // agrego a lista de roster del equipo
 

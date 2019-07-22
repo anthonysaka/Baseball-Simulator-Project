@@ -1,9 +1,15 @@
 package backEnd;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -33,7 +39,6 @@ public class Lidom implements Serializable {
 
 	private static Lidom LIDOM;
 
-	public static int generateIdPlayer = 1;
 	public static int generateIdTeam = 1;
 	public static int generateIdStadium = 1;
 	public static int generateIdGame = 1;
@@ -101,7 +106,6 @@ public class Lidom implements Serializable {
 	//Add Player.
 	public void addPlayer(Player player) {
 		listPlayer.add(player);
-		generateIdPlayer++;
 	}
 
 	//Add Team.
@@ -347,37 +351,37 @@ public class Lidom implements Serializable {
 
 	public void addPlayerToTeam(String nameTeam, Player player) {
 		Team auxTeam = searchTeamByName(nameTeam); //Buscar el equipo correspondiente.
-		auxTeam.addPlayer(player);
+		auxTeam.addPlayerRoster(player);
 	}
-	
+
 	public Boolean checkIdPlayer(String myPlayerId) {
-		
+
 		Boolean correct = true;
-		
+
 		for (Player p : listPlayer) {
 			if (myPlayerId.equalsIgnoreCase(p.getId())) {
 				correct = false;
 				break;		
 			}
 		}
-			
+
 		return correct; // return true si el ID no se encuentra en otro jugador, o sea el id se puede registrar.
-		
-		
+
+
 	}
-	
+
 	public Boolean checkNumberPlayer(String myPlayerNumber, String playerTeam) {
 		Team auxTeam = searchTeamByName(playerTeam);
 		Boolean correct = true;
-		
+
 		for (Player p : auxTeam.getRosterPlayers()) {
 			if (myPlayerNumber.equalsIgnoreCase(p.getNumber())) {
 				correct = false;
 				break;		
 			}
-			
+
 		}
-			
+
 		return correct; // return true si el Numero no se encuentra en otro jugador del equipo, o sea que el numero se puede usar.
 	}
 
@@ -387,7 +391,7 @@ public class Lidom implements Serializable {
 
 	// Para cargar los datos de la clase controladora.
 	public void loadInitData(Lidom myLidom) {
-		
+
 		File file = new File("DatosGeneralesLidom.dat");
 		FileInputStream fileInput;
 		ObjectInputStream fileObjectInput;
@@ -410,21 +414,21 @@ public class Lidom implements Serializable {
 		}
 
 	}
-	
-	
+
+	// para guardar los datos de la clase controladora
 	public void saveInitData(Lidom myLidom) {
 		File file = new File("DatosGeneralesLidom.dat");
 		FileOutputStream fileOutput;
 		ObjectOutputStream fileObjectOutput = null;
-		
+
 		try {
 			fileOutput = new FileOutputStream(file);
 			fileObjectOutput = new ObjectOutputStream(fileOutput);
 			fileObjectOutput.writeObject(myLidom);
-			
+
 			fileOutput.close();
 			fileObjectOutput.close();
-			
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -436,13 +440,94 @@ public class Lidom implements Serializable {
 				e.printStackTrace();
 			}
 		}
-		
-		
+
+
 	}
 
+	
+	public void writeCodes(int code, String name) {
+		
+		
+		
+		File file = new File(name + ".dat");
+		FileOutputStream fileOutput;
+		ObjectOutputStream fileObjectOutput = null;
 
+		try {
+			fileOutput = new FileOutputStream(file);
+			fileObjectOutput = new ObjectOutputStream(fileOutput);
+			fileObjectOutput.writeObject(code);
 
+			fileOutput.close();
+			fileObjectOutput.close();
 
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				fileObjectOutput.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		}
+		
+
+	
+	
+	public void readStadiumCodes(int code, String name) {
+		
+		
+		File file = new File(name + ".dat");
+		FileInputStream fileInput;
+		ObjectInputStream fileObjectInput;
+
+		try {
+			fileInput = new FileInputStream (file);
+			fileObjectInput = new ObjectInputStream(fileInput);
+
+			generateIdStadium = (Integer) fileObjectInput.readObject();
+			fileInput.close();
+			fileObjectInput.close();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+	       
+	}
+	
+public void readTeamCodes(int code, String name) {
+		
+		
+		File file = new File(name + ".dat");
+		FileInputStream fileInput;
+		ObjectInputStream fileObjectInput;
+
+		try {
+			fileInput = new FileInputStream (file);
+			fileObjectInput = new ObjectInputStream(fileInput);
+
+			generateIdTeam = (Integer) fileObjectInput.readObject();
+			fileInput.close();
+			fileObjectInput.close();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+	       
+	}
 
 
 }
