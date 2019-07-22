@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Image;
 
 import javax.swing.SwingConstants;
@@ -40,6 +41,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.swing.JScrollPane;
@@ -125,7 +127,7 @@ public class Home extends JFrame {
 	private static Object[] columnRoster;
 	private static Object[] columnLineUp;
 	private static Object[] columnLesionados;
-	private JPanel panelLineUp;
+	private static JPanel panelLineUp;
 	private JLabel lblBgPlayLineUp;
 	private JLabel lblCrearLineUp;
 	private JButton btnCf;
@@ -151,6 +153,22 @@ public class Home extends JFrame {
 	private JLabel lblCf;
 	private JLabel lblRf;
 	private JPanel panel_1;
+	private JButton btnPartidos;
+	private JPanel panelPartidosDashboard;
+	private JPanel panelMenuPartidos;
+	private JButton btnListarPartido;
+	private JButton btnRegistrarPartido;
+	private JButton btnBoxScores;
+	private JButton btnButtonsNa;
+	private JButton btnButtonNa;
+	private JPanel panel_2;
+	private JPanel panel_3;
+	private JLabel lblFundado;
+	private JLabel lblManager;
+	private static JLabel lblEstadioTeam;
+	private static JLabel lblFundadoTeam;
+	private static JLabel lblManagerTeam;
+	private JLabel lblEstadio;
 
 
 	/**
@@ -178,6 +196,8 @@ public class Home extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1455, 740);
 		dimention = super.getToolkit().getScreenSize();
+		super.getToolkit().getScreenResolution();
+		//super.getToolkit().getS
 		super.setSize(dimention.width, (dimention.height-50));
 		setLocationRelativeTo(null);
 		Lidom.getInstance().readStadiumCodes(Lidom.generateIdStadium, "codeStadium");
@@ -212,6 +232,10 @@ public class Home extends JFrame {
 				//panelMenuEquipo.setSize(170,218);
 				setColorBlue(btnEquipos);
 				panelMenuEquipo.setVisible(true);
+				if (panelMenuLateral.getX() >= 0) {
+					Animacion.mover_izquierda(0, -400, 3, 3, panelMenuLateral);
+					
+				}
 
 			}
 
@@ -243,6 +267,11 @@ public class Home extends JFrame {
 				//	panelMenuJugadores.setSize(170,218);
 				setColorBlue(btnJugadores);
 				panelMenuJugadores.setVisible(true);
+				if (panelMenuLateral.getX() >= 0) {
+					Animacion.mover_izquierda(0, -400, 3, 3, panelMenuLateral);
+					
+				}
+
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
@@ -323,6 +352,11 @@ public class Home extends JFrame {
 				//	panelMenuJugadores.setSize(170,218);
 				setColorBlue(btnEstadios);
 				panelMenuEstadio.setVisible(true);
+				if (panelMenuLateral.getX() >= 0) {
+					Animacion.mover_izquierda(0, -400, 3, 3, panelMenuLateral);
+					
+				}
+
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
@@ -366,6 +400,17 @@ public class Home extends JFrame {
 		panelMenuBar.add(btnMenu);
 
 		btnHome = new JButton("Home");
+		btnHome.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnHome.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				setColorBlue(btnHome);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				resetColor(btnHome);
+			}
+		});
 
 		btnHome.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -382,6 +427,33 @@ public class Home extends JFrame {
 		btnHome.setBackground(new Color(0, 30, 72));
 		btnHome.setBounds(1633, 0, 170, 50);
 		panelMenuBar.add(btnHome);
+
+		btnPartidos = new JButton("PARTIDOS");
+		btnPartidos.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				//	panelMenuJugadores.setSize(170,218);
+				setColorBlue(btnPartidos);
+				panelMenuPartidos.setVisible(true);
+				if (panelMenuLateral.getX() >= 0) {
+					Animacion.mover_izquierda(0, -400, 3, 3, panelMenuLateral);	
+				}
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				//panelMenuJugadores.setSize(0,0);
+				resetColor(btnPartidos);
+				panelMenuPartidos.setVisible(false);
+			}
+		});
+		btnPartidos.setIconTextGap(10);
+		btnPartidos.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnPartidos.setForeground(new Color(255, 255, 240));
+		btnPartidos.setFont(new Font("Consolas", Font.BOLD, 22));
+		btnPartidos.setBorder(null);
+		btnPartidos.setBackground(new Color(0, 30, 72));
+		btnPartidos.setBounds(875, 0, 170, 50);
+		panelMenuBar.add(btnPartidos);
 
 		panelMenuEquipo = new JPanel();
 		panelMenuEquipo.setVisible(false);
@@ -486,7 +558,7 @@ public class Home extends JFrame {
 		btnButtons.setFont(new Font("Consolas", Font.BOLD, 22));
 		btnButtons.setBorder(null);
 		btnButtons.setBackground(new Color(4, 10, 20));
-		btnButtons.setBounds(12, 298, 376, 37);
+		btnButtons.setBounds(12, 298, 307, 37);
 		panelMenuLateral.add(btnButtons);
 
 		separator_1 = new JSeparator();
@@ -496,7 +568,7 @@ public class Home extends JFrame {
 		separator_1.setBounds(12, 161, 376, 4);
 		panelMenuLateral.add(separator_1);
 
-		lblTitle_1 = new JLabel("Title 2");
+		lblTitle_1 = new JLabel("Partidos");
 		lblTitle_1.setVerticalTextPosition(SwingConstants.BOTTOM);
 		lblTitle_1.setOpaque(true);
 		lblTitle_1.setIconTextGap(10);
@@ -504,10 +576,10 @@ public class Home extends JFrame {
 		lblTitle_1.setForeground(Color.WHITE);
 		lblTitle_1.setFont(new Font("Consolas", Font.BOLD, 20));
 		lblTitle_1.setBackground(new Color(8, 18, 30));
-		lblTitle_1.setBounds(12, 473, 376, 37);
+		lblTitle_1.setBounds(12, 460, 376, 37);
 		panelMenuLateral.add(lblTitle_1);
 
-		btnButtons_1 = new JButton("buttons #");
+		btnButtons_1 = new JButton("Gestionar partidos");
 		btnButtons_1.setIconTextGap(30);
 		btnButtons_1.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnButtons_1.setHorizontalAlignment(SwingConstants.LEADING);
@@ -515,10 +587,10 @@ public class Home extends JFrame {
 		btnButtons_1.setFont(new Font("Consolas", Font.BOLD, 22));
 		btnButtons_1.setBorder(null);
 		btnButtons_1.setBackground(new Color(4, 10, 20));
-		btnButtons_1.setBounds(12, 523, 307, 37);
+		btnButtons_1.setBounds(12, 510, 307, 37);
 		panelMenuLateral.add(btnButtons_1);
 
-		btnButtons_2 = new JButton("buttons #");
+		btnButtons_2 = new JButton("buttons n/a");
 		btnButtons_2.setIconTextGap(30);
 		btnButtons_2.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnButtons_2.setHorizontalAlignment(SwingConstants.LEADING);
@@ -526,10 +598,10 @@ public class Home extends JFrame {
 		btnButtons_2.setFont(new Font("Consolas", Font.BOLD, 22));
 		btnButtons_2.setBorder(null);
 		btnButtons_2.setBackground(new Color(4, 10, 20));
-		btnButtons_2.setBounds(12, 623, 307, 37);
+		btnButtons_2.setBounds(12, 718, 307, 37);
 		panelMenuLateral.add(btnButtons_2);
 
-		lblTitle_2 = new JLabel("Title 3");
+		lblTitle_2 = new JLabel("Estad\u00EDticas");
 		lblTitle_2.setVerticalTextPosition(SwingConstants.BOTTOM);
 		lblTitle_2.setOpaque(true);
 		lblTitle_2.setIconTextGap(10);
@@ -537,7 +609,7 @@ public class Home extends JFrame {
 		lblTitle_2.setForeground(Color.WHITE);
 		lblTitle_2.setFont(new Font("Consolas", Font.BOLD, 20));
 		lblTitle_2.setBackground(new Color(8, 18, 30));
-		lblTitle_2.setBounds(12, 573, 376, 37);
+		lblTitle_2.setBounds(12, 668, 376, 37);
 		panelMenuLateral.add(lblTitle_2);
 
 		lblSebVersinBeta = new JLabel("S.E.B Versi\u00F3n beta: 1.0");
@@ -579,6 +651,38 @@ public class Home extends JFrame {
 		separator_2.setBackground(Color.WHITE);
 		separator_2.setBounds(81, 209, 238, 4);
 		panelMenuLateral.add(separator_2);
+
+		btnBoxScores = new JButton("Box scores");
+		btnBoxScores.setIconTextGap(30);
+		btnBoxScores.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnBoxScores.setHorizontalAlignment(SwingConstants.LEADING);
+		btnBoxScores.setForeground(new Color(255, 255, 240));
+		btnBoxScores.setFont(new Font("Consolas", Font.BOLD, 22));
+		btnBoxScores.setBorder(null);
+		btnBoxScores.setBackground(new Color(4, 10, 20));
+		btnBoxScores.setBounds(12, 560, 307, 37);
+		panelMenuLateral.add(btnBoxScores);
+
+		btnButtonsNa = new JButton("buttons n/a");
+		btnButtonsNa.setIconTextGap(30);
+		btnButtonsNa.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnButtonsNa.setHorizontalAlignment(SwingConstants.LEADING);
+		btnButtonsNa.setForeground(new Color(255, 255, 240));
+		btnButtonsNa.setFont(new Font("Consolas", Font.BOLD, 22));
+		btnButtonsNa.setBorder(null);
+		btnButtonsNa.setBackground(new Color(4, 10, 20));
+		btnButtonsNa.setBounds(12, 768, 307, 37);
+		panelMenuLateral.add(btnButtonsNa);
+
+		btnButtonNa = new JButton("Button n/a");
+		btnButtonNa.setIconTextGap(5);
+		btnButtonNa.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnButtonNa.setForeground(new Color(255, 255, 240));
+		btnButtonNa.setFont(new Font("Consolas", Font.BOLD, 22));
+		btnButtonNa.setBorder(null);
+		btnButtonNa.setBackground(new Color(4, 10, 20));
+		btnButtonNa.setBounds(12, 348, 307, 37);
+		panelMenuLateral.add(btnButtonNa);
 		panelMenuEstadio.setBounds(693, 50, 170, 141);
 		panelMenuEstadio.setBackground(new Color(0, 30, 72));
 		panelBackGround.add(panelMenuEstadio);
@@ -742,7 +846,7 @@ public class Home extends JFrame {
 				//panelMenuJugadores.setSize(0,0);
 				resetColor(btnJugadores);
 				panelMenuJugadores.setVisible(false);
-			}
+		}
 		});
 		panelMenuJugadores.setBounds(511, 50, 170, 141);
 		panelBackGround.add(panelMenuJugadores);
@@ -823,6 +927,79 @@ public class Home extends JFrame {
 		btnListarPlayers.setBounds(0, 76, 170, 50);
 		panelMenuJugadores.add(btnListarPlayers);
 
+		panelMenuPartidos = new JPanel();
+		panelMenuPartidos.setVisible(false);
+		panelMenuPartidos.setBackground(new Color(0,30,72));
+		panelMenuPartidos.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				//panelMenuJugadores.setSize(170,218);
+				setColorBlue(btnPartidos);
+				panelMenuPartidos.setVisible(true);
+
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				//panelMenuJugadores.setSize(0,0);
+				resetColor(btnPartidos);
+				panelMenuPartidos.setVisible(false);
+			}
+		});
+		panelMenuEstadio.setVisible(false);
+		panelMenuPartidos.setBounds(875, 50, 170, 141);
+		panelBackGround.add(panelMenuPartidos);
+		panelMenuPartidos.setLayout(null);
+
+		btnListarPartido = new JButton("Listar");
+		btnListarPartido.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnListarPartido.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				setColorBlue(btnPartidos);
+				setColorOrange(btnListarPartido);
+				panelMenuPartidos.setVisible(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				resetColor(btnListarPartido);
+				resetColor(btnPartidos);
+				panelMenuPartidos.setVisible(false);
+			}
+		});
+		btnListarPartido.setIconTextGap(10);
+		btnListarPartido.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnListarPartido.setForeground(new Color(255, 255, 240));
+		btnListarPartido.setFont(new Font("Consolas", Font.BOLD, 22));
+		btnListarPartido.setBorder(null);
+		btnListarPartido.setBackground(new Color(0, 30, 72));
+		btnListarPartido.setBounds(0, 76, 170, 50);
+		panelMenuPartidos.add(btnListarPartido);
+
+		btnRegistrarPartido = new JButton("Registrar");
+		btnRegistrarPartido.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnRegistrarPartido.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				setColorBlue(btnPartidos);
+				setColorOrange(btnRegistrarPartido);
+				panelMenuPartidos.setVisible(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				resetColor(btnRegistrarPartido);
+				resetColor(btnPartidos);
+				panelMenuPartidos.setVisible(false);
+			}
+		});
+		btnRegistrarPartido.setIconTextGap(10);
+		btnRegistrarPartido.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnRegistrarPartido.setForeground(new Color(255, 255, 240));
+		btnRegistrarPartido.setFont(new Font("Consolas", Font.BOLD, 22));
+		btnRegistrarPartido.setBorder(null);
+		btnRegistrarPartido.setBackground(new Color(0, 30, 72));
+		btnRegistrarPartido.setBounds(0, 13, 170, 50);
+		panelMenuPartidos.add(btnRegistrarPartido);
+
 		panelBgHome = new JPanel();
 		panelBgHome.setBackground(new Color(255, 255, 255));
 		panelBgHome.setBounds(0, 63, 1910, 957);
@@ -834,6 +1011,49 @@ public class Home extends JFrame {
 		panelBgDashboard.setBackground(new Color(255, 255, 255));
 		panelBgHome.add(panelBgDashboard, "name_550420640900300");
 		panelBgDashboard.setLayout(null);
+		
+		panel_2 = new JPanel() {
+			protected void paintComponent(Graphics g) {
+				g.setColor(getBackground());
+				
+				g.fillRect(0, 0, getWidth(), getHeight());
+		
+				super.paintComponent(g);
+			}
+		};
+		panel_2.setOpaque(false);
+		panel_2.setBackground(new Color(0, 0, 0, 60));
+		panel_2.setBounds(59, 13, 1100, 396);
+		panelBgDashboard.add(panel_2);
+		
+		panel_3 = new JPanel() {
+			protected void paintComponent(Graphics g) {
+				g.setColor(getBackground());
+				
+				g.fillRect(0, 0, getWidth(), getHeight());
+		
+				super.paintComponent(g);
+			}
+		};
+		panel_3.setOpaque(false);
+		panel_3.setBackground(new Color(0, 0, 0, 60));
+		panel_3.setBounds(59, 500, 1100, 396);
+		panelBgDashboard.add(panel_3);
+
+		panelPartidosDashboard = new JPanel() {
+		protected void paintComponent(Graphics g) {
+			g.setColor(getBackground());
+			
+			g.fillRect(0, 0, getWidth(), getHeight());
+	
+			super.paintComponent(g);
+		}
+		};
+		panelPartidosDashboard.setBackground(new Color(0, 0, 0,60));
+		panelPartidosDashboard.setOpaque(false);
+		
+		panelPartidosDashboard.setBounds(1267, 13, 590, 883);
+		panelBgDashboard.add(panelPartidosDashboard);
 
 		lblPlay_Blur = new JLabel("");
 		lblPlay_Blur.setBounds(0, 0, 1910, 957);
@@ -861,7 +1081,7 @@ public class Home extends JFrame {
 		panelManageTeams.add(lblLogoTeam);
 
 		lblNameTeam = new JLabel();
-		lblNameTeam.setEnabled(false);
+		lblNameTeam.setBackground(new Color(255, 255, 255));
 		lblNameTeam.setVerticalTextPosition(SwingConstants.BOTTOM);
 		lblNameTeam.setVerticalAlignment(SwingConstants.BOTTOM);
 		lblNameTeam.setHorizontalAlignment(SwingConstants.CENTER);
@@ -886,11 +1106,11 @@ public class Home extends JFrame {
 		lblRoster.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRoster.setForeground(Color.WHITE);
 		lblRoster.setFont(new Font("Consolas", Font.PLAIN, 20));
-		lblRoster.setBounds(1495, 13, 403, 31);
+		lblRoster.setBounds(1523, 13, 375, 31);
 		panelManageTeams.add(lblRoster);
 
 		scrollPaneRoster = new JScrollPane();
-		scrollPaneRoster.setBounds(1495, 57, 403, 490);
+		scrollPaneRoster.setBounds(1523, 57, 375, 462);
 		panelManageTeams.add(scrollPaneRoster);
 
 		tableRoster = new JTable();
@@ -930,7 +1150,7 @@ public class Home extends JFrame {
 		scrollPaneRoster.setViewportView(tableRoster);
 
 		scrollPaneLineUp = new JScrollPane();
-		scrollPaneLineUp.setBounds(1080, 57, 403, 490);
+		scrollPaneLineUp.setBounds(1136, 57, 375, 462);
 		panelManageTeams.add(scrollPaneLineUp);
 
 		tableLineUp = new JTable();
@@ -970,7 +1190,7 @@ public class Home extends JFrame {
 		scrollPaneLineUp.setViewportView(tableLineUp);
 
 		scrollPaneLesionados = new JScrollPane();
-		scrollPaneLesionados.setBounds(1495, 604, 403, 340);
+		scrollPaneLesionados.setBounds(1523, 604, 375, 340);
 		panelManageTeams.add(scrollPaneLesionados);
 
 		tableLesionados = new JTable();
@@ -1016,7 +1236,7 @@ public class Home extends JFrame {
 		lblLineUp.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLineUp.setForeground(Color.WHITE);
 		lblLineUp.setFont(new Font("Consolas", Font.PLAIN, 20));
-		lblLineUp.setBounds(1080, 560, 403, 31);
+		lblLineUp.setBounds(1159, 560, 328, 31);
 		panelManageTeams.add(lblLineUp);
 
 		lblLesionados = new JLabel("Jugadores Lesionados");
@@ -1028,7 +1248,7 @@ public class Home extends JFrame {
 		lblLesionados.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLesionados.setForeground(Color.WHITE);
 		lblLesionados.setFont(new Font("Consolas", Font.PLAIN, 20));
-		lblLesionados.setBounds(1495, 560, 403, 31);
+		lblLesionados.setBounds(1523, 560, 375, 31);
 		panelManageTeams.add(lblLesionados);
 
 		panelMenuInfo = new JPanel();
@@ -1040,7 +1260,7 @@ public class Home extends JFrame {
 
 		panelLineUp = new JPanel();
 		panelLineUp.setVisible(false);
-		
+
 		panel_1 = new JPanel();
 		panelMenuInfo.add(panel_1, "name_633036105551300");
 		panelLineUp.setBackground(new Color(255, 255, 255));
@@ -1500,9 +1720,8 @@ public class Home extends JFrame {
 		btnLineUp.setBounds(376, 615, 284, 37);
 		panelLineUp.add(btnLineUp);
 
-
-
 		btnPanelLineUp = new JButton("Crear Line Up");
+		btnPanelLineUp.setIcon(new ImageIcon(Home.class.getResource("/iconos_imagenes/icons8_add_property_1_36px.png")));
 		btnPanelLineUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panel_1.setVisible(false);
@@ -1516,7 +1735,7 @@ public class Home extends JFrame {
 		btnPanelLineUp.setFont(new Font("Consolas", Font.BOLD, 22));
 		btnPanelLineUp.setBorder(null);
 		btnPanelLineUp.setBackground(new Color(4, 10, 20));
-		btnPanelLineUp.setBounds(1090, 606, 383, 37);
+		btnPanelLineUp.setBounds(1183, 606, 280, 37);
 		panelManageTeams.add(btnPanelLineUp);
 
 		btnFuncionesNa_1 = new JButton("Funciones n/a");
@@ -1526,7 +1745,7 @@ public class Home extends JFrame {
 		btnFuncionesNa_1.setFont(new Font("Consolas", Font.BOLD, 22));
 		btnFuncionesNa_1.setBorder(null);
 		btnFuncionesNa_1.setBackground(new Color(4, 10, 20));
-		btnFuncionesNa_1.setBounds(1090, 656, 383, 37);
+		btnFuncionesNa_1.setBounds(1183, 656, 280, 37);
 		panelManageTeams.add(btnFuncionesNa_1);
 
 		btnFuncionesNa_2 = new JButton("Funciones n/a");
@@ -1536,7 +1755,7 @@ public class Home extends JFrame {
 		btnFuncionesNa_2.setFont(new Font("Consolas", Font.BOLD, 22));
 		btnFuncionesNa_2.setBorder(null);
 		btnFuncionesNa_2.setBackground(new Color(4, 10, 20));
-		btnFuncionesNa_2.setBounds(1090, 706, 383, 37);
+		btnFuncionesNa_2.setBounds(1183, 706, 280, 37);
 		panelManageTeams.add(btnFuncionesNa_2);
 
 		btnFuncionesNa_3 = new JButton("Funciones n/a");
@@ -1546,7 +1765,7 @@ public class Home extends JFrame {
 		btnFuncionesNa_3.setFont(new Font("Consolas", Font.BOLD, 22));
 		btnFuncionesNa_3.setBorder(null);
 		btnFuncionesNa_3.setBackground(new Color(4, 10, 20));
-		btnFuncionesNa_3.setBounds(1090, 756, 383, 37);
+		btnFuncionesNa_3.setBounds(1183, 756, 280, 37);
 		panelManageTeams.add(btnFuncionesNa_3);
 
 		btnFuncionesNa_4 = new JButton("Funciones n/a");
@@ -1556,7 +1775,7 @@ public class Home extends JFrame {
 		btnFuncionesNa_4.setFont(new Font("Consolas", Font.BOLD, 22));
 		btnFuncionesNa_4.setBorder(null);
 		btnFuncionesNa_4.setBackground(new Color(4, 10, 20));
-		btnFuncionesNa_4.setBounds(1090, 806, 383, 37);
+		btnFuncionesNa_4.setBounds(1183, 806, 280, 37);
 		panelManageTeams.add(btnFuncionesNa_4);
 
 		btnFuncionesNa_5 = new JButton("Funciones n/a");
@@ -1566,7 +1785,7 @@ public class Home extends JFrame {
 		btnFuncionesNa_5.setFont(new Font("Consolas", Font.BOLD, 22));
 		btnFuncionesNa_5.setBorder(null);
 		btnFuncionesNa_5.setBackground(new Color(4, 10, 20));
-		btnFuncionesNa_5.setBounds(1090, 856, 383, 37);
+		btnFuncionesNa_5.setBounds(1183, 856, 280, 37);
 		panelManageTeams.add(btnFuncionesNa_5);
 
 		lblLineUp_1 = new JLabel("Line Up / Jugadores Regulares");
@@ -1578,8 +1797,74 @@ public class Home extends JFrame {
 		lblLineUp_1.setForeground(Color.WHITE);
 		lblLineUp_1.setFont(new Font("Consolas", Font.PLAIN, 20));
 		lblLineUp_1.setBackground(new Color(0, 30, 72));
-		lblLineUp_1.setBounds(1080, 13, 403, 31);
+		lblLineUp_1.setBounds(1136, 13, 375, 31);
 		panelManageTeams.add(lblLineUp_1);
+		
+		lblFundado = new JLabel("- Fundado:");
+		lblFundado.setVerticalTextPosition(SwingConstants.BOTTOM);
+		lblFundado.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblFundado.setHorizontalTextPosition(SwingConstants.LEFT);
+		lblFundado.setHorizontalAlignment(SwingConstants.LEFT);
+		lblFundado.setForeground(Color.BLACK);
+		lblFundado.setFont(new Font("Consolas", Font.PLAIN, 22));
+		lblFundado.setBackground(new Color(0, 30, 72));
+		lblFundado.setBounds(351, 99, 120, 31);
+		panelManageTeams.add(lblFundado);
+		
+		lblManager = new JLabel("- Manager:");
+		lblManager.setVerticalTextPosition(SwingConstants.BOTTOM);
+		lblManager.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblManager.setHorizontalTextPosition(SwingConstants.LEFT);
+		lblManager.setHorizontalAlignment(SwingConstants.LEFT);
+		lblManager.setForeground(Color.BLACK);
+		lblManager.setFont(new Font("Consolas", Font.PLAIN, 22));
+		lblManager.setBackground(new Color(0, 30, 72));
+		lblManager.setBounds(351, 141, 120, 31);
+		panelManageTeams.add(lblManager);
+		
+		lblEstadioTeam = new JLabel("");
+		lblEstadioTeam.setVerticalTextPosition(SwingConstants.BOTTOM);
+		lblEstadioTeam.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblEstadioTeam.setHorizontalTextPosition(SwingConstants.LEFT);
+		lblEstadioTeam.setHorizontalAlignment(SwingConstants.LEFT);
+		lblEstadioTeam.setForeground(Color.BLACK);
+		lblEstadioTeam.setFont(new Font("Consolas", Font.PLAIN, 22));
+		lblEstadioTeam.setBackground(new Color(0, 30, 72));
+		lblEstadioTeam.setBounds(528, 55, 260, 31);
+		panelManageTeams.add(lblEstadioTeam);
+		
+		lblFundadoTeam = new JLabel("");
+		lblFundadoTeam.setVerticalTextPosition(SwingConstants.BOTTOM);
+		lblFundadoTeam.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblFundadoTeam.setHorizontalTextPosition(SwingConstants.LEFT);
+		lblFundadoTeam.setHorizontalAlignment(SwingConstants.LEFT);
+		lblFundadoTeam.setForeground(Color.BLACK);
+		lblFundadoTeam.setFont(new Font("Consolas", Font.PLAIN, 22));
+		lblFundadoTeam.setBackground(new Color(0, 30, 72));
+		lblFundadoTeam.setBounds(528, 99, 260, 31);
+		panelManageTeams.add(lblFundadoTeam);
+		
+		lblManagerTeam = new JLabel("");
+		lblManagerTeam.setVerticalTextPosition(SwingConstants.BOTTOM);
+		lblManagerTeam.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblManagerTeam.setHorizontalTextPosition(SwingConstants.LEFT);
+		lblManagerTeam.setHorizontalAlignment(SwingConstants.LEFT);
+		lblManagerTeam.setForeground(Color.BLACK);
+		lblManagerTeam.setFont(new Font("Consolas", Font.PLAIN, 22));
+		lblManagerTeam.setBackground(new Color(0, 30, 72));
+		lblManagerTeam.setBounds(528, 141, 260, 31);
+		panelManageTeams.add(lblManagerTeam);
+		
+		lblEstadio = new JLabel("- Estadio:");
+		lblEstadio.setVerticalTextPosition(SwingConstants.BOTTOM);
+		lblEstadio.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblEstadio.setHorizontalTextPosition(SwingConstants.LEFT);
+		lblEstadio.setHorizontalAlignment(SwingConstants.LEFT);
+		lblEstadio.setForeground(Color.BLACK);
+		lblEstadio.setFont(new Font("Consolas", Font.PLAIN, 22));
+		lblEstadio.setBackground(new Color(0, 30, 72));
+		lblEstadio.setBounds(351, 55, 120, 31);
+		panelManageTeams.add(lblEstadio);
 
 		panel = new JPanel();
 		panel.setBounds(85, 373, 449, 366);
@@ -1606,12 +1891,20 @@ public class Home extends JFrame {
 
 	// metodo para abrir la ventana de admin equipo con los datos correspondientes.
 	public static void manageTeamOpen(Team auxTeam) {
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 
 		if (auxTeam!=null) {
 			panelBgDashboard.setVisible(false);
 			panelManageTeams.setVisible(true);
+			panelLineUp.setVisible(false);
+			
 
 			lblNameTeam.setText(auxTeam.getName());
+			lblEstadioTeam.setText(auxTeam.getStadium());
+			lblFundadoTeam.setText(formatter.format(auxTeam.getFoundationDate()));
+			lblManagerTeam.setText(auxTeam.getManager());
+			
 
 			String routetosave = "Fotos_Equipos/"+ auxTeam.getName() + ".png";
 			/** to adjust image at size of JLabel **/
