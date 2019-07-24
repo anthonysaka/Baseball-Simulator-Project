@@ -15,6 +15,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
+
 
 /*  Final project - Baseball Simulator -
  * 
@@ -27,10 +29,6 @@ import java.util.ArrayList;
 
 public class Lidom implements Serializable {
 
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 5337891823986950253L;
 	private ArrayList<Team> listTeams;
 	private ArrayList<Stadium>listStadium;
@@ -254,6 +252,21 @@ public class Lidom implements Serializable {
 			i++;
 		}
 		return auxStadium; //Retorna el ESTADIO del NOMBRE encontrado.
+	}
+	
+	public Game searchGame(String local, String visitante, String fecha, String hora) {
+		Game auxGame = null;
+		boolean found = false;
+		int i = 0;
+		
+		while (!found &&  i < listGame.size()) {
+			if (listGame.get(i).getAwayTeam().equalsIgnoreCase(local) && listGame.get(i).getHomeTeam().equalsIgnoreCase(visitante) && listGame.get(i).getDate().equalsIgnoreCase(fecha) && listGame.get(i).getHora().equalsIgnoreCase(hora)) {
+				found = true;
+				auxGame = listGame.get(i);
+			}
+			i++;
+		}
+		return auxGame;
 	}
 
 	//metodo para filtrar el mejor bateador en HR, hit, 2b, 3b o averages.

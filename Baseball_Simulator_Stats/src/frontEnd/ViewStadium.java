@@ -180,6 +180,14 @@ public class ViewStadium extends JDialog {
 			tableStadiums.getColumnModel().getColumn(1).setResizable(true);
 			tableStadiums.getColumnModel().getColumn(2).setResizable(true);
 			scrollPane.setViewportView(tableStadiums);
+			
+			
+			/******** para centrar el contenido de la tabla *******/		
+			DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+			tcr.setHorizontalAlignment(SwingConstants.CENTER);
+			for (int i = 0; i < tableStadiums.getColumnCount(); i++)
+				tableStadiums.getColumnModel().getColumn(i).setCellRenderer(tcr);
+			
 
 			btnEliminar = new JButton("Eliminar");
 			btnEliminar.addActionListener(new ActionListener() {

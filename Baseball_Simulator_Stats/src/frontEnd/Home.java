@@ -28,6 +28,7 @@ import javax.swing.border.LineBorder;
 
 import Animacion.Animacion;
 import backEnd.Batter;
+import backEnd.Game;
 import backEnd.Lidom;
 import backEnd.Pitcher;
 import backEnd.Player;
@@ -43,9 +44,12 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
@@ -119,14 +123,19 @@ public class Home extends JFrame {
 	private static JTable tableRoster;
 	private static JTable tableLineUp;
 	private static JTable tableLesionados;
+	private static JTable tablePartidosHoy;
 
 	private static DefaultTableModel modelRoster;
 	private static DefaultTableModel modelLineUp;
 	private static DefaultTableModel modelLesionados;
+	private static DefaultTableModel modelGameToday;
 
 	private static Object[] columnRoster;
 	private static Object[] columnLineUp;
 	private static Object[] columnLesionados;
+	private static Object[] columnGameToday;
+	
+	
 	private static JPanel panelLineUp;
 	private JLabel lblBgPlayLineUp;
 	private JLabel lblCrearLineUp;
@@ -161,7 +170,7 @@ public class Home extends JFrame {
 	private JButton btnBoxScores;
 	private JButton btnButtonsNa;
 	private JButton btnButtonNa;
-	private JPanel panel_2;
+	private JPanel panelPartidoHoy;
 	private JPanel panel_3;
 	private JLabel lblFundado;
 	private JLabel lblManager;
@@ -169,6 +178,12 @@ public class Home extends JFrame {
 	private static JLabel lblFundadoTeam;
 	private static JLabel lblManagerTeam;
 	private JLabel lblEstadio;
+	private static JPanel panelGameSimulation;
+	private JLabel lblNewLabel;
+	private static JPanel panelScoreBoard;
+	private JScrollPane scrollPanePartidosHoy;
+
+	private JLabel lblListaPartidosDe;
 
 
 	/**
@@ -234,7 +249,7 @@ public class Home extends JFrame {
 				panelMenuEquipo.setVisible(true);
 				if (panelMenuLateral.getX() >= 0) {
 					Animacion.mover_izquierda(0, -400, 3, 3, panelMenuLateral);
-					
+
 				}
 
 			}
@@ -269,7 +284,7 @@ public class Home extends JFrame {
 				panelMenuJugadores.setVisible(true);
 				if (panelMenuLateral.getX() >= 0) {
 					Animacion.mover_izquierda(0, -400, 3, 3, panelMenuLateral);
-					
+
 				}
 
 			}
@@ -354,7 +369,7 @@ public class Home extends JFrame {
 				panelMenuEstadio.setVisible(true);
 				if (panelMenuLateral.getX() >= 0) {
 					Animacion.mover_izquierda(0, -400, 3, 3, panelMenuLateral);
-					
+
 				}
 
 			}
@@ -591,6 +606,13 @@ public class Home extends JFrame {
 		panelMenuLateral.add(btnButtons_1);
 
 		btnButtons_2 = new JButton("buttons n/a");
+		btnButtons_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Animacion.mover_izquierda(0, -400, 3, 3, panelMenuLateral);
+				panelGameSimulation.setVisible(true);
+				panelBgDashboard.setVisible(false);
+			}
+		});
 		btnButtons_2.setIconTextGap(30);
 		btnButtons_2.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnButtons_2.setHorizontalAlignment(SwingConstants.LEADING);
@@ -846,7 +868,7 @@ public class Home extends JFrame {
 				//panelMenuJugadores.setSize(0,0);
 				resetColor(btnJugadores);
 				panelMenuJugadores.setVisible(false);
-		}
+			}
 		});
 		panelMenuJugadores.setBounds(511, 50, 170, 141);
 		panelBackGround.add(panelMenuJugadores);
@@ -951,6 +973,14 @@ public class Home extends JFrame {
 		panelMenuPartidos.setLayout(null);
 
 		btnListarPartido = new JButton("Listar");
+		btnListarPartido.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ViewGame listGame = new ViewGame();
+				listGame.setModal(true);
+				listGame.setVisible(true);
+				
+			}
+		});
 		btnListarPartido.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnListarPartido.addMouseListener(new MouseAdapter() {
 			@Override
@@ -976,6 +1006,13 @@ public class Home extends JFrame {
 		panelMenuPartidos.add(btnListarPartido);
 
 		btnRegistrarPartido = new JButton("Registrar");
+		btnRegistrarPartido.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddGame newGame= new AddGame();
+				newGame.setModal(true);
+				newGame.setVisible(true);
+			}
+		});
 		btnRegistrarPartido.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnRegistrarPartido.addMouseListener(new MouseAdapter() {
 			@Override
@@ -1011,28 +1048,90 @@ public class Home extends JFrame {
 		panelBgDashboard.setBackground(new Color(255, 255, 255));
 		panelBgHome.add(panelBgDashboard, "name_550420640900300");
 		panelBgDashboard.setLayout(null);
-		
-		panel_2 = new JPanel() {
+
+		panelPartidoHoy = new JPanel() {
 			protected void paintComponent(Graphics g) {
 				g.setColor(getBackground());
-				
 				g.fillRect(0, 0, getWidth(), getHeight());
-		
 				super.paintComponent(g);
+				
 			}
 		};
-		panel_2.setOpaque(false);
-		panel_2.setBackground(new Color(0, 0, 0, 60));
-		panel_2.setBounds(59, 13, 1100, 396);
-		panelBgDashboard.add(panel_2);
+		panelPartidoHoy.setBackground(new Color(0, 0, 0, 60));
+		panelPartidoHoy.setBounds(59, 13, 1100, 394);
+		panelBgDashboard.add(panelPartidoHoy);
+		panelPartidoHoy.setLayout(null);
 		
+		scrollPanePartidosHoy = new JScrollPane();
+		scrollPanePartidosHoy.setBorder(null);
+		scrollPanePartidosHoy.setViewportBorder(null);
+		scrollPanePartidosHoy.setBackground(new Color(0, 0, 0,50));
+		scrollPanePartidosHoy.setBounds(12, 57, 1076, 324);
+		scrollPanePartidosHoy.getViewport().setBackground(new Color(0,0,0,60));
+		
+		scrollPanePartidosHoy.getViewportBorder();
+		panelPartidoHoy.add(scrollPanePartidosHoy);
+		
+		tablePartidosHoy = new JTable();
+		tablePartidosHoy.setForeground(new Color(255, 255, 255));
+		tablePartidosHoy.setFont(new Font("Consolas", Font.BOLD, 16));
+		tablePartidosHoy.setRowMargin(0);
+		tablePartidosHoy .setFocusable(false);
+		tablePartidosHoy.setRowHeight(26);
+		tablePartidosHoy.setIntercellSpacing(new Dimension(0, 0));
+		tablePartidosHoy.setGridColor(new Color(255, 255, 255));
+		tablePartidosHoy.setShowVerticalLines(false);
+		tablePartidosHoy.getTableHeader().setReorderingAllowed(false);
+		tablePartidosHoy.setSelectionBackground(new Color(239, 108, 0));
+		tablePartidosHoy.getTableHeader().setFont(new Font("Consolas", Font.BOLD, 18));
+		tablePartidosHoy.getTableHeader().setOpaque(false);
+
+		tablePartidosHoy.getTableHeader().setBackground(new Color(255,255,255,80));
+		tablePartidosHoy.setOpaque(false);
+		tablePartidosHoy.setBackground(new Color(0,0,0,50));
+		tablePartidosHoy.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Equipo local", "Equipo visitante", "Estadio", "Fecha", "Hora", "Fin partido"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, String.class, String.class, String.class, String.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+			boolean[] columnEditables = new boolean[] {
+				false, false, false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		tablePartidosHoy.setBorder(null);
+		scrollPanePartidosHoy.setViewportView(tablePartidosHoy);
+		
+		/******** para centrar el contenido de la tabla *******/		
+		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+		tcr.setHorizontalAlignment(SwingConstants.CENTER);
+		for (int i = 0; i < tablePartidosHoy.getColumnCount(); i++)
+			tablePartidosHoy.getColumnModel().getColumn(i).setCellRenderer(tcr);
+		
+		lblListaPartidosDe = new JLabel("LISTA PARTIDOS DE HOY");
+		lblListaPartidosDe.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblListaPartidosDe.setHorizontalAlignment(SwingConstants.CENTER);
+		lblListaPartidosDe.setForeground(Color.WHITE);
+		lblListaPartidosDe.setFont(new Font("Consolas", Font.BOLD, 20));
+		lblListaPartidosDe.setBounds(12, 13, 265, 45);
+		panelPartidoHoy.add(lblListaPartidosDe);
+
 		panel_3 = new JPanel() {
 			protected void paintComponent(Graphics g) {
 				g.setColor(getBackground());
-				
 				g.fillRect(0, 0, getWidth(), getHeight());
-		
 				super.paintComponent(g);
+				
 			}
 		};
 		panel_3.setOpaque(false);
@@ -1041,17 +1140,17 @@ public class Home extends JFrame {
 		panelBgDashboard.add(panel_3);
 
 		panelPartidosDashboard = new JPanel() {
-		protected void paintComponent(Graphics g) {
-			g.setColor(getBackground());
-			
-			g.fillRect(0, 0, getWidth(), getHeight());
-	
-			super.paintComponent(g);
-		}
+			protected void paintComponent(Graphics g) {
+				g.setColor(getBackground());
+
+				g.fillRect(0, 0, getWidth(), getHeight());
+
+				super.paintComponent(g);
+			}
 		};
 		panelPartidosDashboard.setBackground(new Color(0, 0, 0,60));
 		panelPartidosDashboard.setOpaque(false);
-		
+
 		panelPartidosDashboard.setBounds(1267, 13, 590, 883);
 		panelBgDashboard.add(panelPartidosDashboard);
 
@@ -1799,7 +1898,7 @@ public class Home extends JFrame {
 		lblLineUp_1.setBackground(new Color(0, 30, 72));
 		lblLineUp_1.setBounds(1136, 13, 375, 31);
 		panelManageTeams.add(lblLineUp_1);
-		
+
 		lblFundado = new JLabel("- Fundado:");
 		lblFundado.setVerticalTextPosition(SwingConstants.BOTTOM);
 		lblFundado.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -1810,7 +1909,7 @@ public class Home extends JFrame {
 		lblFundado.setBackground(new Color(0, 30, 72));
 		lblFundado.setBounds(351, 99, 120, 31);
 		panelManageTeams.add(lblFundado);
-		
+
 		lblManager = new JLabel("- Manager:");
 		lblManager.setVerticalTextPosition(SwingConstants.BOTTOM);
 		lblManager.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -1821,7 +1920,7 @@ public class Home extends JFrame {
 		lblManager.setBackground(new Color(0, 30, 72));
 		lblManager.setBounds(351, 141, 120, 31);
 		panelManageTeams.add(lblManager);
-		
+
 		lblEstadioTeam = new JLabel("");
 		lblEstadioTeam.setVerticalTextPosition(SwingConstants.BOTTOM);
 		lblEstadioTeam.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -1832,7 +1931,7 @@ public class Home extends JFrame {
 		lblEstadioTeam.setBackground(new Color(0, 30, 72));
 		lblEstadioTeam.setBounds(528, 55, 260, 31);
 		panelManageTeams.add(lblEstadioTeam);
-		
+
 		lblFundadoTeam = new JLabel("");
 		lblFundadoTeam.setVerticalTextPosition(SwingConstants.BOTTOM);
 		lblFundadoTeam.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -1843,7 +1942,7 @@ public class Home extends JFrame {
 		lblFundadoTeam.setBackground(new Color(0, 30, 72));
 		lblFundadoTeam.setBounds(528, 99, 260, 31);
 		panelManageTeams.add(lblFundadoTeam);
-		
+
 		lblManagerTeam = new JLabel("");
 		lblManagerTeam.setVerticalTextPosition(SwingConstants.BOTTOM);
 		lblManagerTeam.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -1854,7 +1953,7 @@ public class Home extends JFrame {
 		lblManagerTeam.setBackground(new Color(0, 30, 72));
 		lblManagerTeam.setBounds(528, 141, 260, 31);
 		panelManageTeams.add(lblManagerTeam);
-		
+
 		lblEstadio = new JLabel("- Estadio:");
 		lblEstadio.setVerticalTextPosition(SwingConstants.BOTTOM);
 		lblEstadio.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -1866,8 +1965,35 @@ public class Home extends JFrame {
 		lblEstadio.setBounds(351, 55, 120, 31);
 		panelManageTeams.add(lblEstadio);
 
+		panelGameSimulation = new JPanel();
+		panelBgHome.add(panelGameSimulation, "name_680040644675600");
+		panelGameSimulation.setLayout(null);
+
+		panelScoreBoard = new JPanel() {
+			protected void paintComponent(Graphics g) {
+				g.setColor(getBackground());
+
+				g.fillRect(0, 0, getWidth(), getHeight());
+
+				super.paintComponent(g);
+			}
+
+		};
+		panelScoreBoard.setOpaque(false);
+		panelScoreBoard.setBackground(new Color(0, 0, 0, 60));
+		panelScoreBoard.setBounds(300, 13, 1250, 210);
+		panelGameSimulation.add(panelScoreBoard);
+		panelScoreBoard.setLayout(null);
+
+		lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(Home.class.getResource("/iconos_imagenes/BgGameSimulation.png")));
+		lblNewLabel.setBounds(0, 0, 1910, 957);
+		panelGameSimulation.add(lblNewLabel);
+
 		panel = new JPanel();
 		panel.setBounds(85, 373, 449, 366);
+		
+		loadGameToday();
 
 
 	}
@@ -1891,20 +2017,20 @@ public class Home extends JFrame {
 
 	// metodo para abrir la ventana de admin equipo con los datos correspondientes.
 	public static void manageTeamOpen(Team auxTeam) {
-		
+
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 
 		if (auxTeam!=null) {
 			panelBgDashboard.setVisible(false);
 			panelManageTeams.setVisible(true);
 			panelLineUp.setVisible(false);
-			
+
 
 			lblNameTeam.setText(auxTeam.getName());
 			lblEstadioTeam.setText(auxTeam.getStadium());
 			lblFundadoTeam.setText(formatter.format(auxTeam.getFoundationDate()));
 			lblManagerTeam.setText(auxTeam.getManager());
-			
+
 
 			String routetosave = "Fotos_Equipos/"+ auxTeam.getName() + ".png";
 			/** to adjust image at size of JLabel **/
@@ -1961,8 +2087,44 @@ public class Home extends JFrame {
 		}
 
 	}
-
-
-
-
+	
+	//Metodo para cargar la tabla de partidos de hoy del dashboard, ventana HOME.
+	public static void loadGameToday() {
+		
+		modelGameToday= (DefaultTableModel) tablePartidosHoy.getModel();
+		modelGameToday.setRowCount(0);
+		columnGameToday = new Object[modelGameToday.getColumnCount()];
+		
+		for (Game auxGame : Lidom.getInstance().getListGame()) {
+			Locale spanishLocale = new Locale("es", "ES");
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MMMM-yyyy", spanishLocale);
+			//Dando formato para comparar fecha local de la maquina;
+			Date auxDateLocal = new Date();
+			SimpleDateFormat formatter1 = new SimpleDateFormat("dd-MMMM-yyyy", spanishLocale);
+			String dateLocalString = formatter1.format(auxDateLocal); //local date en string.
+			
+			String auxDateGame = auxGame.getDate(); // date of game.
+			
+			
+			if (dateLocalString.equalsIgnoreCase(auxDateGame)) {
+				
+				columnGameToday[0] = auxGame.getHomeTeam();
+				columnGameToday[1] = auxGame.getAwayTeam();
+				columnGameToday[2] = auxGame.getStadium();
+				columnGameToday[3] = auxGame.getDate();
+				columnGameToday[4] = auxGame.getHora();
+				
+				if (auxGame.getAwayRun() == 0 && auxGame.getHomeRun() == 0) {
+					columnGameToday[5] = "n/a";
+				}
+				else {
+					columnGameToday[5] = auxGame.getHomeRun() + " - " +auxGame.getAwayRun();
+				}
+				modelGameToday.addRow(columnGameToday);
+				
+			}		
+		}		
+	}
+	
+	
 }

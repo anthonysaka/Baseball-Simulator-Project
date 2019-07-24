@@ -9,44 +9,87 @@ public class Game implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -3155127998866144L;
-	private Team homeTeam;
-	private Team awayTeam;
-	private Stadium stadium;
-	private Date date;
+	private String homeTeam;
+	private String awayTeam;
+	private String stadium;
+	private String hora;
+	private String date;
+	
+	private boolean finished = false;
+	private int homeRun = 0;
+	private int awayRun = 0;
 	
 	/* Constructor */
 	
-	public Game(Team homeTeam, Team awayTeam, Stadium stadium, Date date) {
+	public Game(String homeTeam, String awayTeam, String stadium, String hora, String date) {
 		super();
 		this.homeTeam = homeTeam;
 		this.awayTeam = awayTeam;
 		this.stadium = stadium;
+		this.hora = hora;
 		this.date = date;
 	}
 	
 	
-	public Team getHomeTeam() {
+	public boolean isFinished() {
+		return finished;
+	}
+
+
+	public void setFinished(boolean finished) {
+		this.finished = finished;
+	}
+	
+
+
+	public int getHomeRun() {
+		return homeRun;
+	}
+
+
+	public int getAwayRun() {
+		return awayRun;
+	}
+
+
+	public void setHomeRun(int homeRun) {
+		this.homeRun = homeRun;
+	}
+
+
+	public void setAwayRun(int awayRun) {
+		this.awayRun = awayRun;
+	}
+
+
+	public String getHomeTeam() {
 		return homeTeam;
 	}
-	public Team getAwayTeam() {
+	public String getAwayTeam() {
 		return awayTeam;
 	}
-	public Stadium getStadium() {
+	public String getStadium() {
 		return stadium;
 	}
-	public Date getDate() {
+	public String getHora() {
+		return hora;
+	}
+	public String getDate() {
 		return date;
 	}
-	public void setHomeTeam(Team homeTeam) {
+	public void setHomeTeam(String homeTeam) {
 		this.homeTeam = homeTeam;
 	}
-	public void setAwayTeam(Team awayTeam) {
+	public void setAwayTeam(String awayTeam) {
 		this.awayTeam = awayTeam;
 	}
-	public void setStadium(Stadium stadium) {
+	public void setStadium(String stadium) {
 		this.stadium = stadium;
 	}
-	public void setDate(Date date) {
+	public void setHora(String hora) {
+		this.hora = hora;
+	}
+	public void setDate(String date) {
 		this.date = date;
 	}
 	

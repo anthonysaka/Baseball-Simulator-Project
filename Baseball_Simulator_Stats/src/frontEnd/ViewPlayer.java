@@ -49,6 +49,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
 import java.awt.CardLayout;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
@@ -128,14 +129,18 @@ public class ViewPlayer extends JDialog {
 			tablePlayer.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
+					
 					if (tablePlayer.getSelectedRow() >= 0) {
 						int index = tablePlayer.getSelectedRow();
 						button.setEnabled(true);
 						codePlayer = (String) tablePlayer.getModel().getValueAt(index, 0);	
 						namePlayer = (String) tablePlayer.getModel().getValueAt(index, 1);
 					}
+					
 				}
 			});
+			
+			
 			tablePlayer.setRowMargin(0);
 			tablePlayer .setFocusable(false);
 			tablePlayer.setRowHeight(20);
@@ -170,6 +175,13 @@ public class ViewPlayer extends JDialog {
 				}
 			});
 			scrollPane.setViewportView(tablePlayer);
+			
+			/******** para centrar el contenido de la tabla *******/		
+			DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+			tcr.setHorizontalAlignment(SwingConstants.CENTER);
+			for (int i = 0; i < tablePlayer.getColumnCount(); i++)
+				tablePlayer.getColumnModel().getColumn(i).setCellRenderer(tcr);
+			
 
 			button = new JButton("Registrar");
 			button.addActionListener(new ActionListener() {

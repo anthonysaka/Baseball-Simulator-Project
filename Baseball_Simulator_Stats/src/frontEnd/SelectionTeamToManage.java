@@ -120,12 +120,12 @@ public class SelectionTeamToManage extends JDialog {
 
 					if (cbxTeams.getSelectedIndex() > 0) {
 						String nameTeam = cbxTeams.getSelectedItem().toString();
-						auxTeam = Lidom.getInstance().searchTeamByName(nameTeam);
+					auxTeam = Lidom.getInstance().searchTeamByName(nameTeam);
 						auxTeam.getLineUp().removeAll(auxTeam.getLineUp());
 						
 						Home.manageTeamOpen(auxTeam);
 						Home.loadRosterPlayerByTeam(auxTeam);
-					 Home.loadLineUpPlayerByTeam(auxTeam);
+					    Home.loadLineUpPlayerByTeam(auxTeam);
 						
 						cbxTeams.setSelectedIndex(0);
 						dispose();

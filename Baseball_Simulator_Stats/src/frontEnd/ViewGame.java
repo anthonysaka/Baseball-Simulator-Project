@@ -32,6 +32,8 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
@@ -49,11 +51,12 @@ import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
 import java.awt.CardLayout;
 import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
+import backEnd.Game;
 import backEnd.Lidom;
+import backEnd.Player;
 import backEnd.Stadium;
 import backEnd.Team;
 
@@ -64,31 +67,34 @@ import javax.swing.JTable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class ViewTeam extends JDialog {
+public class ViewGame extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JLabel lblListaEquipos;
+	private JLabel lblListaPartidos;
 	private JPanel panelHeader;
 	private JScrollPane scrollPane;
 
 	private static DefaultTableModel model;
-	private static JTable tableTeams;
 	private static Object[] column;
-	private JButton btnEliminar;
-	private JButton btnCancelar;
+	private JButton button;
+	private JButton button_1;
 	private JLabel label;
 	private JComboBox comboBox;
 	private JTextField textField;
 	private JButton button_2;
 
-	private String codeEquipo;
-	private String nameEquipo;
+	private JTable tableGame;
+	
+	private String equipoLocal;
+	private String equipoVisitante;
+	private String fecha;
+	private String hora;
 
 
 	/**
 	 * Create the dialog.
 	 */
-	public ViewTeam() {
+	public ViewGame() {
 
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setUndecorated(true);
@@ -112,132 +118,107 @@ public class ViewTeam extends JDialog {
 			panelHeader.setBounds(0, 0, 732, 45);
 			panelBg.add(panelHeader);
 
-			lblListaEquipos = new JLabel("LISTA EQUIPOS");
-			lblListaEquipos.setHorizontalTextPosition(SwingConstants.CENTER);
-			lblListaEquipos.setBounds(269, 0, 192, 45);
-			panelHeader.add(lblListaEquipos);
-			lblListaEquipos.setHorizontalAlignment(SwingConstants.CENTER);
-			lblListaEquipos.setForeground(new Color(255, 255, 255));
-			lblListaEquipos.setFont(new Font("Consolas", Font.BOLD, 20));
+			lblListaPartidos = new JLabel("LISTA PARTIDOS");
+			lblListaPartidos.setHorizontalTextPosition(SwingConstants.CENTER);
+			lblListaPartidos.setBounds(269, 0, 192, 45);
+			panelHeader.add(lblListaPartidos);
+			lblListaPartidos.setHorizontalAlignment(SwingConstants.CENTER);
+			lblListaPartidos.setForeground(new Color(255, 255, 255));
+			lblListaPartidos.setFont(new Font("Consolas", Font.BOLD, 20));
 
 			scrollPane = new JScrollPane();
-			scrollPane.setBounds(10, 156, 710, 327);
+			scrollPane.setBounds(10, 154, 710, 329);
 			panelBg.add(scrollPane);
-
-			tableTeams = new JTable();
-			tableTeams.addMouseListener(new MouseAdapter() {
+			
+			tableGame = new JTable();
+			tableGame.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-
-					if (tableTeams.getSelectedRow() >= 0) {
-						int index = tableTeams.getSelectedRow();
-						btnEliminar.setEnabled(true);
-						codeEquipo = (String) tableTeams.getModel().getValueAt(index, 0);	
-						nameEquipo = (String) tableTeams.getModel().getValueAt(index, 1);
+					
+					if (tableGame.getSelectedRow() >= 0) {
+						int index = tableGame.getSelectedRow();
+						button.setEnabled(true);
+						equipoLocal = (String) tableGame.getModel().getValueAt(index, 0);	
+						equipoVisitante = (String) tableGame.getModel().getValueAt(index, 1);
+						fecha = (String) tableGame.getModel().getValueAt(index, 3);
+						hora = (String) tableGame.getModel().getValueAt(index, 4);	
 					}
 				}
 			});
-			tableTeams.setRowMargin(0);
-			tableTeams .setFocusable(false);
-			tableTeams.setRowHeight(20);
-			tableTeams.setIntercellSpacing(new Dimension(0, 0));
-			tableTeams.setGridColor(new Color(255, 255, 255));
-			tableTeams.setShowVerticalLines(false);
-			tableTeams.getTableHeader().setReorderingAllowed(false);
-			tableTeams.setSelectionBackground(new Color(239, 108, 0));
-			tableTeams.getTableHeader().setFont(new Font("Consolas", Font.BOLD, 16));
-			tableTeams.getTableHeader().setOpaque(false);
-
-			tableTeams.getTableHeader().setBackground(new Color(255,255,255));
-			tableTeams.setFont(new Font("Consolas", Font.PLAIN, 15));
-			tableTeams.setModel(new DefaultTableModel(
-					new Object[][] {
-					},
-					new String[] {
-							"N\u00FAmero ID", "Nombre", "Fecha fundaci\u00F3n", "Manager", "Estadio"
-					}
-					) {
+			tableGame.setModel(new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+					"Equipo local", "Equipo visitante", "Estadio", "Fecha", "Hora"
+				}
+			) {
 				Class[] columnTypes = new Class[] {
-						String.class, String.class, String.class, String.class, String.class
+					String.class, String.class, String.class, String.class, String.class
 				};
 				public Class getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
 				}
 				boolean[] columnEditables = new boolean[] {
-						false, false, false, false, false
+					false, false, false, false, false
 				};
 				public boolean isCellEditable(int row, int column) {
 					return columnEditables[column];
 				}
 			});
-			tableTeams.getColumnModel().getColumn(0).setResizable(false);
-			tableTeams.getColumnModel().getColumn(1).setResizable(true);
-			tableTeams.getColumnModel().getColumn(2).setResizable(true);
-			tableTeams.getColumnModel().getColumn(3).setResizable(true);
-			tableTeams.getColumnModel().getColumn(4).setResizable(true);
-			scrollPane.setViewportView(tableTeams);
-			
-			
-			/******** para centrar el contenido de la tabla *******/		
-			DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
-			tcr.setHorizontalAlignment(SwingConstants.CENTER);
-			for (int i = 0; i < tableTeams.getColumnCount(); i++)
-				tableTeams.getColumnModel().getColumn(i).setCellRenderer(tcr);
-			
+			scrollPane.setViewportView(tableGame);
 
-			btnEliminar = new JButton("Eliminar");
-			btnEliminar.setEnabled(false);
-			btnEliminar.addActionListener(new ActionListener() {
+			button = new JButton("Eliminar");
+			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-
+					
 					ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
 					String[] options = {"Si", "No"};	
-					int xOption	= JOptionPane.showOptionDialog(null, "¿Seguro que desea eliminar el estadio? " + codeEquipo + nameEquipo, "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
+					int xOption	= JOptionPane.showOptionDialog(null, "¿Seguro que desea eliminar el juego? ", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
 
 					if (xOption == 0) {
-						Team auxTeam = Lidom.getInstance().searchTeamByID(codeEquipo);
-						Lidom.getInstance().deleteTeam(auxTeam);
+						
+						Game auxGame = Lidom.getInstance().searchGame(equipoLocal, equipoVisitante, fecha, hora);
+						Lidom.getInstance().deleteGame(auxGame);
 
 						ImageIcon icon1 = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_checked_48px_1.png"));
 						String[] options1 = {"Ok"};	
 						JOptionPane.showOptionDialog(null, "Eliminado con exito!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1);
 
-						loadTableTeams();
-						btnEliminar.setEnabled(false);
+						loadTableGame();
+						button.setEnabled(false);
 					}
-
 				}
 			});
-			btnEliminar.setIconTextGap(5);
-			btnEliminar.setHorizontalTextPosition(SwingConstants.LEFT);
-			btnEliminar.setForeground(new Color(255, 255, 240));
-			btnEliminar.setFont(new Font("Consolas", Font.BOLD, 17));
-			btnEliminar.setBorder(null);
-			btnEliminar.setBackground(new Color(0, 30, 72));
-			btnEliminar.setBounds(218, 523, 146, 30);
-			panelBg.add(btnEliminar);
+			button.setIconTextGap(5);
+			button.setHorizontalTextPosition(SwingConstants.LEFT);
+			button.setForeground(new Color(255, 255, 240));
+			button.setFont(new Font("Consolas", Font.BOLD, 17));
+			button.setBorder(null);
+			button.setBackground(new Color(0, 30, 72));
+			button.setBounds(218, 523, 146, 30);
+			panelBg.add(button);
 
-			btnCancelar = new JButton("Cancelar");
-			btnCancelar.addActionListener(new ActionListener() {
+			button_1 = new JButton("Cancelar");
+			button_1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
 					String[] options = {"Si", "No"};	
 
 					int xOption	= JOptionPane.showOptionDialog(null, "¿Seguro que desea cancelar?, la ventana se cerrará.", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
-					if (xOption == 0) {
 
-						dispose();
+					if (xOption == 0) {
+						dispose(); 
 					}
 				}
 			});
-			btnCancelar.setIconTextGap(5);
-			btnCancelar.setHorizontalTextPosition(SwingConstants.LEFT);
-			btnCancelar.setForeground(new Color(255, 255, 240));
-			btnCancelar.setFont(new Font("Consolas", Font.BOLD, 17));
-			btnCancelar.setBorder(null);
-			btnCancelar.setBackground(new Color(0, 30, 70));
-			btnCancelar.setBounds(376, 523, 146, 30);
-			panelBg.add(btnCancelar);
+			button_1.setIconTextGap(5);
+			button_1.setHorizontalTextPosition(SwingConstants.LEFT);
+			button_1.setForeground(new Color(255, 255, 240));
+			button_1.setFont(new Font("Consolas", Font.BOLD, 17));
+			button_1.setBorder(null);
+			button_1.setBackground(new Color(0, 30, 70));
+			button_1.setBounds(376, 523, 146, 30);
+			panelBg.add(button_1);
 
 			label = new JLabel("Buscar por:");
 			label.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -274,7 +255,7 @@ public class ViewTeam extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
-			/**********************************************************/
+			/**********************************************************/	
 			textField.setHorizontalAlignment(SwingConstants.CENTER);
 			textField.setFont(new Font("Consolas", Font.PLAIN, 18));
 			textField.setDisabledTextColor(Color.BLACK);
@@ -292,42 +273,32 @@ public class ViewTeam extends JDialog {
 			button_2.setBounds(595, 72, 125, 30);
 			panelBg.add(button_2);
 
-			try {
-				// Definición de la máscara para ID.
-				MaskFormatter maskID = null;
-				maskID = new MaskFormatter("##-###-###");
-				maskID.setPlaceholderCharacter('#');
-				/**********************************************************/		
-			} 
-			catch (ParseException e) {
-				e.printStackTrace();
-			}
 		}
 
 
-		loadTableTeams(); // para cargar la tabla de los estadios registrados.
+		loadTableGame(); // para cargar la tabla de los jugadores registrados.
 	}
 
 
 
 	/** Metodos **/
 
-	public void loadTableTeams() {
-		model = (DefaultTableModel) tableTeams.getModel();
-		model.setRowCount(0);
+	public void loadTableGame() {
+		model= (DefaultTableModel) tableGame.getModel();
 		column = new Object[model.getColumnCount()];
+		model.setRowCount(0);
+	
+		
 
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-		//String dateString = formatter.format(dateSoli);
-
-		for (int i = 0; i < Lidom.getInstance().getListTeams().size(); i++) {
-			column[0] = Lidom.getInstance().getListTeams().get(i).getId();
-			column[1] =  Lidom.getInstance().getListTeams().get(i).getName();
-			column[2] =  formatter.format(Lidom.getInstance().getListTeams().get(i).getFoundationDate());
-			column[3] =  Lidom.getInstance().getListTeams().get(i).getManager();
-			column[4] =  Lidom.getInstance().getListTeams().get(i).getStadium();
+		for (int i = 0; i < Lidom.getInstance().getListGame().size(); i++) {
+			column[0] = Lidom.getInstance().getListGame().get(i).getHomeTeam();
+			column[1] =  Lidom.getInstance().getListGame().get(i).getAwayTeam();
+			column[2] =  Lidom.getInstance().getListGame().get(i).getStadium();
+			column[3] =  Lidom.getInstance().getListGame().get(i).getDate();
+			column[4] =   Lidom.getInstance().getListGame().get(i).getHora();			
 
 			model.addRow(column);
+
 		}
 	}
 
