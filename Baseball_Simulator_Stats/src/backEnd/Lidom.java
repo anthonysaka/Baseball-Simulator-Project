@@ -27,9 +27,11 @@ import java.util.Date;
  *              Controller Class - LIDOM (Liga de Béisbol Profesional de República Dominicana)
  */
 
+@SuppressWarnings("unused")
 public class Lidom implements Serializable {
 
 	private static final long serialVersionUID = 5337891823986950253L;
+	
 	private ArrayList<Team> listTeams;
 	private ArrayList<Stadium>listStadium;
 	private ArrayList<Game> listGame;
@@ -359,6 +361,144 @@ public class Lidom implements Serializable {
 		return mejor;//retorna el jugador con mas HR o estadisticas que el usuario diga.
 
 
+	}
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	//METODO PARA BUSCAR AL PITCHER DE MAYOR ESTADISTICA DESEADA POR EL USUARIO.
+	
+	public Player Pitcher(String Estadistica) {
+		
+		Player Statistic = listPlayer.get(0);
+		
+		switch (Estadistica) {
+		
+		case "W":
+			for (int i = 0; i < listPlayer.size(); i++) {
+				Player Pit = listPlayer.get(i);
+				if(Pit instanceof Pitcher) {
+					if(((Pitcher)Pit).getGameWin() > ((Pitcher)Statistic).getGameWin()){
+						Statistic = Pit;
+					}
+				}
+			}
+			break;
+			
+		case "L":
+			for (int i = 0; i < listPlayer.size(); i++) {
+				Player Pit = listPlayer.get(i);
+				if(Pit instanceof Pitcher) {
+					if(((Pitcher)Pit).getGameLose() > ((Pitcher)Statistic).getGameLose()) {
+						Statistic = Pit;
+					}
+				}
+			}
+			break;
+		
+		case "ERA":
+			for (int i = 0; i < listPlayer.size(); i++) {
+				Player Pit = listPlayer.get(i);
+				if(Pit instanceof Pitcher) {
+					if(((Pitcher)Pit).getERA() > ((Pitcher)Statistic).getERA()) {
+						Statistic = Pit;
+					}
+				}
+			}
+			break;
+			
+		case "G":
+			for (int i = 0; i < listPlayer.size(); i++) {
+				Player Pit = listPlayer.get(i);
+				if(Pit instanceof Pitcher) {
+					if(((Pitcher)Pit).getPlayedGame() > ((Pitcher)Statistic).getPlayedGame()) {
+						Statistic = Pit;
+					}
+				}
+			}
+			break;
+			
+		case "GS":
+			for (int i = 0; i < listPlayer.size(); i++) {
+				Player Pit = listPlayer.get(i);
+				if(Pit instanceof Pitcher) {
+					if(((Pitcher)Pit).getStartedGame() > ((Pitcher)Statistic).getStartedGame()) {
+						Statistic = Pit;
+					}
+				}
+			}
+			break;
+			
+		case "SV":
+			for (int i = 0; i < listPlayer.size(); i++) {
+				Player Pit = listPlayer.get(i);
+				if(Pit instanceof Pitcher) {
+					if(((Pitcher)Pit).getSavedGame() > ((Pitcher)Statistic).getSavedGame()) {
+						Statistic = Pit;
+					}
+				}
+			}
+			break;
+			
+		case "HR":
+			for (int i = 0; i < listPlayer.size(); i++) {
+				Player Pit = listPlayer.get(i);
+				if(Pit instanceof Pitcher) {
+					if(((Pitcher)Pit).getNumberHR() > ((Pitcher)Statistic).getNumberHR()) {
+						Statistic = Pit;
+					}
+				}
+			}
+			break;
+			
+		case "H":
+			for (int i = 0; i < listPlayer.size(); i++) {
+				Player Pit = listPlayer.get(i);
+				if(Pit instanceof Pitcher) {
+					if(((Pitcher)Pit).getNumberHit() > ((Pitcher)Statistic).getNumberHit()) {
+						Statistic = Pit;
+					}
+				}
+			}
+			break;
+			
+		case "R":
+			for (int i = 0; i < listPlayer.size(); i++) {
+				Player Pit = listPlayer.get(i);
+				if(Pit instanceof Pitcher) {
+					if(((Pitcher)Pit).getNumberRun() > ((Pitcher)Statistic).getNumberRun()) {
+						Statistic = Pit;
+					}
+				}
+			}
+			break;
+			
+		case "IP":
+			for (int i = 0; i < listPlayer.size(); i++) {
+				Player Pit = listPlayer.get(i);
+				if(Pit instanceof Pitcher) {
+					if(((Pitcher)Pit).getIP() > ((Pitcher)Statistic).getIP()) {
+						Statistic = Pit;
+					}
+				}
+			}
+			break;
+			
+		case "AVG":
+			for (int i = 0; i < listPlayer.size(); i++) {
+				Player Pit = listPlayer.get(i);
+				if(Pit instanceof Pitcher) {
+					if(((Pitcher)Pit).getAverage() > ((Pitcher)Statistic).getAverage()) {
+						Statistic = Pit;
+					}
+				}
+			}
+			break;
+			
+		default:
+			break;
+		}
+		return Statistic;
 	}
 
 

@@ -64,8 +64,14 @@ import javax.swing.JTable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+@SuppressWarnings("unused")
 public class ViewTeam extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1130109053948345935L;
+	
 	private final JPanel contentPanel = new JPanel();
 	private JLabel lblListaEquipos;
 	private JPanel panelHeader;
@@ -77,6 +83,7 @@ public class ViewTeam extends JDialog {
 	private JButton btnEliminar;
 	private JButton btnCancelar;
 	private JLabel label;
+	@SuppressWarnings("rawtypes")
 	private JComboBox comboBox;
 	private JTextField textField;
 	private JButton button_2;
@@ -88,6 +95,7 @@ public class ViewTeam extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
+	@SuppressWarnings("rawtypes")
 	public ViewTeam() {
 
 		getContentPane().setBackground(new Color(255, 255, 255));
@@ -157,9 +165,15 @@ public class ViewTeam extends JDialog {
 							"N\u00FAmero ID", "Nombre", "Fecha fundaci\u00F3n", "Manager", "Estadio"
 					}
 					) {
+				/**
+						 * 
+						 */
+						private static final long serialVersionUID = 4801298072712266563L;
+						
 				Class[] columnTypes = new Class[] {
 						String.class, String.class, String.class, String.class, String.class
 				};
+				@SuppressWarnings({ "unchecked" })
 				public Class getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
 				}

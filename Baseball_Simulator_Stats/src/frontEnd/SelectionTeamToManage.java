@@ -58,8 +58,14 @@ import backEnd.Team;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+@SuppressWarnings("unused")
 public class SelectionTeamToManage extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1871324573759957679L;
+	
 	private final JPanel contentPanel = new JPanel();
 	private JLabel lblRegistroEquipo;
 	private JPanel panelHeader;
@@ -67,6 +73,7 @@ public class SelectionTeamToManage extends JDialog {
 	private JButton btnSeleccionar;
 	private JButton btnCancelar;
 	private JLabel label_1;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cbxTeams;
 	
 	public static Team auxTeam;
@@ -75,6 +82,7 @@ public class SelectionTeamToManage extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
+	@SuppressWarnings("rawtypes")
 	public SelectionTeamToManage() {
 
 		getContentPane().setBackground(new Color(255, 255, 255));
@@ -196,6 +204,7 @@ public class SelectionTeamToManage extends JDialog {
 
 
 
+	@SuppressWarnings("unchecked")
 	private void loadTeamsCbx() {
 
 		cbxTeams.removeAllItems();

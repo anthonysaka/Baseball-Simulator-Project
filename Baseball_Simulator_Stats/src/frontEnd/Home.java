@@ -54,6 +54,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 
+@SuppressWarnings("unused")
 public class Home extends JFrame {
 
 	/**
@@ -1050,6 +1051,11 @@ public class Home extends JFrame {
 		panelBgDashboard.setLayout(null);
 
 		panelPartidoHoy = new JPanel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -8195993993905283161L;
+
 			protected void paintComponent(Graphics g) {
 				g.setColor(getBackground());
 				g.fillRect(0, 0, getWidth(), getHeight());
@@ -1096,9 +1102,16 @@ public class Home extends JFrame {
 				"Equipo local", "Equipo visitante", "Estadio", "Fecha", "Hora", "Fin partido"
 			}
 		) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 3667571448819401355L;
+			
+			@SuppressWarnings("rawtypes")
 			Class[] columnTypes = new Class[] {
 				String.class, String.class, String.class, String.class, String.class, String.class
 			};
+			@SuppressWarnings({ "rawtypes", "unchecked" })
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
@@ -1127,6 +1140,12 @@ public class Home extends JFrame {
 		panelPartidoHoy.add(lblListaPartidosDe);
 
 		panel_3 = new JPanel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -8123111182195052530L;
+			
+
 			protected void paintComponent(Graphics g) {
 				g.setColor(getBackground());
 				g.fillRect(0, 0, getWidth(), getHeight());
@@ -1140,6 +1159,12 @@ public class Home extends JFrame {
 		panelBgDashboard.add(panel_3);
 
 		panelPartidosDashboard = new JPanel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 6781424067823481531L;
+			
+
 			protected void paintComponent(Graphics g) {
 				g.setColor(getBackground());
 
@@ -1233,9 +1258,15 @@ public class Home extends JFrame {
 						"N\u00FAmero ID", "Nombre", "Posici\u00F3n"
 				}
 				) {
+			/**
+					 * 
+					 */
+					private static final long serialVersionUID = 6836515206960149204L;
+			@SuppressWarnings("rawtypes")
 			Class[] columnTypes = new Class[] {
 					String.class, String.class, String.class
 			};
+			@SuppressWarnings({ "rawtypes", "unchecked" })
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
@@ -1273,9 +1304,15 @@ public class Home extends JFrame {
 						"N\u00FAmero ID", "Nombre", "Posici\u00F3n"
 				}
 				) {
+			/**
+					 * 
+					 */
+					private static final long serialVersionUID = -2154170103726756782L;
+			@SuppressWarnings("rawtypes")
 			Class[] columnTypes = new Class[] {
 					String.class, String.class, String.class
 			};
+			@SuppressWarnings({ "rawtypes", "unchecked" })
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
@@ -1313,9 +1350,15 @@ public class Home extends JFrame {
 						"N\u00FAmero ID", "Nombre"
 				}
 				) {
+			/**
+					 * 
+					 */
+					private static final long serialVersionUID = 3197288140084098761L;
+			@SuppressWarnings("rawtypes")
 			Class[] columnTypes = new Class[] {
 					String.class, String.class
 			};
+			@SuppressWarnings({ "rawtypes", "unchecked" })
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
@@ -1970,6 +2013,11 @@ public class Home extends JFrame {
 		panelGameSimulation.setLayout(null);
 
 		panelScoreBoard = new JPanel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -3594965026412966171L;
+
 			protected void paintComponent(Graphics g) {
 				g.setColor(getBackground());
 

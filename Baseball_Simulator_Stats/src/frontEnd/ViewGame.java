@@ -67,8 +67,14 @@ import javax.swing.JTable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+@SuppressWarnings("unused")
 public class ViewGame extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1289376254530677283L;
+	
 	private final JPanel contentPanel = new JPanel();
 	private JLabel lblListaPartidos;
 	private JPanel panelHeader;
@@ -79,6 +85,7 @@ public class ViewGame extends JDialog {
 	private JButton button;
 	private JButton button_1;
 	private JLabel label;
+	@SuppressWarnings("rawtypes")
 	private JComboBox comboBox;
 	private JTextField textField;
 	private JButton button_2;
@@ -94,6 +101,7 @@ public class ViewGame extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
+	@SuppressWarnings("rawtypes")
 	public ViewGame() {
 
 		getContentPane().setBackground(new Color(255, 255, 255));
@@ -152,9 +160,16 @@ public class ViewGame extends JDialog {
 					"Equipo local", "Equipo visitante", "Estadio", "Fecha", "Hora"
 				}
 			) {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1665962479029189562L;
+				
+				
 				Class[] columnTypes = new Class[] {
 					String.class, String.class, String.class, String.class, String.class
 				};
+				@SuppressWarnings({ "unchecked" })
 				public Class getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
 				}

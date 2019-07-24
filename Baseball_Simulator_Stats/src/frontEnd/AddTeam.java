@@ -66,8 +66,14 @@ import backEnd.Team;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+@SuppressWarnings("unused")
 public class AddTeam extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9052327416025695880L;
+	
 	private final JPanel contentPanel = new JPanel();
 	private JSeparator separator;
 	private JLabel lblRegistroEquipo;
@@ -138,6 +144,11 @@ public class AddTeam extends JDialog {
 
 			txtNameEquipo = new JTextField()  {
 
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 8456196556235908444L;
+				
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {
@@ -282,6 +293,11 @@ public class AddTeam extends JDialog {
 			panelBg.add(lblNmeroUniforme);
 
 			txtManager = new JTextField() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 8814759619252211098L;
+				
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
 				protected void paintComponent(Graphics g) {

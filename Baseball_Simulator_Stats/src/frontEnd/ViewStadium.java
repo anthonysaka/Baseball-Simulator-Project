@@ -63,8 +63,14 @@ import javax.swing.JTable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+@SuppressWarnings("unused")
 public class ViewStadium extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3274609334401181963L;
+	
 	private final JPanel contentPanel = new JPanel();
 	private JLabel lblListaEstadios;
 	private JPanel panelHeader;
@@ -78,6 +84,7 @@ public class ViewStadium extends JDialog {
 	private JButton btnBuscar;
 	private JTextField txtBuscar;
 	private JLabel lblBuscarPor;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cbxOptionsSearch;
 	private String codeEstadio;
 	private String nameEstadio;
@@ -86,6 +93,7 @@ public class ViewStadium extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
+	@SuppressWarnings("rawtypes")
 	public ViewStadium() {
 
 		getContentPane().setBackground(new Color(255, 255, 255));
@@ -166,6 +174,7 @@ public class ViewStadium extends JDialog {
 				Class[] columnTypes = new Class[] {
 						String.class, String.class, String.class
 				};
+				@SuppressWarnings("unchecked")
 				public Class getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
 				}

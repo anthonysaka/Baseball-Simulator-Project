@@ -62,8 +62,14 @@ import backEnd.Team;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+@SuppressWarnings("unused")
 public class AddGame extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8867271004002977275L;
+	
 	private final JPanel contentPanel = new JPanel();
 	private JSeparator separator;
 	private JLabel lblRegistroEquipo;
@@ -74,12 +80,16 @@ public class AddGame extends JDialog {
 
 	private JButton btnRegistrar;
 	private JButton btnCancelar;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cbxEquipoLocal;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cbxEquipoVisitante;
 	private RSDateChooser dateChooser;
 	private JLabel lblFecha;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cbxHora;
 	private JLabel lblHora;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cbxEstadio;
 	private JLabel lblEstadio;
 
@@ -87,6 +97,7 @@ public class AddGame extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public AddGame() {
 
 		getContentPane().setBackground(new Color(255, 255, 255));
@@ -296,6 +307,7 @@ public class AddGame extends JDialog {
 
 
 	/** Metodos **/
+	@SuppressWarnings("unchecked")
 	private void loadStadiumsCbx() {
 
 		cbxEstadio.removeAllItems();
@@ -310,6 +322,7 @@ public class AddGame extends JDialog {
 
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void loadTeamsCbx() {
 
 		cbxEquipoLocal.removeAllItems();
