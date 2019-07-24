@@ -119,7 +119,7 @@ public class PlayersStatistics extends JDialog {
 				panelBatBtn.setLayout(null);
 		
 				JButton btnAverage = new JButton("Average");
-				btnAverage.setBounds(47, 5, 100, 30);
+				btnAverage.setBounds(52, 5, 100, 30);
 				panelBatBtn.add(btnAverage);
 				btnAverage.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -133,7 +133,7 @@ public class PlayersStatistics extends JDialog {
 				btnAverage.setBackground(new Color(0, 30, 70));
 				
 						JButton btnHits = new JButton("Hits");
-						btnHits.setBounds(194, 5, 100, 30);
+						btnHits.setBounds(204, 5, 100, 30);
 						panelBatBtn.add(btnHits);
 						btnHits.setIconTextGap(5);
 						btnHits.setBorder(null);
@@ -142,7 +142,7 @@ public class PlayersStatistics extends JDialog {
 						btnHits.setBackground(new Color(0, 30, 70));
 						
 								JButton btnDobles = new JButton("Dobles");
-								btnDobles.setBounds(341, 5, 100, 30);
+								btnDobles.setBounds(356, 5, 100, 30);
 								panelBatBtn.add(btnDobles);
 								btnDobles.setIconTextGap(5);
 								btnDobles.setHorizontalTextPosition(SwingConstants.LEFT);
@@ -152,7 +152,7 @@ public class PlayersStatistics extends JDialog {
 								btnDobles.setBackground(new Color(0, 30, 72));
 								
 										JButton btnTriples = new JButton("Triples");
-										btnTriples.setBounds(488, 5, 100, 30);
+										btnTriples.setBounds(508, 5, 100, 30);
 										panelBatBtn.add(btnTriples);
 										btnTriples.setIconTextGap(5);
 										btnTriples.setHorizontalTextPosition(SwingConstants.LEFT);
@@ -162,7 +162,7 @@ public class PlayersStatistics extends JDialog {
 										btnTriples.setBackground(new Color(0, 30, 72));
 										
 												JButton btnHr = new JButton("HR");
-												btnHr.setBounds(635, 5, 100, 30);
+												btnHr.setBounds(660, 5, 100, 30);
 												panelBatBtn.add(btnHr);
 												btnHr.setIconTextGap(5);
 												btnHr.setHorizontalTextPosition(SwingConstants.LEFT);

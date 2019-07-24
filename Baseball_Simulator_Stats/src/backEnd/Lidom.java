@@ -31,7 +31,7 @@ import java.util.Date;
 public class Lidom implements Serializable {
 
 	private static final long serialVersionUID = 5337891823986950253L;
-	
+
 	private ArrayList<Team> listTeams;
 	private ArrayList<Stadium>listStadium;
 	private ArrayList<Game> listGame;
@@ -255,12 +255,12 @@ public class Lidom implements Serializable {
 		}
 		return auxStadium; //Retorna el ESTADIO del NOMBRE encontrado.
 	}
-	
+
 	public Game searchGame(String local, String visitante, String fecha, String hora) {
 		Game auxGame = null;
 		boolean found = false;
 		int i = 0;
-		
+
 		while (!found &&  i < listGame.size()) {
 			if (listGame.get(i).getAwayTeam().equalsIgnoreCase(local) && listGame.get(i).getHomeTeam().equalsIgnoreCase(visitante) && listGame.get(i).getDate().equalsIgnoreCase(fecha) && listGame.get(i).getHora().equalsIgnoreCase(hora)) {
 				found = true;
@@ -276,104 +276,77 @@ public class Lidom implements Serializable {
 		Player mejor= listPlayer.get(0);
 		switch (caso) {
 		case "HR": 
-
 			for (int i = 0; i < listPlayer.size(); i++) {
 				Player p = listPlayer.get(i); 
 				if(p instanceof Batter) {
 					if( ((Batter)p).getHR()>((Batter)mejor).getHR() ) {
-
 						mejor = p; 
 					}
 				}
-
 			}
-
-
 			break;
 
-		case "hit":
-
+		case "Hits":
 			for (int i = 0; i < listPlayer.size(); i++) {
 				Player p = listPlayer.get(i); 
 				if(p instanceof Batter) {
 					if( ((Batter)p).getH1()>((Batter)mejor).getH1() ) {
-
 						mejor = p; 
 					}
 				}
-
 			}
-
 			break;
 
-
-		case "Doble":
+		case "Dobles":
 			for (int i = 0; i < listPlayer.size(); i++) {
 				Player p = listPlayer.get(i); 
 				if(p instanceof Batter) {
 					if( ((Batter)p).getH2()>((Batter)mejor).getH2() ) {
-
 						mejor = p; 
 					}
 				}
-
 			}
-
 			break;
 
-		case " Triple":
-
+		case " Triples":
 			for (int i = 0; i < listPlayer.size(); i++) {
 				Player p = listPlayer.get(i); 
 				if(p instanceof Batter) {
 					if( ((Batter)p).getH2()>((Batter)mejor).getH2() ) {
-
 						mejor = p; 
 					}
 				}
-
 			}
-
 			break;
 
-
-		case "avr":
-
+		case "Average":
 			for (int i = 0; i < listPlayer.size(); i++) {
 				Player p = listPlayer.get(i); 
 				if(p instanceof Batter) {
 					if( ((Batter)p).getAverage()>((Batter)mejor).getAverage() ) {
-
 						mejor = p; 
 					}
 				}
-
 			}
-
 			break;
-
 
 		default:
 			break;
 		}
-
-
 		return mejor;//retorna el jugador con mas HR o estadisticas que el usuario diga.
-
-
 	}
-	
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	//METODO PARA BUSCAR AL PITCHER DE MAYOR ESTADISTICA DESEADA POR EL USUARIO.
-	
+
 	public Player Pitcher(String Estadistica) {
-		
+
 		Player Statistic = listPlayer.get(0);
-		
+
 		switch (Estadistica) {
-		
+
 		case "W":
 			for (int i = 0; i < listPlayer.size(); i++) {
 				Player Pit = listPlayer.get(i);
@@ -384,7 +357,7 @@ public class Lidom implements Serializable {
 				}
 			}
 			break;
-			
+
 		case "L":
 			for (int i = 0; i < listPlayer.size(); i++) {
 				Player Pit = listPlayer.get(i);
@@ -395,7 +368,7 @@ public class Lidom implements Serializable {
 				}
 			}
 			break;
-		
+
 		case "ERA":
 			for (int i = 0; i < listPlayer.size(); i++) {
 				Player Pit = listPlayer.get(i);
@@ -406,7 +379,7 @@ public class Lidom implements Serializable {
 				}
 			}
 			break;
-			
+
 		case "G":
 			for (int i = 0; i < listPlayer.size(); i++) {
 				Player Pit = listPlayer.get(i);
@@ -417,7 +390,7 @@ public class Lidom implements Serializable {
 				}
 			}
 			break;
-			
+
 		case "GS":
 			for (int i = 0; i < listPlayer.size(); i++) {
 				Player Pit = listPlayer.get(i);
@@ -428,7 +401,7 @@ public class Lidom implements Serializable {
 				}
 			}
 			break;
-			
+
 		case "SV":
 			for (int i = 0; i < listPlayer.size(); i++) {
 				Player Pit = listPlayer.get(i);
@@ -439,7 +412,7 @@ public class Lidom implements Serializable {
 				}
 			}
 			break;
-			
+
 		case "HR":
 			for (int i = 0; i < listPlayer.size(); i++) {
 				Player Pit = listPlayer.get(i);
@@ -450,7 +423,7 @@ public class Lidom implements Serializable {
 				}
 			}
 			break;
-			
+
 		case "H":
 			for (int i = 0; i < listPlayer.size(); i++) {
 				Player Pit = listPlayer.get(i);
@@ -461,7 +434,7 @@ public class Lidom implements Serializable {
 				}
 			}
 			break;
-			
+
 		case "R":
 			for (int i = 0; i < listPlayer.size(); i++) {
 				Player Pit = listPlayer.get(i);
@@ -472,7 +445,7 @@ public class Lidom implements Serializable {
 				}
 			}
 			break;
-			
+
 		case "IP":
 			for (int i = 0; i < listPlayer.size(); i++) {
 				Player Pit = listPlayer.get(i);
@@ -483,7 +456,7 @@ public class Lidom implements Serializable {
 				}
 			}
 			break;
-			
+
 		case "AVG":
 			for (int i = 0; i < listPlayer.size(); i++) {
 				Player Pit = listPlayer.get(i);
@@ -494,7 +467,7 @@ public class Lidom implements Serializable {
 				}
 			}
 			break;
-			
+
 		default:
 			break;
 		}
@@ -536,6 +509,15 @@ public class Lidom implements Serializable {
 		}
 
 		return correct; // return true si el Numero no se encuentra en otro jugador del equipo, o sea que el numero se puede usar.
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	//METODO PARA BUSCAR AL MEJOR EQUIPO DE LA SERIE
+	public void Mejor_Equipo() {
+
+
 	}
 
 
@@ -597,11 +579,11 @@ public class Lidom implements Serializable {
 
 	}
 
-	
+
 	public void writeCodes(int code, String name) {
-		
-		
-		
+
+
+
 		File file = new File(name + ".dat");
 		FileOutputStream fileOutput;
 		ObjectOutputStream fileObjectOutput = null;
@@ -625,14 +607,14 @@ public class Lidom implements Serializable {
 				e.printStackTrace();
 			}
 		}
-		}
-		
+	}
 
-	
-	
+
+
+
 	public void readStadiumCodes(int code, String name) {
-		
-		
+
+
 		File file = new File(name + ".dat");
 		FileInputStream fileInput;
 		ObjectInputStream fileObjectInput;
@@ -653,12 +635,12 @@ public class Lidom implements Serializable {
 			e.printStackTrace();
 		}
 
-	       
+
 	}
-	
-public void readTeamCodes(int code, String name) {
-		
-		
+
+	public void readTeamCodes(int code, String name) {
+
+
 		File file = new File(name + ".dat");
 		FileInputStream fileInput;
 		ObjectInputStream fileObjectInput;
@@ -679,7 +661,7 @@ public void readTeamCodes(int code, String name) {
 			e.printStackTrace();
 		}
 
-	       
+
 	}
 
 
