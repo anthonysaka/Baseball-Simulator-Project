@@ -44,7 +44,9 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import javax.swing.JScrollPane;
@@ -54,8 +56,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 
-@SuppressWarnings("unused")
-public class Home extends JFrame {
+public class Home extends JFrame implements Runnable {
 
 	/**
 	 * 
@@ -135,8 +136,8 @@ public class Home extends JFrame {
 	private static Object[] columnLineUp;
 	private static Object[] columnLesionados;
 	private static Object[] columnGameToday;
-	
-	
+
+
 	private static JPanel panelLineUp;
 	private JLabel lblBgPlayLineUp;
 	private JLabel lblCrearLineUp;
@@ -185,6 +186,11 @@ public class Home extends JFrame {
 	private JScrollPane scrollPanePartidosHoy;
 
 	private JLabel lblListaPartidosDe;
+	public  JLabel lblDate;
+	public  JLabel lblTime;
+	int hour, minute, second, day, mont, year;
+	Calendar calendario;
+	Thread h1;
 
 
 	/**
@@ -201,13 +207,13 @@ public class Home extends JFrame {
 				}
 			}
 		});
-	}             /*    ESTA VENTANA SE LEVANTARA AUTOMATICAMENTE DESDE LA CLASE SplashScreen*/
+	}           /*    ESTA VENTANA SE LEVANTARA AUTOMATICAMENTE DESDE LA CLASE SplashScreen*/
 
 	/**
 	 * Create the frame.
 	 */
-	public Home() {
 
+	public Home() {
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1455, 740);
@@ -470,6 +476,14 @@ public class Home extends JFrame {
 		btnPartidos.setBackground(new Color(0, 30, 72));
 		btnPartidos.setBounds(875, 0, 170, 50);
 		panelMenuBar.add(btnPartidos);
+
+		lblTime = new JLabel("");
+		lblTime.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblTime.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTime.setForeground(Color.WHITE);
+		lblTime.setFont(new Font("Consolas", Font.BOLD, 20));
+		lblTime.setBounds(125, 18, 156, 32);
+		panelMenuBar.add(lblTime);
 
 		panelMenuEquipo = new JPanel();
 		panelMenuEquipo.setVisible(false);
@@ -774,7 +788,7 @@ public class Home extends JFrame {
 		btnListarEstadio.setBackground(new Color(0, 30, 72));
 		btnListarEstadio.setBounds(0, 76, 170, 50);
 		panelMenuEstadio.add(btnListarEstadio);
-		panelMenuEquipo.setBounds(329, 50, 170, 141);
+		panelMenuEquipo.setBounds(329, 50, 170, 13);
 		panelBackGround.add(panelMenuEquipo);
 		panelMenuEquipo.setLayout(null);
 
@@ -871,7 +885,7 @@ public class Home extends JFrame {
 				panelMenuJugadores.setVisible(false);
 			}
 		});
-		panelMenuJugadores.setBounds(511, 50, 170, 141);
+		panelMenuJugadores.setBounds(511, 50, 170, 13);
 		panelBackGround.add(panelMenuJugadores);
 		panelMenuJugadores.setLayout(null);
 
@@ -979,7 +993,7 @@ public class Home extends JFrame {
 				ViewGame listGame = new ViewGame();
 				listGame.setModal(true);
 				listGame.setVisible(true);
-				
+
 			}
 		});
 		btnListarPartido.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -1051,33 +1065,28 @@ public class Home extends JFrame {
 		panelBgDashboard.setLayout(null);
 
 		panelPartidoHoy = new JPanel() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -8195993993905283161L;
-
 			protected void paintComponent(Graphics g) {
 				g.setColor(getBackground());
 				g.fillRect(0, 0, getWidth(), getHeight());
 				super.paintComponent(g);
-				
+
 			}
 		};
 		panelPartidoHoy.setBackground(new Color(0, 0, 0, 60));
 		panelPartidoHoy.setBounds(59, 13, 1100, 394);
 		panelBgDashboard.add(panelPartidoHoy);
 		panelPartidoHoy.setLayout(null);
-		
+
 		scrollPanePartidosHoy = new JScrollPane();
 		scrollPanePartidosHoy.setBorder(null);
 		scrollPanePartidosHoy.setViewportBorder(null);
 		scrollPanePartidosHoy.setBackground(new Color(0, 0, 0,50));
 		scrollPanePartidosHoy.setBounds(12, 57, 1076, 324);
 		scrollPanePartidosHoy.getViewport().setBackground(new Color(0,0,0,60));
-		
+
 		scrollPanePartidosHoy.getViewportBorder();
 		panelPartidoHoy.add(scrollPanePartidosHoy);
-		
+
 		tablePartidosHoy = new JTable();
 		tablePartidosHoy.setForeground(new Color(255, 255, 255));
 		tablePartidosHoy.setFont(new Font("Consolas", Font.BOLD, 16));
@@ -1094,29 +1103,22 @@ public class Home extends JFrame {
 
 		tablePartidosHoy.getTableHeader().setBackground(new Color(255,255,255,80));
 		tablePartidosHoy.setOpaque(false);
-		tablePartidosHoy.setBackground(new Color(0,0,0,50));
+		tablePartidosHoy.setBackground(new Color(0,0,0));
 		tablePartidosHoy.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Equipo local", "Equipo visitante", "Estadio", "Fecha", "Hora", "Fin partido"
-			}
-		) {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 3667571448819401355L;
-			
-			@SuppressWarnings("rawtypes")
+				new Object[][] {
+				},
+				new String[] {
+						"Equipo local", "Equipo visitante", "Estadio", "Fecha", "Hora", "Fin partido"
+				}
+				) {
 			Class[] columnTypes = new Class[] {
-				String.class, String.class, String.class, String.class, String.class, String.class
+					String.class, String.class, String.class, String.class, String.class, String.class
 			};
-			@SuppressWarnings({ "rawtypes", "unchecked" })
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
 			boolean[] columnEditables = new boolean[] {
-				false, false, false, false, false
+					false, false, false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
@@ -1124,13 +1126,13 @@ public class Home extends JFrame {
 		});
 		tablePartidosHoy.setBorder(null);
 		scrollPanePartidosHoy.setViewportView(tablePartidosHoy);
-		
+
 		/******** para centrar el contenido de la tabla *******/		
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
 		for (int i = 0; i < tablePartidosHoy.getColumnCount(); i++)
 			tablePartidosHoy.getColumnModel().getColumn(i).setCellRenderer(tcr);
-		
+
 		lblListaPartidosDe = new JLabel("LISTA PARTIDOS DE HOY");
 		lblListaPartidosDe.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblListaPartidosDe.setHorizontalAlignment(SwingConstants.CENTER);
@@ -1139,18 +1141,22 @@ public class Home extends JFrame {
 		lblListaPartidosDe.setBounds(12, 13, 265, 45);
 		panelPartidoHoy.add(lblListaPartidosDe);
 
-		panel_3 = new JPanel() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -8123111182195052530L;
-			
+		lblDate = new JLabel("");
 
+		lblDate.setOpaque(false);
+		lblDate.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblDate.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDate.setForeground(Color.WHITE);
+		lblDate.setFont(new Font("Consolas", Font.BOLD, 20));
+		lblDate.setBounds(289, 13, 265, 45);
+		panelPartidoHoy.add(lblDate);
+
+		panel_3 = new JPanel() {
 			protected void paintComponent(Graphics g) {
 				g.setColor(getBackground());
 				g.fillRect(0, 0, getWidth(), getHeight());
 				super.paintComponent(g);
-				
+
 			}
 		};
 		panel_3.setOpaque(false);
@@ -1159,12 +1165,6 @@ public class Home extends JFrame {
 		panelBgDashboard.add(panel_3);
 
 		panelPartidosDashboard = new JPanel() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 6781424067823481531L;
-			
-
 			protected void paintComponent(Graphics g) {
 				g.setColor(getBackground());
 
@@ -1258,15 +1258,9 @@ public class Home extends JFrame {
 						"N\u00FAmero ID", "Nombre", "Posici\u00F3n"
 				}
 				) {
-			/**
-					 * 
-					 */
-					private static final long serialVersionUID = 6836515206960149204L;
-			@SuppressWarnings("rawtypes")
 			Class[] columnTypes = new Class[] {
 					String.class, String.class, String.class
 			};
-			@SuppressWarnings({ "rawtypes", "unchecked" })
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
@@ -1304,15 +1298,9 @@ public class Home extends JFrame {
 						"N\u00FAmero ID", "Nombre", "Posici\u00F3n"
 				}
 				) {
-			/**
-					 * 
-					 */
-					private static final long serialVersionUID = -2154170103726756782L;
-			@SuppressWarnings("rawtypes")
 			Class[] columnTypes = new Class[] {
 					String.class, String.class, String.class
 			};
-			@SuppressWarnings({ "rawtypes", "unchecked" })
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
@@ -1350,15 +1338,9 @@ public class Home extends JFrame {
 						"N\u00FAmero ID", "Nombre"
 				}
 				) {
-			/**
-					 * 
-					 */
-					private static final long serialVersionUID = 3197288140084098761L;
-			@SuppressWarnings("rawtypes")
 			Class[] columnTypes = new Class[] {
 					String.class, String.class
 			};
-			@SuppressWarnings({ "rawtypes", "unchecked" })
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
@@ -2013,11 +1995,6 @@ public class Home extends JFrame {
 		panelGameSimulation.setLayout(null);
 
 		panelScoreBoard = new JPanel() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -3594965026412966171L;
-
 			protected void paintComponent(Graphics g) {
 				g.setColor(getBackground());
 
@@ -2040,10 +2017,11 @@ public class Home extends JFrame {
 
 		panel = new JPanel();
 		panel.setBounds(85, 373, 449, 366);
-		
+
 		loadGameToday();
-
-
+		
+		h1 = new Thread(this);
+		h1.start();
 	}
 
 
@@ -2135,14 +2113,14 @@ public class Home extends JFrame {
 		}
 
 	}
-	
+
 	//Metodo para cargar la tabla de partidos de hoy del dashboard, ventana HOME.
 	public static void loadGameToday() {
-		
+
 		modelGameToday= (DefaultTableModel) tablePartidosHoy.getModel();
 		modelGameToday.setRowCount(0);
 		columnGameToday = new Object[modelGameToday.getColumnCount()];
-		
+
 		for (Game auxGame : Lidom.getInstance().getListGame()) {
 			Locale spanishLocale = new Locale("es", "ES");
 			SimpleDateFormat formatter = new SimpleDateFormat("dd-MMMM-yyyy", spanishLocale);
@@ -2150,18 +2128,18 @@ public class Home extends JFrame {
 			Date auxDateLocal = new Date();
 			SimpleDateFormat formatter1 = new SimpleDateFormat("dd-MMMM-yyyy", spanishLocale);
 			String dateLocalString = formatter1.format(auxDateLocal); //local date en string.
-			
+
 			String auxDateGame = auxGame.getDate(); // date of game.
-			
-			
+
+
 			if (dateLocalString.equalsIgnoreCase(auxDateGame)) {
-				
+
 				columnGameToday[0] = auxGame.getHomeTeam();
 				columnGameToday[1] = auxGame.getAwayTeam();
 				columnGameToday[2] = auxGame.getStadium();
 				columnGameToday[3] = auxGame.getDate();
 				columnGameToday[4] = auxGame.getHora();
-				
+
 				if (auxGame.getAwayRun() == 0 && auxGame.getHomeRun() == 0) {
 					columnGameToday[5] = "n/a";
 				}
@@ -2169,10 +2147,46 @@ public class Home extends JFrame {
 					columnGameToday[5] = auxGame.getHomeRun() + " - " +auxGame.getAwayRun();
 				}
 				modelGameToday.addRow(columnGameToday);
-				
+
 			}		
 		}		
 	}
 	
-	
+	public void showRealTimeAndDate() {
+
+
+		Calendar cale = new GregorianCalendar();
+		day = cale.get(Calendar.DAY_OF_MONTH);
+		mont = cale.get(Calendar.MONTH);
+		year = cale.get(Calendar.YEAR);
+
+
+		hour = cale.get(Calendar.HOUR);
+		minute = cale.get(Calendar.MINUTE);
+		second = cale.get(Calendar.SECOND);
+
+	}
+
+
+
+	@Override
+	public void run() {
+		Thread ct = Thread.currentThread();
+		while (ct == h1) {
+
+			showRealTimeAndDate();
+			
+			lblDate.setText(day + " - " + (mont+1) + " - " + year);
+			lblTime.setText(hour + " : " + minute + " : " + second);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+			}
+		}
+
+	}
+
+
+
+
 }
