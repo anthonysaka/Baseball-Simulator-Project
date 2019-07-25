@@ -466,6 +466,14 @@ public class Lidom implements Serializable {
 		}
 		return Statistic;
 	}
+	
+	
+	//esta funcion es para calcular el porcentage de victorias de los equipos
+	public float TeamAvr(int win, int game) {
+		
+		return win/game;
+		
+	}
 
 
 	public void addPlayerToTeam(String nameTeam, Player player) {
