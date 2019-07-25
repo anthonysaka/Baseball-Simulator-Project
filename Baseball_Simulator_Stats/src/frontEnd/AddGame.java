@@ -1,68 +1,31 @@
 package frontEnd;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
-import javax.swing.border.AbstractBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
-import java.awt.Component;
-
 import javax.swing.JSeparator;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.RenderingHints;
-import java.awt.Shape;
-
 import javax.swing.SwingConstants;
-import java.awt.Dimension;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
-import java.awt.geom.Area;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.UUID;
 import java.awt.event.ActionEvent;
-import javax.swing.JTextField;
-import javax.swing.SpinnerModel;
-
 import rojeru_san.componentes.RSDateChooser;
-import sun.java2d.pipe.TextPipe;
-import rojeru_san.componentes.RSCalendar;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.JCheckBox;
-import javax.swing.JRadioButton;
-import java.awt.CardLayout;
-import javax.swing.border.LineBorder;
-import javax.swing.text.MaskFormatter;
-
 import backEnd.Game;
 import backEnd.Lidom;
 import backEnd.Stadium;
 import backEnd.Team;
 
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-
-@SuppressWarnings("unused")
 public class AddGame extends JDialog {
 
 	/**
@@ -80,16 +43,12 @@ public class AddGame extends JDialog {
 
 	private JButton btnRegistrar;
 	private JButton btnCancelar;
-	@SuppressWarnings("rawtypes")
 	private JComboBox cbxEquipoLocal;
-	@SuppressWarnings("rawtypes")
 	private JComboBox cbxEquipoVisitante;
 	private RSDateChooser dateChooser;
 	private JLabel lblFecha;
-	@SuppressWarnings("rawtypes")
 	private JComboBox cbxHora;
 	private JLabel lblHora;
-	@SuppressWarnings("rawtypes")
 	private JComboBox cbxEstadio;
 	private JLabel lblEstadio;
 
@@ -97,7 +56,7 @@ public class AddGame extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+
 	public AddGame() {
 
 		getContentPane().setBackground(new Color(255, 255, 255));
@@ -240,13 +199,11 @@ public class AddGame extends JDialog {
 			panelBg.add(btnCancelar);
 			
 			cbxEquipoLocal = new JComboBox<String>();
-			//cbxEquipoLocal.setSelectedIndex(0);
 			cbxEquipoLocal.setFont(new Font("Consolas", Font.PLAIN, 18));
 			cbxEquipoLocal.setBounds(55, 143, 225, 30);
 			panelBg.add(cbxEquipoLocal);
 			
 			cbxEquipoVisitante = new JComboBox();
-			//cbxEquipoVisitante.setSelectedIndex(0);
 			cbxEquipoVisitante.setFont(new Font("Consolas", Font.PLAIN, 18));
 			cbxEquipoVisitante.setBounds(403, 143, 225, 30);
 			panelBg.add(cbxEquipoVisitante);
@@ -270,7 +227,10 @@ public class AddGame extends JDialog {
 			panelBg.add(lblFecha);
 			
 			cbxHora = new JComboBox();
-			cbxHora.setModel(new DefaultComboBoxModel(new String[] {"<Seleccionar>","8:00 AM","8:30 AM", "9:00 AM","9:30 AM", "10:00 AM","10:30 AM", "11:00 AM","11:30 AM", "12:00 PM","12:30 PM", "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM", "6:30 PM", "7:00 PM","7:30 PM", "8:00 PM", "8:30 PM", "9:00 PM", "9:30 PM","10:00 PM","10:30 PM","11:00 PM"}));
+			cbxHora.setModel(new DefaultComboBoxModel(new String[] {"<Seleccionar>","8:00 AM","8:30 AM", "9:00 AM","9:30 AM", "10:00 AM","10:30 AM",
+					"11:00 AM","11:30 AM", "12:00 PM","12:30 PM", "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM",
+					"4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM", "6:30 PM", "7:00 PM","7:30 PM", "8:00 PM", "8:30 PM", "9:00 PM", "9:30 PM","10:00 PM",
+					"10:30 PM","11:00 PM"}));
 			cbxHora.setSelectedIndex(0);
 			cbxHora.setFont(new Font("Consolas", Font.PLAIN, 18));
 			cbxHora.setBounds(403, 224, 225, 30);
@@ -285,7 +245,6 @@ public class AddGame extends JDialog {
 			panelBg.add(lblHora);
 			
 			cbxEstadio = new JComboBox();
-			//cbxEstadio.setSelectedIndex(0);
 			cbxEstadio.setFont(new Font("Consolas", Font.PLAIN, 18));
 			cbxEstadio.setBounds(55, 303, 225, 30);
 			panelBg.add(cbxEstadio);
@@ -307,7 +266,6 @@ public class AddGame extends JDialog {
 
 
 	/** Metodos **/
-	@SuppressWarnings("unchecked")
 	private void loadStadiumsCbx() {
 
 		cbxEstadio.removeAllItems();
@@ -322,7 +280,6 @@ public class AddGame extends JDialog {
 
 	}
 	
-	@SuppressWarnings("unchecked")
 	private void loadTeamsCbx() {
 
 		cbxEquipoLocal.removeAllItems();

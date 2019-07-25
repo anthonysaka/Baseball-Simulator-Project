@@ -85,7 +85,6 @@ public class ViewGame extends JDialog {
 	private JButton button;
 	private JButton button_1;
 	private JLabel label;
-	@SuppressWarnings("rawtypes")
 	private JComboBox comboBox;
 	private JTextField textField;
 	private JButton button_2;
@@ -96,12 +95,13 @@ public class ViewGame extends JDialog {
 	private String equipoVisitante;
 	private String fecha;
 	private String hora;
+	private String estadio;
 
 
 	/**
 	 * Create the dialog.
 	 */
-	@SuppressWarnings("rawtypes")
+
 	public ViewGame() {
 
 		getContentPane().setBackground(new Color(255, 255, 255));
@@ -148,6 +148,7 @@ public class ViewGame extends JDialog {
 						button.setEnabled(true);
 						equipoLocal = (String) tableGame.getModel().getValueAt(index, 0);	
 						equipoVisitante = (String) tableGame.getModel().getValueAt(index, 1);
+						estadio = (String) tableGame.getModel().getValueAt(index, 2);
 						fecha = (String) tableGame.getModel().getValueAt(index, 3);
 						hora = (String) tableGame.getModel().getValueAt(index, 4);	
 					}
@@ -192,7 +193,7 @@ public class ViewGame extends JDialog {
 
 					if (xOption == 0) {
 						
-						Game auxGame = Lidom.getInstance().searchGame(equipoLocal, equipoVisitante, fecha, hora);
+						Game auxGame = Lidom.getInstance().searchGame(equipoLocal, equipoVisitante, estadio, fecha, hora);
 						Lidom.getInstance().deleteGame(auxGame);
 
 						ImageIcon icon1 = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_checked_48px_1.png"));

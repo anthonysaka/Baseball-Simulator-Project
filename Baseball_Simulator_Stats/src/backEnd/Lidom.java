@@ -1,21 +1,14 @@
 package backEnd;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 
 
 /*  Final project - Baseball Simulator -
@@ -27,7 +20,7 @@ import java.util.Date;
  *              Controller Class - LIDOM (Liga de Béisbol Profesional de República Dominicana)
  */
 
-@SuppressWarnings("unused")
+
 public class Lidom implements Serializable {
 
 	private static final long serialVersionUID = 5337891823986950253L;
@@ -256,13 +249,13 @@ public class Lidom implements Serializable {
 		return auxStadium; //Retorna el ESTADIO del NOMBRE encontrado.
 	}
 
-	public Game searchGame(String local, String visitante, String fecha, String hora) {
+	public Game searchGame(String local, String visitante, String estadio, String fecha, String hora) {
 		Game auxGame = null;
 		boolean found = false;
 		int i = 0;
 
 		while (!found &&  i < listGame.size()) {
-			if (listGame.get(i).getAwayTeam().equalsIgnoreCase(local) && listGame.get(i).getHomeTeam().equalsIgnoreCase(visitante) && listGame.get(i).getDate().equalsIgnoreCase(fecha) && listGame.get(i).getHora().equalsIgnoreCase(hora)) {
+			if (listGame.get(i).getHomeTeam().equalsIgnoreCase(local) && listGame.get(i).getAwayTeam().equalsIgnoreCase(visitante) && listGame.get(i).getDate().equalsIgnoreCase(fecha) && listGame.get(i).getHora().equalsIgnoreCase(hora)) {
 				found = true;
 				auxGame = listGame.get(i);
 			}

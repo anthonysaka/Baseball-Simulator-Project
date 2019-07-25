@@ -51,15 +51,15 @@ public class PlayersStatistics extends JDialog {
 	/**
 	 * Launch the application.
 	 */
-//	public static void main(String[] args) {
-//		try {
-//			PlayersStatistics dialog = new PlayersStatistics();
-//			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-//			dialog.setVisible(true);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
+	//	public static void main(String[] args) {
+	//		try {
+	//			PlayersStatistics dialog = new PlayersStatistics();
+	//			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	//			dialog.setVisible(true);
+	//		} catch (Exception e) {
+	//			e.printStackTrace();
+	//		}
+	//	}
 
 	/**
 	 * Create the dialog.
@@ -107,75 +107,75 @@ public class PlayersStatistics extends JDialog {
 				}
 			}
 		});
-		
+
 		JPanel panelBackgroundBtn = new JPanel();
 		panelBackgroundBtn.setBorder(null);
 		panelBackgroundBtn.setBounds(10, 100, 817, 87);
 		panelBg.add(panelBackgroundBtn);
 		panelBackgroundBtn.setLayout(new CardLayout(0, 0));
-		
+
 		JPanel panelBatBtn = new JPanel();
 		panelBackgroundBtn.add(panelBatBtn, "name_31965647960600");
-				panelBatBtn.setLayout(null);
-		
-				JButton btnAverage = new JButton("Average");
-				btnAverage.setBounds(52, 5, 100, 30);
-				panelBatBtn.add(btnAverage);
-				btnAverage.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-					}
-				});
-				
-				btnAverage.setIconTextGap(5);
-				btnAverage.setBorder(null);
-				btnAverage.setForeground(new Color(255, 255, 240));
-				btnAverage.setFont(new Font("Consolas", Font.BOLD, 17));
-				btnAverage.setBackground(new Color(0, 30, 70));
-				
-						JButton btnHits = new JButton("Hits");
-						btnHits.setBounds(204, 5, 100, 30);
-						panelBatBtn.add(btnHits);
-						btnHits.setIconTextGap(5);
-						btnHits.setBorder(null);
-						btnHits.setForeground(new Color(255, 255, 240));
-						btnHits.setFont(new Font("Consolas", Font.BOLD, 17));
-						btnHits.setBackground(new Color(0, 30, 70));
-						
-								JButton btnDobles = new JButton("Dobles");
-								btnDobles.setBounds(356, 5, 100, 30);
-								panelBatBtn.add(btnDobles);
-								btnDobles.setIconTextGap(5);
-								btnDobles.setHorizontalTextPosition(SwingConstants.LEFT);
-								btnDobles.setForeground(new Color(255, 255, 240));
-								btnDobles.setFont(new Font("Consolas", Font.BOLD, 17));
-								btnDobles.setBorder(null);
-								btnDobles.setBackground(new Color(0, 30, 72));
-								
-										JButton btnTriples = new JButton("Triples");
-										btnTriples.setBounds(508, 5, 100, 30);
-										panelBatBtn.add(btnTriples);
-										btnTriples.setIconTextGap(5);
-										btnTriples.setHorizontalTextPosition(SwingConstants.LEFT);
-										btnTriples.setForeground(new Color(255, 255, 240));
-										btnTriples.setFont(new Font("Consolas", Font.BOLD, 17));
-										btnTriples.setBorder(null);
-										btnTriples.setBackground(new Color(0, 30, 72));
-										
-												JButton btnHr = new JButton("HR");
-												btnHr.setBounds(660, 5, 100, 30);
-												panelBatBtn.add(btnHr);
-												btnHr.setIconTextGap(5);
-												btnHr.setHorizontalTextPosition(SwingConstants.LEFT);
-												btnHr.setForeground(new Color(255, 255, 240));
-												btnHr.setFont(new Font("Consolas", Font.BOLD, 17));
-												btnHr.setBorder(null);
-												btnHr.setBackground(new Color(0, 30, 72));
-												btnHr.setFont(new Font("Consolas", Font.PLAIN, 17));
-		
+		panelBatBtn.setLayout(null);
+
+		JButton btnAverage = new JButton("Average");
+		btnAverage.setBounds(52, 5, 100, 30);
+		panelBatBtn.add(btnAverage);
+		btnAverage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+
+		btnAverage.setIconTextGap(5);
+		btnAverage.setBorder(null);
+		btnAverage.setForeground(new Color(255, 255, 240));
+		btnAverage.setFont(new Font("Consolas", Font.BOLD, 17));
+		btnAverage.setBackground(new Color(0, 30, 70));
+
+		JButton btnHits = new JButton("Hits");
+		btnHits.setBounds(204, 5, 100, 30);
+		panelBatBtn.add(btnHits);
+		btnHits.setIconTextGap(5);
+		btnHits.setBorder(null);
+		btnHits.setForeground(new Color(255, 255, 240));
+		btnHits.setFont(new Font("Consolas", Font.BOLD, 17));
+		btnHits.setBackground(new Color(0, 30, 70));
+
+		JButton btnDobles = new JButton("Dobles");
+		btnDobles.setBounds(356, 5, 100, 30);
+		panelBatBtn.add(btnDobles);
+		btnDobles.setIconTextGap(5);
+		btnDobles.setHorizontalTextPosition(SwingConstants.LEFT);
+		btnDobles.setForeground(new Color(255, 255, 240));
+		btnDobles.setFont(new Font("Consolas", Font.BOLD, 17));
+		btnDobles.setBorder(null);
+		btnDobles.setBackground(new Color(0, 30, 72));
+
+		JButton btnTriples = new JButton("Triples");
+		btnTriples.setBounds(508, 5, 100, 30);
+		panelBatBtn.add(btnTriples);
+		btnTriples.setIconTextGap(5);
+		btnTriples.setHorizontalTextPosition(SwingConstants.LEFT);
+		btnTriples.setForeground(new Color(255, 255, 240));
+		btnTriples.setFont(new Font("Consolas", Font.BOLD, 17));
+		btnTriples.setBorder(null);
+		btnTriples.setBackground(new Color(0, 30, 72));
+
+		JButton btnHr = new JButton("HR");
+		btnHr.setBounds(660, 5, 100, 30);
+		panelBatBtn.add(btnHr);
+		btnHr.setIconTextGap(5);
+		btnHr.setHorizontalTextPosition(SwingConstants.LEFT);
+		btnHr.setForeground(new Color(255, 255, 240));
+		btnHr.setFont(new Font("Consolas", Font.BOLD, 17));
+		btnHr.setBorder(null);
+		btnHr.setBackground(new Color(0, 30, 72));
+		btnHr.setFont(new Font("Consolas", Font.PLAIN, 17));
+
 		JPanel panelPitBtn = new JPanel();
 		panelBackgroundBtn.add(panelPitBtn, "name_32013013835600");
 		panelPitBtn.setLayout(null);
-		
+
 		JButton btnGamesWin = new JButton("W");
 		btnGamesWin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -189,7 +189,7 @@ public class PlayersStatistics extends JDialog {
 		btnGamesWin.setFont(new Font("Consolas", Font.BOLD, 17));
 		btnGamesWin.setBorder(null);
 		btnGamesWin.setBackground(new Color(0, 30, 72));
-		
+
 		JButton btnGamesLose = new JButton("L");
 		btnGamesLose.setBounds(213, 11, 89, 30);
 		panelPitBtn.add(btnGamesLose);
@@ -199,7 +199,7 @@ public class PlayersStatistics extends JDialog {
 		btnGamesLose.setFont(new Font("Consolas", Font.BOLD, 17));
 		btnGamesLose.setBorder(null);
 		btnGamesLose.setBackground(new Color(0, 30, 72));
-		
+
 		JButton btnERA = new JButton("ERA");
 		btnERA.setBounds(364, 11, 89, 30);
 		panelPitBtn.add(btnERA);
@@ -209,7 +209,7 @@ public class PlayersStatistics extends JDialog {
 		btnERA.setFont(new Font("Consolas", Font.BOLD, 17));
 		btnERA.setBorder(null);
 		btnERA.setBackground(new Color(0, 30, 72));
-		
+
 		JButton btnGamesPlayed = new JButton("G");
 		btnGamesPlayed.setBounds(515, 11, 89, 30);
 		panelPitBtn.add(btnGamesPlayed);
@@ -219,8 +219,8 @@ public class PlayersStatistics extends JDialog {
 		btnGamesPlayed.setFont(new Font("Consolas", Font.BOLD, 17));
 		btnGamesPlayed.setBorder(null);
 		btnGamesPlayed.setBackground(new Color(0, 30, 72));
-		
-		
+
+
 		JButton btnGamesStarted = new JButton("GS");
 		btnGamesStarted.setBounds(666, 11, 89, 30);
 		panelPitBtn.add(btnGamesStarted);
@@ -230,7 +230,7 @@ public class PlayersStatistics extends JDialog {
 		btnGamesStarted.setFont(new Font("Consolas", Font.BOLD, 17));
 		btnGamesStarted.setBorder(null);
 		btnGamesStarted.setBackground(new Color(0, 30, 72));
-		
+
 		JButton btnGamesSaved = new JButton("SV");
 		btnGamesSaved.setBounds(40, 45, 89, 30);
 		panelPitBtn.add(btnGamesSaved);
@@ -240,7 +240,7 @@ public class PlayersStatistics extends JDialog {
 		btnGamesSaved.setFont(new Font("Consolas", Font.BOLD, 17));
 		btnGamesSaved.setBorder(null);
 		btnGamesSaved.setBackground(new Color(0, 30, 72));
-		
+
 		JButton btnHRPermited = new JButton("HR");
 		btnHRPermited.setBounds(169, 45, 89, 30);
 		panelPitBtn.add(btnHRPermited);
@@ -250,7 +250,7 @@ public class PlayersStatistics extends JDialog {
 		btnHRPermited.setFont(new Font("Consolas", Font.BOLD, 17));
 		btnHRPermited.setBorder(null);
 		btnHRPermited.setBackground(new Color(0, 30, 72));
-		
+
 		JButton btnHitsPermited = new JButton("H");
 		btnHitsPermited.setBounds(298, 45, 89, 30);
 		panelPitBtn.add(btnHitsPermited);
@@ -260,7 +260,7 @@ public class PlayersStatistics extends JDialog {
 		btnHitsPermited.setFont(new Font("Consolas", Font.BOLD, 17));
 		btnHitsPermited.setBorder(null);
 		btnHitsPermited.setBackground(new Color(0, 30, 72));
-		
+
 		JButton btnRunsPermited = new JButton("R");
 		btnRunsPermited.setBounds(427, 45, 89, 30);
 		panelPitBtn.add(btnRunsPermited);
@@ -270,7 +270,7 @@ public class PlayersStatistics extends JDialog {
 		btnRunsPermited.setFont(new Font("Consolas", Font.BOLD, 17));
 		btnRunsPermited.setBorder(null);
 		btnRunsPermited.setBackground(new Color(0, 30, 72));
-		
+
 		JButton btnInningsPitched = new JButton("IP");
 		btnInningsPitched.setBounds(556, 45, 89, 30);
 		panelPitBtn.add(btnInningsPitched);
@@ -280,7 +280,7 @@ public class PlayersStatistics extends JDialog {
 		btnInningsPitched.setFont(new Font("Consolas", Font.BOLD, 17));
 		btnInningsPitched.setBorder(null);
 		btnInningsPitched.setBackground(new Color(0, 30, 72));
-		
+
 		JButton btnAVG = new JButton("AVG");
 		btnAVG.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -294,7 +294,7 @@ public class PlayersStatistics extends JDialog {
 		btnAVG.setFont(new Font("Consolas", Font.BOLD, 17));
 		btnAVG.setBorder(null);
 		btnAVG.setBackground(new Color(0, 30, 72));
-		
+
 		JButton btnImprimir = new JButton("Imprimir");
 		btnImprimir.setIconTextGap(5);
 		btnImprimir.setBorder(null);
@@ -337,93 +337,93 @@ public class PlayersStatistics extends JDialog {
 		lblFiltrar.setFont(new Font("Consolas", Font.PLAIN, 20));
 		lblFiltrar.setBounds(10, 70, 146, 31);
 		panelBg.add(lblFiltrar);
-		
+
 		JPanel panelBackground = new JPanel();
 		panelBackground.setBounds(10, 198, 817, 314);
 		panelBg.add(panelBackground);
 		panelBackground.setLayout(new CardLayout(0, 0));
-		
-				JScrollPane scrollPaneBat = new JScrollPane();
-				panelBackground.add(scrollPaneBat, "name_79233563345800");
-				
-				StatisticsTableBat = new JTable();
-				StatisticsTableBat.setModel(new DefaultTableModel(
-					new Object[][] {
-					},
-					new String[] {
+
+		JScrollPane scrollPaneBat = new JScrollPane();
+		panelBackground.add(scrollPaneBat, "name_79233563345800");
+
+		StatisticsTableBat = new JTable();
+		StatisticsTableBat.setModel(new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
 						"Equipo", "Nombre", "Average", "Hits", "Dobles", "Triples", "HR"
-					}
+				}
 				) {
-					/**
-					 * 
-					 */
-					private static final long serialVersionUID = -3449633077541811227L;
-					
-					@SuppressWarnings("rawtypes")
-					Class[] columnTypes = new Class[] {
-						String.class, String.class, String.class, String.class, String.class, String.class, String.class
-					};
-					@SuppressWarnings({ "unchecked", "rawtypes" })
-					public Class getColumnClass(int columnIndex) {
-						return columnTypes[columnIndex];
-					}
-					boolean[] columnEditables = new boolean[] {
-						false, false, false, false, false, false, false
-					};
-					public boolean isCellEditable(int row, int column) {
-						return columnEditables[column];
-					}
-				});
-				StatisticsTableBat.getColumnModel().getColumn(0).setMinWidth(20);
-				scrollPaneBat.setViewportView(StatisticsTableBat);
-				
-				JScrollPane scrollPanePit = new JScrollPane();
-				panelBackground.add(scrollPanePit, "name_79309930304300");
-				
-				StatisticsTablePit = new JTable();
-				StatisticsTablePit.setModel(new DefaultTableModel(
-					new Object[][] {
-					},
-					new String[] {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -3449633077541811227L;
+
+			@SuppressWarnings("rawtypes")
+			Class[] columnTypes = new Class[] {
+					String.class, String.class, String.class, String.class, String.class, String.class, String.class
+			};
+			@SuppressWarnings({ "unchecked", "rawtypes" })
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+			boolean[] columnEditables = new boolean[] {
+					false, false, false, false, false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		StatisticsTableBat.getColumnModel().getColumn(0).setMinWidth(20);
+		scrollPaneBat.setViewportView(StatisticsTableBat);
+
+		JScrollPane scrollPanePit = new JScrollPane();
+		panelBackground.add(scrollPanePit, "name_79309930304300");
+
+		StatisticsTablePit = new JTable();
+		StatisticsTablePit.setModel(new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
 						"Equipo", "Nombre", "W", "L", "ERA", "G", "GS", "SV", "HR", "H", "R", "IP", "AVG"
-					}
+				}
 				) {
-					/**
-					 * 
-					 */
-					private static final long serialVersionUID = 2212776801690834304L;
-				
-					
-					@SuppressWarnings("rawtypes")
-					Class[] columnTypes = new Class[] {
-						String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class
-					};
-					@SuppressWarnings({ "rawtypes", "unchecked" })
-					public Class getColumnClass(int columnIndex) {
-						return columnTypes[columnIndex];
-					}
-					boolean[] columnEditables = new boolean[] {
-						false, false, false, false, false, false, false, false, false, false, false, false, false
-					};
-					public boolean isCellEditable(int row, int column) {
-						return columnEditables[column];
-					}
-				});
-				StatisticsTablePit.getColumnModel().getColumn(0).setMinWidth(40);
-				StatisticsTablePit.getColumnModel().getColumn(1).setMinWidth(40);
-				StatisticsTablePit.getColumnModel().getColumn(2).setMinWidth(20);
-				StatisticsTablePit.getColumnModel().getColumn(3).setMinWidth(20);
-				StatisticsTablePit.getColumnModel().getColumn(4).setMinWidth(20);
-				StatisticsTablePit.getColumnModel().getColumn(5).setMinWidth(20);
-				StatisticsTablePit.getColumnModel().getColumn(6).setMinWidth(20);
-				StatisticsTablePit.getColumnModel().getColumn(7).setMinWidth(20);
-				StatisticsTablePit.getColumnModel().getColumn(8).setMinWidth(20);
-				StatisticsTablePit.getColumnModel().getColumn(9).setMinWidth(20);
-				StatisticsTablePit.getColumnModel().getColumn(10).setMinWidth(20);
-				StatisticsTablePit.getColumnModel().getColumn(11).setMinWidth(20);
-				StatisticsTablePit.getColumnModel().getColumn(12).setMinWidth(20);
-				scrollPanePit.setViewportView(StatisticsTablePit);
-				
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 2212776801690834304L;
+
+
+			@SuppressWarnings("rawtypes")
+			Class[] columnTypes = new Class[] {
+					String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class
+			};
+			@SuppressWarnings({ "rawtypes", "unchecked" })
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+			boolean[] columnEditables = new boolean[] {
+					false, false, false, false, false, false, false, false, false, false, false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		StatisticsTablePit.getColumnModel().getColumn(0).setMinWidth(40);
+		StatisticsTablePit.getColumnModel().getColumn(1).setMinWidth(40);
+		StatisticsTablePit.getColumnModel().getColumn(2).setMinWidth(20);
+		StatisticsTablePit.getColumnModel().getColumn(3).setMinWidth(20);
+		StatisticsTablePit.getColumnModel().getColumn(4).setMinWidth(20);
+		StatisticsTablePit.getColumnModel().getColumn(5).setMinWidth(20);
+		StatisticsTablePit.getColumnModel().getColumn(6).setMinWidth(20);
+		StatisticsTablePit.getColumnModel().getColumn(7).setMinWidth(20);
+		StatisticsTablePit.getColumnModel().getColumn(8).setMinWidth(20);
+		StatisticsTablePit.getColumnModel().getColumn(9).setMinWidth(20);
+		StatisticsTablePit.getColumnModel().getColumn(10).setMinWidth(20);
+		StatisticsTablePit.getColumnModel().getColumn(11).setMinWidth(20);
+		StatisticsTablePit.getColumnModel().getColumn(12).setMinWidth(20);
+		scrollPanePit.setViewportView(StatisticsTablePit);
+
 		loadTable();
 	}
 
@@ -442,16 +442,16 @@ public class PlayersStatistics extends JDialog {
 				column[4] =  ((Batter) p).getH2();
 				column[5]= ((Batter) p).getH3();
 				column[6]= ((Batter) p).getHR();
-				
+
 				model.addRow(column);
 			}
-			
+
 
 		}
 
 
 
-		
+
 
 	}
 }
