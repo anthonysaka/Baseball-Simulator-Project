@@ -1117,13 +1117,13 @@ public class Home extends JFrame implements Runnable {
 							Game newgame1 = new Game(Lidom.getInstance().getListTeams().get(i).getName(),Lidom.getInstance().getListTeams().get(posEquipo).getName(), Lidom.getInstance().getListTeams().get(i).getStadium());
 							Lidom.getInstance().addGame(newgame0);
 							Lidom.getInstance().addGame(newgame1);
-							asignarFechaJuego();
+							
 						}
 					}
 					posEquipo++;
 				}
 
-
+				asignarFechaJuego();
 				ViewGame listGame = new ViewGame();
 				listGame.setModal(true);
 				listGame.setVisible(true);
@@ -3708,7 +3708,7 @@ public class Home extends JFrame implements Runnable {
 
 		Game primerJuego = Lidom.getInstance().getListGame().get(0);// poner fecha actual
 		primerJuego.setDate(dateString);
-
+ 
 		while (indexJuego < Lidom.getInstance().getListGame().size()) {
 
 			for (int i = 0; i < Lidom.getInstance().getListGame().size(); i++) {
@@ -3722,10 +3722,10 @@ public class Home extends JFrame implements Runnable {
 						Lidom.getInstance().getListGame().get(i).setDate(Lidom.getInstance().getListGame().get(indexJuego).getDate());
 
 					}
-					else {
-						String string2 = String.valueOf(random(0, 3))+ ""+ String.valueOf(random(0, 3)) + " " + new SimpleDateFormat("MMMM", spanishLocale).format(cal.getTime()) + " " + Calendar.getInstance().get(Calendar.YEAR);
-						Lidom.getInstance().getListGame().get(i).setDate(string2);
-					}
+			//		else {
+				//		String string2 = String.valueOf(random(0, 3))+ ""+ String.valueOf(random(0, 3)) + " " + new SimpleDateFormat("MMMM", spanishLocale).format(cal.getTime()) + " " + Calendar.getInstance().get(Calendar.YEAR);
+					//	Lidom.getInstance().getListGame().get(i).setDate(string2);
+				//	}
 				}
 
 

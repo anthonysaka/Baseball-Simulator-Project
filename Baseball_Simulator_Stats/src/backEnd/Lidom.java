@@ -516,9 +516,21 @@ public class Lidom implements Serializable {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	//METODO PARA BUSCAR AL MEJOR EQUIPO DE LA SERIE
-	public void Mejor_Equipo() {
+	public String Mejor_Equipo() { //REVISAR
+
+		int Mejor = 0 ;
+		String Mejor_Team = null;
 
 
+		for (Team equipo : listTeams) {
+			if(Mejor < equipo.getGamesWin()) {
+				Mejor = equipo.getGamesWin();
+
+				Mejor_Team = equipo.getName();
+			}
+		}
+
+		return Mejor_Team;
 	}
 
 
