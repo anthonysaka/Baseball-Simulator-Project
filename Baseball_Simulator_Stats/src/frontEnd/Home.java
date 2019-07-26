@@ -280,6 +280,7 @@ public class Home extends JFrame implements Runnable {
 	/****************/
 	public static int numberOut = 0;
 	public static int turno=0;
+	private JButton btnListar;
 
 
 
@@ -539,6 +540,7 @@ public class Home extends JFrame implements Runnable {
 
 		btnHome.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Lidom.getInstance().getListGame().removeAll(Lidom.getInstance().getListGame());
 				panelBgDashboard.setVisible(true);
 				panelManageTeams.setVisible(false);
 				//	btnHome.setEnabled(false);
@@ -556,6 +558,7 @@ public class Home extends JFrame implements Runnable {
 		btnPartidos = new JButton("PARTIDOS");
 		btnPartidos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 			}
 		});
 		btnPartidos.addMouseListener(new MouseAdapter() {
@@ -1093,41 +1096,21 @@ public class Home extends JFrame implements Runnable {
 			}
 		});
 		panelMenuEstadio.setVisible(false);
-		panelMenuPartidos.setBounds(875, 50, 170, 141);
+		panelMenuPartidos.setBounds(875, 50, 170, 200);
 		panelBackGround.add(panelMenuPartidos);
 		panelMenuPartidos.setLayout(null);
 
-		btnListarPartido = new JButton("Listar");
+		btnListarPartido = new JButton("Eliminar");
+		
+		if (Lidom.getInstance().getListGame().size() != 0) {
+			btnListarPartido.setEnabled(true);
+			
+		}
 		btnListarPartido.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				int cantByTeam = Lidom.getInstance().getListTeams().size() * 2 - 2;
-				int posEquipo = 0;
-				Date dateGame = new Date();
-
-				while (posEquipo < Lidom.getInstance().getListTeams().size()) {
-
-					for (int i = 0; i <= cantByTeam/2; i++) {
-
-						if (posEquipo != i) {
-
-							//	Game newgame0 = new Game(Lidom.getInstance().getListTeams().get(posEquipo).getName(),Lidom.getInstance().getListTeams().get(i).getName(),Lidom.getInstance().getListTeams().get(posEquipo).getStadium() , "10:00 AM", "27-Julio-2019");
-							//	Game newgame1 = new Game(Lidom.getInstance().getListTeams().get(i).getName(),Lidom.getInstance().getListTeams().get(posEquipo).getName(), Lidom.getInstance().getListTeams().get(i).getStadium(), "10:00 AM", "27-Julio-2019");
-							Game newgame0 = new Game(Lidom.getInstance().getListTeams().get(posEquipo).getName(),Lidom.getInstance().getListTeams().get(i).getName(),Lidom.getInstance().getListTeams().get(posEquipo).getStadium());
-							Game newgame1 = new Game(Lidom.getInstance().getListTeams().get(i).getName(),Lidom.getInstance().getListTeams().get(posEquipo).getName(), Lidom.getInstance().getListTeams().get(i).getStadium());
-							Lidom.getInstance().addGame(newgame0);
-							Lidom.getInstance().addGame(newgame1);
-							
-						}
-					}
-					posEquipo++;
-				}
-
-				asignarFechaJuego();
-				ViewGame listGame = new ViewGame();
-				listGame.setModal(true);
-				listGame.setVisible(true);
-
+				
+			Lidom.getInstance().getListGame().removeAll(Lidom.getInstance().getListGame());
+			
 			}
 		});
 		btnListarPartido.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -1154,13 +1137,36 @@ public class Home extends JFrame implements Runnable {
 		btnListarPartido.setBounds(0, 76, 170, 50);
 		panelMenuPartidos.add(btnListarPartido);
 
-		btnRegistrarPartido = new JButton("Registrar");
+		btnRegistrarPartido = new JButton("Generar");
+		
 		btnRegistrarPartido.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Lidom.getInstance().getListGame().removeAll(Lidom.getInstance().getListGame());
-				AddGame newGame= new AddGame();
-				newGame.setModal(true);
-				newGame.setVisible(true);
+				
+
+				int cantByTeam = Lidom.getInstance().getListTeams().size() * 2 - 2;
+				int posEquipo = 0;
+
+				while (posEquipo < Lidom.getInstance().getListTeams().size()) {
+
+					for (int i = 0; i <= cantByTeam/2; i++) {
+
+						if (posEquipo != i) {
+
+							//	Game newgame0 = new Game(Lidom.getInstance().getListTeams().get(posEquipo).getName(),Lidom.getInstance().getListTeams().get(i).getName(),Lidom.getInstance().getListTeams().get(posEquipo).getStadium() , "10:00 AM", "27-Julio-2019");
+							//	Game newgame1 = new Game(Lidom.getInstance().getListTeams().get(i).getName(),Lidom.getInstance().getListTeams().get(posEquipo).getName(), Lidom.getInstance().getListTeams().get(i).getStadium(), "10:00 AM", "27-Julio-2019");
+							Game newgame0 = new Game(Lidom.getInstance().getListTeams().get(posEquipo).getName(),Lidom.getInstance().getListTeams().get(i).getName(),Lidom.getInstance().getListTeams().get(posEquipo).getStadium());
+							Game newgame1 = new Game(Lidom.getInstance().getListTeams().get(i).getName(),Lidom.getInstance().getListTeams().get(posEquipo).getName(), Lidom.getInstance().getListTeams().get(i).getStadium());
+							Lidom.getInstance().addGame(newgame0);
+							Lidom.getInstance().addGame(newgame1);
+							
+						}
+					}
+					posEquipo++;
+				}
+				
+				asignarFechaJuego();
+			
+
 			}
 		});
 		btnRegistrarPartido.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -1186,6 +1192,39 @@ public class Home extends JFrame implements Runnable {
 		btnRegistrarPartido.setBackground(new Color(0, 30, 72));
 		btnRegistrarPartido.setBounds(0, 13, 170, 50);
 		panelMenuPartidos.add(btnRegistrarPartido);
+		
+		btnListar = new JButton("Listar");
+		btnListar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				
+				setColorBlue(btnPartidos);
+				setColorOrange(btnListar);
+				panelMenuPartidos.setVisible(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				resetColor(btnListar);
+				resetColor(btnPartidos);
+				panelMenuPartidos.setVisible(false);
+			}
+		});
+		btnListar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				ViewGame listGame = new ViewGame();
+				listGame.setModal(true);
+				listGame.setVisible(true);
+			}
+		});
+		btnListar.setIconTextGap(10);
+		btnListar.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnListar.setForeground(new Color(255, 255, 240));
+		btnListar.setFont(new Font("Consolas", Font.BOLD, 22));
+		btnListar.setBorder(null);
+		btnListar.setBackground(new Color(0, 30, 72));
+		btnListar.setBounds(0, 139, 170, 50);
+		panelMenuPartidos.add(btnListar);
 
 		panelBgHome = new JPanel();
 		panelBgHome.setBackground(new Color(255, 255, 255));
@@ -3695,44 +3734,46 @@ public class Home extends JFrame implements Runnable {
 	}
 
 
-	private void asignarFechaJuego() {
 
-		Date dateJuego = new Date();
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MMMM-yyyy");
-		String dateString = formatter.format(dateJuego);
-		Locale spanishLocale = new Locale("es", "ES");
-		Calendar cal = Calendar.getInstance();
+		private void asignarFechaJuego() {
 
-		Game juego = null;
-		int indexJuego = 0;
+			Date dateJuego = new Date();
+			Locale spanishLocale = new Locale("es", "ES");
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MMMM-yyyy", spanishLocale);
+			String dateString = formatter.format(dateJuego);
+			
+			Calendar cal = Calendar.getInstance();
 
-		Game primerJuego = Lidom.getInstance().getListGame().get(0);// poner fecha actual
-		primerJuego.setDate(dateString);
- 
-		while (indexJuego < Lidom.getInstance().getListGame().size()) {
+			Game juego = null;
+			int indexJuego = 0;
 
-			for (int i = 0; i < Lidom.getInstance().getListGame().size(); i++) {
+			Game primerJuego = Lidom.getInstance().getListGame().get(0);// poner fecha actual
+			primerJuego.setDate(dateString);
+	 
+			while (indexJuego < Lidom.getInstance().getListGame().size()) {
 
-				if (indexJuego != i) {
-					if (!Lidom.getInstance().getListGame().get(indexJuego).getHomeTeam().equalsIgnoreCase(Lidom.getInstance().getListGame().get(i).getHomeTeam())
-							&& !Lidom.getInstance().getListGame().get(indexJuego).getHomeTeam().equalsIgnoreCase(Lidom.getInstance().getListGame().get(i).getAwayTeam())
-							&& !Lidom.getInstance().getListGame().get(indexJuego).getAwayTeam().equalsIgnoreCase(Lidom.getInstance().getListGame().get(i).getHomeTeam()) 
-							&& !Lidom.getInstance().getListGame().get(indexJuego).getAwayTeam().equalsIgnoreCase(Lidom.getInstance().getListGame().get(i).getAwayTeam())) {
-						System.out.println("Entre");
-						Lidom.getInstance().getListGame().get(i).setDate(Lidom.getInstance().getListGame().get(indexJuego).getDate());
-
+				for (int i = 0; i < Lidom.getInstance().getListGame().size(); i++) {
+					if (indexJuego != i) {
+						if (!Lidom.getInstance().getListGame().get(indexJuego).getHomeTeam().equalsIgnoreCase(Lidom.getInstance().getListGame().get(i).getHomeTeam())
+								&& !Lidom.getInstance().getListGame().get(indexJuego).getHomeTeam().equalsIgnoreCase(Lidom.getInstance().getListGame().get(i).getAwayTeam())
+								&& !Lidom.getInstance().getListGame().get(indexJuego).getAwayTeam().equalsIgnoreCase(Lidom.getInstance().getListGame().get(i).getHomeTeam()) 
+								&& !Lidom.getInstance().getListGame().get(indexJuego).getAwayTeam().equalsIgnoreCase(Lidom.getInstance().getListGame().get(i).getAwayTeam())) {
+							
+							     System.out.println("Entre"+i);
+							     Lidom.getInstance().getListGame().get(i).setDate("25-12-2019");		
+							     break;
+						}
+					//	else {
+				//			String string2 = String.valueOf(random(0, 3))+ ""+ String.valueOf(random(0, 3)) + " " + new SimpleDateFormat("MMMM", spanishLocale).format(cal.getTime()) + " " + Calendar.getInstance().get(Calendar.YEAR);
+					//		Lidom.getInstance().getListGame().get(i).setDate(string2);
+					//	}
 					}
-			//		else {
-				//		String string2 = String.valueOf(random(0, 3))+ ""+ String.valueOf(random(0, 3)) + " " + new SimpleDateFormat("MMMM", spanishLocale).format(cal.getTime()) + " " + Calendar.getInstance().get(Calendar.YEAR);
-					//	Lidom.getInstance().getListGame().get(i).setDate(string2);
-				//	}
+
+
 				}
-
-
+				indexJuego++;
 			}
-			indexJuego++;
 		}
-	}
 
 
 	public void showRealTimeAndDate() {
