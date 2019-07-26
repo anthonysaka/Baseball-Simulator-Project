@@ -133,7 +133,7 @@ public class SelectionTeamToManage extends JDialog {
 						
 						Home.manageTeamOpen(auxTeam);
 						Home.loadRosterPlayerByTeam(auxTeam);
-					    Home.loadLineUpPlayerByTeam(auxTeam);
+					    Home.loadLineUpPlayerByTeam(auxTeam, Home.modelLineUp, Home.columnLineUp, Home.tableLineUp);
 						
 						cbxTeams.setSelectedIndex(0);
 						dispose();

@@ -21,14 +21,16 @@ public class Game implements Serializable{
 	
 	/* Constructor */
 	
-	public Game(String homeTeam, String awayTeam, String stadium, String hora, String date) {
+	public Game(String homeTeam, String awayTeam, String stadium) {
 		super();
 		this.homeTeam = homeTeam;
 		this.awayTeam = awayTeam;
 		this.stadium = stadium;
-		this.hora = hora;
-		this.date = date;
+	//	this.hora = hora;
+	//	this.date = date;
 	}
+	
+	
 	
 	
 	public boolean isFinished() {

@@ -20,6 +20,7 @@ public abstract class Player implements Serializable {
 	protected float weight;
 	protected String manoLanzar;
 	protected Boolean lesionado;
+
 	
 	/* Constructor */
 	

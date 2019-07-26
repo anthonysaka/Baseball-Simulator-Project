@@ -548,7 +548,6 @@ public class Lidom implements Serializable {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	// para guardar los datos de la clase controladora
@@ -576,14 +575,10 @@ public class Lidom implements Serializable {
 				e.printStackTrace();
 			}
 		}
-
-
 	}
 
 
 	public void writeCodes(int code, String name) {
-
-
 
 		File file = new File(name + ".dat");
 		FileOutputStream fileOutput;

@@ -22,6 +22,8 @@ public class Batter extends Player implements Serializable {
 	private int strikeOut;
 	private int stolenBase;
 	private String manoDeBateo;
+	private int numeroHitparapromedio = 0;
+	private int turnos = 0;
 	
 	/* Constructor */
 	
@@ -41,6 +43,36 @@ public class Batter extends Player implements Serializable {
 	//	this.strikeOut = strikeOut;
 	//	this.stolenBase = stolenBase;
 	}
+
+	
+	
+
+	public int getTurnos() {
+		return turnos;
+	}
+
+
+
+
+	public void setTurnos(int turnos) {
+		this.turnos = turnos;
+	}
+
+
+
+
+	public int getNumeroHitparapromedio() {
+		return numeroHitparapromedio;
+	}
+
+
+
+
+	public void setNumeroHitparapromedio(int numeroHitparapromedio) {
+		this.numeroHitparapromedio = numeroHitparapromedio;
+	}
+
+
 
 
 	public String getManoDeBateo() {

@@ -147,8 +147,8 @@ public class AddGame extends JDialog {
 							JOptionPane.showOptionDialog(null, "Un equipo no puede ser local y visitante simultaneamente!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);	
 						}else {
 							String dateGameString = formatter.format(dateGame);
-							Game newgame = new Game(teamHome, teamAway, estadio, hour, dateGameString);
-							Lidom.getInstance().addGame(newgame);
+						//	Game newgame = new Game(teamHome, teamAway, estadio, hour, dateGameString);
+						//	Lidom.getInstance().addGame(newgame);
 							
 
 							ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_checked_48px_1.png"));

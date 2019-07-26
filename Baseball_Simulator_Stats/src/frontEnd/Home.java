@@ -48,6 +48,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -124,20 +125,25 @@ public class Home extends JFrame implements Runnable {
 
 	/*** tables ***/
 	private static JTable tableRoster;
-	private static JTable tableLineUp;
+	public static JTable tableLineUp;
 	private static JTable tableLesionados;
 	private static JTable tablePartidosHoy;
+	private static JTable tableGameVisit;
+	private static JTable tableGameLocal;
 
 	private static DefaultTableModel modelRoster;
-	private static DefaultTableModel modelLineUp;
+	public static DefaultTableModel modelLineUp;
 	private static DefaultTableModel modelLesionados;
 	private static DefaultTableModel modelGameToday;
+	private static DefaultTableModel modelGameLocal;
+	private static DefaultTableModel modelGameVisit;
 
 	private static Object[] columnRoster;
-	private static Object[] columnLineUp;
+	public static Object[] columnLineUp;
 	private static Object[] columnLesionados;
 	private static Object[] columnGameToday;
-
+	private static Object[] columnGameLocal;
+	private static Object[] columnGameVisit;
 
 	private static JPanel panelLineUp;
 	private JLabel lblBgPlayLineUp;
@@ -234,8 +240,7 @@ public class Home extends JFrame implements Runnable {
 	private JSeparator separator_4;
 	private JSeparator separator_5;
 	private JPanel panel_2;
-	private JPanel panel_4;
-	private JPanel panel_5;
+	private JPanel panelGameLocal;
 	private JLabel lblEquipoLocal;
 	private JLabel lblEquipoVisitante;
 	private JButton btnH;
@@ -243,18 +248,39 @@ public class Home extends JFrame implements Runnable {
 	private JButton btnH_2;
 	private JButton btnHr;
 	private JButton btnOut;
-	private JPanel panel_6;
+	private JPanel panelControlBateo;
 	private JLabel lblControlBateo;
 	private JButton btnPlayBall;
-	
+
 	private String equipoLocal;
 	private String equipoVisitante;
 	private String fecha;
 	private String hora;
 	private String estadio;
 	private Game auxGame = null;
-	private JScrollPane scrollPane;
-	private JScrollPane scrollPane_1;
+	private JScrollPane scrollPaneLocal;
+	private JPanel panelGameVisitant;
+	private JScrollPane scrollPaneVisit;
+	private JPanel panel_4;
+	private JButton btnCarrera;
+	private JButton btnOut_1;
+	private JLabel lblControlInnin;
+	private JLabel lblDefensa;
+	private JLabel lblOfensiva;
+	private JLabel lblBateador;
+	private JPanel panel_5;
+	private JButton btnNa;
+	private JButton btnNa_1;
+	private JLabel lblFinalizarPartido;
+	private JLabel lblEquipDef;
+	private JLabel lblEquipOfen;
+	private JLabel lblBatAct;
+	static int randomNum = 0;
+
+	/****************/
+	public static int numberOut = 0;
+	public static int turno=0;
+
 
 
 	/**
@@ -324,7 +350,7 @@ public class Home extends JFrame implements Runnable {
 
 					}
 				}
-				
+
 
 			}
 
@@ -354,7 +380,7 @@ public class Home extends JFrame implements Runnable {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				//	panelMenuJugadores.setSize(170,218);
-				
+
 				if (btnJugadores.isEnabled()) {
 					setColorBlue(btnJugadores);
 					panelMenuJugadores.setVisible(true);
@@ -364,7 +390,7 @@ public class Home extends JFrame implements Runnable {
 					}
 
 				}
-				
+
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
@@ -451,7 +477,7 @@ public class Home extends JFrame implements Runnable {
 
 					}
 				}
-				
+
 
 			}
 			@Override
@@ -503,7 +529,7 @@ public class Home extends JFrame implements Runnable {
 				if (btnHome.isEnabled()) {
 					setColorBlue(btnHome);
 				}
-				
+
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
@@ -528,6 +554,10 @@ public class Home extends JFrame implements Runnable {
 		panelMenuBar.add(btnHome);
 
 		btnPartidos = new JButton("PARTIDOS");
+		btnPartidos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnPartidos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -539,7 +569,7 @@ public class Home extends JFrame implements Runnable {
 						Animacion.mover_izquierda(0, -400, 3, 3, panelMenuLateral);	
 					}
 				}
-			
+
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
@@ -1070,6 +1100,30 @@ public class Home extends JFrame implements Runnable {
 		btnListarPartido = new JButton("Listar");
 		btnListarPartido.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+				int cantByTeam = Lidom.getInstance().getListTeams().size() * 2 - 2;
+				int posEquipo = 0;
+				Date dateGame = new Date();
+
+				while (posEquipo < Lidom.getInstance().getListTeams().size()) {
+
+					for (int i = 0; i <= cantByTeam/2; i++) {
+
+						if (posEquipo != i) {
+
+							//	Game newgame0 = new Game(Lidom.getInstance().getListTeams().get(posEquipo).getName(),Lidom.getInstance().getListTeams().get(i).getName(),Lidom.getInstance().getListTeams().get(posEquipo).getStadium() , "10:00 AM", "27-Julio-2019");
+							//	Game newgame1 = new Game(Lidom.getInstance().getListTeams().get(i).getName(),Lidom.getInstance().getListTeams().get(posEquipo).getName(), Lidom.getInstance().getListTeams().get(i).getStadium(), "10:00 AM", "27-Julio-2019");
+							Game newgame0 = new Game(Lidom.getInstance().getListTeams().get(posEquipo).getName(),Lidom.getInstance().getListTeams().get(i).getName(),Lidom.getInstance().getListTeams().get(posEquipo).getStadium());
+							Game newgame1 = new Game(Lidom.getInstance().getListTeams().get(i).getName(),Lidom.getInstance().getListTeams().get(posEquipo).getName(), Lidom.getInstance().getListTeams().get(i).getStadium());
+							Lidom.getInstance().addGame(newgame0);
+							Lidom.getInstance().addGame(newgame1);
+							asignarFechaJuego();
+						}
+					}
+					posEquipo++;
+				}
+
+
 				ViewGame listGame = new ViewGame();
 				listGame.setModal(true);
 				listGame.setVisible(true);
@@ -1103,6 +1157,7 @@ public class Home extends JFrame implements Runnable {
 		btnRegistrarPartido = new JButton("Registrar");
 		btnRegistrarPartido.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Lidom.getInstance().getListGame().removeAll(Lidom.getInstance().getListGame());
 				AddGame newGame= new AddGame();
 				newGame.setModal(true);
 				newGame.setVisible(true);
@@ -1171,7 +1226,7 @@ public class Home extends JFrame implements Runnable {
 		tablePartidosHoy.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+
 				if (tablePartidosHoy.getSelectedRow() >= 0) {
 					int index = tablePartidosHoy.getSelectedRow();
 					btnPlayBall.setEnabled(true);
@@ -1180,10 +1235,10 @@ public class Home extends JFrame implements Runnable {
 					estadio = (String) tablePartidosHoy.getModel().getValueAt(index, 2);
 					fecha = (String) tablePartidosHoy.getModel().getValueAt(index, 3);
 					hora = (String) tablePartidosHoy.getModel().getValueAt(index, 4);
-					
+
 					auxGame = Lidom.getInstance().searchGame(equipoLocal, equipoVisitante, estadio, fecha, hora);
 				}
-				
+
 			}
 		});
 		tablePartidosHoy.setForeground(new Color(255, 255, 255));
@@ -1248,14 +1303,14 @@ public class Home extends JFrame implements Runnable {
 		lblDate.setFont(new Font("Consolas", Font.BOLD, 20));
 		lblDate.setBounds(289, 13, 265, 45);
 		panelPartidoHoy.add(lblDate);
-		
+
 		btnPlayBall = new JButton("Play Ball !");
 		btnPlayBall.setEnabled(false);
 		btnPlayBall.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				if (auxGame.getHomeRun() == 0 && auxGame.getAwayRun() == 0) {
-				//	if (verificarEquiposLlenos(local, visita) == true) {
+					//	if (verificarEquiposLlenos(local, visita) == true) {
 					panelBgDashboard.setVisible(false);
 					panelManageTeams.setVisible(false);
 					panelGameSimulation.setVisible(true);
@@ -1266,22 +1321,22 @@ public class Home extends JFrame implements Runnable {
 					btnEquipos.setEnabled(false);
 					btnEstadios.setEnabled(false);
 					gameSimulationOpen(equipoLocal, equipoVisitante, auxGame);
-								
-				//	} else {
-				//		int answer = JOptionPane.showConfirmDialog(null,
-				//				"Las posiciones de uno o ambos equipos no están cubiertas\n¿Desea Verificar?", null,
-				////				JOptionPane.YES_NO_OPTION);
-				//		if (answer == JOptionPane.YES_OPTION) {
-				//			TablaPosiciones equip = new TablaPosiciones();
-				//			equip.setVisible(true);
-				//		}
-				//	}
+
+					//	} else {
+					//		int answer = JOptionPane.showConfirmDialog(null,
+					//				"Las posiciones de uno o ambos equipos no están cubiertas\n¿Desea Verificar?", null,
+					////				JOptionPane.YES_NO_OPTION);
+					//		if (answer == JOptionPane.YES_OPTION) {
+					//			TablaPosiciones equip = new TablaPosiciones();
+					//			equip.setVisible(true);
+					//		}
+					//	}
 
 				} else {
 					JOptionPane.showMessageDialog(null, "El Partido ya está Finalizado", "Error",
 							JOptionPane.WARNING_MESSAGE);
 				}
-				
+
 			}
 		});
 		btnPlayBall.setIcon(new ImageIcon(Home.class.getResource("/iconos_imagenes/icons8_baseball_24px.png")));
@@ -1975,7 +2030,7 @@ public class Home extends JFrame implements Runnable {
 		btnLineUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Team auxTeam = Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
-				loadLineUpPlayerByTeam(auxTeam);
+				loadLineUpPlayerByTeam(auxTeam, modelLineUp, columnLineUp, tableLineUp);
 				btnLineUp.setEnabled(false);
 				panelLineUp.setVisible(false);
 				panel_1.setVisible(true);
@@ -2009,6 +2064,7 @@ public class Home extends JFrame implements Runnable {
 		panelManageTeams.add(btnPanelLineUp);
 
 		btnFuncionesNa_1 = new JButton("Funciones n/a");
+		btnFuncionesNa_1.setEnabled(false);
 		btnFuncionesNa_1.setIconTextGap(5);
 		btnFuncionesNa_1.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnFuncionesNa_1.setForeground(new Color(255, 255, 240));
@@ -2019,6 +2075,7 @@ public class Home extends JFrame implements Runnable {
 		panelManageTeams.add(btnFuncionesNa_1);
 
 		btnFuncionesNa_2 = new JButton("Funciones n/a");
+		btnFuncionesNa_2.setEnabled(false);
 		btnFuncionesNa_2.setIconTextGap(5);
 		btnFuncionesNa_2.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnFuncionesNa_2.setForeground(new Color(255, 255, 240));
@@ -2029,6 +2086,7 @@ public class Home extends JFrame implements Runnable {
 		panelManageTeams.add(btnFuncionesNa_2);
 
 		btnFuncionesNa_3 = new JButton("Funciones n/a");
+		btnFuncionesNa_3.setEnabled(false);
 		btnFuncionesNa_3.setIconTextGap(5);
 		btnFuncionesNa_3.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnFuncionesNa_3.setForeground(new Color(255, 255, 240));
@@ -2039,6 +2097,7 @@ public class Home extends JFrame implements Runnable {
 		panelManageTeams.add(btnFuncionesNa_3);
 
 		btnFuncionesNa_4 = new JButton("Funciones n/a");
+		btnFuncionesNa_4.setEnabled(false);
 		btnFuncionesNa_4.setIconTextGap(5);
 		btnFuncionesNa_4.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnFuncionesNa_4.setForeground(new Color(255, 255, 240));
@@ -2049,6 +2108,7 @@ public class Home extends JFrame implements Runnable {
 		panelManageTeams.add(btnFuncionesNa_4);
 
 		btnFuncionesNa_5 = new JButton("Funciones n/a");
+		btnFuncionesNa_5.setEnabled(false);
 		btnFuncionesNa_5.setIconTextGap(5);
 		btnFuncionesNa_5.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnFuncionesNa_5.setForeground(new Color(255, 255, 240));
@@ -3030,7 +3090,7 @@ public class Home extends JFrame implements Runnable {
 		panel_2.setBounds(300, 236, 1188, 515);
 		panelGameSimulation.add(panel_2);
 
-		panel_4 = new JPanel() {
+		panelGameLocal = new JPanel() {
 			protected void paintComponent(Graphics g) {
 				g.setColor(getBackground());
 
@@ -3039,22 +3099,198 @@ public class Home extends JFrame implements Runnable {
 				super.paintComponent(g);
 			}
 		};
-		panel_4.setBounds(1529, 57, 370, 393);
-		panelGameSimulation.add(panel_4);
-		panel_4.setLayout(null);
-		panel_4.setOpaque(false);
-		panel_4.setBackground(new Color(0, 0, 0, 60));
-		
-		scrollPane = new JScrollPane();
-		scrollPane.setViewportBorder(null);
-		scrollPane.setBorder(null);
-		scrollPane.setBackground(new Color(0, 0, 0, 50));
-		scrollPane.setBounds(0, 0, 370, 393);	
-		scrollPane.setViewportBorder(null);
-		scrollPane.getViewport().setBackground(new Color(0,0,0,60));
-		panel_4.add(scrollPane);
+		panelGameLocal.setBounds(12, 64, 370, 393);
+		panel_2.add(panelGameLocal);
+		panelGameLocal.setLayout(null);
+		panelGameLocal.setOpaque(false);
+		panelGameLocal.setBackground(new Color(0, 0, 0, 60));
 
-		panel_5 = new JPanel() {
+		scrollPaneLocal = new JScrollPane();
+		scrollPaneLocal.setViewportBorder(null);
+		scrollPaneLocal.setBorder(null);
+		scrollPaneLocal.setBackground(new Color(0, 0, 0, 50));
+		scrollPaneLocal.setBounds(0, 0, 370, 393);	
+		scrollPaneLocal.getViewport().setBackground(new Color(0,0,0,60));
+		panelGameLocal.add(scrollPaneLocal);
+
+		tableGameLocal = new JTable();
+		tableGameLocal.setForeground(new Color(255, 255, 255));
+		tableGameLocal.setFont(new Font("Consolas", Font.BOLD, 16));
+		tableGameLocal.setRowMargin(0);
+		tableGameLocal.setFocusable(false);
+		tableGameLocal.setRowHeight(26);
+		tableGameLocal.setIntercellSpacing(new Dimension(0, 0));
+		tableGameLocal.setGridColor(new Color(255, 255, 255));
+		tableGameLocal.setShowVerticalLines(false);
+		tableGameLocal.getTableHeader().setReorderingAllowed(false);
+		tableGameLocal.setSelectionBackground(new Color(239, 108, 0));
+		tableGameLocal.getTableHeader().setFont(new Font("Consolas", Font.BOLD, 18));
+		tableGameLocal.getTableHeader().setOpaque(false);
+
+		tableGameLocal.getTableHeader().setBackground(new Color(255,255,255));
+		tableGameLocal.setOpaque(false);
+		tableGameLocal.setBackground(new Color(0,0,0,60));
+		tableGameLocal.setModel(new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+						"N\u00FAmero ID", "Nombre", "Posici\u00F3n"
+				}
+				) {
+			Class[] columnTypes = new Class[] {
+					String.class, String.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+			boolean[] columnEditables = new boolean[] {
+					false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+
+		scrollPaneLocal.setViewportView(tableGameLocal);
+
+		lblEquipoLocal = new JLabel("Equipo Local");
+		lblEquipoLocal.setBounds(12, 13, 370, 31);
+		panel_2.add(lblEquipoLocal);
+		lblEquipoLocal.setBackground(new Color(0, 0, 0));
+		lblEquipoLocal.setOpaque(true);
+		lblEquipoLocal.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblEquipoLocal.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEquipoLocal.setForeground(Color.WHITE);
+		lblEquipoLocal.setFont(new Font("Consolas", Font.PLAIN, 20));
+
+		panelGameVisitant = new JPanel() {
+			protected void paintComponent(Graphics g) {
+			}
+		};
+		panelGameVisitant.setBounds(806, 64, 370, 393);
+		panel_2.add(panelGameVisitant);
+		panelGameVisitant.setOpaque(false);
+		panelGameVisitant.setLayout(null);
+		panelGameVisitant.setBackground(new Color(0, 0, 0, 60));
+
+		scrollPaneVisit = new JScrollPane();
+		scrollPaneVisit.setViewportBorder(null);
+		scrollPaneVisit.setBorder(null);
+		scrollPaneVisit.setBackground(new Color(0, 0, 0, 50));
+		scrollPaneVisit.setBounds(0, 0, 370, 393);	
+		scrollPaneVisit.getViewport().setBackground(new Color(0,0,0,60));
+		panelGameVisitant.add(scrollPaneVisit);
+
+		tableGameVisit = new JTable();
+		tableGameVisit.setForeground(new Color(255, 255, 255));
+		tableGameVisit.setFont(new Font("Consolas", Font.BOLD, 16));
+		tableGameVisit.setRowMargin(0);
+		tableGameVisit .setFocusable(false);
+		tableGameVisit.setRowHeight(26);
+		tableGameVisit.setIntercellSpacing(new Dimension(0, 0));
+		tableGameVisit.setGridColor(new Color(255, 255, 255));
+		tableGameVisit.setShowVerticalLines(false);
+		tableGameVisit.getTableHeader().setReorderingAllowed(false);
+		tableGameVisit.setSelectionBackground(new Color(239, 108, 0));
+		tableGameVisit.getTableHeader().setFont(new Font("Consolas", Font.BOLD, 18));
+		tableGameVisit.getTableHeader().setOpaque(false);
+
+		tableGameVisit.getTableHeader().setBackground(new Color(255,255,255));
+		tableGameVisit.setOpaque(false);
+		tableGameVisit.setBackground(new Color(0,0,0,60));
+		tableGameVisit.setModel(new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+						"N\u00FAmero ID", "Nombre", "Posici\u00F3n"
+				}
+				) {
+			Class[] columnTypes = new Class[] {
+					String.class, String.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+			boolean[] columnEditables = new boolean[] {
+					false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		scrollPaneVisit.setViewportView(tableGameVisit);
+
+		lblEquipoVisitante = new JLabel("Equipo Visitante");
+		lblEquipoVisitante.setBounds(806, 13, 370, 31);
+		panel_2.add(lblEquipoVisitante);
+		lblEquipoVisitante.setBackground(new Color(0, 0, 0));
+		lblEquipoVisitante.setOpaque(true);
+		lblEquipoVisitante.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblEquipoVisitante.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEquipoVisitante.setForeground(Color.WHITE);
+		lblEquipoVisitante.setFont(new Font("Consolas", Font.PLAIN, 20));
+
+		lblDefensa = new JLabel("Equipo En Defensa");
+		lblDefensa.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblDefensa.setOpaque(true);
+		lblDefensa.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDefensa.setForeground(Color.WHITE);
+		lblDefensa.setFont(new Font("Consolas", Font.PLAIN, 20));
+		lblDefensa.setBackground(Color.BLACK);
+		lblDefensa.setBounds(410, 64, 370, 31);
+		panel_2.add(lblDefensa);
+
+		lblOfensiva = new JLabel("Equipo En Ofensiva");
+		lblOfensiva.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblOfensiva.setOpaque(true);
+		lblOfensiva.setHorizontalAlignment(SwingConstants.CENTER);
+		lblOfensiva.setForeground(Color.WHITE);
+		lblOfensiva.setFont(new Font("Consolas", Font.PLAIN, 20));
+		lblOfensiva.setBackground(Color.BLACK);
+		lblOfensiva.setBounds(410, 170, 370, 31);
+		panel_2.add(lblOfensiva);
+
+		lblBateador = new JLabel("Bateador Actual");
+		lblBateador.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblBateador.setOpaque(true);
+		lblBateador.setHorizontalAlignment(SwingConstants.CENTER);
+		lblBateador.setForeground(Color.WHITE);
+		lblBateador.setFont(new Font("Consolas", Font.PLAIN, 20));
+		lblBateador.setBackground(Color.BLACK);
+		lblBateador.setBounds(410, 275, 370, 31);
+		panel_2.add(lblBateador);
+
+		lblEquipDef = new JLabel("");
+		lblEquipDef.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblEquipDef.setOpaque(true);
+		lblEquipDef.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEquipDef.setForeground(Color.WHITE);
+		lblEquipDef.setFont(new Font("Consolas", Font.PLAIN, 20));
+		lblEquipDef.setBackground(Color.BLACK);
+		lblEquipDef.setBounds(410, 108, 370, 49);
+		panel_2.add(lblEquipDef);
+
+		lblEquipOfen = new JLabel("");
+		lblEquipOfen.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblEquipOfen.setOpaque(true);
+		lblEquipOfen.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEquipOfen.setForeground(Color.WHITE);
+		lblEquipOfen.setFont(new Font("Consolas", Font.PLAIN, 20));
+		lblEquipOfen.setBackground(Color.BLACK);
+		lblEquipOfen.setBounds(410, 213, 370, 49);
+		panel_2.add(lblEquipOfen);
+
+		lblBatAct = new JLabel("");
+		lblBatAct.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblBatAct.setOpaque(true);
+		lblBatAct.setHorizontalAlignment(SwingConstants.CENTER);
+		lblBatAct.setForeground(Color.WHITE);
+		lblBatAct.setFont(new Font("Consolas", Font.PLAIN, 20));
+		lblBatAct.setBackground(Color.BLACK);
+		lblBatAct.setBounds(410, 319, 370, 49);
+		panel_2.add(lblBatAct);;
+
+		panelControlBateo = new JPanel() {
 			protected void paintComponent(Graphics g) {
 				g.setColor(getBackground());
 
@@ -3063,84 +3299,112 @@ public class Home extends JFrame implements Runnable {
 				super.paintComponent(g);
 			}
 		};
-		panel_5.setLayout(null);
-		panel_5.setOpaque(false);
-		panel_5.setBackground(new Color(0, 0, 0,60));
-		panel_5.setBounds(1529, 515, 370, 393);
-		panelGameSimulation.add(panel_5);
-		
-		scrollPane_1 = new JScrollPane();
-		scrollPane_1.setViewportBorder(null);
-		scrollPane_1.setBorder(null);
-		scrollPane_1.setBackground(new Color(0, 0, 0, 50));
-		scrollPane_1.setBounds(0, 0, 370, 393);
-		panel_5.add(scrollPane_1);
-		
-		panel_6 = new JPanel() {
-			protected void paintComponent(Graphics g) {
-				g.setColor(getBackground());
+		panelControlBateo.setBounds(300, 764, 370, 100);
+		panelGameSimulation.add(panelControlBateo);
+		panelControlBateo.setLayout(null);
+		panelControlBateo.setOpaque(false);
+		panelControlBateo.setBackground(new Color(0, 0, 0, 60));
 
-				g.fillRect(0, 0, getWidth(), getHeight());
-
-				super.paintComponent(g);
-			}
-		};
-		panel_6.setBounds(300, 764, 370, 100);
-		panelGameSimulation.add(panel_6);
-		panel_6.setLayout(null);
-		panel_6.setOpaque(false);
-		panel_6.setBackground(new Color(0, 0, 0, 60));
-		
 		btnH = new JButton("H");
+		btnH.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Player auxPlayer = Lidom.getInstance().searchPlayerByName(lblBateador.getText());
+				//Para aumentar hits del que bateo.
+				((Batter) auxPlayer).setNumeroHitparapromedio((((Batter)auxPlayer).getNumeroHitparapromedio()) + 1);
+				((Batter) auxPlayer).setH1(((Batter)auxPlayer).getH1() + 1);
+
+				incrementTurno();
+				bateadorQueEstaBateando(lblEquipOfen.getText());
+
+			}
+		});
 		btnH.setBounds(10, 50, 60, 37);
-		panel_6.add(btnH);
+		panelControlBateo.add(btnH);
 		btnH.setIconTextGap(5);
 		btnH.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnH.setForeground(new Color(255, 255, 240));
 		btnH.setFont(new Font("Consolas", Font.BOLD, 22));
 		btnH.setBorder(null);
 		btnH.setBackground(new Color(0,30,72));
-		
+
 		btnH_1 = new JButton("H2");
+		btnH_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				Player auxPlayer = Lidom.getInstance().searchPlayerByName(lblBateador.getText());
+				//Para aumentar hits del que bateo.
+				((Batter) auxPlayer).setNumeroHitparapromedio((((Batter)auxPlayer).getNumeroHitparapromedio()) + 1);
+				((Batter) auxPlayer).setH2(((Batter)auxPlayer).getH2() + 1);
+
+			}
+		});
 		btnH_1.setBounds(82, 50, 60, 37);
-		panel_6.add(btnH_1);
+		panelControlBateo.add(btnH_1);
 		btnH_1.setIconTextGap(5);
 		btnH_1.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnH_1.setForeground(new Color(255, 255, 240));
 		btnH_1.setFont(new Font("Consolas", Font.BOLD, 22));
 		btnH_1.setBorder(null);
 		btnH_1.setBackground(new Color(0,30,72));
-		
-		btnOut = new JButton("OUT");
+
+		btnOut = new JButton("S.O");
+		btnOut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				Player auxPlayer = Lidom.getInstance().searchPlayerByName(lblBateador.getText());
+				//Para aumentar hits del que bateo.
+				//	((Batter) auxPlayer).setNumeroHitparapromedio((((Batter)auxPlayer).getNumeroHitparapromedio()) + 1);
+				((Batter) auxPlayer).setStrikeOut(((Batter)auxPlayer).getStrikeOut() + 1);
+
+			}
+		});
 		btnOut.setBounds(298, 50, 60, 37);
-		panel_6.add(btnOut);
+		panelControlBateo.add(btnOut);
 		btnOut.setIconTextGap(5);
 		btnOut.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnOut.setForeground(new Color(255, 255, 240));
 		btnOut.setFont(new Font("Consolas", Font.BOLD, 22));
 		btnOut.setBorder(null);
 		btnOut.setBackground(new Color(0,30,72));
-		
+
 		btnHr = new JButton("HR");
+		btnHr.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				Player auxPlayer = Lidom.getInstance().searchPlayerByName(lblBateador.getText());
+				//Para aumentar hits del que bateo.
+				((Batter) auxPlayer).setNumeroHitparapromedio((((Batter)auxPlayer).getNumeroHitparapromedio()) + 1);
+				((Batter) auxPlayer).setHR(((Batter)auxPlayer).getHR() + 1);
+			}
+		});
 		btnHr.setBounds(226, 50, 60, 37);
-		panel_6.add(btnHr);
+		panelControlBateo.add(btnHr);
 		btnHr.setIconTextGap(5);
 		btnHr.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnHr.setForeground(new Color(255, 255, 240));
 		btnHr.setFont(new Font("Consolas", Font.BOLD, 22));
 		btnHr.setBorder(null);
 		btnHr.setBackground(new Color(0,30,72));
-		
+
 		btnH_2 = new JButton("H3");
+		btnH_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				Player auxPlayer = Lidom.getInstance().searchPlayerByName(lblBateador.getText());
+				//Para aumentar hits del que bateo.
+				((Batter) auxPlayer).setNumeroHitparapromedio((((Batter)auxPlayer).getNumeroHitparapromedio()) + 1);
+				((Batter) auxPlayer).setH3(((Batter)auxPlayer).getH3() + 1);
+			}
+		});
 		btnH_2.setBounds(154, 50, 60, 37);
-		panel_6.add(btnH_2);
+		panelControlBateo.add(btnH_2);
 		btnH_2.setIconTextGap(5);
 		btnH_2.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnH_2.setForeground(new Color(255, 255, 240));
 		btnH_2.setFont(new Font("Consolas", Font.BOLD, 22));
 		btnH_2.setBorder(null);
 		btnH_2.setBackground(new Color(0,30,72));
-		
+
 		lblControlBateo = new JLabel("Control Bateo");
 		lblControlBateo.setVerticalAlignment(SwingConstants.BOTTOM);
 		lblControlBateo.setOpaque(true);
@@ -3149,27 +3413,87 @@ public class Home extends JFrame implements Runnable {
 		lblControlBateo.setFont(new Font("Consolas", Font.PLAIN, 20));
 		lblControlBateo.setBackground(Color.BLACK);
 		lblControlBateo.setBounds(0, 0, 370, 31);
-		panel_6.add(lblControlBateo);
+		panelControlBateo.add(lblControlBateo);
 
-		lblEquipoLocal = new JLabel("Equipo Local");
-		lblEquipoLocal.setBackground(new Color(0, 0, 0));
-		lblEquipoLocal.setOpaque(true);
-		lblEquipoLocal.setVerticalAlignment(SwingConstants.BOTTOM);
-		lblEquipoLocal.setHorizontalAlignment(SwingConstants.CENTER);
-		lblEquipoLocal.setForeground(Color.WHITE);
-		lblEquipoLocal.setFont(new Font("Consolas", Font.PLAIN, 20));
-		lblEquipoLocal.setBounds(1529, 13, 370, 31);
-		panelGameSimulation.add(lblEquipoLocal);
+		panel_4 = new JPanel() {
+			protected void paintComponent(Graphics g) {
+			}
+		};
+		panel_4.setBounds(715, 764, 370, 100);
+		panelGameSimulation.add(panel_4);
+		panel_4.setLayout(null);
+		panel_4.setOpaque(false);
+		panel_4.setBackground(new Color(0, 0, 0, 60));
 
-		lblEquipoVisitante = new JLabel("Equipo Visitante");
-		lblEquipoVisitante.setBackground(new Color(0, 0, 0));
-		lblEquipoVisitante.setOpaque(true);
-		lblEquipoVisitante.setVerticalAlignment(SwingConstants.BOTTOM);
-		lblEquipoVisitante.setHorizontalAlignment(SwingConstants.CENTER);
-		lblEquipoVisitante.setForeground(Color.WHITE);
-		lblEquipoVisitante.setFont(new Font("Consolas", Font.PLAIN, 20));
-		lblEquipoVisitante.setBounds(1529, 471, 370, 31);
-		panelGameSimulation.add(lblEquipoVisitante);
+		btnCarrera = new JButton("CARRERA");
+		btnCarrera.setIconTextGap(5);
+		btnCarrera.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnCarrera.setForeground(new Color(255, 255, 240));
+		btnCarrera.setFont(new Font("Consolas", Font.BOLD, 22));
+		btnCarrera.setBorder(null);
+		btnCarrera.setBackground(new Color(0, 30, 72));
+		btnCarrera.setBounds(36, 50, 130, 37);
+		panel_4.add(btnCarrera);
+
+		btnOut_1 = new JButton("OUT");
+		btnOut_1.setIconTextGap(5);
+		btnOut_1.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnOut_1.setForeground(new Color(255, 255, 240));
+		btnOut_1.setFont(new Font("Consolas", Font.BOLD, 22));
+		btnOut_1.setBorder(null);
+		btnOut_1.setBackground(new Color(0, 30, 72));
+		btnOut_1.setBounds(202, 50, 130, 37);
+		panel_4.add(btnOut_1);
+
+		lblControlInnin = new JLabel("Control Entrada");
+		lblControlInnin.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblControlInnin.setOpaque(true);
+		lblControlInnin.setHorizontalAlignment(SwingConstants.CENTER);
+		lblControlInnin.setForeground(Color.WHITE);
+		lblControlInnin.setFont(new Font("Consolas", Font.PLAIN, 20));
+		lblControlInnin.setBackground(Color.BLACK);
+		lblControlInnin.setBounds(0, 0, 370, 31);
+		panel_4.add(lblControlInnin);
+
+		panel_5 = new JPanel() {
+			protected void paintComponent(Graphics g) {
+			}
+		};
+		panel_5.setLayout(null);
+		panel_5.setOpaque(false);
+		panel_5.setBackground(new Color(0, 0, 0, 60));
+		panel_5.setBounds(1118, 764, 370, 100);
+		panelGameSimulation.add(panel_5);
+
+		btnNa = new JButton("N/A");
+		btnNa.setIconTextGap(5);
+		btnNa.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnNa.setForeground(new Color(255, 255, 240));
+		btnNa.setFont(new Font("Consolas", Font.BOLD, 22));
+		btnNa.setBorder(null);
+		btnNa.setBackground(new Color(0, 30, 72));
+		btnNa.setBounds(36, 50, 130, 37);
+		panel_5.add(btnNa);
+
+		btnNa_1 = new JButton("N/A");
+		btnNa_1.setIconTextGap(5);
+		btnNa_1.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnNa_1.setForeground(new Color(255, 255, 240));
+		btnNa_1.setFont(new Font("Consolas", Font.BOLD, 22));
+		btnNa_1.setBorder(null);
+		btnNa_1.setBackground(new Color(0, 30, 72));
+		btnNa_1.setBounds(202, 50, 130, 37);
+		panel_5.add(btnNa_1);
+
+		lblFinalizarPartido = new JLabel("Finalizar Partido");
+		lblFinalizarPartido.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblFinalizarPartido.setOpaque(true);
+		lblFinalizarPartido.setHorizontalAlignment(SwingConstants.CENTER);
+		lblFinalizarPartido.setForeground(Color.WHITE);
+		lblFinalizarPartido.setFont(new Font("Consolas", Font.PLAIN, 20));
+		lblFinalizarPartido.setBackground(Color.BLACK);
+		lblFinalizarPartido.setBounds(0, 0, 370, 31);
+		panel_5.add(lblFinalizarPartido);
 
 		lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(Home.class.getResource("/iconos_imagenes/BgGameSimulation.png")));
@@ -3252,28 +3576,30 @@ public class Home extends JFrame implements Runnable {
 	}
 
 	// Metodo para cargar la lista de jugadores de un equipo, roster.
-	public static void loadLineUpPlayerByTeam(Team team) {
+	public static void loadLineUpPlayerByTeam(Team team, DefaultTableModel model, Object [] column, JTable table) {
 
-		modelLineUp= (DefaultTableModel) tableLineUp.getModel();
-		modelLineUp.setRowCount(0);
-		columnLineUp = new Object[modelLineUp.getColumnCount()];
+		model= (DefaultTableModel) table.getModel();
+		model.setRowCount(0);
+		column = new Object[model.getColumnCount()];
 
 		for (Player playerR : team.getLineUp()) {
-			columnLineUp[0] = playerR.getId();
-			columnLineUp[1] = playerR.getName() + " " + playerR.getLastname();
+			column[0] = playerR.getId();
+			column[1] = playerR.getName() + " " + playerR.getLastname();
 
 			if (playerR instanceof Pitcher) {
-				columnLineUp[2] = "P - " + ((Pitcher) playerR).getTipo();	
+				column[2] = "P - " + ((Pitcher) playerR).getTipo();	
 			}
 			else if (playerR instanceof Batter) {
-				columnLineUp[2] = "B - " + ((Batter) playerR).getPosition();
+				column[2] = "B - " + ((Batter) playerR).getPosition();
 			}
 
-			modelLineUp.addRow(columnLineUp);
+			model.addRow(column);
 
 		}
 
 	}
+
+
 
 	//Metodo para cargar la tabla de partidos de hoy del dashboard, ventana HOME.
 	public static void loadGameToday() {
@@ -3314,18 +3640,101 @@ public class Home extends JFrame implements Runnable {
 	}
 
 	public void gameSimulationOpen(String local, String visitante, Game myGame) {
-		
+
 		Team auxEquipoLocal = Lidom.getInstance().searchTeamByName(local);
 		Team auxEquipoVisitante = Lidom.getInstance().searchTeamByName(visitante);
-		
+
 		txtEquipLocal.setText(auxEquipoLocal.getName());
 		txtEquipVisi.setText(auxEquipoVisitante.getName());
-		
-		
-		
-		
+		loadLineUpPlayerByTeam(auxEquipoLocal, modelGameLocal, columnGameLocal, tableGameLocal);
+		loadLineUpPlayerByTeam(auxEquipoVisitante, modelGameVisit, columnGameVisit, tableGameVisit);
+		lblEquipOfen.setText(auxEquipoVisitante.getName());
+		bateadorQueEstaBateando(visitante);
+
+
+
 	}
-	
+
+
+
+	public void bateadorQueEstaBateando(String teamOfensive) {
+
+		Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(teamOfensive);
+		lblBatAct.setText(auxEquipoBateando.getLineUp().get(turno).getName()+" "+
+				auxEquipoBateando.getLineUp().get(turno).getLastname());
+
+
+
+	}
+
+	public void incrementTurno() {
+		if (turno > 8) {
+			turno = 0;
+
+		}
+		else {
+
+			turno++;
+		}
+	}
+
+	private String modifyDate(Date date, int day) { // Metodo auxiliar para modificar la fecha, sumar dias o restar dias.
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.DAY_OF_YEAR, day);
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MMMM-yyyy");
+		String dateString = formatter.format(calendar.getTime());
+
+		return dateString;
+	}
+
+	public static int random(int min, int max){
+		randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
+		return randomNum;
+	}
+
+
+	private void asignarFechaJuego() {
+
+		Date dateJuego = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MMMM-yyyy");
+		String dateString = formatter.format(dateJuego);
+		Locale spanishLocale = new Locale("es", "ES");
+		Calendar cal = Calendar.getInstance();
+
+		Game juego = null;
+		int indexJuego = 0;
+
+		Game primerJuego = Lidom.getInstance().getListGame().get(0);// poner fecha actual
+		primerJuego.setDate(dateString);
+
+		while (indexJuego < Lidom.getInstance().getListGame().size()) {
+
+			for (int i = 0; i < Lidom.getInstance().getListGame().size(); i++) {
+
+				if (indexJuego != i) {
+					if (!Lidom.getInstance().getListGame().get(indexJuego).getHomeTeam().equalsIgnoreCase(Lidom.getInstance().getListGame().get(i).getHomeTeam())
+							&& !Lidom.getInstance().getListGame().get(indexJuego).getHomeTeam().equalsIgnoreCase(Lidom.getInstance().getListGame().get(i).getAwayTeam())
+							&& !Lidom.getInstance().getListGame().get(indexJuego).getAwayTeam().equalsIgnoreCase(Lidom.getInstance().getListGame().get(i).getHomeTeam()) 
+							&& !Lidom.getInstance().getListGame().get(indexJuego).getAwayTeam().equalsIgnoreCase(Lidom.getInstance().getListGame().get(i).getAwayTeam())) {
+						System.out.println("Entre");
+						Lidom.getInstance().getListGame().get(i).setDate(Lidom.getInstance().getListGame().get(indexJuego).getDate());
+
+					}
+					else {
+						String string2 = String.valueOf(random(0, 3))+ ""+ String.valueOf(random(0, 3)) + " " + new SimpleDateFormat("MMMM", spanishLocale).format(cal.getTime()) + " " + Calendar.getInstance().get(Calendar.YEAR);
+						Lidom.getInstance().getListGame().get(i).setDate(string2);
+					}
+				}
+
+
+			}
+			indexJuego++;
+		}
+	}
+
+
 	public void showRealTimeAndDate() {
 		Calendar cale = new GregorianCalendar();
 		day = cale.get(Calendar.DAY_OF_MONTH);
