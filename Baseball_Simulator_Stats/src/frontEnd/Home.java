@@ -34,6 +34,7 @@ import backEnd.Lidom;
 import backEnd.Pitcher;
 import backEnd.Player;
 import backEnd.Team;
+
 import java.awt.FlowLayout;
 import java.awt.CardLayout;
 import java.awt.event.ActionListener;
@@ -42,6 +43,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -174,8 +176,6 @@ public class Home extends JFrame implements Runnable {
 	private JButton btnPartidos;
 	private JPanel panelPartidosDashboard;
 	private JPanel panelMenuPartidos;
-	private JButton btnListarPartido;
-	private JButton btnRegistrarPartido;
 	private JButton btnBoxScores;
 	private JButton btnButtonsNa;
 	private JButton btnButtonNa;
@@ -833,7 +833,7 @@ public class Home extends JFrame implements Runnable {
 		btnButtonNa.setBackground(new Color(4, 10, 20));
 		btnButtonNa.setBounds(12, 348, 307, 37);
 		panelMenuLateral.add(btnButtonNa);
-		panelMenuEstadio.setBounds(693, 50, 170, 141);
+		panelMenuEstadio.setBounds(693, 50, 170, 59);
 		panelMenuEstadio.setBackground(new Color(0, 30, 72));
 		panelBackGround.add(panelMenuEstadio);
 		panelMenuEstadio.setLayout(null);
@@ -901,7 +901,7 @@ public class Home extends JFrame implements Runnable {
 		btnListarEstadio.setBackground(new Color(0, 30, 72));
 		btnListarEstadio.setBounds(0, 76, 170, 50);
 		panelMenuEstadio.add(btnListarEstadio);
-		panelMenuEquipo.setBounds(329, 50, 170, 141);
+		panelMenuEquipo.setBounds(329, 50, 170, 59);
 		panelBackGround.add(panelMenuEquipo);
 		panelMenuEquipo.setLayout(null);
 
@@ -998,7 +998,7 @@ public class Home extends JFrame implements Runnable {
 				panelMenuJugadores.setVisible(false);
 			}
 		});
-		panelMenuJugadores.setBounds(511, 50, 170, 141);
+		panelMenuJugadores.setBounds(511, 50, 170, 59);
 		panelBackGround.add(panelMenuJugadores);
 		panelMenuJugadores.setLayout(null);
 
@@ -1096,108 +1096,16 @@ public class Home extends JFrame implements Runnable {
 			}
 		});
 		panelMenuEstadio.setVisible(false);
-		panelMenuPartidos.setBounds(875, 50, 170, 200);
+		panelMenuPartidos.setBounds(875, 50, 170, 79);
 		panelBackGround.add(panelMenuPartidos);
 		panelMenuPartidos.setLayout(null);
 
-		btnListarPartido = new JButton("Eliminar");
-		
-		if (Lidom.getInstance().getListGame().size() != 0) {
-			btnListarPartido.setEnabled(true);
-			
-		}
-		btnListarPartido.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			Lidom.getInstance().getListGame().removeAll(Lidom.getInstance().getListGame());
-			
-			}
-		});
-		btnListarPartido.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnListarPartido.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				setColorBlue(btnPartidos);
-				setColorOrange(btnListarPartido);
-				panelMenuPartidos.setVisible(true);
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				resetColor(btnListarPartido);
-				resetColor(btnPartidos);
-				panelMenuPartidos.setVisible(false);
-			}
-		});
-		btnListarPartido.setIconTextGap(10);
-		btnListarPartido.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btnListarPartido.setForeground(new Color(255, 255, 240));
-		btnListarPartido.setFont(new Font("Consolas", Font.BOLD, 22));
-		btnListarPartido.setBorder(null);
-		btnListarPartido.setBackground(new Color(0, 30, 72));
-		btnListarPartido.setBounds(0, 76, 170, 50);
-		panelMenuPartidos.add(btnListarPartido);
 
-		btnRegistrarPartido = new JButton("Generar");
-		
-		btnRegistrarPartido.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-
-				int cantByTeam = Lidom.getInstance().getListTeams().size() * 2 - 2;
-				int posEquipo = 0;
-
-				while (posEquipo < Lidom.getInstance().getListTeams().size()) {
-
-					for (int i = 0; i <= cantByTeam/2; i++) {
-
-						if (posEquipo != i) {
-
-							//	Game newgame0 = new Game(Lidom.getInstance().getListTeams().get(posEquipo).getName(),Lidom.getInstance().getListTeams().get(i).getName(),Lidom.getInstance().getListTeams().get(posEquipo).getStadium() , "10:00 AM", "27-Julio-2019");
-							//	Game newgame1 = new Game(Lidom.getInstance().getListTeams().get(i).getName(),Lidom.getInstance().getListTeams().get(posEquipo).getName(), Lidom.getInstance().getListTeams().get(i).getStadium(), "10:00 AM", "27-Julio-2019");
-							Game newgame0 = new Game(Lidom.getInstance().getListTeams().get(posEquipo).getName(),Lidom.getInstance().getListTeams().get(i).getName(),Lidom.getInstance().getListTeams().get(posEquipo).getStadium());
-							Game newgame1 = new Game(Lidom.getInstance().getListTeams().get(i).getName(),Lidom.getInstance().getListTeams().get(posEquipo).getName(), Lidom.getInstance().getListTeams().get(i).getStadium());
-							Lidom.getInstance().addGame(newgame0);
-							Lidom.getInstance().addGame(newgame1);
-							
-						}
-					}
-					posEquipo++;
-				}
-				
-				asignarFechaJuego();
-			
-
-			}
-		});
-		btnRegistrarPartido.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnRegistrarPartido.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				setColorBlue(btnPartidos);
-				setColorOrange(btnRegistrarPartido);
-				panelMenuPartidos.setVisible(true);
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				resetColor(btnRegistrarPartido);
-				resetColor(btnPartidos);
-				panelMenuPartidos.setVisible(false);
-			}
-		});
-		btnRegistrarPartido.setIconTextGap(10);
-		btnRegistrarPartido.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btnRegistrarPartido.setForeground(new Color(255, 255, 240));
-		btnRegistrarPartido.setFont(new Font("Consolas", Font.BOLD, 22));
-		btnRegistrarPartido.setBorder(null);
-		btnRegistrarPartido.setBackground(new Color(0, 30, 72));
-		btnRegistrarPartido.setBounds(0, 13, 170, 50);
-		panelMenuPartidos.add(btnRegistrarPartido);
-		
 		btnListar = new JButton("Listar");
 		btnListar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				
+
 				setColorBlue(btnPartidos);
 				setColorOrange(btnListar);
 				panelMenuPartidos.setVisible(true);
@@ -1223,7 +1131,7 @@ public class Home extends JFrame implements Runnable {
 		btnListar.setFont(new Font("Consolas", Font.BOLD, 22));
 		btnListar.setBorder(null);
 		btnListar.setBackground(new Color(0, 30, 72));
-		btnListar.setBounds(0, 139, 170, 50);
+		btnListar.setBounds(0, 13, 170, 50);
 		panelMenuPartidos.add(btnListar);
 
 		panelBgHome = new JPanel();
@@ -1891,6 +1799,7 @@ public class Home extends JFrame implements Runnable {
 		btnP = new JButton("P");
 		btnP.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 				Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
 				ArrayList<String> playerAvailable = new ArrayList<String>();
 
@@ -2103,7 +2012,18 @@ public class Home extends JFrame implements Runnable {
 		panelManageTeams.add(btnPanelLineUp);
 
 		btnFuncionesNa_1 = new JButton("Funciones n/a");
-		btnFuncionesNa_1.setEnabled(false);
+		btnFuncionesNa_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Team auxTeam = Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
+				AddInjury lesion = new AddInjury(auxTeam, false);
+				lesion.setModal(true);
+				lesion.setVisible(true);
+				
+				loadInjuryPlayerByTeam(auxTeam);
+				loadRosterPlayerByTeam(auxTeam);
+				loadLineUpPlayerByTeam(auxTeam, modelLineUp, columnLineUp, tableLineUp);
+			}
+		});
 		btnFuncionesNa_1.setIconTextGap(5);
 		btnFuncionesNa_1.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnFuncionesNa_1.setForeground(new Color(255, 255, 240));
@@ -3543,6 +3463,7 @@ public class Home extends JFrame implements Runnable {
 		panel.setBounds(85, 373, 449, 366);
 
 		loadGameToday();
+		
 
 		h1 = new Thread(this);
 		h1.start();
@@ -3598,17 +3519,40 @@ public class Home extends JFrame implements Runnable {
 		columnRoster = new Object[modelRoster.getColumnCount()];
 
 		for (Player playerR : team.getRosterPlayers()) {
-			columnRoster[0] = playerR.getId();
-			columnRoster[1] = playerR.getName() + " " + playerR.getLastname();
+			if (!playerR.getLesionado()) {
 
-			if (playerR instanceof Pitcher) {
-				columnRoster[2] = "P - " + ((Pitcher) playerR).getTipo();	
-			}
-			else if (playerR instanceof Batter) {
-				columnRoster[2] = "B - " + ((Batter) playerR).getPosition();
-			}
 
+				columnRoster[0] = playerR.getId();
+				columnRoster[1] = playerR.getName() + " " + playerR.getLastname();
+
+				if (playerR instanceof Pitcher) {
+					columnRoster[2] = "P - " + ((Pitcher) playerR).getTipo();	
+				}
+				else if (playerR instanceof Batter) {
+					columnRoster[2] = "B - " + ((Batter) playerR).getPosition();
+				}
+			}
 			modelRoster.addRow(columnRoster);
+
+		}
+
+	}
+	
+	// Metodo para cargar la lista de jugadores lesionados de un equipo.
+	public static void loadInjuryPlayerByTeam(Team team) {
+
+		modelLesionados= (DefaultTableModel) tableLesionados.getModel();
+		modelLesionados.setRowCount(0);
+		columnLesionados = new Object[modelLesionados.getColumnCount()];
+
+		for (Player playerR : team.getRosterPlayers()) {
+			if (playerR.getLesionado()== true) {
+                System.out.println("ENTRE LESIONADO");
+				columnLesionados[0] = playerR.getId();
+				columnLesionados[1] = playerR.getName() + " " + playerR.getLastname();
+				modelLesionados.addRow(columnLesionados);
+			}
+			
 
 		}
 
@@ -3717,12 +3661,13 @@ public class Home extends JFrame implements Runnable {
 		}
 	}
 
-	private String modifyDate(Date date, int day) { // Metodo auxiliar para modificar la fecha, sumar dias o restar dias.
+	private static String modifyDate(Date date, int day) { // Metodo auxiliar para modificar la fecha, sumar dias o restar dias.
 
 		Calendar calendar = Calendar.getInstance();
+		Locale spanishLocale = new Locale("es", "ES");
 		calendar.setTime(date);
 		calendar.add(Calendar.DAY_OF_YEAR, day);
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MMMM-yyyy");
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MMMM-yyyy",spanishLocale);
 		String dateString = formatter.format(calendar.getTime());
 
 		return dateString;
@@ -3733,48 +3678,87 @@ public class Home extends JFrame implements Runnable {
 		return randomNum;
 	}
 
+	public static void generarPartidos() {
 
+		/*************** para generar partidos automaticamente  *******/
+		/* genera una serie completa */
 
-		private void asignarFechaJuego() {
+		int cantByTeam = Lidom.getInstance().getListTeams().size() * 2 - 2;
+		int posEquipo = 0;
 
-			Date dateJuego = new Date();
-			Locale spanishLocale = new Locale("es", "ES");
-			SimpleDateFormat formatter = new SimpleDateFormat("dd-MMMM-yyyy", spanishLocale);
-			String dateString = formatter.format(dateJuego);
-			
-			Calendar cal = Calendar.getInstance();
+		while (posEquipo < Lidom.getInstance().getListTeams().size()) {
 
-			Game juego = null;
-			int indexJuego = 0;
+			for (int i = 0; i <= cantByTeam/2; i++) {
 
-			Game primerJuego = Lidom.getInstance().getListGame().get(0);// poner fecha actual
-			primerJuego.setDate(dateString);
-	 
-			while (indexJuego < Lidom.getInstance().getListGame().size()) {
+				if (posEquipo != i && posEquipo == 0) {
 
-				for (int i = 0; i < Lidom.getInstance().getListGame().size(); i++) {
-					if (indexJuego != i) {
-						if (!Lidom.getInstance().getListGame().get(indexJuego).getHomeTeam().equalsIgnoreCase(Lidom.getInstance().getListGame().get(i).getHomeTeam())
-								&& !Lidom.getInstance().getListGame().get(indexJuego).getHomeTeam().equalsIgnoreCase(Lidom.getInstance().getListGame().get(i).getAwayTeam())
-								&& !Lidom.getInstance().getListGame().get(indexJuego).getAwayTeam().equalsIgnoreCase(Lidom.getInstance().getListGame().get(i).getHomeTeam()) 
-								&& !Lidom.getInstance().getListGame().get(indexJuego).getAwayTeam().equalsIgnoreCase(Lidom.getInstance().getListGame().get(i).getAwayTeam())) {
-							
-							     System.out.println("Entre"+i);
-							     Lidom.getInstance().getListGame().get(i).setDate("25-12-2019");		
-							     break;
-						}
-					//	else {
-				//			String string2 = String.valueOf(random(0, 3))+ ""+ String.valueOf(random(0, 3)) + " " + new SimpleDateFormat("MMMM", spanishLocale).format(cal.getTime()) + " " + Calendar.getInstance().get(Calendar.YEAR);
-					//		Lidom.getInstance().getListGame().get(i).setDate(string2);
-					//	}
-					}
-
+					Game newgame0 = new Game(Lidom.getInstance().getListTeams().get(posEquipo).getName(),Lidom.getInstance().getListTeams().get(i).getName(),Lidom.getInstance().getListTeams().get(posEquipo).getStadium());
+					Game newgame1 = new Game(Lidom.getInstance().getListTeams().get(i).getName(),Lidom.getInstance().getListTeams().get(posEquipo).getName(), Lidom.getInstance().getListTeams().get(i).getStadium());
+					Lidom.getInstance().addGame(newgame0);
+					Lidom.getInstance().addGame(newgame1);
 
 				}
-				indexJuego++;
+				if (posEquipo != i && posEquipo == 1 && i > 1) {
+
+					Game newgame0 = new Game(Lidom.getInstance().getListTeams().get(posEquipo).getName(),Lidom.getInstance().getListTeams().get(i).getName(),Lidom.getInstance().getListTeams().get(posEquipo).getStadium());
+					Game newgame1 = new Game(Lidom.getInstance().getListTeams().get(i).getName(),Lidom.getInstance().getListTeams().get(posEquipo).getName(), Lidom.getInstance().getListTeams().get(i).getStadium());
+					Lidom.getInstance().addGame(newgame0);
+					Lidom.getInstance().addGame(newgame1);
+
+				}
+				if (posEquipo != i && posEquipo == 2 && i > 2) {
+
+
+					Game newgame0 = new Game(Lidom.getInstance().getListTeams().get(posEquipo).getName(),Lidom.getInstance().getListTeams().get(i).getName(),Lidom.getInstance().getListTeams().get(posEquipo).getStadium());
+					Game newgame1 = new Game(Lidom.getInstance().getListTeams().get(i).getName(),Lidom.getInstance().getListTeams().get(posEquipo).getName(), Lidom.getInstance().getListTeams().get(i).getStadium());
+					Lidom.getInstance().addGame(newgame0);
+					Lidom.getInstance().addGame(newgame1);
+
+				}
+
+				if (posEquipo != i && posEquipo == 3 && i > 3) {
+
+
+					Game newgame0 = new Game(Lidom.getInstance().getListTeams().get(posEquipo).getName(),Lidom.getInstance().getListTeams().get(i).getName(),Lidom.getInstance().getListTeams().get(posEquipo).getStadium());
+					Game newgame1 = new Game(Lidom.getInstance().getListTeams().get(i).getName(),Lidom.getInstance().getListTeams().get(posEquipo).getName(), Lidom.getInstance().getListTeams().get(i).getStadium());
+					Lidom.getInstance().addGame(newgame0);
+					Lidom.getInstance().addGame(newgame1);
+
+				}
+
+				if (posEquipo != i && posEquipo == 4 && i > 4) {
+
+					Game newgame0 = new Game(Lidom.getInstance().getListTeams().get(posEquipo).getName(),Lidom.getInstance().getListTeams().get(i).getName(),Lidom.getInstance().getListTeams().get(posEquipo).getStadium());
+					Game newgame1 = new Game(Lidom.getInstance().getListTeams().get(i).getName(),Lidom.getInstance().getListTeams().get(posEquipo).getName(), Lidom.getInstance().getListTeams().get(i).getStadium());
+					Lidom.getInstance().addGame(newgame0);
+					Lidom.getInstance().addGame(newgame1);
+
+				}
+
 			}
+			posEquipo++;
 		}
 
+
+	}
+
+	public static void agregarFechaHoraPartido() throws ParseException {
+
+		Date dateJuego = new Date();
+		Locale spanishLocale = new Locale("es", "ES");
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MMMM-yyyy", spanishLocale);
+		SimpleDateFormat formatter1 = new SimpleDateFormat("dd-MMMM-yyyy", spanishLocale);
+		String dateJuegoFinString = modifyDate(dateJuego, 30); // para sumar 30 dias a partir de la fecha en que se genere el partido
+		Date dateJuegoFin = formatter1.parse(dateJuegoFinString);
+		ThreadLocalRandom r =ThreadLocalRandom.current();
+
+		for (Game g : Lidom.getInstance().getListGame()) {
+			Date rnd = new Date(r.nextLong(dateJuego.getTime(), dateJuegoFin.getTime()));
+			String datePut = formatter.format(rnd);
+			g.setDate(datePut);
+			g.setHora(String.valueOf(random(1, 10))+ ":"+ String.valueOf(random(0, 5))+String.valueOf(random(0, 9))+ " P.M.");
+		}
+	}
 
 	public void showRealTimeAndDate() {
 		Calendar cale = new GregorianCalendar();
