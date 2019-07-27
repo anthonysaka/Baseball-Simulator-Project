@@ -34,6 +34,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.SpinnerModel;
 
 import rojeru_san.componentes.RSDateChooser;
@@ -51,6 +52,7 @@ import java.awt.CardLayout;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import javax.swing.text.MaskFormatter;
 
 import backEnd.Lidom;
@@ -83,11 +85,8 @@ public class ViewPlayer extends JDialog {
 	private static Object[] column;
 	private JButton button;
 	private JButton button_1;
-	private JLabel label;
-	@SuppressWarnings("rawtypes")
-	private JComboBox comboBox;
+	private JLabel lblBuscar;
 	private JTextField textField;
-	private JButton button_2;
 	
 	private String codePlayer;
 	private String namePlayer;
@@ -244,19 +243,14 @@ public class ViewPlayer extends JDialog {
 			button_1.setBounds(376, 523, 146, 30);
 			panelBg.add(button_1);
 
-			label = new JLabel("Buscar por:");
-			label.setVerticalTextPosition(SwingConstants.BOTTOM);
-			label.setVerticalAlignment(SwingConstants.BOTTOM);
-			label.setHorizontalAlignment(SwingConstants.LEFT);
-			label.setForeground(Color.BLACK);
-			label.setFont(new Font("Consolas", Font.PLAIN, 20));
-			label.setBounds(10, 71, 125, 31);
-			panelBg.add(label);
-
-			comboBox = new JComboBox();
-			comboBox.setFont(new Font("Consolas", Font.PLAIN, 18));
-			comboBox.setBounds(135, 72, 125, 30);
-			panelBg.add(comboBox);
+			lblBuscar = new JLabel("Buscar:");
+			lblBuscar.setVerticalTextPosition(SwingConstants.BOTTOM);
+			lblBuscar.setVerticalAlignment(SwingConstants.BOTTOM);
+			lblBuscar.setHorizontalAlignment(SwingConstants.LEFT);
+			lblBuscar.setForeground(Color.BLACK);
+			lblBuscar.setFont(new Font("Consolas", Font.PLAIN, 20));
+			lblBuscar.setBounds(42, 78, 100, 31);
+			panelBg.add(lblBuscar);
 
 			textField = new JTextField() {
 				private static final long serialVersionUID = 1L;
@@ -279,23 +273,23 @@ public class ViewPlayer extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
+			textField.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					DefaultTableModel table = (DefaultTableModel) tablePlayer.getModel();
+					String filtro = textField.getText();
+					TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(table);
+					tablePlayer.setRowSorter(tr);
+					tr.setRowFilter(RowFilter.regexFilter("(?i)" +filtro));
+				}
+			});
 			/**********************************************************/	
 			textField.setHorizontalAlignment(SwingConstants.CENTER);
 			textField.setFont(new Font("Consolas", Font.PLAIN, 18));
 			textField.setDisabledTextColor(Color.BLACK);
 			textField.setColumns(10);
-			textField.setBounds(272, 72, 311, 30);
+			textField.setBounds(184, 79, 506, 30);
 			panelBg.add(textField);
-
-			button_2 = new JButton("Buscar");
-			button_2.setIconTextGap(30);
-			button_2.setHorizontalTextPosition(SwingConstants.RIGHT);
-			button_2.setForeground(new Color(255, 255, 240));
-			button_2.setFont(new Font("Consolas", Font.BOLD, 20));
-			button_2.setBorder(null);
-			button_2.setBackground(new Color(4, 10, 20));
-			button_2.setBounds(595, 72, 125, 30);
-			panelBg.add(button_2);
 
 			try {
 				// Definición de la máscara para ID.

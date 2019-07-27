@@ -28,8 +28,8 @@ public class Batter extends Player implements Serializable {
 	/* Constructor */
 	
 	public Batter(String id, String name, String number, String lastname, String teamName, Date birthdate, String birthplace,
-			float height, float weight, String manoLanzar, Boolean lesionado, String position, String manoDeBateo) {
-		super(id, name, number, lastname, teamName, birthdate, birthplace, height, weight, manoLanzar, lesionado);
+			float height, float weight, String manoLanzar, String position, String manoDeBateo) {
+		super(id, name, number, lastname, teamName, birthdate, birthplace, height, weight, manoLanzar);
 		this.position = position;
 		this.manoDeBateo = manoDeBateo;
 	//	this.average = average;

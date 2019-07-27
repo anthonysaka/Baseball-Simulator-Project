@@ -127,14 +127,13 @@ public class SelectionTeamToManage extends JDialog {
 					ImageIcon icon1 = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
 
 					if (cbxTeams.getSelectedIndex() > 0) {
+						
 						String nameTeam = cbxTeams.getSelectedItem().toString();
-					auxTeam = Lidom.getInstance().searchTeamByName(nameTeam);
-						auxTeam.getLineUp().removeAll(auxTeam.getLineUp());
-						
-						Home.manageTeamOpen(auxTeam);
-						Home.loadRosterPlayerByTeam(auxTeam);
-					    Home.loadLineUpPlayerByTeam(auxTeam, Home.modelLineUp, Home.columnLineUp, Home.tableLineUp);
-						
+					    auxTeam = Lidom.getInstance().searchTeamByName(nameTeam);
+					    ManagementTeam manager = new ManagementTeam(auxTeam);
+					    manager.setModal(true);
+					    manager.setVisible(true);
+				
 						cbxTeams.setSelectedIndex(0);
 						dispose();
 

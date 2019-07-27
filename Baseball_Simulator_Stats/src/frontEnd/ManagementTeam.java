@@ -395,7 +395,7 @@ public class ManagementTeam extends JDialog {
 			lblBgPlayLineUp.setIcon(playLine);
 
 			scrollPaneLineUp = new JScrollPane();
-			scrollPaneLineUp.setBounds(799, 341, 375, 152);
+			scrollPaneLineUp.setBounds(799, 341, 375, 268);
 			panelFondo.add(scrollPaneLineUp);
 
 			tableLineUp = new JTable();
@@ -480,7 +480,7 @@ public class ManagementTeam extends JDialog {
 			btnAgregarLesin.setFont(new Font("Consolas", Font.BOLD, 22));
 			btnAgregarLesin.setBorder(null);
 			btnAgregarLesin.setBackground(new Color(4, 10, 20));
-			btnAgregarLesin.setBounds(981, 237, 170, 37);
+			btnAgregarLesin.setBounds(799, 187, 170, 37);
 			panelFondo.add(btnAgregarLesin);
 
 			button_2 = new JButton("Funciones n/a");
@@ -491,7 +491,7 @@ public class ManagementTeam extends JDialog {
 			button_2.setEnabled(false);
 			button_2.setBorder(null);
 			button_2.setBackground(new Color(4, 10, 20));
-			button_2.setBounds(799, 187, 170, 37);
+			button_2.setBounds(981, 237, 170, 37);
 			panelFondo.add(button_2);
 
 			btnQuitarLesin = new JButton("Quitar Lesi\u00F3n");

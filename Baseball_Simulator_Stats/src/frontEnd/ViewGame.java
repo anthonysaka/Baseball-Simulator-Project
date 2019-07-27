@@ -36,9 +36,11 @@ import java.util.Date;
 import java.util.Locale;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.SpinnerModel;
 
 import rojeru_san.componentes.RSDateChooser;
+import sun.awt.DefaultMouseInfoPeer;
 import sun.java2d.pipe.TextPipe;
 import rojeru_san.componentes.RSCalendar;
 import javax.swing.JComboBox;
@@ -52,6 +54,8 @@ import javax.swing.JRadioButton;
 import java.awt.CardLayout;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import javax.swing.text.MaskFormatter;
 
 import backEnd.Game;
@@ -82,12 +86,10 @@ public class ViewGame extends JDialog {
 
 	private static DefaultTableModel model;
 	private static Object[] column;
-	private JButton button;
-	private JButton button_1;
-	private JLabel label;
-	private JComboBox comboBox;
-	private JTextField textField;
-	private JButton button_2;
+	private JButton btnEliminar;
+	private JButton btnCancelar;
+	private JLabel lblBuscar;
+	private JTextField txtFiltro;
 
 	private JTable tableGame;
 	
@@ -96,6 +98,8 @@ public class ViewGame extends JDialog {
 	private String fecha;
 	private String hora;
 	private String estadio;
+	private JButton btnGenerar;
+	private JButton btnModificar;
 
 
 	/**
@@ -139,13 +143,14 @@ public class ViewGame extends JDialog {
 			panelBg.add(scrollPane);
 			
 			tableGame = new JTable();
+			
 			tableGame.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					
 					if (tableGame.getSelectedRow() >= 0) {
 						int index = tableGame.getSelectedRow();
-						button.setEnabled(true);
+						btnEliminar.setEnabled(true);
 						equipoLocal = (String) tableGame.getModel().getValueAt(index, 0);	
 						equipoVisitante = (String) tableGame.getModel().getValueAt(index, 1);
 						estadio = (String) tableGame.getModel().getValueAt(index, 2);
@@ -181,13 +186,14 @@ public class ViewGame extends JDialog {
 					return columnEditables[column];
 				}
 			});
+			
 			scrollPane.setViewportView(tableGame);
 
-			button = new JButton("Eliminar");
-			button.addActionListener(new ActionListener() {
+			btnEliminar = new JButton("Eliminar");
+			btnEliminar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-					ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
+				ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
 					String[] options = {"Si", "No"};	
 					int xOption	= JOptionPane.showOptionDialog(null, "¿Seguro que desea eliminar el juego? ", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
 
@@ -201,21 +207,21 @@ public class ViewGame extends JDialog {
 						JOptionPane.showOptionDialog(null, "Eliminado con exito!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1);
 
 						loadTableGame();
-						button.setEnabled(false);
+						btnEliminar.setEnabled(false);
 					}
 				}
 			});
-			button.setIconTextGap(5);
-			button.setHorizontalTextPosition(SwingConstants.LEFT);
-			button.setForeground(new Color(255, 255, 240));
-			button.setFont(new Font("Consolas", Font.BOLD, 17));
-			button.setBorder(null);
-			button.setBackground(new Color(0, 30, 72));
-			button.setBounds(218, 523, 146, 30);
-			panelBg.add(button);
+			btnEliminar.setIconTextGap(5);
+			btnEliminar.setHorizontalTextPosition(SwingConstants.LEFT);
+			btnEliminar.setForeground(new Color(255, 255, 240));
+			btnEliminar.setFont(new Font("Consolas", Font.BOLD, 17));
+			btnEliminar.setBorder(null);
+			btnEliminar.setBackground(new Color(0, 30, 72));
+			btnEliminar.setBounds(367, 523, 146, 30);
+			panelBg.add(btnEliminar);
 
-			button_1 = new JButton("Cancelar");
-			button_1.addActionListener(new ActionListener() {
+			btnCancelar = new JButton("Cancelar");
+			btnCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
 					String[] options = {"Si", "No"};	
@@ -227,30 +233,25 @@ public class ViewGame extends JDialog {
 					}
 				}
 			});
-			button_1.setIconTextGap(5);
-			button_1.setHorizontalTextPosition(SwingConstants.LEFT);
-			button_1.setForeground(new Color(255, 255, 240));
-			button_1.setFont(new Font("Consolas", Font.BOLD, 17));
-			button_1.setBorder(null);
-			button_1.setBackground(new Color(0, 30, 70));
-			button_1.setBounds(376, 523, 146, 30);
-			panelBg.add(button_1);
+			btnCancelar.setIconTextGap(5);
+			btnCancelar.setHorizontalTextPosition(SwingConstants.LEFT);
+			btnCancelar.setForeground(new Color(255, 255, 240));
+			btnCancelar.setFont(new Font("Consolas", Font.BOLD, 17));
+			btnCancelar.setBorder(null);
+			btnCancelar.setBackground(new Color(0, 30, 70));
+			btnCancelar.setBounds(525, 523, 146, 30);
+			panelBg.add(btnCancelar);
 
-			label = new JLabel("Buscar por:");
-			label.setVerticalTextPosition(SwingConstants.BOTTOM);
-			label.setVerticalAlignment(SwingConstants.BOTTOM);
-			label.setHorizontalAlignment(SwingConstants.LEFT);
-			label.setForeground(Color.BLACK);
-			label.setFont(new Font("Consolas", Font.PLAIN, 20));
-			label.setBounds(10, 71, 125, 31);
-			panelBg.add(label);
+			lblBuscar = new JLabel("Buscar:");
+			lblBuscar.setVerticalTextPosition(SwingConstants.BOTTOM);
+			lblBuscar.setVerticalAlignment(SwingConstants.BOTTOM);
+			lblBuscar.setHorizontalAlignment(SwingConstants.LEFT);
+			lblBuscar.setForeground(Color.BLACK);
+			lblBuscar.setFont(new Font("Consolas", Font.PLAIN, 20));
+			lblBuscar.setBounds(61, 80, 95, 31);
+			panelBg.add(lblBuscar);
 
-			comboBox = new JComboBox();
-			comboBox.setFont(new Font("Consolas", Font.PLAIN, 18));
-			comboBox.setBounds(135, 72, 125, 30);
-			panelBg.add(comboBox);
-
-			textField = new JTextField() {
+			txtFiltro = new JTextField() {
 				private static final long serialVersionUID = 1L;
 				/************* PARA REDONDEAR JTEXTFIELD *************/
 				@Override 
@@ -271,23 +272,64 @@ public class ViewGame extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
+			txtFiltro.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					DefaultTableModel table = (DefaultTableModel) tableGame.getModel();
+					String filtro = txtFiltro.getText();
+					TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(table);
+					tableGame.setRowSorter(tr);
+					tr.setRowFilter(RowFilter.regexFilter("(?i)" +filtro));
+					
+				}
+			});
 			/**********************************************************/	
-			textField.setHorizontalAlignment(SwingConstants.CENTER);
-			textField.setFont(new Font("Consolas", Font.PLAIN, 18));
-			textField.setDisabledTextColor(Color.BLACK);
-			textField.setColumns(10);
-			textField.setBounds(272, 72, 311, 30);
-			panelBg.add(textField);
-
-			button_2 = new JButton("Buscar");
-			button_2.setIconTextGap(30);
-			button_2.setHorizontalTextPosition(SwingConstants.RIGHT);
-			button_2.setForeground(new Color(255, 255, 240));
-			button_2.setFont(new Font("Consolas", Font.BOLD, 20));
-			button_2.setBorder(null);
-			button_2.setBackground(new Color(4, 10, 20));
-			button_2.setBounds(595, 72, 125, 30);
-			panelBg.add(button_2);
+			txtFiltro.setHorizontalAlignment(SwingConstants.CENTER);
+			txtFiltro.setFont(new Font("Consolas", Font.PLAIN, 18));
+			txtFiltro.setDisabledTextColor(Color.BLACK);
+			txtFiltro.setColumns(10);
+			txtFiltro.setBounds(213, 80, 466, 30);
+			panelBg.add(txtFiltro);
+			
+			btnGenerar = new JButton("Generar");
+			btnGenerar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					Home.generarPartidos();
+					try {
+						Home.agregarFechaHoraPartido();
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					loadTableGame();
+					
+				}
+			});
+			btnGenerar.setToolTipText("Generar partidos de una ronda todos contro todos.");
+			btnGenerar.setIconTextGap(5);
+			btnGenerar.setHorizontalTextPosition(SwingConstants.LEFT);
+			btnGenerar.setForeground(new Color(255, 255, 240));
+			btnGenerar.setFont(new Font("Consolas", Font.BOLD, 17));
+			btnGenerar.setBorder(null);
+			btnGenerar.setBackground(new Color(0, 30, 72));
+			btnGenerar.setBounds(51, 523, 146, 30);
+			panelBg.add(btnGenerar);
+			
+			btnModificar = new JButton("Modificar");
+			btnModificar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+				}
+			});
+			btnModificar.setToolTipText("Modifique fecha y hora.");
+			btnModificar.setIconTextGap(5);
+			btnModificar.setHorizontalTextPosition(SwingConstants.LEFT);
+			btnModificar.setForeground(new Color(255, 255, 240));
+			btnModificar.setFont(new Font("Consolas", Font.BOLD, 17));
+			btnModificar.setBorder(null);
+			btnModificar.setBackground(new Color(0, 30, 72));
+			btnModificar.setBounds(209, 523, 146, 30);
+			panelBg.add(btnModificar);
 
 		}
 
@@ -317,7 +359,4 @@ public class ViewGame extends JDialog {
 
 		}
 	}
-
-
-
 }

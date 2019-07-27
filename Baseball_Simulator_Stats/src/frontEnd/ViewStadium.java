@@ -33,6 +33,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.text.ParseException;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.SpinnerModel;
 
 import rojeru_san.componentes.RSDateChooser;
@@ -50,6 +51,7 @@ import java.awt.CardLayout;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import javax.swing.text.MaskFormatter;
 
 import backEnd.Lidom;
@@ -81,11 +83,8 @@ public class ViewStadium extends JDialog {
 	private static Object[] column;
 	private JButton btnEliminar;
 	private JButton btnCancelar;
-	private JButton btnBuscar;
 	private JTextField txtBuscar;
 	private JLabel lblBuscarPor;
-	@SuppressWarnings("rawtypes")
-	private JComboBox cbxOptionsSearch;
 	private String codeEstadio;
 	private String nameEstadio;
 
@@ -273,20 +272,6 @@ public class ViewStadium extends JDialog {
 			btnCancelar.setBounds(341, 523, 146, 30);
 			panelBg.add(btnCancelar);
 
-			btnBuscar = new JButton("Buscar");
-			btnBuscar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-				}
-			});
-			btnBuscar.setIconTextGap(30);
-			btnBuscar.setHorizontalTextPosition(SwingConstants.RIGHT);
-			btnBuscar.setForeground(new Color(255, 255, 240));
-			btnBuscar.setFont(new Font("Consolas", Font.BOLD, 20));
-			btnBuscar.setBorder(null);
-			btnBuscar.setBackground(new Color(4, 10, 20));
-			btnBuscar.setBounds(550, 74, 125, 30);
-			panelBg.add(btnBuscar);
-
 			txtBuscar = new JTextField() {
 				private static final long serialVersionUID = 1L;
 				/************* PARA REDONDEAR JTEXTFIELD *************/
@@ -308,27 +293,38 @@ public class ViewStadium extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
+			txtBuscar.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					DefaultTableModel table = (DefaultTableModel) tableStadiums.getModel();
+						String filtro = txtBuscar.getText();
+						TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(table);
+						tableStadiums.setRowSorter(tr);
+						tr.setRowFilter(RowFilter.regexFilter("(?i)" +filtro));
+				}
+			});
 			/**********************************************************/
 			txtBuscar.setHorizontalAlignment(SwingConstants.CENTER);
 			txtBuscar.setFont(new Font("Consolas", Font.PLAIN, 18));
 			txtBuscar.setDisabledTextColor(Color.BLACK);
 			txtBuscar.setColumns(10);
-			txtBuscar.setBounds(272, 75, 266, 30);
+			txtBuscar.setBounds(195, 80, 440, 30);
 			panelBg.add(txtBuscar);
 
-			lblBuscarPor = new JLabel("Buscar por:");
+			lblBuscarPor = new JLabel("Buscar:");
+			lblBuscarPor.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+				
+				}
+			});
 			lblBuscarPor.setVerticalTextPosition(SwingConstants.BOTTOM);
 			lblBuscarPor.setVerticalAlignment(SwingConstants.BOTTOM);
 			lblBuscarPor.setHorizontalAlignment(SwingConstants.LEFT);
 			lblBuscarPor.setForeground(Color.BLACK);
 			lblBuscarPor.setFont(new Font("Consolas", Font.PLAIN, 20));
-			lblBuscarPor.setBounds(10, 74, 125, 31);
+			lblBuscarPor.setBounds(51, 79, 93, 31);
 			panelBg.add(lblBuscarPor);
-
-			cbxOptionsSearch = new JComboBox();
-			cbxOptionsSearch.setFont(new Font("Consolas", Font.PLAIN, 18));
-			cbxOptionsSearch.setBounds(135, 75, 125, 30);
-			panelBg.add(cbxOptionsSearch);
 
 			try {
 				// Definición de la máscara para ID.

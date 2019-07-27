@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
+
+
 public class Team implements Serializable{
 	/**
 	 * 
@@ -13,11 +15,11 @@ public class Team implements Serializable{
 	private String name;
 	private String manager;
 	private Date foundationDate;
-	private ArrayList<Player> rosterPlayers = new ArrayList<Player>();
+	private ArrayList<Player> rosterPlayers;
 	private int games;
 	private int gamesWin;
 	private int gamesLose;
-	private ArrayList<Player> lineUp = new ArrayList<Player>();
+	private ArrayList<Player> lineUp ;
 	private String stadium;
 	
 	/* Constructor */
@@ -34,6 +36,8 @@ public class Team implements Serializable{
 	//	this.gamesLose = gamesLose;
 	//	this.lineUp = new ArrayList<Player>();
 		this.stadium = stadium;
+		lineUp = new ArrayList<Player>();
+		rosterPlayers = new ArrayList<Player>();
 	}
 	
 	
@@ -127,6 +131,42 @@ public class Team implements Serializable{
 	public void addPlayerLineUp(Player player) {
 		lineUp.add(player);
 	}
+	
+	
+	/***** METODOS *****/
+	
+	public void addLesion(String nom, String apell, Injury lesion){
+		int i=0; 
+		boolean found = false;
+		
+		while( i < rosterPlayers.size() && found == false){
+			
+			if(rosterPlayers.get(i).getName().equalsIgnoreCase(nom) && rosterPlayers.get(i).getLastname().equalsIgnoreCase(apell) ){
+				rosterPlayers.get(i).setLesionado(true);		
+				rosterPlayers.get(i).setInjury(lesion);
+				found = true;
+			}
+			i++;
+		}
+	}
+	
+	public void deleteLesion(String nom, String apell, Injury lesion){
+		int i=0; 
+		boolean found = false;
+		
+		while( i < rosterPlayers.size() && found == false){
+			
+			if(rosterPlayers.get(i).getName().equalsIgnoreCase(nom) && rosterPlayers.get(i).getLastname().equalsIgnoreCase(apell)){
+				rosterPlayers.get(i).setLesionado(false);		
+				rosterPlayers.get(i).setInjury(lesion);
+				found = true;
+			}
+			i++;
+		}
+	}
+	
+	/** faltan metodos **/ 
+	/* estadisticas de equipo*/
 	
 	
 	
