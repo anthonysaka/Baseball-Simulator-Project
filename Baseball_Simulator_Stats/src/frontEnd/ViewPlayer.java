@@ -83,7 +83,7 @@ public class ViewPlayer extends JDialog {
 	private static DefaultTableModel model;
 	private static JTable tablePlayer;
 	private static Object[] column;
-	private JButton button;
+	private JButton btnEliminar;
 	private JButton button_1;
 	private JLabel lblBuscar;
 	private JTextField textField;
@@ -139,7 +139,7 @@ public class ViewPlayer extends JDialog {
 					
 					if (tablePlayer.getSelectedRow() >= 0) {
 						int index = tablePlayer.getSelectedRow();
-						button.setEnabled(true);
+						btnEliminar.setEnabled(true);
 						codePlayer = (String) tablePlayer.getModel().getValueAt(index, 0);	
 						namePlayer = (String) tablePlayer.getModel().getValueAt(index, 1);
 					}
@@ -191,8 +191,8 @@ public class ViewPlayer extends JDialog {
 				tablePlayer.getColumnModel().getColumn(i).setCellRenderer(tcr);
 			
 
-			button = new JButton("Registrar");
-			button.addActionListener(new ActionListener() {
+			btnEliminar = new JButton("Eliminar");
+			btnEliminar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
 					ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
@@ -208,18 +208,18 @@ public class ViewPlayer extends JDialog {
 						JOptionPane.showOptionDialog(null, "Eliminado con exito!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1);
 
 						loadTablePlayer();
-						button.setEnabled(false);
+						btnEliminar.setEnabled(false);
 					}
 				}
 			});
-			button.setIconTextGap(5);
-			button.setHorizontalTextPosition(SwingConstants.LEFT);
-			button.setForeground(new Color(255, 255, 240));
-			button.setFont(new Font("Consolas", Font.BOLD, 17));
-			button.setBorder(null);
-			button.setBackground(new Color(0, 30, 72));
-			button.setBounds(218, 523, 146, 30);
-			panelBg.add(button);
+			btnEliminar.setIconTextGap(5);
+			btnEliminar.setHorizontalTextPosition(SwingConstants.LEFT);
+			btnEliminar.setForeground(new Color(255, 255, 240));
+			btnEliminar.setFont(new Font("Consolas", Font.BOLD, 17));
+			btnEliminar.setBorder(null);
+			btnEliminar.setBackground(new Color(0, 30, 72));
+			btnEliminar.setBounds(218, 523, 146, 30);
+			panelBg.add(btnEliminar);
 
 			button_1 = new JButton("Cancelar");
 			button_1.addActionListener(new ActionListener() {
@@ -311,7 +311,7 @@ public class ViewPlayer extends JDialog {
 
 	/** Metodos **/
 
-	public void loadTablePlayer() {
+	public static void loadTablePlayer() {
 
 		model = (DefaultTableModel) tablePlayer.getModel();
 		model.setRowCount(0);

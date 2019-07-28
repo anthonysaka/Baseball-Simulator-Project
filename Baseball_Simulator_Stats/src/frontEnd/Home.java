@@ -3,7 +3,6 @@ package frontEnd;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -13,20 +12,14 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-
 import javax.swing.SwingConstants;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
-import java.awt.SystemColor;
-
-import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.Cursor;
-import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
-
 import Animacion.Animacion;
 import backEnd.Batter;
 import backEnd.Game;
@@ -34,15 +27,11 @@ import backEnd.Lidom;
 import backEnd.Pitcher;
 import backEnd.Player;
 import backEnd.Team;
-
-import java.awt.FlowLayout;
 import java.awt.CardLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -51,20 +40,14 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.concurrent.ThreadLocalRandom;
-
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-
-import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 import javax.swing.JTextField;
 
 public class Home extends JFrame implements Runnable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -7565495060282114993L;
 	private JPanel contentPane;
 	private Dimension dimention;
@@ -251,7 +234,6 @@ public class Home extends JFrame implements Runnable {
 	private JPanel panelControlBateo;
 	private JLabel lblControlBateo;
 	private JButton btnPlayBall;
-
 	private String equipoLocal;
 	private String equipoVisitante;
 	private String fecha;
@@ -998,7 +980,7 @@ public class Home extends JFrame implements Runnable {
 				panelMenuJugadores.setVisible(false);
 			}
 		});
-		panelMenuJugadores.setBounds(511, 50, 170, 59);
+		panelMenuJugadores.setBounds(511, 50, 170, 141);
 		panelBackGround.add(panelMenuJugadores);
 		panelMenuJugadores.setLayout(null);
 
@@ -1200,6 +1182,8 @@ public class Home extends JFrame implements Runnable {
 		tablePartidosHoy.setSelectionBackground(new Color(239, 108, 0));
 		tablePartidosHoy.getTableHeader().setFont(new Font("Consolas", Font.BOLD, 18));
 		tablePartidosHoy.getTableHeader().setOpaque(false);
+		tablePartidosHoy.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		
 
 		tablePartidosHoy.getTableHeader().setBackground(new Color(255,255,255,80));
 		tablePartidosHoy.setOpaque(false);
@@ -1224,6 +1208,9 @@ public class Home extends JFrame implements Runnable {
 				return columnEditables[column];
 			}
 		});
+		tablePartidosHoy.getColumnModel().getColumn(0).setPreferredWidth(120);
+		tablePartidosHoy.getColumnModel().getColumn(1).setPreferredWidth(120);
+		tablePartidosHoy.getColumnModel().getColumn(2).setPreferredWidth(125);
 		tablePartidosHoy.setBorder(null);
 		scrollPanePartidosHoy.setViewportView(tablePartidosHoy);
 
@@ -3760,6 +3747,7 @@ public class Home extends JFrame implements Runnable {
 		}
 	}
 
+	//** BLOQUE CODIGO PARA MOSTRAR RELOJ Y FECHA ***//
 	public void showRealTimeAndDate() {
 		Calendar cale = new GregorianCalendar();
 		day = cale.get(Calendar.DAY_OF_MONTH);
@@ -3787,4 +3775,5 @@ public class Home extends JFrame implements Runnable {
 		}
 
 	}
+/******************************************/
 }

@@ -187,8 +187,11 @@ public class AddPlayer extends JDialog {
 	 * Create the dialog.
 	 */
 	public AddPlayer(Player player) {
-		this.myPlayer = player;
+		if (player!=null) {
+			myPlayer = Lidom.getInstance().searchPlayerByID(player.getId());
 
+		}
+	
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setUndecorated(true);
 		setBounds(100, 100, 1092, 780);
@@ -1525,7 +1528,7 @@ public class AddPlayer extends JDialog {
 			panelBateador.add(lblInformacinJugador_1);
 
 			cbxPosicionBat = new JComboBox();
-			cbxPosicionBat.setModel(new DefaultComboBoxModel(new String[] {"<Seleccionar>", "Catcher", "Primera base", "Segunda base", "Tercera base", "Short stop", "Left fielder", "Center fielder", "Right fielder"}));
+			cbxPosicionBat.setModel(new DefaultComboBoxModel(new String[] {"<Seleccionar>", "Catcher", "Primera base", "Segunda base", "Tercera base", "Short stop", "Left fielder", "Center fielder", "Right fielder", "Designado"}));
 			cbxPosicionBat.setFont(new Font("Consolas", Font.PLAIN, 18));
 			cbxPosicionBat.setBounds(134, 50, 163, 28);
 			panelBateador.add(cbxPosicionBat);
@@ -1583,13 +1586,13 @@ public class AddPlayer extends JDialog {
 			separator_8.setBackground(new Color(4, 10, 20));
 			separator_8.setBounds(692, 35, 256, 2);
 			panelBateador.add(separator_8);
-			
+
 			cbxManoBateo = new JComboBox();
 			cbxManoBateo.setModel(new DefaultComboBoxModel(new String[] {"<Seleccionar>", "Derecha", "Izquierda", "Ambas"}));
 			cbxManoBateo.setFont(new Font("Consolas", Font.PLAIN, 18));
 			cbxManoBateo.setBounds(486, 87, 163, 28);
 			panelBateador.add(cbxManoBateo);
-			
+
 			lblManoBateo = new JLabel("Mano de bato");
 			lblManoBateo.setVerticalTextPosition(SwingConstants.BOTTOM);
 			lblManoBateo.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -1705,17 +1708,19 @@ public class AddPlayer extends JDialog {
 					ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_checked_48px_1.png"));
 					String[] options = {"Ok"};
 					ImageIcon icon1 = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
+					
+
+					String id = txtId.getText();
+					String number = txtNumeroUniforme.getText();
+					String name = txtName.getText();
+					String lastname = txtApellido.getText();
+					String placeBorn = cbxCountries.getSelectedItem().toString();
+					Date dateBorn = dateChooserDateBorn.getDatoFecha();
+					float weight = Float.parseFloat(spnLibra.getValue().toString());
+					float height = Float.parseFloat(spnAltura.getValue().toString());
+
 
 					if (myPlayer == null) {
-
-						String id = txtId.getText();
-						String number = txtNumeroUniforme.getText();
-						String name = txtName.getText();
-						String lastname = txtApellido.getText();
-						String placeBorn = cbxCountries.getSelectedItem().toString();
-						Date dateBorn = dateChooserDateBorn.getDatoFecha();
-						float weight = Float.parseFloat(spnLibra.getValue().toString());
-						float height = Float.parseFloat(spnAltura.getValue().toString());
 
 
 						if ((selectionFoto == true) && (!id.equalsIgnoreCase("##-###-###")) && (!number.equalsIgnoreCase("##")) && (!name.equalsIgnoreCase("")) && (!lastname.equalsIgnoreCase("")) && (cbxCountries.getSelectedIndex() > 0) && (cbxCountries.getSelectedIndex() > 0) && (dateBorn != null) && (weight >= 100.00f) && (height >= 5.00f )) {
@@ -1728,9 +1733,9 @@ public class AddPlayer extends JDialog {
 									String equipoPitcher = cbxEquipoPit.getSelectedItem().toString();
 
 									if ( (cbxTipoPitcher.getSelectedIndex() > 0)  && (cbxManoPitcher.getSelectedIndex() > 0) && (cbxEquipoPit.getSelectedIndex() > 0) ) {
-										
+
 										if (Lidom.getInstance().checkNumberPlayer(number, equipoPitcher)) {
-											
+
 											Player pitcher = new Pitcher(id, name, number, lastname, equipoPitcher, dateBorn, placeBorn, height, weight, manoPitcher, tipoPitcher);
 											Lidom.getInstance().addPlayer(pitcher); // agrego lista de lidom
 											Lidom.getInstance().addPlayerToTeam(equipoPitcher, pitcher); // agrego a lista de roster del equipo
@@ -1743,23 +1748,18 @@ public class AddPlayer extends JDialog {
 											btnBateador.setEnabled(true);
 											btnPitcher.setEnabled(true);
 											selectionFoto = false;
-											
+
 										}
 										else {
-											
+
 											JOptionPane.showOptionDialog(null, "El número de uniforme ya existe!", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options, options);
-											
 										}		
 									}
 									else {
-
 										JOptionPane.showOptionDialog(null, "Complete todos los campos, correctamente!", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options, options);
 									}
-
 								}
 								else if (typePlayer == 2) { // un bateador.
-									
-
 
 									String posicion = cbxPosicionBat.getSelectedItem().toString();
 									String manobateador = cbxManoBat.getSelectedItem().toString(); // Ojo crear atributo
@@ -1767,7 +1767,7 @@ public class AddPlayer extends JDialog {
 									String equipoBateeador = cbxEquipoBat.getSelectedItem().toString();
 
 									if ((cbxManoBateo.getSelectedIndex() > 0) && (cbxPosicionBat.getSelectedIndex() > 0)  && (cbxManoBat.getSelectedIndex() > 0) && (cbxEquipoBat.getSelectedIndex() > 0) ) {
-										
+
 										if (Lidom.getInstance().checkNumberPlayer(number, equipoBateeador)) {
 											Player bateador = new Batter(id, name, number, lastname, equipoBateeador, dateBorn, placeBorn, height, weight, manobateador, posicion, manoDeBateo);
 											Lidom.getInstance().addPlayer(bateador);// agrego lista de lidom
@@ -1780,14 +1780,12 @@ public class AddPlayer extends JDialog {
 											btnBateador.setEnabled(true);
 											btnPitcher.setEnabled(true);
 											selectionFoto = false;
-											
+
 										}else {
 											JOptionPane.showOptionDialog(null, "El número de uniforme ya existe!", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options, options);
-											
 										}			
 									}
 									else {
-
 										JOptionPane.showOptionDialog(null, "Complete todos los campos, correctamente!", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options, options);
 									}
 								}
@@ -1798,19 +1796,82 @@ public class AddPlayer extends JDialog {
 							else {
 								JOptionPane.showOptionDialog(null, "El número de ID ya existe!", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options, options);		
 							}
-							}
-							else {
-
-								JOptionPane.showOptionDialog(null, "Complete todos los campos, correctamente!", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options, options);
-
-							}
 						}
-						
+						else {
+							JOptionPane.showOptionDialog(null, "Complete todos los campos, correctamente!", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options, options);
+						}
+					}
 					else {
 
 						/*
 						 *  ***************** PARA EDITAR AQUI ***************
 						 */
+//						Integer.valueOf(txtWinp.getText());
+//						Integer.valueOf(txtLosep.getText());
+//						Float.valueOf(txtErap.getText());
+//						Integer.valueOf(txtGamesp.getText());
+//						Integer.valueOf(txtGSp.getText());
+//						Integer.valueOf(txtSVp.getText());
+//						Integer.valueOf(txtHRp.getText());
+//						Integer.valueOf(txtHp.getText());
+//						Integer.valueOf(txtRp.getText());
+//						Integer.valueOf(txtSOp.getText());
+//						Float.valueOf(txtIPp.getText());
+//						Float.valueOf(txtAVGp.getText());
+
+						
+						
+
+						if (myPlayer instanceof Batter) {
+							
+							
+							String posicion = cbxPosicionBat.getSelectedItem().toString();
+							String manobateador = cbxManoBat.getSelectedItem().toString(); // Ojo crear atributo
+							String manoDeBateo = cbxManoBateo.getSelectedItem().toString();
+							String equipoBateeador = cbxEquipoBat.getSelectedItem().toString();
+							
+							myPlayer.setId(id);
+							myPlayer.setName(name);
+							myPlayer.setLastname(lastname);
+							myPlayer.setNumber(number);
+							myPlayer.setTeamName(equipoBateeador);
+							myPlayer.setBirthplace(placeBorn);
+							myPlayer.setBirthdate(dateBorn);
+							myPlayer.setHeight(height);
+							myPlayer.setWeight(weight);
+							myPlayer.setManoLanzar(manobateador);
+							((Batter) myPlayer).setPosition(posicion);
+							((Batter) myPlayer).setManoDeBateo(manoDeBateo);
+							
+							float average = Float.valueOf(txtAVGb.getText());
+							int runs = Integer.valueOf(txtRb.getText());
+							int h1 = Integer.valueOf(txtH1b.getText());
+							int h2 = Integer.valueOf(txtH2b.getText());
+							int h3 =Integer.valueOf(txtH3b.getText());
+							int hR = Integer.valueOf(txtHRb.getText());
+							int rBI =Integer.valueOf(txtRBIb.getText());
+							int baseBall = Integer.valueOf(txtBBb.getText());
+							int stolenBase = Integer.valueOf(txtSOb.getText());
+							int strikeOut = Integer.valueOf(txtSBb.getText());
+							
+							((Batter) myPlayer).setAverage(average);
+							((Batter) myPlayer).setH1(h1);
+							((Batter) myPlayer).setRuns(runs);
+							((Batter) myPlayer).setH2(h2);
+							((Batter) myPlayer).setH3(h3);
+							((Batter) myPlayer).setHR(hR);
+							((Batter) myPlayer).setRBI(rBI);
+							((Batter) myPlayer).setBaseBall(baseBall);
+							((Batter) myPlayer).setStolenBase(stolenBase);
+							((Batter) myPlayer).setStrikeOut(strikeOut);
+							
+							Lidom.getInstance().updatePlayer(myPlayer);
+							JOptionPane.showMessageDialog(null, "Modificado con exito!", "Alerta - Hecho!", JOptionPane.INFORMATION_MESSAGE);
+							dispose();
+							ManagementTeam.loadStats(myPlayer.getId());
+
+						}
+						/// instanceof pitcher falta
 					}
 
 				}
@@ -1867,12 +1928,94 @@ public class AddPlayer extends JDialog {
 			panelBg.add(btnCancelarJugador);
 		}
 
-
-		controlStats();
-		loadTeamsCbx();
-
+	loadTeamsCbx();
+	loadPlayerData();
+		
 	}
 
+	private void loadPlayerData() {
+		
+		if (myPlayer!=null) {
+			
+			String routetosave = "Fotos_Jugadores/"+ myPlayer.getName() + ".png";
+			/** to adjust image at size of JLabel **/
+			ImageIcon fotoJugador = new ImageIcon(routetosave);
+			Icon fotoJ = new ImageIcon(fotoJugador.getImage().getScaledInstance(lblFotoJugador.getWidth(), lblFotoJugador.getHeight(), Image.SCALE_SMOOTH));
+			lblFotoJugador.setIcon(fotoJ);
+			txtId.setEnabled(false);
+			
+			txtName.setText(myPlayer.getName());
+			txtApellido.setText(myPlayer.getLastname());
+			txtId.setText(myPlayer.getId());
+			txtNumeroUniforme.setText(myPlayer.getNumber());
+		
+			cbxCountries.setSelectedItem(myPlayer.getBirthplace());
+			dateChooserDateBorn.setDatoFecha(myPlayer.getBirthdate());
+			spnAltura.setValue(myPlayer.getHeight());
+			spnLibra.setValue(myPlayer.getWeight());
+			
+			if (myPlayer instanceof Batter) {
+				
+				typePlayer = 2;
+				btnPitcher.setEnabled(false);
+				btnBateador.setEnabled(false);
+				panelInformacionJugador.setVisible(true);
+				panelPitcher.setVisible(false);
+				panelBateador.setVisible(true);
+				
+			cbxEquipoBat.setSelectedItem(myPlayer.getTeamName());
+			cbxManoBat.setSelectedItem(((Batter) myPlayer).getManoLanzar());
+			cbxManoBateo.setSelectedItem(((Batter) myPlayer).getManoDeBateo());
+			cbxPosicionBat.setSelectedItem(((Batter) myPlayer).getPosition());
+		
+			
+			txtAVGb.setText(String.valueOf(((Batter) myPlayer).getAverage()));
+			txtRb.setText(String.valueOf(((Batter) myPlayer).getRuns()));
+			txtH1b.setText(String.valueOf(((Batter) myPlayer).getH1()));
+			txtH2b.setText(String.valueOf(((Batter) myPlayer).getH2()));
+			txtH3b.setText(String.valueOf(((Batter) myPlayer).getH3()));
+			txtHRb.setText(String.valueOf(((Batter) myPlayer).getHR()));
+			txtRBIb.setText(String.valueOf(((Batter) myPlayer).getRBI()));
+			txtBBb.setText(String.valueOf(((Batter) myPlayer).getBaseBall()));
+			txtSBb.setText(String.valueOf(((Batter) myPlayer).getStolenBase()));
+			txtSOb.setText(String.valueOf(((Batter) myPlayer).getStrikeOut()));
+			
+			}
+			if (myPlayer instanceof Pitcher) {
+				
+				typePlayer = 1;
+
+				btnPitcher.setEnabled(false);
+				btnBateador.setEnabled(false);
+
+				panelInformacionJugador.setVisible(true);
+				panelPitcher.setVisible(true);
+				panelBateador.setVisible(false);
+				
+				cbxEquipoPit.setSelectedItem(myPlayer.getTeamName());
+				cbxManoPitcher.setSelectedItem(myPlayer.getManoLanzar());
+				cbxTipoPitcher.setSelectedItem(((Pitcher) myPlayer).getTipo());
+			
+				txtWinp.setText(String.valueOf(((Pitcher) myPlayer).getGameWin()));
+				txtLosep.setText(String.valueOf(((Pitcher) myPlayer).getGameLose()));
+				txtErap.setText(String.valueOf(((Pitcher) myPlayer).getERA()));
+				txtGamesp.setText(String.valueOf(((Pitcher) myPlayer).getStartedGame()));
+				txtGSp.setText(String.valueOf(((Pitcher) myPlayer).getStartedGame()));
+				txtSVp.setText(String.valueOf(((Pitcher) myPlayer).getSavedGame()));
+				txtHRp.setText(String.valueOf(((Pitcher) myPlayer).getNumberHR()));
+				txtHp.setText(String.valueOf(((Pitcher) myPlayer).getNumberHit()));
+				txtRp.setText(String.valueOf(((Pitcher) myPlayer).getNumberRun()));
+				txtSOp.setText(String.valueOf(((Pitcher) myPlayer).getNumberStrikeOut()));
+				txtIPp.setText(String.valueOf(((Pitcher) myPlayer).getIP()));
+				txtAVGp.setText(String.valueOf(((Pitcher) myPlayer).getAverage()));
+				
+			}
+
+			
+		}
+		
+		
+	}
 
 
 	/* Metodos */

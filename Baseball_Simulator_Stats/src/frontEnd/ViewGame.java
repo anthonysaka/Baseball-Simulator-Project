@@ -91,7 +91,7 @@ public class ViewGame extends JDialog {
 	private JLabel lblBuscar;
 	private JTextField txtFiltro;
 
-	private JTable tableGame;
+	private static JTable tableGame;
 	
 	private String equipoLocal;
 	private String equipoVisitante;
@@ -151,6 +151,7 @@ public class ViewGame extends JDialog {
 					if (tableGame.getSelectedRow() >= 0) {
 						int index = tableGame.getSelectedRow();
 						btnEliminar.setEnabled(true);
+						
 						equipoLocal = (String) tableGame.getModel().getValueAt(index, 0);	
 						equipoVisitante = (String) tableGame.getModel().getValueAt(index, 1);
 						estadio = (String) tableGame.getModel().getValueAt(index, 2);
@@ -319,6 +320,10 @@ public class ViewGame extends JDialog {
 			btnModificar = new JButton("Modificar");
 			btnModificar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					Game auxGame = Lidom.getInstance().searchGame(equipoLocal, equipoVisitante, estadio, fecha, hora);
+					AddGame modGame = new AddGame(auxGame);
+					modGame.setModal(true);
+					modGame.setVisible(true);
 				}
 			});
 			btnModificar.setToolTipText("Modifique fecha y hora.");
@@ -341,7 +346,7 @@ public class ViewGame extends JDialog {
 
 	/** Metodos **/
 
-	public void loadTableGame() {
+	public static void loadTableGame() {
 		model= (DefaultTableModel) tableGame.getModel();
 		column = new Object[model.getColumnCount()];
 		model.setRowCount(0);

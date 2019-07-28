@@ -143,6 +143,23 @@ public class Lidom implements Serializable {
 		listGame.remove(game);
 		//	generateIdGame--;
 	}
+	
+	public void updateGame(Game myGame) {
+		int index = searchIndexGame(myGame.getHomeTeam(), myGame.getAwayTeam(), myGame.getStadium(), myGame.getDate(), myGame.getHora());
+		listGame.remove(index);
+		listGame.add(index, myGame);
+
+	}
+	
+	public void updatePlayer(Player myPlayercode) {
+		
+		int index = searchIndexPlayerByID(myPlayercode.getId());
+		listPlayer.remove(index);
+		listPlayer.add(index, myPlayercode);
+
+	}
+	
+
 
 	/**************************************************************/
 
@@ -249,6 +266,37 @@ public class Lidom implements Serializable {
 		return auxStadium; //Retorna el ESTADIO del NOMBRE encontrado.
 	}
 
+	public int searchIndexGame(String local, String visitante, String estadio, String fecha, String hora) {
+		int auxGame = -1;
+		boolean found = false;
+		int i = 0;
+
+		while (!found &&  i < listGame.size()) {
+			if (listGame.get(i).getHomeTeam().equalsIgnoreCase(local) && listGame.get(i).getAwayTeam().equalsIgnoreCase(visitante) && listGame.get(i).getDate().equalsIgnoreCase(fecha) && listGame.get(i).getHora().equalsIgnoreCase(hora)) {
+				found = true;
+				auxGame = i;
+			}
+			i++;
+		}
+		return auxGame; //retornar el index del juego encontrado
+	}
+	
+	//Search Player by ID.
+	public int searchIndexPlayerByID(String idPlayer) {
+		int  auxPlayer = -1;
+		boolean found = false;
+		int i = 0;
+
+		while (!found && i < listPlayer.size()) {
+			if(listPlayer.get(i).getId().equalsIgnoreCase(idPlayer)) {
+				found = true;
+				auxPlayer = i;;
+			}
+			i++;
+		}
+		return auxPlayer; //Retorna el Index del JUGADOR del ID encontrado.
+	}
+	
 	public Game searchGame(String local, String visitante, String estadio, String fecha, String hora) {
 		Game auxGame = null;
 		boolean found = false;

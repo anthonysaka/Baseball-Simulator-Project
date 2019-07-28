@@ -39,7 +39,7 @@ public class Team implements Serializable{
 		lineUp = new ArrayList<Player>();
 		rosterPlayers = new ArrayList<Player>();
 	}
-	
+
 	
 
 	public String getId() {
