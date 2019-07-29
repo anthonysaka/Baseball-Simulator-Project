@@ -133,6 +133,8 @@ public class Team implements Serializable{
 	}
 	
 	public void addPlayerLineUp(Player player) {
+		
+
 		lineUp.add(player);
 	}
 	

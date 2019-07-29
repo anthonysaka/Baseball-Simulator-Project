@@ -15,6 +15,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Locale;
 
 import javax.swing.SwingConstants;
@@ -109,6 +110,7 @@ public class ManagementTeam extends JDialog {
 
 	private static String nombreJugador;
 	private static String nameArray[] ;
+	private static String nameArrayAvailable[];
 	private static JPanel panelEstadisticaEquipo;
 	private static JLabel lblEstadsticaDelEquipo;
 	private JPanel panelCalendarioEquipo;
@@ -131,7 +133,7 @@ public class ManagementTeam extends JDialog {
 	private static JLabel lblPesoAlt;
 	private JSeparator separator_1;
 	private JSeparator separator_2;
-	private JButton button;
+	private JButton btnModifyPlayer;
 	private JScrollPane scrollPane;
 	private static JPanel panelEstadisticaBateador;
 	private JSeparator separator_3;
@@ -185,8 +187,7 @@ public class ManagementTeam extends JDialog {
 	private static JTextField txtAVGp;
 	private JLabel label_29;
 	private JButton btnNa_1;
-	private JButton btnNa;
-	private JButton btnNa_3;
+	private JButton btnAddPlayerTeam;
 	private JButton btnNa_2;
 	private String seleccionarjugador;
 	private JLabel lblCf;
@@ -201,6 +202,8 @@ public class ManagementTeam extends JDialog {
 	private JButton btnBD;
 	private JLabel lblBD;
 	private JButton btnEliminarJugador;
+	private String codePlayer;
+	private String namePlayer;
 
 
 	/**
@@ -403,11 +406,11 @@ public class ManagementTeam extends JDialog {
 
 					Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
 					ArrayList<String> playerAvailable = new ArrayList<String>();
-
+					boolean jugadorRepetido = false;
 					for (Player auxPlayer : auxTeam.getRosterPlayers()) {
 						if (auxPlayer instanceof Batter) {		
 							if (((Batter) auxPlayer).getPosition().equalsIgnoreCase("Center fielder") && auxPlayer.getLesionado() == false) {
-								playerAvailable.add(auxPlayer.getName()); // agregar a un arraylist temporal para mostrar en cbxbox				
+								playerAvailable.add(auxPlayer.getName() + " " + auxPlayer.getLastname()); // agregar a un arraylist temporal para mostrar en cbxbox				
 							}
 						}		
 					}
@@ -416,19 +419,44 @@ public class ManagementTeam extends JDialog {
 						copyPlayerAvailable = playerAvailable.toArray(copyPlayerAvailable);
 
 						seleccionarjugador = (String) JOptionPane.showInputDialog(null, "Seleccione un jugador", "Seleccionar Jugador",  JOptionPane.QUESTION_MESSAGE,  null,  copyPlayerAvailable, copyPlayerAvailable[0]);
-						Player auxPlayerN = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
 
-						lblCf.setText(seleccionarjugador+ " " +  auxPlayerN.getLastname());
-						Player auxPlayer = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-						auxTeam.addPlayerLineUp(auxPlayer);
+						if (seleccionarjugador != null) {
+
+							nameArrayAvailable = seleccionarjugador.split(" ", 0);
+							Player auxPlayer = Lidom.getInstance().searchPlayerByNameByTeam(nameArrayAvailable[0], nameArrayAvailable[1], auxTeam.getName());
+							int i = 0;
+
+							if (auxTeam.getLineUp().size() > 0) {
+
+
+								for (Player playel : auxTeam.getLineUp()) {
+
+									if (playel  instanceof Batter) {
+
+										if (((Batter) playel).getPosition().equalsIgnoreCase("Center fielder")) {
+											auxTeam.getLineUp().remove(i);
+											auxTeam.getLineUp().add(i, auxPlayer);
+
+										}
+
+									}
+
+
+									i++;
+								}
+							}if(jugadorRepetido == false){
+								auxTeam.addPlayerLineUp(auxPlayer);
+							}
+							lblCf.setText(seleccionarjugador+ " " +  auxPlayer.getLastname());
+						} //FALTA MANDAR MENSAJE DE QUE NO ESTA SELECCIONADO MMG
+
+
 						loadLineUpPlayerByTeam();
 
 					}
 					catch(ArrayIndexOutOfBoundsException e2){
-						JOptionPane.showMessageDialog(null, "No hay jugadores para esta posición!", "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "No hay jugadores para esta posiciï¿½n!", "Error", JOptionPane.ERROR_MESSAGE);
 					}
-
-
 				}
 			});
 			btnCf.setIconTextGap(5);
@@ -444,14 +472,13 @@ public class ManagementTeam extends JDialog {
 			btnL.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
-
 					Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
 					ArrayList<String> playerAvailable = new ArrayList<String>();
-
+					boolean jugadorRepetido = false;
 					for (Player auxPlayer : auxTeam.getRosterPlayers()) {
 						if (auxPlayer instanceof Batter) {		
 							if (((Batter) auxPlayer).getPosition().equalsIgnoreCase("Left fielder") && auxPlayer.getLesionado() == false) {
-								playerAvailable.add(auxPlayer.getName()); // agregar a un arraylist temporal para mostrar en cbxbox				
+								playerAvailable.add(auxPlayer.getName() + " "+ auxPlayer.getLastname()); // agregar a un arraylist temporal para mostrar en cbxbox				
 							}
 						}		
 					}
@@ -460,17 +487,44 @@ public class ManagementTeam extends JDialog {
 						copyPlayerAvailable = playerAvailable.toArray(copyPlayerAvailable);
 
 						seleccionarjugador = (String) JOptionPane.showInputDialog(null, "Seleccione un jugador", "Seleccionar Jugador",  JOptionPane.QUESTION_MESSAGE,  null,  copyPlayerAvailable, copyPlayerAvailable[0]);
-						Player auxPlayerN = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-						lblLf.setText(seleccionarjugador + " " +  auxPlayerN.getLastname());
-						Player auxPlayer = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-						auxTeam.addPlayerLineUp(auxPlayer);
+
+						if (seleccionarjugador != null) {
+							nameArrayAvailable = seleccionarjugador.split(" ", 0);
+							Player auxPlayer = Lidom.getInstance().searchPlayerByNameByTeam(nameArrayAvailable[0], nameArrayAvailable[1], auxTeam.getName());
+							int i = 0;
+
+							if (auxTeam.getLineUp().size() > 0) {
+
+
+								for (Player playel : auxTeam.getLineUp()) {
+
+									if (playel  instanceof Batter) {
+
+										if (((Batter) playel).getPosition().equalsIgnoreCase("Left fielder")) {
+											auxTeam.getLineUp().remove(i);
+											auxTeam.getLineUp().add(i, auxPlayer);
+
+										}
+
+									}
+
+
+									i++;
+								}
+							}if(jugadorRepetido == false){
+								auxTeam.addPlayerLineUp(auxPlayer);
+							}
+							lblLf.setText(seleccionarjugador+ " " +  auxPlayer.getLastname());
+						} //FALTA MANDAR MENSAJE DE QUE NO ESTA SELECCIONADO MMG
+
+
 						loadLineUpPlayerByTeam();
+						loadLineUpLabel();
 
 					}
 					catch(ArrayIndexOutOfBoundsException e2){
-						JOptionPane.showMessageDialog(null, "No hay jugadores para esta posición!", "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "No hay jugadores para esta posiciï¿½n!", "Error", JOptionPane.ERROR_MESSAGE);
 					}
-
 				}
 			});
 			btnL.setIconTextGap(5);
@@ -488,11 +542,12 @@ public class ManagementTeam extends JDialog {
 
 					Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
 					ArrayList<String> playerAvailable = new ArrayList<String>();
+					boolean jugadorRepetido = false;
 
 					for (Player auxPlayer : auxTeam.getRosterPlayers()) {
 						if (auxPlayer instanceof Batter) {		
 							if (((Batter) auxPlayer).getPosition().equalsIgnoreCase("Short stop") && auxPlayer.getLesionado() == false) {
-								playerAvailable.add(auxPlayer.getName()); // agregar a un arraylist temporal para mostrar en cbxbox				
+								playerAvailable.add(auxPlayer.getName()+ " "+ auxPlayer.getLastname()); // agregar a un arraylist temporal para mostrar en cbxbox				
 							}
 						}		
 					}
@@ -501,16 +556,43 @@ public class ManagementTeam extends JDialog {
 						copyPlayerAvailable = playerAvailable.toArray(copyPlayerAvailable);
 
 						seleccionarjugador = (String) JOptionPane.showInputDialog(null, "Seleccione un jugador", "Seleccionar Jugador",  JOptionPane.QUESTION_MESSAGE,  null,  copyPlayerAvailable, copyPlayerAvailable[0]);
-						Player auxPlayerN = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
 
-						lblSs.setText(seleccionarjugador+ " " +  auxPlayerN.getLastname());
-						Player auxPlayer = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-						auxTeam.addPlayerLineUp(auxPlayer);
+						if (seleccionarjugador != null ) {	
+							nameArrayAvailable = seleccionarjugador.split(" ", 0);
+							Player auxPlayer = Lidom.getInstance().searchPlayerByNameByTeam(nameArrayAvailable[0], nameArrayAvailable[1], auxTeam.getName());
+							int i = 0;
+
+							if (auxTeam.getLineUp().size() > 0) {
+
+								for (Player playel : auxTeam.getLineUp()) {
+
+									if (playel  instanceof Batter) {
+
+										if (((Batter) playel).getPosition().equalsIgnoreCase("Short stop")) {
+											auxTeam.getLineUp().remove(i);
+											auxTeam.getLineUp().add(i, auxPlayer);
+											jugadorRepetido = true;
+
+										}
+									}
+									i++;
+								}
+								
+								
+							}
+							
+							if(jugadorRepetido == false){
+								auxTeam.addPlayerLineUp(auxPlayer);
+							}
+							lblSs.setText(seleccionarjugador+ " " +  auxPlayer.getLastname());
+						} //FALTA MANDAR MENSAJE DE QUE NO ESTA SELECCIONADO MMG
+
 						loadLineUpPlayerByTeam();
+						loadLineUpLabel();
 
 					}
 					catch(ArrayIndexOutOfBoundsException e2){
-						JOptionPane.showMessageDialog(null, "No hay jugadores para esta posición!", "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "No hay jugadores para esta posiciï¿½n!", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			});
@@ -529,11 +611,11 @@ public class ManagementTeam extends JDialog {
 
 					Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
 					ArrayList<String> playerAvailable = new ArrayList<String>();
-
+					boolean jugadorRepetido = false;
 					for (Player auxPlayer : auxTeam.getRosterPlayers()) {
 						if (auxPlayer instanceof Batter) {		
 							if (((Batter) auxPlayer).getPosition().equalsIgnoreCase("Tercera base") && auxPlayer.getLesionado() == false) {
-								playerAvailable.add(auxPlayer.getName()); // agregar a un arraylist temporal para mostrar en cbxbox				
+								playerAvailable.add(auxPlayer.getName() + " " + auxPlayer.getLastname()); // agregar a un arraylist temporal para mostrar en cbxbox				
 							}
 						}		
 					}
@@ -542,16 +624,38 @@ public class ManagementTeam extends JDialog {
 						copyPlayerAvailable = playerAvailable.toArray(copyPlayerAvailable);
 
 						seleccionarjugador = (String) JOptionPane.showInputDialog(null, "Seleccione un jugador", "Seleccionar Jugador",  JOptionPane.QUESTION_MESSAGE,  null,  copyPlayerAvailable, copyPlayerAvailable[0]);
-						Player auxPlayerN = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
 
-						lbl3b.setText(seleccionarjugador+ " " +  auxPlayerN.getLastname());
-						Player auxPlayer = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-						auxTeam.addPlayerLineUp(auxPlayer);
+						if (seleccionarjugador != null ) {
+							nameArrayAvailable = seleccionarjugador.split(" ", 0);
+							Player auxPlayer = Lidom.getInstance().searchPlayerByNameByTeam(nameArrayAvailable[0], nameArrayAvailable[1], auxTeam.getName());
+							int i = 0;
+
+							if (auxTeam.getLineUp().size() > 0) {
+
+								for (Player playel : auxTeam.getLineUp()) {
+
+									if (playel  instanceof Batter) {
+
+										if (((Batter) playel).getPosition().equalsIgnoreCase("Tercera base")) {
+											auxTeam.getLineUp().remove(i);
+											auxTeam.getLineUp().add(i, auxPlayer);  /// para sustituir la posicion en el lineup
+										}
+									}
+									i++;
+								}
+							}if(jugadorRepetido == false){
+								auxTeam.addPlayerLineUp(auxPlayer);
+							}
+							lbl3b.setText(seleccionarjugador+ " " +  auxPlayer.getLastname());
+
+						} //FALTA MANDAR MENSAJE DE QUE NO ESTA SELECCIONADO MMG
+
 						loadLineUpPlayerByTeam();
+						loadLineUpLabel();
 
 					}
 					catch(ArrayIndexOutOfBoundsException e2){
-						JOptionPane.showMessageDialog(null, "No hay jugadores para esta posición!", "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "No hay jugadores para esta posiciï¿½n!", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			});
@@ -567,14 +671,13 @@ public class ManagementTeam extends JDialog {
 			btnP = new JButton("P");
 			btnP.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-
 					Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
 					ArrayList<String> playerAvailable = new ArrayList<String>();
-
+					boolean jugadorRepetido = false;
 					for (Player auxPlayer : auxTeam.getRosterPlayers()) {
 						if (auxPlayer instanceof Pitcher) {		
 							if (auxPlayer.getLesionado() == false) {
-								playerAvailable.add(auxPlayer.getName()); // agregar a un arraylist temporal para mostrar en cbxbox.			
+								playerAvailable.add(auxPlayer.getName() + " " + auxPlayer.getLastname()); // agregar a un arraylist temporal para mostrar en cbxbox.			
 							}
 						}		
 					}
@@ -583,21 +686,36 @@ public class ManagementTeam extends JDialog {
 						copyPlayerAvailable = playerAvailable.toArray(copyPlayerAvailable);
 
 						seleccionarjugador = (String) JOptionPane.showInputDialog(null, "Seleccione un jugador", "Seleccionar Jugador",  JOptionPane.QUESTION_MESSAGE,  null,  copyPlayerAvailable, copyPlayerAvailable[0]);
-						Player auxPlayerN = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-						
-						if (seleccionarjugador!=null) {
-							lblP.setText(seleccionarjugador+ " " +  auxPlayerN.getLastname());
-							Player auxPlayer = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-							auxTeam.addPlayerLineUp(auxPlayer);
+
+						if (seleccionarjugador != null ) {
+							nameArrayAvailable = seleccionarjugador.split(" ", 0);
+							Player auxPlayer = Lidom.getInstance().searchPlayerByNameByTeam(nameArrayAvailable[0], nameArrayAvailable[1], auxTeam.getName());
+							int i = 0;
+
+							if (auxTeam.getLineUp().size() > 0) {
+
+								for (Player playel : auxTeam.getLineUp()) {
+
+									if (playel  instanceof Pitcher) {
+
+										auxTeam.getLineUp().remove(i);
+										auxTeam.getLineUp().add(i, auxPlayer);
+									}
+									i++;
+								}
+
+							}if(jugadorRepetido == false){
+								auxTeam.addPlayerLineUp(auxPlayer);
+							}
+
+							lblP.setText(seleccionarjugador+ " " +  auxPlayer.getLastname());
+
 						}
-
-		
 						loadLineUpPlayerByTeam();
-
-
+						loadLineUpLabel();
 					}
 					catch(ArrayIndexOutOfBoundsException e2){
-						JOptionPane.showMessageDialog(null, "No hay jugadores para esta posición!", "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "No hay jugadores para esta posiciï¿½n!", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			});
@@ -614,14 +732,13 @@ public class ManagementTeam extends JDialog {
 			btnC.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
-
 					Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
 					ArrayList<String> playerAvailable = new ArrayList<String>();
-
+					boolean jugadorRepetido = false;
 					for (Player auxPlayer : auxTeam.getRosterPlayers()) {
 						if (auxPlayer instanceof Batter) {		
 							if (((Batter) auxPlayer).getPosition().equalsIgnoreCase("Catcher") && auxPlayer.getLesionado() == false) {
-								playerAvailable.add(auxPlayer.getName()); // agregar a un arraylist temporal para mostrar en cbxbox				
+								playerAvailable.add(auxPlayer.getName() + " "+ auxPlayer.getLastname()); // agregar a un arraylist temporal para mostrar en cbxbox				
 							}
 						}		
 					}
@@ -630,16 +747,43 @@ public class ManagementTeam extends JDialog {
 						copyPlayerAvailable = playerAvailable.toArray(copyPlayerAvailable);
 
 						seleccionarjugador = (String) JOptionPane.showInputDialog(null, "Seleccione un jugador", "Seleccionar Jugador",  JOptionPane.QUESTION_MESSAGE,  null,  copyPlayerAvailable, copyPlayerAvailable[0]);
-						Player auxPlayerN = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
 
-						lblC.setText(seleccionarjugador+ " " +  auxPlayerN.getLastname());
-						Player auxPlayer = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-						auxTeam.getLineUp().add(auxPlayer);
+						if (seleccionarjugador != null ) {
+							nameArrayAvailable = seleccionarjugador.split(" ", 0);
+							Player auxPlayer = Lidom.getInstance().searchPlayerByNameByTeam(nameArrayAvailable[0], nameArrayAvailable[1], auxTeam.getName());
+							int i = 0;
+
+							if (auxTeam.getLineUp().size() > 0) {
+
+
+								for (Player playel : auxTeam.getLineUp()) {
+
+									if (playel  instanceof Batter) {
+
+										if (((Batter) playel).getPosition().equalsIgnoreCase("Catcher")) {
+											auxTeam.getLineUp().remove(i);
+											auxTeam.getLineUp().add(i, auxPlayer);
+
+										}
+
+									}
+
+
+									i++;
+								}
+							}if(jugadorRepetido == false){
+								auxTeam.addPlayerLineUp(auxPlayer);
+							}
+							lblC.setText(seleccionarjugador+ " " +  auxPlayer.getLastname());
+						} //FALTA MANDAR MENSAJE DE QUE NO ESTA SELECCIONADO MMG
+
+
 						loadLineUpPlayerByTeam();
+						loadLineUpLabel();
 
 					}
 					catch(ArrayIndexOutOfBoundsException e2){
-						JOptionPane.showMessageDialog(null, "No hay jugadores para esta posición!", "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "No hay jugadores para esta posiciï¿½n!", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			});
@@ -669,11 +813,11 @@ public class ManagementTeam extends JDialog {
 
 					Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
 					ArrayList<String> playerAvailable = new ArrayList<String>();
-
+					boolean jugadorRepetido = false;
 					for (Player auxPlayer : auxTeam.getRosterPlayers()) {
 						if (auxPlayer instanceof Batter) {		
 							if (((Batter) auxPlayer).getPosition().equalsIgnoreCase("Primera base") && auxPlayer.getLesionado() == false) {
-								playerAvailable.add(auxPlayer.getName()); // agregar a un arraylist temporal para mostrar en cbxbox				
+								playerAvailable.add(auxPlayer.getName() + " "+auxPlayer.getLastname()); // agregar a un arraylist temporal para mostrar en cbxbox				
 							}
 						}		
 					}
@@ -682,18 +826,43 @@ public class ManagementTeam extends JDialog {
 						copyPlayerAvailable = playerAvailable.toArray(copyPlayerAvailable);
 
 						seleccionarjugador = (String) JOptionPane.showInputDialog(null, "Seleccione un jugador", "Seleccionar Jugador",  JOptionPane.QUESTION_MESSAGE,  null,  copyPlayerAvailable, copyPlayerAvailable[0]);
-						Player auxPlayerN = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
+
+						if (seleccionarjugador != null) {
+							nameArrayAvailable = seleccionarjugador.split(" ", 0);
+							Player auxPlayer = Lidom.getInstance().searchPlayerByNameByTeam(nameArrayAvailable[0], nameArrayAvailable[1], auxTeam.getName());
+							int i = 0;
+
+							if (auxTeam.getLineUp().size() > 0) {
 
 
+								for (Player playel : auxTeam.getLineUp()) {
 
-						lbl1b.setText(seleccionarjugador+ " " +  auxPlayerN.getLastname());
-						Player auxPlayer = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-						auxTeam.addPlayerLineUp(auxPlayer);
+									if (playel  instanceof Batter) {
+
+										if (((Batter) playel).getPosition().equalsIgnoreCase("Primera base")) {
+											auxTeam.getLineUp().remove(i);
+											auxTeam.getLineUp().add(i, auxPlayer);
+
+										}
+
+									}
+
+
+									i++;
+								}
+							}if(jugadorRepetido == false){
+								auxTeam.addPlayerLineUp(auxPlayer);
+							}
+							lbl1b.setText(seleccionarjugador+ " " +  auxPlayer.getLastname());
+						} //FALTA MANDAR MENSAJE DE QUE NO ESTA SELECCIONADO MMG
+
+
 						loadLineUpPlayerByTeam();
+						loadLineUpLabel();
 
 					}
 					catch(ArrayIndexOutOfBoundsException e2){
-						JOptionPane.showMessageDialog(null, "No hay jugadores para esta posición!", "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "No hay jugadores para esta posiciï¿½n!", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			});
@@ -712,11 +881,11 @@ public class ManagementTeam extends JDialog {
 
 					Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
 					ArrayList<String> playerAvailable = new ArrayList<String>();
-
+					boolean jugadorRepetido = false;
 					for (Player auxPlayer : auxTeam.getRosterPlayers()) {
 						if (auxPlayer instanceof Batter) {		
 							if (((Batter) auxPlayer).getPosition().equalsIgnoreCase("Segunda base") && auxPlayer.getLesionado() == false) {
-								playerAvailable.add(auxPlayer.getName()); // agregar a un arraylist temporal para mostrar en cbxbox				
+								playerAvailable.add(auxPlayer.getName() + " " + auxPlayer.getLastname()); // agregar a un arraylist temporal para mostrar en cbxbox				
 							}
 						}		
 					}
@@ -725,17 +894,45 @@ public class ManagementTeam extends JDialog {
 						copyPlayerAvailable = playerAvailable.toArray(copyPlayerAvailable);
 
 						seleccionarjugador = (String) JOptionPane.showInputDialog(null, "Seleccione un jugador", "Seleccionar Jugador",  JOptionPane.QUESTION_MESSAGE,  null,  copyPlayerAvailable, copyPlayerAvailable[0]);
-						Player auxPlayerN = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
+
+						if (seleccionarjugador != null) {
+
+							nameArrayAvailable = seleccionarjugador.split(" ", 0);
+							Player auxPlayer = Lidom.getInstance().searchPlayerByNameByTeam(nameArrayAvailable[0], nameArrayAvailable[1], auxTeam.getName());
+							int i = 0;
+
+							if (auxTeam.getLineUp().size() > 0) {
 
 
-						lbl2b.setText(seleccionarjugador+ " " +  auxPlayerN.getLastname());
-						Player auxPlayer = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-						auxTeam.addPlayerLineUp(auxPlayer);
+								for (Player playel : auxTeam.getLineUp()) {
+
+									if (playel  instanceof Batter) {
+
+										if (((Batter) playel).getPosition().equalsIgnoreCase("Segunda base")) {
+											auxTeam.getLineUp().remove(i);
+											auxTeam.getLineUp().add(i, auxPlayer);
+
+										}
+
+									}
+
+
+									i++;
+								}
+							}if(jugadorRepetido == false){
+								auxTeam.addPlayerLineUp(auxPlayer);
+							}
+							lbl2b.setText(seleccionarjugador+ " " +  auxPlayer.getLastname());
+
+						} //FALTA MANDAR MENSAJE DE QUE NO ESTA SELECCIONADO MMG
+
+
 						loadLineUpPlayerByTeam();
+						loadLineUpLabel();
 
 					}
 					catch(ArrayIndexOutOfBoundsException e2){
-						JOptionPane.showMessageDialog(null, "No hay jugadores para esta posición!", "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "No hay jugadores para esta posiciï¿½n!", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			});
@@ -753,11 +950,11 @@ public class ManagementTeam extends JDialog {
 				public void actionPerformed(ActionEvent e) {
 					Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
 					ArrayList<String> playerAvailable = new ArrayList<String>();
-
+					boolean jugadorRepetido = false;
 					for (Player auxPlayer : auxTeam.getRosterPlayers()) {
 						if (auxPlayer instanceof Batter) {		
 							if (((Batter) auxPlayer).getPosition().equalsIgnoreCase("Right fielder") && auxPlayer.getLesionado() == false) {
-								playerAvailable.add(auxPlayer.getName()); // agregar a un arraylist temporal para mostrar en cbxbox				
+								playerAvailable.add(auxPlayer.getName() + " " + auxPlayer.getLastname()); // agregar a un arraylist temporal para mostrar en cbxbox				
 							}
 						}		
 					}
@@ -766,19 +963,44 @@ public class ManagementTeam extends JDialog {
 						copyPlayerAvailable = playerAvailable.toArray(copyPlayerAvailable);
 
 						seleccionarjugador = (String) JOptionPane.showInputDialog(null, "Seleccione un jugador", "Seleccionar Jugador",  JOptionPane.QUESTION_MESSAGE,  null,  copyPlayerAvailable, copyPlayerAvailable[0]);
-						Player auxPlayerN = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-						if (seleccionarjugador !=null) {
-							lblRf.setText(seleccionarjugador+ " " +  auxPlayerN.getLastname());
-							Player auxPlayer = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-							auxTeam.addPlayerLineUp(auxPlayer);
-							loadLineUpPlayerByTeam();
 
-						}
+						if (seleccionarjugador != null) {
 
+							nameArrayAvailable = seleccionarjugador.split(" ", 0);
+							Player auxPlayer = Lidom.getInstance().searchPlayerByNameByTeam(nameArrayAvailable[0], nameArrayAvailable[1], auxTeam.getName());
+							int i = 0;
+
+							if (auxTeam.getLineUp().size() > 0) {
+
+
+								for (Player playel : auxTeam.getLineUp()) {
+
+									if (playel  instanceof Batter) {
+
+										if (((Batter) playel).getPosition().equalsIgnoreCase("Right fielder")) {
+											auxTeam.getLineUp().remove(i);
+											auxTeam.getLineUp().add(i, auxPlayer);
+
+										}
+
+									}
+
+
+									i++;
+								}
+							}if(jugadorRepetido == false){
+								auxTeam.addPlayerLineUp(auxPlayer);
+							}
+							lblRf.setText(seleccionarjugador+ " " +  auxPlayer.getLastname());
+						} //FALTA MANDAR MENSAJE DE QUE NO ESTA SELECCIONADO MMG
+
+
+						loadLineUpPlayerByTeam();
+						loadLineUpLabel();
 
 					}
 					catch(ArrayIndexOutOfBoundsException e2){
-						JOptionPane.showMessageDialog(null, "No hay jugadores para esta posición!", "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "No hay jugadores para esta posiciï¿½n!", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			});
@@ -790,18 +1012,18 @@ public class ManagementTeam extends JDialog {
 			bntRf.setBackground(new Color(4, 10, 20));
 			bntRf.setBounds(566, 91, 60, 37);
 			panelLineUp.add(bntRf);
-			
+
 			btnBD = new JButton("BD");
 			btnBD.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
 					Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
 					ArrayList<String> playerAvailable = new ArrayList<String>();
-
+					boolean jugadorRepetido = false;
 					for (Player auxPlayer : auxTeam.getRosterPlayers()) {
 						if (auxPlayer instanceof Batter) {		
-							if (((Batter) auxPlayer).getPosition().equalsIgnoreCase("Segunda base") && auxPlayer.getLesionado() == false) {
-								playerAvailable.add(auxPlayer.getName()); // agregar a un arraylist temporal para mostrar en cbxbox				
+							if (((Batter) auxPlayer).getPosition().equalsIgnoreCase("Designado") && auxPlayer.getLesionado() == false) {
+								playerAvailable.add(auxPlayer.getName() + " " +auxPlayer.getLastname()); // agregar a un arraylist temporal para mostrar en cbxbox				
 							}
 						}		
 					}
@@ -810,17 +1032,44 @@ public class ManagementTeam extends JDialog {
 						copyPlayerAvailable = playerAvailable.toArray(copyPlayerAvailable);
 
 						seleccionarjugador = (String) JOptionPane.showInputDialog(null, "Seleccione un jugador", "Seleccionar Jugador",  JOptionPane.QUESTION_MESSAGE,  null,  copyPlayerAvailable, copyPlayerAvailable[0]);
-						Player auxPlayerN = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
+
+						if (seleccionarjugador != null ) {
+
+							nameArrayAvailable = seleccionarjugador.split(" ", 0);
+							Player auxPlayer = Lidom.getInstance().searchPlayerByNameByTeam(nameArrayAvailable[0], nameArrayAvailable[1], auxTeam.getName());
+							int i = 0;
+
+							if (auxTeam.getLineUp().size() > 0) {
 
 
-						lblBD.setText(seleccionarjugador+ " " +  auxPlayerN.getLastname());
-						Player auxPlayer = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-						auxTeam.addPlayerLineUp(auxPlayer);
+								for (Player playel : auxTeam.getLineUp()) {
+
+									if (playel  instanceof Batter) {
+
+										if (((Batter) playel).getPosition().equalsIgnoreCase("Designado")) {
+											auxTeam.getLineUp().remove(i);
+											auxTeam.getLineUp().add(i, auxPlayer);
+
+										}
+
+									}
+
+
+									i++;
+								}
+							}if(jugadorRepetido == false){
+								auxTeam.addPlayerLineUp(auxPlayer);
+							}
+							lblBD.setText(seleccionarjugador+ " " +  auxPlayer.getLastname());
+						} //FALTA MANDAR MENSAJE DE QUE NO ESTA SELECCIONADO MMG
+
+
 						loadLineUpPlayerByTeam();
+						loadLineUpLabel();
 
 					}
 					catch(ArrayIndexOutOfBoundsException e2){
-						JOptionPane.showMessageDialog(null, "No hay jugadores para esta posición!", "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "No hay jugadores para esta posiciï¿½n!", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			});
@@ -877,7 +1126,7 @@ public class ManagementTeam extends JDialog {
 			lblC.setFont(new Font("Consolas", Font.ITALIC, 11));
 			lblC.setBounds(312, 430, 142, 16);
 			panelLineUp.add(lblC);
-			
+
 			lblBD = new JLabel("");
 			lblBD.setFont(new Font("Consolas", Font.ITALIC, 11));
 			lblBD.setBounds(329, 368, 125, 16);
@@ -1122,26 +1371,26 @@ public class ManagementTeam extends JDialog {
 			separator_2.setBounds(476, 95, 2, 27);
 			panelPerfilJugador.add(separator_2);
 
-			button = new JButton("");
-			button.addActionListener(new ActionListener() {
+			btnModifyPlayer = new JButton("");
+			btnModifyPlayer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					Player auxPlayer = Lidom.getInstance().searchPlayerByID(codeJugadorRoster);
-					AddPlayer modplayer = new AddPlayer(auxPlayer);
+					AddPlayer modplayer = new AddPlayer(auxPlayer, myTeam.getName());
 					modplayer.setModal(true);
 					modplayer.setVisible(true);
-					
+
 				}
 			});
-			button.setIcon(new ImageIcon(ManagementTeam.class.getResource("/iconos_imagenes/icons8_edit_property_36px_1.png")));
-			button.setToolTipText("Modificar jugador.");
-			button.setIconTextGap(5);
-			button.setHorizontalTextPosition(SwingConstants.RIGHT);
-			button.setForeground(new Color(255, 255, 240));
-			button.setFont(new Font("Consolas", Font.BOLD, 20));
-			button.setBorder(null);
-			button.setBackground(new Color(4, 10, 20));
-			button.setBounds(721, 44, 38, 37);
-			panelPerfilJugador.add(button);
+			btnModifyPlayer.setIcon(new ImageIcon(ManagementTeam.class.getResource("/iconos_imagenes/icons8_edit_property_36px_1.png")));
+			btnModifyPlayer.setToolTipText("Modificar jugador.");
+			btnModifyPlayer.setIconTextGap(5);
+			btnModifyPlayer.setHorizontalTextPosition(SwingConstants.RIGHT);
+			btnModifyPlayer.setForeground(new Color(255, 255, 240));
+			btnModifyPlayer.setFont(new Font("Consolas", Font.BOLD, 20));
+			btnModifyPlayer.setBorder(null);
+			btnModifyPlayer.setBackground(new Color(4, 10, 20));
+			btnModifyPlayer.setBounds(721, 44, 38, 37);
+			panelPerfilJugador.add(btnModifyPlayer);
 
 			panel = new JPanel();
 			panel.setBounds(10, 271, 749, 241);
@@ -2004,14 +2253,14 @@ public class ManagementTeam extends JDialog {
 			label_29.setFont(new Font("Consolas", Font.PLAIN, 20));
 			label_29.setBounds(478, 147, 85, 31);
 			panelEstadisticaPitcher.add(label_29);
-			
+
 			btnEliminarJugador = new JButton("");
 			btnEliminarJugador.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+
 					ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
 					String[] options = {"Si", "No"};	
-					int xOption	= JOptionPane.showOptionDialog(null, "¿Seguro que desea eliminar el jugador? " + codeJugadorRoster, "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
+					int xOption	= JOptionPane.showOptionDialog(null, "ï¿½Seguro que desea eliminar el jugador? " + codeJugadorRoster, "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
 
 					if (xOption == 0) {
 						Player auxPlayer = Lidom.getInstance().searchPlayerByID(codeJugadorRoster);
@@ -2022,7 +2271,7 @@ public class ManagementTeam extends JDialog {
 						String[] options1 = {"Ok"};	
 						JOptionPane.showOptionDialog(null, "Eliminado con exito!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1);
 						loadRosterPlayerByTeam();
-						
+
 					}
 				}
 			});
@@ -2043,6 +2292,33 @@ public class ManagementTeam extends JDialog {
 			panelFondo.add(scrollPaneLineUp);
 
 			tableLineUp = new JTable();
+			tableLineUp.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					int index = tableLineUp.getSelectedRow();
+					codePlayer = (String) tableLineUp.getModel().getValueAt(index, 0);
+					namePlayer = (String) tableLineUp.getModel().getValueAt(index, 1);
+
+					ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
+					String[] options = {"Si", "No"};	
+					int xOption	= JOptionPane.showOptionDialog(null, "ï¿½Seguro que desea eliminar el jugador del lineUp? " + codePlayer + namePlayer, "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
+
+					if (xOption == 0) {
+
+						Player auxPlayer = Lidom.getInstance().searchPlayerByID(codePlayer);
+						myTeam.getLineUp().remove(auxPlayer);
+
+						ImageIcon icon1 = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_checked_48px_1.png"));
+						String[] options1 = {"Ok"};	
+						JOptionPane.showOptionDialog(null, "Eliminado con exito!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1);
+
+						loadLineUpLabel();
+						loadLineUpPlayerByTeam();
+
+					}
+
+				}
+			});
 			tableLineUp.setRowMargin(0);
 			tableLineUp .setFocusable(false);
 			tableLineUp.setRowHeight(20);
@@ -2337,65 +2613,52 @@ public class ManagementTeam extends JDialog {
 			});
 			scrollPaneLesionados.setViewportView(tableLesionados);
 
-			btnNa_1 = new JButton("n/a");
+			btnNa_1 = new JButton("Jugador");
+			btnNa_1.setIcon(new ImageIcon(ManagementTeam.class.getResource("/iconos_imagenes/icons8_add_36px_1.png")));
 			btnNa_1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					AddPlayer player = new AddPlayer(null, myTeam.getName());
+					player.setModal(true);
+					player.setVisible(true);
 				}
 			});
-			btnNa_1.setToolTipText("Quitar Lesi\u00F3n");
+			btnNa_1.setToolTipText("Agregar jugador al equipo.");
 			btnNa_1.setIconTextGap(5);
 			btnNa_1.setHorizontalTextPosition(SwingConstants.RIGHT);
 			btnNa_1.setForeground(new Color(255, 255, 240));
 			btnNa_1.setFont(new Font("Consolas", Font.BOLD, 20));
-			btnNa_1.setEnabled(false);
 			btnNa_1.setBorder(null);
 			btnNa_1.setBackground(new Color(4, 10, 20));
-			btnNa_1.setBounds(992, 157, 170, 37);
+			btnNa_1.setBounds(992, 107, 170, 37);
 			panelFondo.add(btnNa_1);
 
-			btnNa = new JButton("n/a");
-			btnNa.addActionListener(new ActionListener() {
+			btnAddPlayerTeam = new JButton("Temporal");
+			btnAddPlayerTeam.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					//myTeam.getLineUp().removeAll(myTeam.getLineUp());
-				//	myTeam.getRosterPlayers().remove(2);
+					myTeam.getLineUp().removeAll(myTeam.getLineUp());
+					//	myTeam.getRosterPlayers().remove(2);
 				}
 			});
-			btnNa.setToolTipText("Quitar Lesi\u00F3n");
-			btnNa.setIconTextGap(5);
-			btnNa.setHorizontalTextPosition(SwingConstants.RIGHT);
-			btnNa.setForeground(new Color(255, 255, 240));
-			btnNa.setFont(new Font("Consolas", Font.BOLD, 20));
-			btnNa.setBorder(null);
-			btnNa.setBackground(new Color(4, 10, 20));
-			btnNa.setBounds(992, 107, 170, 37);
-			panelFondo.add(btnNa);
+			btnAddPlayerTeam.setToolTipText("");
+			btnAddPlayerTeam.setIconTextGap(5);
+			btnAddPlayerTeam.setHorizontalTextPosition(SwingConstants.RIGHT);
+			btnAddPlayerTeam.setForeground(new Color(255, 255, 240));
+			btnAddPlayerTeam.setFont(new Font("Consolas", Font.BOLD, 20));
+			btnAddPlayerTeam.setBorder(null);
+			btnAddPlayerTeam.setBackground(new Color(4, 10, 20));
+			btnAddPlayerTeam.setBounds(955, 236, 170, 37);
+			panelFondo.add(btnAddPlayerTeam);
 
-			btnNa_3 = new JButton("n/a");
-			btnNa_3.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-				}
-			});
-			btnNa_3.setToolTipText("Quitar Lesi\u00F3n");
-			btnNa_3.setIconTextGap(5);
-			btnNa_3.setHorizontalTextPosition(SwingConstants.RIGHT);
-			btnNa_3.setForeground(new Color(255, 255, 240));
-			btnNa_3.setFont(new Font("Consolas", Font.BOLD, 20));
-			btnNa_3.setEnabled(false);
-			btnNa_3.setBorder(null);
-			btnNa_3.setBackground(new Color(4, 10, 20));
-			btnNa_3.setBounds(810, 207, 170, 37);
-			panelFondo.add(btnNa_3);
-
-			btnNa_2 = new JButton("n/a");
-			btnNa_2.setToolTipText("Quitar Lesi\u00F3n");
+			btnNa_2 = new JButton("Equipo");
+			btnNa_2.setIcon(new ImageIcon(ManagementTeam.class.getResource("/iconos_imagenes/icons8_statistics_36px.png")));
+			btnNa_2.setToolTipText("Estadist\u00EDcas del equipo.");
 			btnNa_2.setIconTextGap(5);
 			btnNa_2.setHorizontalTextPosition(SwingConstants.RIGHT);
 			btnNa_2.setForeground(new Color(255, 255, 240));
 			btnNa_2.setFont(new Font("Consolas", Font.BOLD, 20));
-			btnNa_2.setEnabled(false);
 			btnNa_2.setBorder(null);
 			btnNa_2.setBackground(new Color(4, 10, 20));
-			btnNa_2.setBounds(992, 207, 170, 37);
+			btnNa_2.setBounds(992, 157, 170, 37);
 			panelFondo.add(btnNa_2);
 			/**********************************************************/		
 
@@ -2403,9 +2666,9 @@ public class ManagementTeam extends JDialog {
 		}
 		loadInjuryPlayerByTeam();
 		loadRosterPlayerByTeam();
-		loadGamesByTeam();
 		loadLineUpPlayerByTeam();
-
+		loadGamesByTeam();
+		loadLineUpLabel();
 
 
 	}
@@ -2478,7 +2741,6 @@ public class ManagementTeam extends JDialog {
 
 		}
 	}
-
 
 	public static void loadPerfilPlayer(String codePlayer) {
 		Player auxP = Lidom.getInstance().searchPlayerByID(codePlayer);
@@ -2630,25 +2892,28 @@ public class ManagementTeam extends JDialog {
 					lbl2b.setText(auxP.getName()+ " " + auxP.getLastname());
 				}
 				if(((Batter) auxP).getPosition().equalsIgnoreCase("Tercera base")){
-					lbl2b.setText(auxP.getName()+ " " + auxP.getLastname());
+					lbl3b.setText(auxP.getName()+ " " + auxP.getLastname());
 				}
 				if(((Batter) auxP).getPosition().equalsIgnoreCase("Catcher")){
-					lbl2b.setText(auxP.getName()+ " " + auxP.getLastname());
+					lblC.setText(auxP.getName()+ " " + auxP.getLastname());
 				}
 				if(((Batter) auxP).getPosition().equalsIgnoreCase("Left fielder")){
-					lbl2b.setText(auxP.getName()+ " " + auxP.getLastname());
+					lblLf.setText(auxP.getName()+ " " + auxP.getLastname());
 				}
 				if(((Batter) auxP).getPosition().equalsIgnoreCase("Primera base")){
-					lbl2b.setText(auxP.getName()+ " " + auxP.getLastname());
+					lbl1b.setText(auxP.getName()+ " " + auxP.getLastname());
 				}
 				if(((Batter) auxP).getPosition().equalsIgnoreCase("Right fielder")){
-					lbl2b.setText(auxP.getName()+ " " + auxP.getLastname());
+					lblRf.setText(auxP.getName()+ " " + auxP.getLastname());
 				}
 				if(((Batter) auxP).getPosition().equalsIgnoreCase("Center fielder")){
-					lbl2b.setText(auxP.getName()+ " " + auxP.getLastname());
+					lblCf.setText(auxP.getName()+ " " + auxP.getLastname());
 				}
 				if(((Batter) auxP).getPosition().equalsIgnoreCase("Short stop")){
-					lbl2b.setText(auxP.getName()+ " " + auxP.getLastname());
+					lblSs.setText(auxP.getName()+ " " + auxP.getLastname());
+				}
+				if(((Batter) auxP).getPosition().equalsIgnoreCase("Designado")){
+					lblBD.setText(auxP.getName()+ " " + auxP.getLastname());
 				}
 
 			}

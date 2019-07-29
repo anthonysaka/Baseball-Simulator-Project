@@ -351,7 +351,6 @@ public class ViewGame extends JDialog {
 		column = new Object[model.getColumnCount()];
 		model.setRowCount(0);
 	
-		
 
 		for (int i = 0; i < Lidom.getInstance().getListGame().size(); i++) {
 			column[0] = Lidom.getInstance().getListGame().get(i).getHomeTeam();

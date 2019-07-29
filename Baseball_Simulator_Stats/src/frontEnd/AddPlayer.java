@@ -178,6 +178,7 @@ public class AddPlayer extends JDialog {
 	private JSeparator separator_8;
 
 	private Player myPlayer;
+	private String nameEquipo;
 	private JLabel lblFotoJugador;
 	private JComboBox cbxManoBateo;
 	private JLabel lblManoBateo;
@@ -186,11 +187,12 @@ public class AddPlayer extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public AddPlayer(Player player) {
+	public AddPlayer(Player player, String nameTeam) {
 		if (player!=null) {
 			myPlayer = Lidom.getInstance().searchPlayerByID(player.getId());
 
 		}
+	this.nameEquipo = nameTeam;
 	
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setUndecorated(true);
@@ -1894,7 +1896,7 @@ public class AddPlayer extends JDialog {
 					String[] options = {"Si", "No"};	
 
 
-					if (typePlayer == 0) {
+					if (typePlayer == 0 || nameEquipo != null) {
 						int xOption	= JOptionPane.showOptionDialog(null, "¿Seguro que desea cancelar?, la ventana se cerrará.", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
 						if (xOption == 0) {
 							typePlayer = 0;
@@ -1902,7 +1904,7 @@ public class AddPlayer extends JDialog {
 						}
 
 					}
-					else if (typePlayer !=0) {
+					else if (typePlayer !=0 ) {
 
 						int xOption	= JOptionPane.showOptionDialog(null, "Seguro que desea cancelar el tipo de jugador?", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
 						if (xOption == 0) {
@@ -1928,7 +1930,7 @@ public class AddPlayer extends JDialog {
 			panelBg.add(btnCancelarJugador);
 		}
 
-	loadTeamsCbx();
+	loadTeamsCbx(nameEquipo);
 	loadPlayerData();
 	controlStats();
 		
@@ -2018,7 +2020,6 @@ public class AddPlayer extends JDialog {
 		
 	}
 
-
 	/* Metodos */
 
 	private void clean() {
@@ -2096,7 +2097,7 @@ public class AddPlayer extends JDialog {
 
 	}
 
-	private void loadTeamsCbx() {
+	private void loadTeamsCbx(String nameTeam) {
 
 		cbxEquipoBat.removeAllItems();
 		cbxEquipoPit.removeAllItems();
@@ -2105,12 +2106,21 @@ public class AddPlayer extends JDialog {
 			cbxEquipoBat.addItem(t.getName());
 			cbxEquipoPit.addItem(t.getName());
 		}
+		
+		if (nameTeam == null) {
+		
+			cbxEquipoBat.insertItemAt(new String("<Seleccionar"), 0);
+			cbxEquipoPit.insertItemAt(new String("<Seleccionar"), 0);
+			cbxEquipoBat.setSelectedIndex(0);
+			cbxEquipoPit.setSelectedIndex(0);
+		}else {
+			cbxEquipoBat.setSelectedItem(nameTeam);
+			cbxEquipoPit.setSelectedItem(nameTeam);
+			cbxEquipoBat.setEnabled(false);
+			cbxEquipoPit.setEnabled(false);
+		}
 
-
-		cbxEquipoBat.insertItemAt(new String("<Seleccionar"), 0);
-		cbxEquipoPit.insertItemAt(new String("<Seleccionar"), 0);
-		cbxEquipoBat.setSelectedIndex(0);
-		cbxEquipoPit.setSelectedIndex(0);
+		
 
 	}
 

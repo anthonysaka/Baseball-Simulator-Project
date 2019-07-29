@@ -234,8 +234,8 @@ public class AddInjury extends JDialog {
 				cbxTipoLesion.setEnabled(false);
 
 			}
-			cbxTipoLesion.setModel(new DefaultComboBoxModel(new String[] {"<Seleccionar>"," Lesiones musculares", "Fracturas", " Ampollas","Rotura fibrilar o desgarro muscular",
-					"Esguinces","Lesiones o desgarros del ligamento colateral medial (LCM) del codo"}));
+			cbxTipoLesion.setModel(new DefaultComboBoxModel(new String[] {"<Seleccionar>","Lesiones musculares", "Fracturas", "Ampollas","Desgarro muscular",
+					"Esguinces","Lesion de codo"}));
 			cbxTipoLesion.setSelectedIndex(0);
 			cbxTipoLesion.setFont(new Font("Consolas", Font.PLAIN, 18));
 			cbxTipoLesion.setBounds(358, 224, 270, 30);
@@ -276,6 +276,7 @@ public class AddInjury extends JDialog {
 			dateChooser = new RSDateChooser();
 			if (quitar) {
 				dateChooser.setEnabled(false);
+				dateChooser.setFocusable(false);
 
 			}
 			dateChooser.setPlaceholder("");

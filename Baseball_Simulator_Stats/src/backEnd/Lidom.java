@@ -201,6 +201,22 @@ public class Lidom implements Serializable {
 		}
 		return auxPlayer; //Retorna el JUGADOR del NOMBRE encontrado.
 	}
+	
+	public Player searchPlayerByNameByTeam(String namePlayer, String lastname, String nameTeam) {
+		Player auxPlayer = null;
+		boolean found = false;
+		int i = 0;
+
+		while (!found && i < listPlayer.size()) {
+			if(listPlayer.get(i).getName().equalsIgnoreCase(namePlayer) && listPlayer.get(i).getLastname().equalsIgnoreCase(lastname)
+					&& listPlayer.get(i).getTeamName().equalsIgnoreCase(nameTeam)) {
+				found = true;
+				auxPlayer = listPlayer.get(i);
+			}
+			i++;
+		}
+		return auxPlayer; //Retorna el JUGADOR del NOMBRE encontrado.
+	}
 
 	//Search Team by ID.
 	public Team searchTeamByID(String idTeam) {

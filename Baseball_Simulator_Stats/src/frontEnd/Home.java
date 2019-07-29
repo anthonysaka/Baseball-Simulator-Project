@@ -45,6 +45,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
+import java.awt.FlowLayout;
+import javax.swing.JInternalFrame;
 
 public class Home extends JFrame implements Runnable {
 
@@ -208,8 +210,8 @@ public class Home extends JFrame implements Runnable {
 	public static int turno=0;
 	private JButton btnListar;
 	private JPanel panel_1;
-	private JLabel label;
-	private JLabel label_10;
+	private static JLabel lblName;
+	private static JLabel lblFotoJugador;
 	private JLabel label_11;
 	private JLabel lblEstadsticasBateadorEn;
 	private JSeparator separator_3;
@@ -233,7 +235,7 @@ public class Home extends JFrame implements Runnable {
 	private JLabel label_21;
 	private JTextField textField_33;
 	private JLabel label_22;
-	private JLabel lblb;
+	private static JLabel lblNumero;
 
 
 
@@ -786,7 +788,7 @@ public class Home extends JFrame implements Runnable {
 		btnButtonNa.setBackground(new Color(4, 10, 20));
 		btnButtonNa.setBounds(12, 348, 307, 37);
 		panelMenuLateral.add(btnButtonNa);
-		panelMenuEstadio.setBounds(693, 50, 170, 59);
+		panelMenuEstadio.setBounds(693, 50, 170, 141);
 		panelMenuEstadio.setBackground(new Color(0, 30, 72));
 		panelBackGround.add(panelMenuEstadio);
 		panelMenuEstadio.setLayout(null);
@@ -854,7 +856,7 @@ public class Home extends JFrame implements Runnable {
 		btnListarEstadio.setBackground(new Color(0, 30, 72));
 		btnListarEstadio.setBounds(0, 76, 170, 50);
 		panelMenuEstadio.add(btnListarEstadio);
-		panelMenuEquipo.setBounds(329, 50, 170, 59);
+		panelMenuEquipo.setBounds(329, 50, 170, 141);
 		panelBackGround.add(panelMenuEquipo);
 		panelMenuEquipo.setLayout(null);
 
@@ -965,7 +967,7 @@ public class Home extends JFrame implements Runnable {
 				ImageIcon icon1 = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
 
 				if (backEnd.Lidom.getInstance().getListTeams().size() > 0) {
-					AddPlayer newPlayer = new AddPlayer(null);
+					AddPlayer newPlayer = new AddPlayer(null,null);
 					newPlayer.setModal(true);
 					newPlayer.setVisible(true);
 
@@ -1279,8 +1281,9 @@ public class Home extends JFrame implements Runnable {
 		panelPartidosDashboard.setBackground(new Color(0, 0, 0,60));
 		panelPartidosDashboard.setOpaque(false);
 
-		panelPartidosDashboard.setBounds(1267, 13, 590, 883);
+		panelPartidosDashboard.setBounds(1283, 13, 590, 883);
 		panelBgDashboard.add(panelPartidosDashboard);
+		panelPartidosDashboard.setLayout(null);
 
 		lblPlay_Blur = new JLabel("");
 		lblPlay_Blur.setBounds(0, 0, 1910, 957);
@@ -2222,6 +2225,7 @@ public class Home extends JFrame implements Runnable {
 		tableGameLocal.setSelectionBackground(new Color(239, 108, 0));
 		tableGameLocal.getTableHeader().setFont(new Font("Consolas", Font.BOLD, 18));
 		tableGameLocal.getTableHeader().setOpaque(false);
+		
 
 		tableGameLocal.getTableHeader().setBackground(new Color(255,255,255));
 		tableGameLocal.setOpaque(false);
@@ -2404,13 +2408,20 @@ public class Home extends JFrame implements Runnable {
 		btnH = new JButton("H");
 		btnH.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Player auxPlayer = Lidom.getInstance().searchPlayerByName(lblBateador.getText());
-				//Para aumentar hits del que bateo.
-				((Batter) auxPlayer).setNumeroHitparapromedio((((Batter)auxPlayer).getNumeroHitparapromedio()) + 1);
-				((Batter) auxPlayer).setH1(((Batter)auxPlayer).getH1() + 1);
-
 				incrementTurno();
+				Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+				String codePlayer = auxEquipoBateando.getLineUp().get(turno).getId();
+				loadPerfilPlayerSimulation(codePlayer);
 				bateadorQueEstaBateando(lblEquipOfen.getText());
+				
+			
+		//		Player auxPlayer = Lidom.getInstance().searchPlayerByName(lblBateador.getText());
+				//Para aumentar hits del que bateo.
+		//		((Batter) auxPlayer).setNumeroHitparapromedio((((Batter)auxPlayer).getNumeroHitparapromedio()) + 1);
+		//		((Batter) auxPlayer).setH1(((Batter)auxPlayer).getH1() + 1);
+
+				
+				
 
 			}
 		});
@@ -2426,11 +2437,16 @@ public class Home extends JFrame implements Runnable {
 		btnH_1 = new JButton("H2");
 		btnH_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				Player auxPlayer = Lidom.getInstance().searchPlayerByName(lblBateador.getText());
+				incrementTurno();
+				Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+				String codePlayer = auxEquipoBateando.getLineUp().get(turno).getId();
+				loadPerfilPlayerSimulation(codePlayer);
+				bateadorQueEstaBateando(lblEquipOfen.getText());
+				
+			//	Player auxPlayer = Lidom.getInstance().searchPlayerByName(lblBateador.getText());
 				//Para aumentar hits del que bateo.
-				((Batter) auxPlayer).setNumeroHitparapromedio((((Batter)auxPlayer).getNumeroHitparapromedio()) + 1);
-				((Batter) auxPlayer).setH2(((Batter)auxPlayer).getH2() + 1);
+			//	((Batter) auxPlayer).setNumeroHitparapromedio((((Batter)auxPlayer).getNumeroHitparapromedio()) + 1);
+			//	((Batter) auxPlayer).setH2(((Batter)auxPlayer).getH2() + 1);
 
 			}
 		});
@@ -2446,11 +2462,16 @@ public class Home extends JFrame implements Runnable {
 		btnOut = new JButton("S.O");
 		btnOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				Player auxPlayer = Lidom.getInstance().searchPlayerByName(lblBateador.getText());
-				//Para aumentar hits del que bateo.
-				//	((Batter) auxPlayer).setNumeroHitparapromedio((((Batter)auxPlayer).getNumeroHitparapromedio()) + 1);
-				((Batter) auxPlayer).setStrikeOut(((Batter)auxPlayer).getStrikeOut() + 1);
+				incrementTurno();
+				Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+				String codePlayer = auxEquipoBateando.getLineUp().get(turno).getId();
+				loadPerfilPlayerSimulation(codePlayer);
+				bateadorQueEstaBateando(lblEquipOfen.getText());
+				
+			//	Player auxPlayer = Lidom.getInstance().searchPlayerByName(lblBateador.getText());
+			//	//Para aumentar hits del que bateo.
+			//	//	((Batter) auxPlayer).setNumeroHitparapromedio((((Batter)auxPlayer).getNumeroHitparapromedio()) + 1);
+			//	((Batter) auxPlayer).setStrikeOut(((Batter)auxPlayer).getStrikeOut() + 1);
 
 			}
 		});
@@ -2466,11 +2487,16 @@ public class Home extends JFrame implements Runnable {
 		btnHr = new JButton("HR");
 		btnHr.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				Player auxPlayer = Lidom.getInstance().searchPlayerByName(lblBateador.getText());
-				//Para aumentar hits del que bateo.
-				((Batter) auxPlayer).setNumeroHitparapromedio((((Batter)auxPlayer).getNumeroHitparapromedio()) + 1);
-				((Batter) auxPlayer).setHR(((Batter)auxPlayer).getHR() + 1);
+				incrementTurno();
+				Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+				String codePlayer = auxEquipoBateando.getLineUp().get(turno).getId();
+				loadPerfilPlayerSimulation(codePlayer);
+				bateadorQueEstaBateando(lblEquipOfen.getText());
+				
+			//	Player auxPlayer = Lidom.getInstance().searchPlayerByName(lblBateador.getText());
+			//	//Para aumentar hits del que bateo.
+			//	((Batter) auxPlayer).setNumeroHitparapromedio((((Batter)auxPlayer).getNumeroHitparapromedio()) + 1);
+			//	((Batter) auxPlayer).setHR(((Batter)auxPlayer).getHR() + 1);
 			}
 		});
 		btnHr.setBounds(226, 50, 60, 37);
@@ -2485,11 +2511,16 @@ public class Home extends JFrame implements Runnable {
 		btnH_2 = new JButton("H3");
 		btnH_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				Player auxPlayer = Lidom.getInstance().searchPlayerByName(lblBateador.getText());
+				incrementTurno();
+				Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+				String codePlayer = auxEquipoBateando.getLineUp().get(turno).getId();
+				loadPerfilPlayerSimulation(codePlayer);
+				bateadorQueEstaBateando(lblEquipOfen.getText());
+				
+				//Player auxPlayer = Lidom.getInstance().searchPlayerByName(lblBateador.getText());
 				//Para aumentar hits del que bateo.
-				((Batter) auxPlayer).setNumeroHitparapromedio((((Batter)auxPlayer).getNumeroHitparapromedio()) + 1);
-				((Batter) auxPlayer).setH3(((Batter)auxPlayer).getH3() + 1);
+			//	((Batter) auxPlayer).setNumeroHitparapromedio((((Batter)auxPlayer).getNumeroHitparapromedio()) + 1);
+			//	((Batter) auxPlayer).setH3(((Batter)auxPlayer).getH3() + 1);
 			}
 		});
 		btnH_2.setBounds(154, 50, 60, 37);
@@ -2613,27 +2644,28 @@ public class Home extends JFrame implements Runnable {
 			
 			}
 		};
+		panel_1.setOpaque(false);
 		panel_1.setLayout(null);
 		panel_1.setBackground(new Color(0, 0, 0, 60));
 		panel_1.setBounds(1500, 13, 398, 509);
 		panelGameSimulation.add(panel_1);
 		
-		label = new JLabel();
-		label.setVerticalTextPosition(SwingConstants.BOTTOM);
-		label.setVerticalAlignment(SwingConstants.BOTTOM);
-		label.setText("NOMBRE");
-		label.setForeground(new Color(255, 255, 255));
-		label.setFont(new Font("Consolas", Font.BOLD, 32));
-		label.setBackground(Color.WHITE);
-		label.setBounds(12, 181, 374, 38);
-		panel_1.add(label);
+		lblName = new JLabel();
+		lblName.setVerticalTextPosition(SwingConstants.BOTTOM);
+		lblName.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblName.setText("NOMBRE");
+		lblName.setForeground(new Color(255, 255, 255));
+		lblName.setFont(new Font("Consolas", Font.BOLD, 32));
+		lblName.setBackground(Color.WHITE);
+		lblName.setBounds(12, 181, 374, 38);
+		panel_1.add(lblName);
 		
-		label_10 = new JLabel("");
-		label_10.setToolTipText("LIDOM");
-		label_10.setOpaque(true);
-		label_10.setBackground(Color.BLACK);
-		label_10.setBounds(12, 13, 160, 160);
-		panel_1.add(label_10);
+		lblFotoJugador = new JLabel("");
+		lblFotoJugador.setToolTipText("LIDOM");
+		lblFotoJugador.setOpaque(true);
+		lblFotoJugador.setBackground(Color.BLACK);
+		lblFotoJugador.setBounds(12, 13, 160, 160);
+		panel_1.add(lblFotoJugador);
 		
 		label_11 = new JLabel();
 		label_11.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -2670,35 +2702,7 @@ public class Home extends JFrame implements Runnable {
 		label_13.setFont(new Font("Consolas", Font.PLAIN, 20));
 		label_13.setBounds(12, 269, 85, 31);
 		panel_1.add(label_13);
-		
-		textField = new JTextField() {
-			/************* PARA REDONDEAR JTEXTFIELD *************/
-			@Override 
-			protected void paintComponent(Graphics g) {
-				if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
-					Graphics2D g2 = (Graphics2D) g.create();
-					g2.setPaint(getBackground());
-					g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
-							0, 0, getWidth() - 1, getHeight() - 1));
-					g2.dispose();
-				}
-				super.paintComponent(g);
-			}
-			@Override 
-			public void updateUI() {
-				super.updateUI();
-				setOpaque(false);
-				setBorder(new RoundedCornerBorder());
-			}
-		};
-		/**********************************************************/	
-		textField.setHorizontalAlignment(SwingConstants.CENTER);
-		textField.setFont(new Font("Consolas", Font.PLAIN, 18));
-		textField.setEditable(false);
-		textField.setDisabledTextColor(Color.BLACK);
-		textField.setColumns(10);
-		textField.setBounds(12, 303, 85, 30);
-		panel_1.add(textField);
+		/**********************************************************/		
 		
 		textField_12 = new JTextField() {
 			/************* PARA REDONDEAR JTEXTFIELD *************/
@@ -3042,16 +3046,44 @@ public class Home extends JFrame implements Runnable {
 		label_22.setBounds(109, 346, 85, 31);
 		panel_1.add(label_22);
 		
-		lblb = new JLabel("3B");
-		lblb.setVerticalTextPosition(SwingConstants.BOTTOM);
-		lblb.setVerticalAlignment(SwingConstants.BOTTOM);
-		lblb.setHorizontalTextPosition(SwingConstants.LEFT);
-		lblb.setHorizontalAlignment(SwingConstants.CENTER);
-		lblb.setForeground(new Color(255, 255, 255));
-		lblb.setFont(new Font("Consolas", Font.BOLD, 32));
-		lblb.setBackground(new Color(0, 30, 72));
-		lblb.setBounds(184, 123, 70, 50);
-		panel_1.add(lblb);
+		lblNumero = new JLabel("3B");
+		lblNumero.setVerticalTextPosition(SwingConstants.BOTTOM);
+		lblNumero.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblNumero.setHorizontalTextPosition(SwingConstants.LEFT);
+		lblNumero.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNumero.setForeground(new Color(255, 255, 255));
+		lblNumero.setFont(new Font("Consolas", Font.BOLD, 32));
+		lblNumero.setBackground(new Color(0, 30, 72));
+		lblNumero.setBounds(184, 123, 70, 50);
+		panel_1.add(lblNumero);
+		
+		textField = new JTextField() {
+			/************* PARA REDONDEAR JTEXTFIELD *************/
+			@Override 
+			protected void paintComponent(Graphics g) {
+				if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+					Graphics2D g2 = (Graphics2D) g.create();
+					g2.setPaint(getBackground());
+					g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+							0, 0, getWidth() - 1, getHeight() - 1));
+					g2.dispose();
+				}
+				super.paintComponent(g);
+			}
+			@Override 
+			public void updateUI() {
+				super.updateUI();
+				setOpaque(false);
+				setBorder(new RoundedCornerBorder());
+			}
+		};
+		textField.setBounds(12, 303, 85, 30);
+		panel_1.add(textField);
+		textField.setHorizontalAlignment(SwingConstants.CENTER);
+		textField.setFont(new Font("Consolas", Font.PLAIN, 18));
+		textField.setEditable(false);
+		textField.setDisabledTextColor(Color.BLACK);
+		textField.setColumns(10);
 
 		lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(Home.class.getResource("/iconos_imagenes/BgGameSimulation.png")));
@@ -3106,6 +3138,7 @@ public class Home extends JFrame implements Runnable {
 			}
 
 			model.addRow(column);
+		
 
 		}
 
@@ -3180,6 +3213,9 @@ public class Home extends JFrame implements Runnable {
 		loadLineUpPlayerByTeam(auxEquipoVisitante, modelGameVisit, columnGameVisit, tableGameVisit);
 		lblEquipOfen.setText(auxEquipoVisitante.getName());
 		bateadorQueEstaBateando(visitante);
+		Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+		String codePlayer = auxEquipoBateando.getLineUp().get(turno).getId();
+		loadPerfilPlayerSimulation(codePlayer);
 
 
 
@@ -3335,5 +3371,79 @@ public class Home extends JFrame implements Runnable {
 		}
 
 	}
-/******************************************/
+	
+	
+	public static void loadPerfilPlayerSimulation(String codePlayer) {
+		Player auxP = Lidom.getInstance().searchPlayerByID(codePlayer);
+
+		lblName.setText(auxP.getName() + " " + auxP.getLastname());
+
+		String routetosave = "Fotos_Jugadores/"+ auxP.getName() + " " + auxP.getLastname() + ".png";
+		/** to adjust image at size of JLabel **/
+		ImageIcon fotoJugador = new ImageIcon(routetosave);
+		Icon fotoJ = new ImageIcon(fotoJugador.getImage().getScaledInstance(lblFotoJugador.getWidth(), lblFotoJugador.getHeight(), Image.SCALE_SMOOTH));
+		lblFotoJugador.setIcon(fotoJ);
+
+		lblNumero.setText("#" + auxP.getNumber());
+		String pos = "";
+
+		String mano=null;
+		String bat = null;
+		if (auxP.getManoLanzar().equalsIgnoreCase("Derecha")) {
+			mano = "Der.";
+		}
+		else if (auxP.getManoLanzar().equalsIgnoreCase("Izquierda")) {
+			mano = "Izq.";
+		}
+		else if (auxP.getManoLanzar().equalsIgnoreCase("Ambas")) {
+			mano = "Amb.";
+		}
+
+
+		if (auxP instanceof Batter) {
+			if (((Batter) auxP).getPosition().equalsIgnoreCase("Primera base")) {
+				pos = "1B";
+			} else if (((Batter) auxP).getPosition().equalsIgnoreCase("Segunda base")) {
+				pos = "2B";
+			} else if (((Batter) auxP).getPosition().equalsIgnoreCase("Tercera base")) {
+				pos = "3B";
+			} else if (((Batter) auxP).getPosition().equalsIgnoreCase("Catcher")) {
+				pos = "C";
+			} else if (((Batter) auxP).getPosition().equalsIgnoreCase("Short stop")) {
+				pos = "SS";
+			} else if (((Batter) auxP).getPosition().equalsIgnoreCase("Left fielder")) {
+				pos = "LF";
+			} else if (((Batter) auxP).getPosition().equalsIgnoreCase("Center fielder")) {
+				pos = "CF";
+			} else if (((Batter) auxP).getPosition().equalsIgnoreCase("Right fielder")) {
+				pos = "RF";
+			} else if (((Batter) auxP).getPosition().equalsIgnoreCase("Designado")) {
+				pos = "BD";
+			}
+			if (((Batter)auxP).getManoDeBateo().equalsIgnoreCase("Derecha")) {
+				bat = "Der.";
+			}
+			else if (((Batter)auxP).getManoDeBateo().equalsIgnoreCase("Izquierda")) {
+				bat = "Izq.";
+			}
+			else if (((Batter)auxP).getManoDeBateo().equalsIgnoreCase("Ambas")) {
+				bat = "Amb.";
+			}
+
+		//	lblBT.setText(bat + "/" + mano);
+		}
+		else if (auxP instanceof Pitcher) {
+		
+			bat = "-";
+	//		lblBT.setText( bat +"/" + mano);
+		}
+
+	//	lblPosion.setText(pos);
+	//	lblPesoAlt.setText(auxP.getHeight()+"/"+auxP.getWeight());
+	//	lblLugarNacimiento.setText(auxP.getBirthplace());
+	//	Locale spanishLocale = new Locale("es", "ES");
+	//	SimpleDateFormat formatter = new SimpleDateFormat("dd-MMMM-yyyy", spanishLocale);
+	//	lblFechaNacimiento.setText(formatter.format(auxP.getBirthdate()));
+
+	}
 }
