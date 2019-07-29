@@ -1670,7 +1670,7 @@ public class AddPlayer extends JDialog {
 					}
 					try {
 						foto = ImageIO.read(fileFoto);
-						String routetosave = "Fotos_Jugadores/"+ txtName.getText() + ".png";
+						String routetosave = "Fotos_Jugadores/"+ txtName.getText() + " " + txtApellido.getText()+ ".png";
 						ImageIO.write(foto, "png", new File(routetosave));
 						/** to adjust image at size of JLabel **/
 						ImageIcon fotoJugador = new ImageIcon(routeOfFoto);
@@ -1930,6 +1930,7 @@ public class AddPlayer extends JDialog {
 
 	loadTeamsCbx();
 	loadPlayerData();
+	controlStats();
 		
 	}
 
@@ -1937,7 +1938,7 @@ public class AddPlayer extends JDialog {
 		
 		if (myPlayer!=null) {
 			
-			String routetosave = "Fotos_Jugadores/"+ myPlayer.getName() + ".png";
+			String routetosave = "Fotos_Jugadores/"+ myPlayer.getName() +" " +myPlayer.getLastname() + ".png";
 			/** to adjust image at size of JLabel **/
 			ImageIcon fotoJugador = new ImageIcon(routetosave);
 			Icon fotoJ = new ImageIcon(fotoJugador.getImage().getScaledInstance(lblFotoJugador.getWidth(), lblFotoJugador.getHeight(), Image.SCALE_SMOOTH));

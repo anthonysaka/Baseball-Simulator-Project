@@ -127,6 +127,10 @@ public class Team implements Serializable{
 		rosterPlayers.add(player);
 		//generateIdPlayer++;
 	}
+	public void deletePlayerRoster(Player player) {
+		rosterPlayers.remove(player);
+		//generateIdPlayer++;
+	}
 	
 	public void addPlayerLineUp(Player player) {
 		lineUp.add(player);

@@ -84,78 +84,28 @@ public class Home extends JFrame implements Runnable {
 	private JButton btnMenu;
 	private JLabel lblMenAdministrativos;
 	private JSeparator separator_2;
-	private static JPanel panelManageTeams;
-	private static JLabel lblLogoTeam;
-	private JSeparator separator_3;
-	private static JLabel lblNameTeam;
-	private JScrollPane scrollPaneRoster;
-
-	private JLabel lblRoster;
-	private JScrollPane scrollPaneLineUp;
-	private JScrollPane scrollPaneLesionados;
-	private JLabel lblLineUp;
-	private JLabel lblLesionados;
 
 	private JPanel panel;
 	private static JPanel panelBgDashboard;
 	private JLabel lblPlay_Blur;
-	private JPanel panelMenuInfo;
-	private JButton btnPanelLineUp;
-	private JButton btnFuncionesNa_1;
-	private JButton btnFuncionesNa_2;
-	private JButton btnFuncionesNa_3;
-	private JButton btnFuncionesNa_4;
-	private JButton btnFuncionesNa_5;
-	private JLabel lblLineUp_1;
-
-	/*** tables ***/
-	private static JTable tableRoster;
-	public static JTable tableLineUp;
-	private static JTable tableLesionados;
 	private static JTable tablePartidosHoy;
 	private static JTable tableGameVisit;
 	private static JTable tableGameLocal;
 
-	private static DefaultTableModel modelRoster;
 	public static DefaultTableModel modelLineUp;
-	private static DefaultTableModel modelLesionados;
+
 	private static DefaultTableModel modelGameToday;
 	private static DefaultTableModel modelGameLocal;
 	private static DefaultTableModel modelGameVisit;
 
-	private static Object[] columnRoster;
+	
 	public static Object[] columnLineUp;
-	private static Object[] columnLesionados;
+
 	private static Object[] columnGameToday;
 	private static Object[] columnGameLocal;
 	private static Object[] columnGameVisit;
-
-	private static JPanel panelLineUp;
-	private JLabel lblBgPlayLineUp;
-	private JLabel lblCrearLineUp;
-	private JButton btnCf;
-	private JButton btnLf;
-	private JButton btnRf;
-	private JButton btnss;
-	private JButton btn3b;
-	private JButton btn2b;
-	private JButton btnP;
-	private JButton btnC;
-	private JButton btn1b;
 	private JButton btnHome;
 
-	private String seleccionarjugador;
-	private JLabel lblP;
-	private JButton btnLineUp;
-	private JLabel lblC;
-	private JLabel lbl3b;
-	private JLabel lblss;
-	private JLabel lbl2b;
-	private JLabel lbl1b;
-	private JLabel lblLf;
-	private JLabel lblCf;
-	private JLabel lblRf;
-	private JPanel panel_1;
 	private JButton btnPartidos;
 	private JPanel panelPartidosDashboard;
 	private JPanel panelMenuPartidos;
@@ -164,12 +114,6 @@ public class Home extends JFrame implements Runnable {
 	private JButton btnButtonNa;
 	private JPanel panelPartidoHoy;
 	private JPanel panel_3;
-	private JLabel lblFundado;
-	private JLabel lblManager;
-	private static JLabel lblEstadioTeam;
-	private static JLabel lblFundadoTeam;
-	private static JLabel lblManagerTeam;
-	private JLabel lblEstadio;
 	private static JPanel panelGameSimulation;
 	private JLabel lblNewLabel;
 	private static JPanel panelScoreBoard;
@@ -263,6 +207,33 @@ public class Home extends JFrame implements Runnable {
 	public static int numberOut = 0;
 	public static int turno=0;
 	private JButton btnListar;
+	private JPanel panel_1;
+	private JLabel label;
+	private JLabel label_10;
+	private JLabel label_11;
+	private JLabel lblEstadsticasBateadorEn;
+	private JSeparator separator_3;
+	private JLabel label_13;
+	private JTextField textField;
+	private JTextField textField_12;
+	private JLabel label_14;
+	private JLabel label_15;
+	private JTextField textField_26;
+	private JLabel label_16;
+	private JTextField textField_27;
+	private JTextField textField_28;
+	private JLabel label_17;
+	private JTextField textField_29;
+	private JLabel label_18;
+	private JTextField textField_30;
+	private JLabel label_19;
+	private JLabel label_20;
+	private JTextField textField_31;
+	private JTextField textField_32;
+	private JLabel label_21;
+	private JTextField textField_33;
+	private JLabel label_22;
+	private JLabel lblb;
 
 
 
@@ -524,7 +495,7 @@ public class Home extends JFrame implements Runnable {
 			public void actionPerformed(ActionEvent e) {
 				Lidom.getInstance().getListGame().removeAll(Lidom.getInstance().getListGame());
 				panelBgDashboard.setVisible(true);
-				panelManageTeams.setVisible(false);
+			
 				//	btnHome.setEnabled(false);
 			}
 		});
@@ -1244,9 +1215,8 @@ public class Home extends JFrame implements Runnable {
 			public void actionPerformed(ActionEvent e) {
 
 				if (auxGame.getHomeRun() == 0 && auxGame.getAwayRun() == 0) {
-					//	if (verificarEquiposLlenos(local, visita) == true) {
+					if (verificarEquipoLineUp(equipoLocal, equipoVisitante) == true) {
 					panelBgDashboard.setVisible(false);
-					panelManageTeams.setVisible(false);
 					panelGameSimulation.setVisible(true);
 					btnMenu.setEnabled(false);
 					btnHome.setEnabled(false);
@@ -1256,18 +1226,19 @@ public class Home extends JFrame implements Runnable {
 					btnEstadios.setEnabled(false);
 					gameSimulationOpen(equipoLocal, equipoVisitante, auxGame);
 
-					//	} else {
-					//		int answer = JOptionPane.showConfirmDialog(null,
-					//				"Las posiciones de uno o ambos equipos no están cubiertas\n¿Desea Verificar?", null,
-					////				JOptionPane.YES_NO_OPTION);
-					//		if (answer == JOptionPane.YES_OPTION) {
-					//			TablaPosiciones equip = new TablaPosiciones();
-					//			equip.setVisible(true);
-					//		}
-					//	}
+					} else {
+							int answer = JOptionPane.showConfirmDialog(null,
+									"El Line up de uno o ambos equipo no esta completo\n¿Desea Verificar?", null,
+								JOptionPane.YES_NO_OPTION);
+							if (answer == JOptionPane.YES_OPTION) {
+							SelectionTeamToManage sl = new SelectionTeamToManage();
+							sl.setModal(true);
+							sl.setVisible(true);
+							}
+						}
 
 				} else {
-					JOptionPane.showMessageDialog(null, "El Partido ya está Finalizado", "Error",
+					JOptionPane.showMessageDialog(null, "El Partido ya está finalizado.", "Error",
 							JOptionPane.WARNING_MESSAGE);
 				}
 
@@ -1318,829 +1289,8 @@ public class Home extends JFrame implements Runnable {
 		ImageIcon bgPlay = new ImageIcon(getClass().getResource("/iconos_imagenes/fondoPlay.png"));
 		Icon play = new ImageIcon(bgPlay.getImage().getScaledInstance(lblPlay_Blur.getWidth(), lblPlay_Blur.getHeight(), Image.SCALE_SMOOTH));
 		lblPlay_Blur.setIcon(play);
-
-
-
-		panelManageTeams = new JPanel();
-		panelManageTeams.setVisible(false);
-		panelManageTeams.setBackground(new Color(255, 255, 255));
-		panelBgHome.add(panelManageTeams, "name_546922147272900");
-		panelManageTeams.setLayout(null);
-
-
-
-		lblLogoTeam = new JLabel("");
-		lblLogoTeam.setOpaque(true);
-		lblLogoTeam.setToolTipText("LIDOM");
-		lblLogoTeam.setBackground(Color.BLACK);
-		lblLogoTeam.setBounds(85, 38, 205, 205);
-		panelManageTeams.add(lblLogoTeam);
-
-		lblNameTeam = new JLabel();
-		lblNameTeam.setBackground(new Color(255, 255, 255));
-		lblNameTeam.setVerticalTextPosition(SwingConstants.BOTTOM);
-		lblNameTeam.setVerticalAlignment(SwingConstants.BOTTOM);
-		lblNameTeam.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNameTeam.setForeground(Color.BLACK);
-		lblNameTeam.setFont(new Font("Consolas", Font.PLAIN, 36));
-		lblNameTeam.setBounds(302, 185, 573, 58);
-		panelManageTeams.add(lblNameTeam);
-
-		separator_3 = new JSeparator();
-		separator_3.setOpaque(true);
-		separator_3.setBorder(null);
-		separator_3.setBackground(new Color(4, 10, 20));
-		separator_3.setBounds(302, 241, 573, 2);
-		panelManageTeams.add(separator_3);
-
-		lblRoster = new JLabel("Roster / Jugadores Activos");
-		lblRoster.setBackground(new Color(0,30,72));
-		lblRoster.setOpaque(true);
-		lblRoster.setHorizontalTextPosition(SwingConstants.CENTER);
-		lblRoster.setVerticalTextPosition(SwingConstants.BOTTOM);
-		lblRoster.setVerticalAlignment(SwingConstants.BOTTOM);
-		lblRoster.setHorizontalAlignment(SwingConstants.CENTER);
-		lblRoster.setForeground(Color.WHITE);
-		lblRoster.setFont(new Font("Consolas", Font.PLAIN, 20));
-		lblRoster.setBounds(1523, 13, 375, 31);
-		panelManageTeams.add(lblRoster);
-
-		scrollPaneRoster = new JScrollPane();
-		scrollPaneRoster.setBounds(1523, 57, 375, 462);
-		panelManageTeams.add(scrollPaneRoster);
-
-		tableRoster = new JTable();
-		tableRoster.setRowMargin(0);
-		tableRoster .setFocusable(false);
-		tableRoster.setRowHeight(20);
-		tableRoster.setIntercellSpacing(new Dimension(0, 0));
-		tableRoster.setGridColor(new Color(255, 255, 255));
-		tableRoster.setShowVerticalLines(false);
-		tableRoster.getTableHeader().setReorderingAllowed(false);
-		tableRoster.setSelectionBackground(new Color(239, 108, 0));
-		tableRoster.getTableHeader().setFont(new Font("Consolas", Font.BOLD, 16));
-		tableRoster.getTableHeader().setOpaque(false);
-
-		tableRoster.getTableHeader().setBackground(new Color(255,255,255));
-		tableRoster.setFont(new Font("Consolas", Font.PLAIN, 15));
-		tableRoster.setModel(new DefaultTableModel(
-				new Object[][] {
-				},
-				new String[] {
-						"N\u00FAmero ID", "Nombre", "Posici\u00F3n"
-				}
-				) {
-			Class[] columnTypes = new Class[] {
-					String.class, String.class, String.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-			boolean[] columnEditables = new boolean[] {
-					false, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		scrollPaneRoster.setViewportView(tableRoster);
-
-		scrollPaneLineUp = new JScrollPane();
-		scrollPaneLineUp.setBounds(1136, 57, 375, 462);
-		panelManageTeams.add(scrollPaneLineUp);
-
-		tableLineUp = new JTable();
-		tableLineUp.setRowMargin(0);
-		tableLineUp .setFocusable(false);
-		tableLineUp.setRowHeight(20);
-		tableLineUp.setIntercellSpacing(new Dimension(0, 0));
-		tableLineUp.setGridColor(new Color(255, 255, 255));
-		tableLineUp.setShowVerticalLines(false);
-		tableLineUp.getTableHeader().setReorderingAllowed(false);
-		tableLineUp.setSelectionBackground(new Color(239, 108, 0));
-		tableLineUp.getTableHeader().setFont(new Font("Consolas", Font.BOLD, 16));
-		tableLineUp.getTableHeader().setOpaque(false);
-
-		tableLineUp.getTableHeader().setBackground(new Color(255,255,255));
-		tableLineUp.setFont(new Font("Consolas", Font.PLAIN, 15));
-		tableLineUp.setModel(new DefaultTableModel(
-				new Object[][] {
-				},
-				new String[] {
-						"N\u00FAmero ID", "Nombre", "Posici\u00F3n"
-				}
-				) {
-			Class[] columnTypes = new Class[] {
-					String.class, String.class, String.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-			boolean[] columnEditables = new boolean[] {
-					false, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		scrollPaneLineUp.setViewportView(tableLineUp);
-
-		scrollPaneLesionados = new JScrollPane();
-		scrollPaneLesionados.setBounds(1523, 604, 375, 340);
-		panelManageTeams.add(scrollPaneLesionados);
-
-		tableLesionados = new JTable();
-		tableLesionados.setRowMargin(0);
-		tableLesionados .setFocusable(false);
-		tableLesionados.setRowHeight(20);
-		tableLesionados.setIntercellSpacing(new Dimension(0, 0));
-		tableLesionados.setGridColor(new Color(255, 255, 255));
-		tableLesionados.setShowVerticalLines(false);
-		tableLesionados.getTableHeader().setReorderingAllowed(false);
-		tableLesionados.setSelectionBackground(new Color(239, 108, 0));
-		tableLesionados.getTableHeader().setFont(new Font("Consolas", Font.BOLD, 16));
-		tableLesionados.getTableHeader().setOpaque(false);
-
-		tableLesionados.getTableHeader().setBackground(new Color(255,255,255));
-		tableLesionados.setFont(new Font("Consolas", Font.PLAIN, 15));
-		tableLesionados.setModel(new DefaultTableModel(
-				new Object[][] {
-				},
-				new String[] {
-						"N\u00FAmero ID", "Nombre"
-				}
-				) {
-			Class[] columnTypes = new Class[] {
-					String.class, String.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-			boolean[] columnEditables = new boolean[] {
-					false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		scrollPaneLesionados.setViewportView(tableLesionados);
-
-		lblLineUp = new JLabel("Funciones");
-		lblLineUp.setBackground(new Color(0,30,72));
-		lblLineUp.setOpaque(true);
-		lblLineUp.setHorizontalTextPosition(SwingConstants.CENTER);
-		lblLineUp.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLineUp.setForeground(Color.WHITE);
-		lblLineUp.setFont(new Font("Consolas", Font.PLAIN, 20));
-		lblLineUp.setBounds(1159, 560, 328, 31);
-		panelManageTeams.add(lblLineUp);
-
-		lblLesionados = new JLabel("Jugadores Lesionados");
-		lblLesionados.setBackground(new Color(0,30,72));
-		lblLesionados.setOpaque(true);
-		lblLesionados.setHorizontalTextPosition(SwingConstants.CENTER);
-		lblLesionados.setVerticalTextPosition(SwingConstants.BOTTOM);
-		lblLesionados.setVerticalAlignment(SwingConstants.BOTTOM);
-		lblLesionados.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLesionados.setForeground(Color.WHITE);
-		lblLesionados.setFont(new Font("Consolas", Font.PLAIN, 20));
-		lblLesionados.setBounds(1523, 560, 375, 31);
-		panelManageTeams.add(lblLesionados);
-
-		panelMenuInfo = new JPanel();
-		panelMenuInfo.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		panelMenuInfo.setBackground(new Color(255, 255, 255));
-		panelMenuInfo.setBounds(12, 275, 1056, 669);
-		panelManageTeams.add(panelMenuInfo);
-		panelMenuInfo.setLayout(new CardLayout(0, 0));
-
-		panelLineUp = new JPanel();
-		panelLineUp.setVisible(false);
-
-		panel_1 = new JPanel();
-		panelMenuInfo.add(panel_1, "name_633036105551300");
-		panelLineUp.setBackground(new Color(255, 255, 255));
-		panelMenuInfo.add(panelLineUp, "name_616045152774500");
-		panelLineUp.setLayout(null);
-
-
-		lblCrearLineUp = new JLabel("CREAR LINE UP  DEL EQUIPO");
-		lblCrearLineUp.setVerticalTextPosition(SwingConstants.BOTTOM);
-		lblCrearLineUp.setVerticalAlignment(SwingConstants.BOTTOM);
-		lblCrearLineUp.setOpaque(true);
-		lblCrearLineUp.setHorizontalTextPosition(SwingConstants.CENTER);
-		lblCrearLineUp.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCrearLineUp.setForeground(Color.WHITE);
-		lblCrearLineUp.setFont(new Font("Consolas", Font.PLAIN, 20));
-		lblCrearLineUp.setBackground(new Color(0, 30, 72));
-		lblCrearLineUp.setBounds(335, 13, 403, 31);
-		panelLineUp.add(lblCrearLineUp);
-
-		btnCf = new JButton("CF");
-		btnCf.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
-				ArrayList<String> playerAvailable = new ArrayList<String>();
-
-				for (Player auxPlayer : auxTeam.getRosterPlayers()) {
-					if (auxPlayer instanceof Batter) {		
-						if (((Batter) auxPlayer).getPosition().equalsIgnoreCase("Center fielder") && auxPlayer.getLesionado() == false) {
-							playerAvailable.add(auxPlayer.getName()); // agregar a un arraylist temporal para mostrar en cbxbox				
-						}
-					}		
-				}
-				try {
-					String[] copyPlayerAvailable = new String[playerAvailable.size()];
-					copyPlayerAvailable = playerAvailable.toArray(copyPlayerAvailable);
-
-					seleccionarjugador = (String) JOptionPane.showInputDialog(null, "Seleccione un jugador", "Seleccionar Jugador",  JOptionPane.QUESTION_MESSAGE,  null,  copyPlayerAvailable, copyPlayerAvailable[0]);
-					Player auxPlayerN = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-
-					lblCf.setText(seleccionarjugador+ " " +  auxPlayerN.getLastname());
-					Player auxPlayer = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-					auxTeam.addPlayerLineUp(auxPlayer);
-
-				}
-				catch(ArrayIndexOutOfBoundsException e2){
-					JOptionPane.showMessageDialog(null, "No hay jugadores para esta posición!", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
-		btnCf.setIconTextGap(5);
-		btnCf.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btnCf.setForeground(new Color(255, 255, 240));
-		btnCf.setFont(new Font("Consolas", Font.BOLD, 22));
-		btnCf.setBorder(null);
-		btnCf.setBackground(new Color(4, 10, 20));
-		btnCf.setBounds(493, 98, 60, 37);
-		panelLineUp.add(btnCf);
-
-		btnLf = new JButton("LF");
-		btnLf.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
-				ArrayList<String> playerAvailable = new ArrayList<String>();
-
-				for (Player auxPlayer : auxTeam.getRosterPlayers()) {
-					if (auxPlayer instanceof Batter) {		
-						if (((Batter) auxPlayer).getPosition().equalsIgnoreCase("Left fielder") && auxPlayer.getLesionado() == false) {
-							playerAvailable.add(auxPlayer.getName()); // agregar a un arraylist temporal para mostrar en cbxbox				
-						}
-					}		
-				}
-				try {
-					String[] copyPlayerAvailable = new String[playerAvailable.size()];
-					copyPlayerAvailable = playerAvailable.toArray(copyPlayerAvailable);
-
-					seleccionarjugador = (String) JOptionPane.showInputDialog(null, "Seleccione un jugador", "Seleccionar Jugador",  JOptionPane.QUESTION_MESSAGE,  null,  copyPlayerAvailable, copyPlayerAvailable[0]);
-					Player auxPlayerN = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-					lblLf.setText(seleccionarjugador + " " +  auxPlayerN.getLastname());
-					Player auxPlayer = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-					auxTeam.addPlayerLineUp(auxPlayer);
-
-				}
-				catch(ArrayIndexOutOfBoundsException e2){
-					JOptionPane.showMessageDialog(null, "No hay jugadores para esta posición!", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-
-			}
-		});
-		btnLf.setIconTextGap(5);
-		btnLf.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btnLf.setForeground(new Color(255, 255, 240));
-		btnLf.setFont(new Font("Consolas", Font.BOLD, 22));
-		btnLf.setBorder(null);
-		btnLf.setBackground(new Color(4, 10, 20));
-		btnLf.setBounds(291, 142, 60, 37);
-		panelLineUp.add(btnLf);
-
-		btnRf = new JButton("RF");
-		btnRf.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
-				ArrayList<String> playerAvailable = new ArrayList<String>();
-
-				for (Player auxPlayer : auxTeam.getRosterPlayers()) {
-					if (auxPlayer instanceof Batter) {		
-						if (((Batter) auxPlayer).getPosition().equalsIgnoreCase("Right fielder") && auxPlayer.getLesionado() == false) {
-							playerAvailable.add(auxPlayer.getName()); // agregar a un arraylist temporal para mostrar en cbxbox				
-						}
-					}		
-				}
-				try {
-					String[] copyPlayerAvailable = new String[playerAvailable.size()];
-					copyPlayerAvailable = playerAvailable.toArray(copyPlayerAvailable);
-
-					seleccionarjugador = (String) JOptionPane.showInputDialog(null, "Seleccione un jugador", "Seleccionar Jugador",  JOptionPane.QUESTION_MESSAGE,  null,  copyPlayerAvailable, copyPlayerAvailable[0]);
-					Player auxPlayerN = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-					if (seleccionarjugador !=null) {
-						lblRf.setText(seleccionarjugador+ " " +  auxPlayerN.getLastname());
-						Player auxPlayer = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-						auxTeam.addPlayerLineUp(auxPlayer);
-
-					}
-
-
-				}
-				catch(ArrayIndexOutOfBoundsException e2){
-					JOptionPane.showMessageDialog(null, "No hay jugadores para esta posición!", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
-		btnRf.setIconTextGap(5);
-		btnRf.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btnRf.setForeground(new Color(255, 255, 240));
-		btnRf.setFont(new Font("Consolas", Font.BOLD, 22));
-		btnRf.setBorder(null);
-		btnRf.setBackground(new Color(4, 10, 20));
-		btnRf.setBounds(694, 142, 60, 37);
-		panelLineUp.add(btnRf);
-
-		btnss = new JButton("SS");
-		btnss.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-
-				Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
-				ArrayList<String> playerAvailable = new ArrayList<String>();
-
-				for (Player auxPlayer : auxTeam.getRosterPlayers()) {
-					if (auxPlayer instanceof Batter) {		
-						if (((Batter) auxPlayer).getPosition().equalsIgnoreCase("Short stop") && auxPlayer.getLesionado() == false) {
-							playerAvailable.add(auxPlayer.getName()); // agregar a un arraylist temporal para mostrar en cbxbox				
-						}
-					}		
-				}
-				try {
-					String[] copyPlayerAvailable = new String[playerAvailable.size()];
-					copyPlayerAvailable = playerAvailable.toArray(copyPlayerAvailable);
-
-					seleccionarjugador = (String) JOptionPane.showInputDialog(null, "Seleccione un jugador", "Seleccionar Jugador",  JOptionPane.QUESTION_MESSAGE,  null,  copyPlayerAvailable, copyPlayerAvailable[0]);
-					Player auxPlayerN = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-
-					lblss.setText(seleccionarjugador+ " " +  auxPlayerN.getLastname());
-					Player auxPlayer = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-					auxTeam.addPlayerLineUp(auxPlayer);
-
-				}
-				catch(ArrayIndexOutOfBoundsException e2){
-					JOptionPane.showMessageDialog(null, "No hay jugadores para esta posición!", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-
-			}
-		});
-		btnss.setIconTextGap(5);
-		btnss.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btnss.setForeground(new Color(255, 255, 240));
-		btnss.setFont(new Font("Consolas", Font.BOLD, 22));
-		btnss.setBorder(null);
-		btnss.setBackground(new Color(4, 10, 20));
-		btnss.setBounds(395, 268, 60, 37);
-		panelLineUp.add(btnss);
-
-		btn3b = new JButton("3B");
-		btn3b.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
-				ArrayList<String> playerAvailable = new ArrayList<String>();
-
-				for (Player auxPlayer : auxTeam.getRosterPlayers()) {
-					if (auxPlayer instanceof Batter) {		
-						if (((Batter) auxPlayer).getPosition().equalsIgnoreCase("Tercera base") && auxPlayer.getLesionado() == false) {
-							playerAvailable.add(auxPlayer.getName()); // agregar a un arraylist temporal para mostrar en cbxbox				
-						}
-					}		
-				}
-				try {
-					String[] copyPlayerAvailable = new String[playerAvailable.size()];
-					copyPlayerAvailable = playerAvailable.toArray(copyPlayerAvailable);
-
-					seleccionarjugador = (String) JOptionPane.showInputDialog(null, "Seleccione un jugador", "Seleccionar Jugador",  JOptionPane.QUESTION_MESSAGE,  null,  copyPlayerAvailable, copyPlayerAvailable[0]);
-					Player auxPlayerN = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-
-					lbl3b.setText(seleccionarjugador+ " " +  auxPlayerN.getLastname());
-					Player auxPlayer = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-					auxTeam.addPlayerLineUp(auxPlayer);
-
-				}
-				catch(ArrayIndexOutOfBoundsException e2){
-					JOptionPane.showMessageDialog(null, "No hay jugadores para esta posición!", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-
-			}
-		});
-		btn3b.setIconTextGap(5);
-		btn3b.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btn3b.setForeground(new Color(255, 255, 240));
-		btn3b.setFont(new Font("Consolas", Font.BOLD, 22));
-		btn3b.setBorder(null);
-		btn3b.setBackground(new Color(4, 10, 20));
-		btn3b.setBounds(366, 344, 60, 37);
-		panelLineUp.add(btn3b);
-
-		btn2b = new JButton("2B");
-		btn2b.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
-				ArrayList<String> playerAvailable = new ArrayList<String>();
-
-				for (Player auxPlayer : auxTeam.getRosterPlayers()) {
-					if (auxPlayer instanceof Batter) {		
-						if (((Batter) auxPlayer).getPosition().equalsIgnoreCase("Segunda base") && auxPlayer.getLesionado() == false) {
-							playerAvailable.add(auxPlayer.getName()); // agregar a un arraylist temporal para mostrar en cbxbox				
-						}
-					}		
-				}
-				try {
-					String[] copyPlayerAvailable = new String[playerAvailable.size()];
-					copyPlayerAvailable = playerAvailable.toArray(copyPlayerAvailable);
-
-					seleccionarjugador = (String) JOptionPane.showInputDialog(null, "Seleccione un jugador", "Seleccionar Jugador",  JOptionPane.QUESTION_MESSAGE,  null,  copyPlayerAvailable, copyPlayerAvailable[0]);
-					Player auxPlayerN = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-
-
-					lbl2b.setText(seleccionarjugador+ " " +  auxPlayerN.getLastname());
-					Player auxPlayer = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-					auxTeam.addPlayerLineUp(auxPlayer);
-
-				}
-				catch(ArrayIndexOutOfBoundsException e2){
-					JOptionPane.showMessageDialog(null, "No hay jugadores para esta posición!", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
-		btn2b.setIconTextGap(5);
-		btn2b.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btn2b.setForeground(new Color(255, 255, 240));
-		btn2b.setFont(new Font("Consolas", Font.BOLD, 22));
-		btn2b.setBorder(null);
-		btn2b.setBackground(new Color(4, 10, 20));
-		btn2b.setBounds(574, 268, 60, 37);
-		panelLineUp.add(btn2b);
-
-		btnP = new JButton("P");
-		btnP.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
-				ArrayList<String> playerAvailable = new ArrayList<String>();
-
-				for (Player auxPlayer : auxTeam.getRosterPlayers()) {
-					if (auxPlayer instanceof Pitcher) {		
-						if (auxPlayer.getLesionado() == false) {
-							playerAvailable.add(auxPlayer.getName()); // agregar a un arraylist temporal para mostrar en cbxbox				
-						}
-					}		
-				}
-				try {
-					String[] copyPlayerAvailable = new String[playerAvailable.size()];
-					copyPlayerAvailable = playerAvailable.toArray(copyPlayerAvailable);
-
-					seleccionarjugador = (String) JOptionPane.showInputDialog(null, "Seleccione un jugador", "Seleccionar Jugador",  JOptionPane.QUESTION_MESSAGE,  null,  copyPlayerAvailable, copyPlayerAvailable[0]);
-					Player auxPlayerN = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-
-					lblP.setText(seleccionarjugador+ " " +  auxPlayerN.getLastname());
-					Player auxPlayer = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-					auxTeam.addPlayerLineUp(auxPlayer);
-
-				}
-				catch(ArrayIndexOutOfBoundsException e2){
-					JOptionPane.showMessageDialog(null, "No hay jugadores para esta posición!", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-
-			}
-		});
-		btnP.setIconTextGap(5);
-		btnP.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btnP.setForeground(new Color(255, 255, 240));
-		btnP.setFont(new Font("Consolas", Font.BOLD, 22));
-		btnP.setBorder(null);
-		btnP.setBackground(new Color(4, 10, 20));
-		btnP.setBounds(493, 363, 60, 37);
-		panelLineUp.add(btnP);
-
-		btnC = new JButton("C");
-		btnC.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
-				ArrayList<String> playerAvailable = new ArrayList<String>();
-
-				for (Player auxPlayer : auxTeam.getRosterPlayers()) {
-					if (auxPlayer instanceof Batter) {		
-						if (((Batter) auxPlayer).getPosition().equalsIgnoreCase("Catcher") && auxPlayer.getLesionado() == false) {
-							playerAvailable.add(auxPlayer.getName()); // agregar a un arraylist temporal para mostrar en cbxbox				
-						}
-					}		
-				}
-				try {
-					String[] copyPlayerAvailable = new String[playerAvailable.size()];
-					copyPlayerAvailable = playerAvailable.toArray(copyPlayerAvailable);
-
-					seleccionarjugador = (String) JOptionPane.showInputDialog(null, "Seleccione un jugador", "Seleccionar Jugador",  JOptionPane.QUESTION_MESSAGE,  null,  copyPlayerAvailable, copyPlayerAvailable[0]);
-					Player auxPlayerN = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-
-					lblC.setText(seleccionarjugador+ " " +  auxPlayerN.getLastname());
-					Player auxPlayer = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-					auxTeam.addPlayerLineUp(auxPlayer);
-
-				}
-				catch(ArrayIndexOutOfBoundsException e2){
-					JOptionPane.showMessageDialog(null, "No hay jugadores para esta posición!", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-
-			}
-		});
-		btnC.setIconTextGap(5);
-		btnC.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btnC.setForeground(new Color(255, 255, 240));
-		btnC.setFont(new Font("Consolas", Font.BOLD, 22));
-		btnC.setBorder(null);
-		btnC.setBackground(new Color(4, 10, 20));
-		btnC.setBounds(493, 549, 60, 37);
-		panelLineUp.add(btnC);
-
-		btn1b = new JButton("1B");
-		btn1b.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				Team auxTeam = backEnd.Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
-				ArrayList<String> playerAvailable = new ArrayList<String>();
-
-				for (Player auxPlayer : auxTeam.getRosterPlayers()) {
-					if (auxPlayer instanceof Batter) {		
-						if (((Batter) auxPlayer).getPosition().equalsIgnoreCase("Primera base") && auxPlayer.getLesionado() == false) {
-							playerAvailable.add(auxPlayer.getName()); // agregar a un arraylist temporal para mostrar en cbxbox				
-						}
-					}		
-				}
-				try {
-					String[] copyPlayerAvailable = new String[playerAvailable.size()];
-					copyPlayerAvailable = playerAvailable.toArray(copyPlayerAvailable);
-
-					seleccionarjugador = (String) JOptionPane.showInputDialog(null, "Seleccione un jugador", "Seleccionar Jugador",  JOptionPane.QUESTION_MESSAGE,  null,  copyPlayerAvailable, copyPlayerAvailable[0]);
-					Player auxPlayerN = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-
-
-
-					lbl1b.setText(seleccionarjugador+ " " +  auxPlayerN.getLastname());
-					Player auxPlayer = Lidom.getInstance().searchPlayerByName(seleccionarjugador);
-					auxTeam.addPlayerLineUp(auxPlayer);
-
-				}
-				catch(ArrayIndexOutOfBoundsException e2){
-					JOptionPane.showMessageDialog(null, "No hay jugadores para esta posición!", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
-		btn1b.setIconTextGap(5);
-		btn1b.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btn1b.setForeground(new Color(255, 255, 240));
-		btn1b.setFont(new Font("Consolas", Font.BOLD, 22));
-		btn1b.setBorder(null);
-		btn1b.setBackground(new Color(4, 10, 20));
-		btn1b.setBounds(607, 351, 60, 37);
-		panelLineUp.add(btn1b);
-
-		lblP = new JLabel("");
-		lblP.setFont(new Font("Consolas", Font.ITALIC, 14));
-		lblP.setBounds(473, 344, 100, 16);
-		panelLineUp.add(lblP);
-
-		lblC = new JLabel("");
-		lblC.setFont(new Font("Consolas", Font.ITALIC, 14));
-		lblC.setBounds(473, 531, 100, 16);
-		panelLineUp.add(lblC);
-
-		lbl3b = new JLabel("");
-		lbl3b.setFont(new Font("Consolas", Font.ITALIC, 14));
-		lbl3b.setBounds(346, 327, 100, 16);
-		panelLineUp.add(lbl3b);
-
-		lblss = new JLabel("");
-		lblss.setFont(new Font("Consolas", Font.ITALIC, 14));
-		lblss.setBounds(375, 251, 100, 16);
-		panelLineUp.add(lblss);
-
-		lbl2b = new JLabel("");
-		lbl2b.setFont(new Font("Consolas", Font.ITALIC, 14));
-		lbl2b.setBounds(554, 251, 100, 16);
-		panelLineUp.add(lbl2b);
-
-		lbl1b = new JLabel("");
-		lbl1b.setFont(new Font("Consolas", Font.ITALIC, 14));
-		lbl1b.setBounds(587, 332, 100, 16);
-		panelLineUp.add(lbl1b);
-
-		lblLf = new JLabel("");
-		lblLf.setFont(new Font("Consolas", Font.ITALIC, 14));
-		lblLf.setBounds(271, 123, 100, 16);
-		panelLineUp.add(lblLf);
-
-		lblCf = new JLabel("");
-		lblCf.setFont(new Font("Consolas", Font.ITALIC, 14));
-		lblCf.setBounds(473, 77, 100, 16);
-		panelLineUp.add(lblCf);
-
-		lblRf = new JLabel("");
-		lblRf.setFont(new Font("Consolas", Font.ITALIC, 14));
-		lblRf.setBounds(674, 119, 100, 16);
-		panelLineUp.add(lblRf);
-
-		lblBgPlayLineUp = new JLabel("");
-		lblBgPlayLineUp.setBounds(163, 62, 711, 542);
-		panelLineUp.add(lblBgPlayLineUp);
 		/** to adjust image at size of JLabel **/
 		ImageIcon bgLinePlay = new ImageIcon(getClass().getResource("/iconos_imagenes/Baseball_diamond_clean.png"));
-		Icon playLine = new ImageIcon(bgLinePlay.getImage().getScaledInstance(lblBgPlayLineUp.getWidth(), lblBgPlayLineUp.getHeight(), Image.SCALE_SMOOTH));
-		lblBgPlayLineUp.setIcon(playLine);
-
-		btnLineUp = new JButton("Finalizar Line Up");
-		btnLineUp.setEnabled(false);
-		btnLineUp.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Team auxTeam = Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
-				loadLineUpPlayerByTeam(auxTeam, modelLineUp, columnLineUp, tableLineUp);
-				btnLineUp.setEnabled(false);
-				panelLineUp.setVisible(false);
-				panel_1.setVisible(true);
-			}
-		});
-		btnLineUp.setIconTextGap(5);
-		btnLineUp.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btnLineUp.setForeground(new Color(255, 255, 240));
-		btnLineUp.setFont(new Font("Consolas", Font.BOLD, 22));
-		btnLineUp.setBorder(null);
-		btnLineUp.setBackground(new Color(4, 10, 20));
-		btnLineUp.setBounds(376, 615, 284, 37);
-		panelLineUp.add(btnLineUp);
-
-		btnPanelLineUp = new JButton("Crear Line Up");
-		btnPanelLineUp.setIcon(new ImageIcon(Home.class.getResource("/iconos_imagenes/icons8_add_property_1_36px.png")));
-		btnPanelLineUp.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				panel_1.setVisible(false);
-				panelLineUp.setVisible(true);
-				btnLineUp.setEnabled(true);
-			}
-		});
-		btnPanelLineUp.setIconTextGap(5);
-		btnPanelLineUp.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btnPanelLineUp.setForeground(new Color(255, 255, 240));
-		btnPanelLineUp.setFont(new Font("Consolas", Font.BOLD, 22));
-		btnPanelLineUp.setBorder(null);
-		btnPanelLineUp.setBackground(new Color(4, 10, 20));
-		btnPanelLineUp.setBounds(1183, 606, 280, 37);
-		panelManageTeams.add(btnPanelLineUp);
-
-		btnFuncionesNa_1 = new JButton("Funciones n/a");
-		btnFuncionesNa_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Team auxTeam = Lidom.getInstance().searchTeamByName(lblNameTeam.getText());
-				AddInjury lesion = new AddInjury(auxTeam, false);
-				lesion.setModal(true);
-				lesion.setVisible(true);
-				
-				loadInjuryPlayerByTeam(auxTeam);
-				loadRosterPlayerByTeam(auxTeam);
-				loadLineUpPlayerByTeam(auxTeam, modelLineUp, columnLineUp, tableLineUp);
-			}
-		});
-		btnFuncionesNa_1.setIconTextGap(5);
-		btnFuncionesNa_1.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btnFuncionesNa_1.setForeground(new Color(255, 255, 240));
-		btnFuncionesNa_1.setFont(new Font("Consolas", Font.BOLD, 22));
-		btnFuncionesNa_1.setBorder(null);
-		btnFuncionesNa_1.setBackground(new Color(4, 10, 20));
-		btnFuncionesNa_1.setBounds(1183, 656, 280, 37);
-		panelManageTeams.add(btnFuncionesNa_1);
-
-		btnFuncionesNa_2 = new JButton("Funciones n/a");
-		btnFuncionesNa_2.setEnabled(false);
-		btnFuncionesNa_2.setIconTextGap(5);
-		btnFuncionesNa_2.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btnFuncionesNa_2.setForeground(new Color(255, 255, 240));
-		btnFuncionesNa_2.setFont(new Font("Consolas", Font.BOLD, 22));
-		btnFuncionesNa_2.setBorder(null);
-		btnFuncionesNa_2.setBackground(new Color(4, 10, 20));
-		btnFuncionesNa_2.setBounds(1183, 706, 280, 37);
-		panelManageTeams.add(btnFuncionesNa_2);
-
-		btnFuncionesNa_3 = new JButton("Funciones n/a");
-		btnFuncionesNa_3.setEnabled(false);
-		btnFuncionesNa_3.setIconTextGap(5);
-		btnFuncionesNa_3.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btnFuncionesNa_3.setForeground(new Color(255, 255, 240));
-		btnFuncionesNa_3.setFont(new Font("Consolas", Font.BOLD, 22));
-		btnFuncionesNa_3.setBorder(null);
-		btnFuncionesNa_3.setBackground(new Color(4, 10, 20));
-		btnFuncionesNa_3.setBounds(1183, 756, 280, 37);
-		panelManageTeams.add(btnFuncionesNa_3);
-
-		btnFuncionesNa_4 = new JButton("Funciones n/a");
-		btnFuncionesNa_4.setEnabled(false);
-		btnFuncionesNa_4.setIconTextGap(5);
-		btnFuncionesNa_4.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btnFuncionesNa_4.setForeground(new Color(255, 255, 240));
-		btnFuncionesNa_4.setFont(new Font("Consolas", Font.BOLD, 22));
-		btnFuncionesNa_4.setBorder(null);
-		btnFuncionesNa_4.setBackground(new Color(4, 10, 20));
-		btnFuncionesNa_4.setBounds(1183, 806, 280, 37);
-		panelManageTeams.add(btnFuncionesNa_4);
-
-		btnFuncionesNa_5 = new JButton("Funciones n/a");
-		btnFuncionesNa_5.setEnabled(false);
-		btnFuncionesNa_5.setIconTextGap(5);
-		btnFuncionesNa_5.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btnFuncionesNa_5.setForeground(new Color(255, 255, 240));
-		btnFuncionesNa_5.setFont(new Font("Consolas", Font.BOLD, 22));
-		btnFuncionesNa_5.setBorder(null);
-		btnFuncionesNa_5.setBackground(new Color(4, 10, 20));
-		btnFuncionesNa_5.setBounds(1183, 856, 280, 37);
-		panelManageTeams.add(btnFuncionesNa_5);
-
-		lblLineUp_1 = new JLabel("Line Up / Jugadores Regulares");
-		lblLineUp_1.setVerticalTextPosition(SwingConstants.BOTTOM);
-		lblLineUp_1.setVerticalAlignment(SwingConstants.BOTTOM);
-		lblLineUp_1.setOpaque(true);
-		lblLineUp_1.setHorizontalTextPosition(SwingConstants.CENTER);
-		lblLineUp_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLineUp_1.setForeground(Color.WHITE);
-		lblLineUp_1.setFont(new Font("Consolas", Font.PLAIN, 20));
-		lblLineUp_1.setBackground(new Color(0, 30, 72));
-		lblLineUp_1.setBounds(1136, 13, 375, 31);
-		panelManageTeams.add(lblLineUp_1);
-
-		lblFundado = new JLabel("- Fundado:");
-		lblFundado.setVerticalTextPosition(SwingConstants.BOTTOM);
-		lblFundado.setVerticalAlignment(SwingConstants.BOTTOM);
-		lblFundado.setHorizontalTextPosition(SwingConstants.LEFT);
-		lblFundado.setHorizontalAlignment(SwingConstants.LEFT);
-		lblFundado.setForeground(Color.BLACK);
-		lblFundado.setFont(new Font("Consolas", Font.PLAIN, 22));
-		lblFundado.setBackground(new Color(0, 30, 72));
-		lblFundado.setBounds(351, 99, 120, 31);
-		panelManageTeams.add(lblFundado);
-
-		lblManager = new JLabel("- Manager:");
-		lblManager.setVerticalTextPosition(SwingConstants.BOTTOM);
-		lblManager.setVerticalAlignment(SwingConstants.BOTTOM);
-		lblManager.setHorizontalTextPosition(SwingConstants.LEFT);
-		lblManager.setHorizontalAlignment(SwingConstants.LEFT);
-		lblManager.setForeground(Color.BLACK);
-		lblManager.setFont(new Font("Consolas", Font.PLAIN, 22));
-		lblManager.setBackground(new Color(0, 30, 72));
-		lblManager.setBounds(351, 141, 120, 31);
-		panelManageTeams.add(lblManager);
-
-		lblEstadioTeam = new JLabel("");
-		lblEstadioTeam.setVerticalTextPosition(SwingConstants.BOTTOM);
-		lblEstadioTeam.setVerticalAlignment(SwingConstants.BOTTOM);
-		lblEstadioTeam.setHorizontalTextPosition(SwingConstants.LEFT);
-		lblEstadioTeam.setHorizontalAlignment(SwingConstants.LEFT);
-		lblEstadioTeam.setForeground(Color.BLACK);
-		lblEstadioTeam.setFont(new Font("Consolas", Font.PLAIN, 22));
-		lblEstadioTeam.setBackground(new Color(0, 30, 72));
-		lblEstadioTeam.setBounds(528, 55, 260, 31);
-		panelManageTeams.add(lblEstadioTeam);
-
-		lblFundadoTeam = new JLabel("");
-		lblFundadoTeam.setVerticalTextPosition(SwingConstants.BOTTOM);
-		lblFundadoTeam.setVerticalAlignment(SwingConstants.BOTTOM);
-		lblFundadoTeam.setHorizontalTextPosition(SwingConstants.LEFT);
-		lblFundadoTeam.setHorizontalAlignment(SwingConstants.LEFT);
-		lblFundadoTeam.setForeground(Color.BLACK);
-		lblFundadoTeam.setFont(new Font("Consolas", Font.PLAIN, 22));
-		lblFundadoTeam.setBackground(new Color(0, 30, 72));
-		lblFundadoTeam.setBounds(528, 99, 260, 31);
-		panelManageTeams.add(lblFundadoTeam);
-
-		lblManagerTeam = new JLabel("");
-		lblManagerTeam.setVerticalTextPosition(SwingConstants.BOTTOM);
-		lblManagerTeam.setVerticalAlignment(SwingConstants.BOTTOM);
-		lblManagerTeam.setHorizontalTextPosition(SwingConstants.LEFT);
-		lblManagerTeam.setHorizontalAlignment(SwingConstants.LEFT);
-		lblManagerTeam.setForeground(Color.BLACK);
-		lblManagerTeam.setFont(new Font("Consolas", Font.PLAIN, 22));
-		lblManagerTeam.setBackground(new Color(0, 30, 72));
-		lblManagerTeam.setBounds(528, 141, 260, 31);
-		panelManageTeams.add(lblManagerTeam);
-
-		lblEstadio = new JLabel("- Estadio:");
-		lblEstadio.setVerticalTextPosition(SwingConstants.BOTTOM);
-		lblEstadio.setVerticalAlignment(SwingConstants.BOTTOM);
-		lblEstadio.setHorizontalTextPosition(SwingConstants.LEFT);
-		lblEstadio.setHorizontalAlignment(SwingConstants.LEFT);
-		lblEstadio.setForeground(Color.BLACK);
-		lblEstadio.setFont(new Font("Consolas", Font.PLAIN, 22));
-		lblEstadio.setBackground(new Color(0, 30, 72));
-		lblEstadio.setBounds(351, 55, 120, 31);
-		panelManageTeams.add(lblEstadio);
 
 		panelGameSimulation = new JPanel();
 		panelBgHome.add(panelGameSimulation, "name_680040644675600");
@@ -3102,7 +2252,7 @@ public class Home extends JFrame implements Runnable {
 		lblEquipoLocal = new JLabel("Equipo Local");
 		lblEquipoLocal.setBounds(12, 13, 370, 31);
 		panel_2.add(lblEquipoLocal);
-		lblEquipoLocal.setBackground(new Color(0, 0, 0));
+		lblEquipoLocal.setBackground(new Color(0, 30,72));
 		lblEquipoLocal.setOpaque(true);
 		lblEquipoLocal.setVerticalAlignment(SwingConstants.BOTTOM);
 		lblEquipoLocal.setHorizontalAlignment(SwingConstants.CENTER);
@@ -3169,7 +2319,7 @@ public class Home extends JFrame implements Runnable {
 		lblEquipoVisitante = new JLabel("Equipo Visitante");
 		lblEquipoVisitante.setBounds(806, 13, 370, 31);
 		panel_2.add(lblEquipoVisitante);
-		lblEquipoVisitante.setBackground(new Color(0, 0, 0));
+		lblEquipoVisitante.setBackground(new Color(0, 30,72));
 		lblEquipoVisitante.setOpaque(true);
 		lblEquipoVisitante.setVerticalAlignment(SwingConstants.BOTTOM);
 		lblEquipoVisitante.setHorizontalAlignment(SwingConstants.CENTER);
@@ -3182,7 +2332,7 @@ public class Home extends JFrame implements Runnable {
 		lblDefensa.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDefensa.setForeground(Color.WHITE);
 		lblDefensa.setFont(new Font("Consolas", Font.PLAIN, 20));
-		lblDefensa.setBackground(Color.BLACK);
+		lblDefensa.setBackground(new Color(0, 30,72));
 		lblDefensa.setBounds(410, 64, 370, 31);
 		panel_2.add(lblDefensa);
 
@@ -3192,7 +2342,7 @@ public class Home extends JFrame implements Runnable {
 		lblOfensiva.setHorizontalAlignment(SwingConstants.CENTER);
 		lblOfensiva.setForeground(Color.WHITE);
 		lblOfensiva.setFont(new Font("Consolas", Font.PLAIN, 20));
-		lblOfensiva.setBackground(Color.BLACK);
+		lblOfensiva.setBackground(new Color(0, 30,72));
 		lblOfensiva.setBounds(410, 170, 370, 31);
 		panel_2.add(lblOfensiva);
 
@@ -3202,7 +2352,7 @@ public class Home extends JFrame implements Runnable {
 		lblBateador.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBateador.setForeground(Color.WHITE);
 		lblBateador.setFont(new Font("Consolas", Font.PLAIN, 20));
-		lblBateador.setBackground(Color.BLACK);
+		lblBateador.setBackground(new Color(0, 30,72));
 		lblBateador.setBounds(410, 275, 370, 31);
 		panel_2.add(lblBateador);
 
@@ -3357,12 +2507,18 @@ public class Home extends JFrame implements Runnable {
 		lblControlBateo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblControlBateo.setForeground(Color.WHITE);
 		lblControlBateo.setFont(new Font("Consolas", Font.PLAIN, 20));
-		lblControlBateo.setBackground(Color.BLACK);
+		lblControlBateo.setBackground(new Color(0, 30,72));
 		lblControlBateo.setBounds(0, 0, 370, 31);
 		panelControlBateo.add(lblControlBateo);
 
 		panel_4 = new JPanel() {
 			protected void paintComponent(Graphics g) {
+				g.setColor(getBackground());
+
+				g.fillRect(0, 0, getWidth(), getHeight());
+
+				super.paintComponent(g);
+			
 			}
 		};
 		panel_4.setBounds(715, 764, 370, 100);
@@ -3397,12 +2553,18 @@ public class Home extends JFrame implements Runnable {
 		lblControlInnin.setHorizontalAlignment(SwingConstants.CENTER);
 		lblControlInnin.setForeground(Color.WHITE);
 		lblControlInnin.setFont(new Font("Consolas", Font.PLAIN, 20));
-		lblControlInnin.setBackground(Color.BLACK);
+		lblControlInnin.setBackground(new Color(0, 30,72));
 		lblControlInnin.setBounds(0, 0, 370, 31);
 		panel_4.add(lblControlInnin);
 
 		panel_5 = new JPanel() {
 			protected void paintComponent(Graphics g) {
+				g.setColor(getBackground());
+
+				g.fillRect(0, 0, getWidth(), getHeight());
+
+				super.paintComponent(g);
+			
 			}
 		};
 		panel_5.setLayout(null);
@@ -3437,9 +2599,459 @@ public class Home extends JFrame implements Runnable {
 		lblFinalizarPartido.setHorizontalAlignment(SwingConstants.CENTER);
 		lblFinalizarPartido.setForeground(Color.WHITE);
 		lblFinalizarPartido.setFont(new Font("Consolas", Font.PLAIN, 20));
-		lblFinalizarPartido.setBackground(Color.BLACK);
+		lblFinalizarPartido.setBackground(new Color(0, 30,72));
 		lblFinalizarPartido.setBounds(0, 0, 370, 31);
 		panel_5.add(lblFinalizarPartido);
+		
+		panel_1 = new JPanel() {
+			protected void paintComponent(Graphics g) {
+				g.setColor(getBackground());
+
+				g.fillRect(0, 0, getWidth(), getHeight());
+
+				super.paintComponent(g);
+			
+			}
+		};
+		panel_1.setLayout(null);
+		panel_1.setBackground(new Color(0, 0, 0, 60));
+		panel_1.setBounds(1500, 13, 398, 509);
+		panelGameSimulation.add(panel_1);
+		
+		label = new JLabel();
+		label.setVerticalTextPosition(SwingConstants.BOTTOM);
+		label.setVerticalAlignment(SwingConstants.BOTTOM);
+		label.setText("NOMBRE");
+		label.setForeground(new Color(255, 255, 255));
+		label.setFont(new Font("Consolas", Font.BOLD, 32));
+		label.setBackground(Color.WHITE);
+		label.setBounds(12, 181, 374, 38);
+		panel_1.add(label);
+		
+		label_10 = new JLabel("");
+		label_10.setToolTipText("LIDOM");
+		label_10.setOpaque(true);
+		label_10.setBackground(Color.BLACK);
+		label_10.setBounds(12, 13, 160, 160);
+		panel_1.add(label_10);
+		
+		label_11 = new JLabel();
+		label_11.setVerticalTextPosition(SwingConstants.BOTTOM);
+		label_11.setVerticalAlignment(SwingConstants.BOTTOM);
+		label_11.setText("#");
+		label_11.setHorizontalAlignment(SwingConstants.CENTER);
+		label_11.setForeground(new Color(255, 255, 255));
+		label_11.setFont(new Font("Consolas", Font.BOLD, 32));
+		label_11.setBackground(Color.WHITE);
+		label_11.setBounds(316, 130, 70, 38);
+		panel_1.add(label_11);
+		
+		lblEstadsticasBateadorEn = new JLabel("Estad\u00EDsticas Bateador En Turno");
+		lblEstadsticasBateadorEn.setVerticalTextPosition(SwingConstants.BOTTOM);
+		lblEstadsticasBateadorEn.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblEstadsticasBateadorEn.setHorizontalAlignment(SwingConstants.LEFT);
+		lblEstadsticasBateadorEn.setForeground(new Color(255, 255, 255));
+		lblEstadsticasBateadorEn.setFont(new Font("Consolas", Font.BOLD, 20));
+		lblEstadsticasBateadorEn.setBounds(12, 232, 374, 24);
+		panel_1.add(lblEstadsticasBateadorEn);
+		
+		separator_3 = new JSeparator();
+		separator_3.setOpaque(true);
+		separator_3.setBorder(null);
+		separator_3.setBackground(new Color(4, 10, 20));
+		separator_3.setBounds(12, 269, 374, -8);
+		panel_1.add(separator_3);
+		
+		label_13 = new JLabel("AVG");
+		label_13.setVerticalTextPosition(SwingConstants.BOTTOM);
+		label_13.setVerticalAlignment(SwingConstants.BOTTOM);
+		label_13.setHorizontalAlignment(SwingConstants.CENTER);
+		label_13.setForeground(new Color(255, 255, 255));
+		label_13.setFont(new Font("Consolas", Font.PLAIN, 20));
+		label_13.setBounds(12, 269, 85, 31);
+		panel_1.add(label_13);
+		
+		textField = new JTextField() {
+			/************* PARA REDONDEAR JTEXTFIELD *************/
+			@Override 
+			protected void paintComponent(Graphics g) {
+				if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+					Graphics2D g2 = (Graphics2D) g.create();
+					g2.setPaint(getBackground());
+					g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+							0, 0, getWidth() - 1, getHeight() - 1));
+					g2.dispose();
+				}
+				super.paintComponent(g);
+			}
+			@Override 
+			public void updateUI() {
+				super.updateUI();
+				setOpaque(false);
+				setBorder(new RoundedCornerBorder());
+			}
+		};
+		/**********************************************************/	
+		textField.setHorizontalAlignment(SwingConstants.CENTER);
+		textField.setFont(new Font("Consolas", Font.PLAIN, 18));
+		textField.setEditable(false);
+		textField.setDisabledTextColor(Color.BLACK);
+		textField.setColumns(10);
+		textField.setBounds(12, 303, 85, 30);
+		panel_1.add(textField);
+		
+		textField_12 = new JTextField() {
+			/************* PARA REDONDEAR JTEXTFIELD *************/
+			@Override 
+			protected void paintComponent(Graphics g) {
+				if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+					Graphics2D g2 = (Graphics2D) g.create();
+					g2.setPaint(getBackground());
+					g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+							0, 0, getWidth() - 1, getHeight() - 1));
+					g2.dispose();
+				}
+				super.paintComponent(g);
+			}
+			@Override 
+			public void updateUI() {
+				super.updateUI();
+				setOpaque(false);
+				setBorder(new RoundedCornerBorder());
+			}
+		};
+		/**********************************************************/	
+		textField_12.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_12.setFont(new Font("Consolas", Font.PLAIN, 18));
+		textField_12.setEditable(false);
+		textField_12.setDisabledTextColor(Color.BLACK);
+		textField_12.setColumns(10);
+		textField_12.setBounds(204, 303, 85, 30);
+		panel_1.add(textField_12);
+		
+		label_14 = new JLabel("H1");
+		label_14.setVerticalTextPosition(SwingConstants.BOTTOM);
+		label_14.setVerticalAlignment(SwingConstants.BOTTOM);
+		label_14.setHorizontalAlignment(SwingConstants.CENTER);
+		label_14.setForeground(new Color(255, 255, 255));
+		label_14.setFont(new Font("Consolas", Font.PLAIN, 20));
+		label_14.setBounds(204, 269, 85, 31);
+		panel_1.add(label_14);
+		
+		label_15 = new JLabel("H2");
+		label_15.setVerticalTextPosition(SwingConstants.BOTTOM);
+		label_15.setVerticalAlignment(SwingConstants.BOTTOM);
+		label_15.setHorizontalAlignment(SwingConstants.CENTER);
+		label_15.setForeground(new Color(255, 255, 255));
+		label_15.setFont(new Font("Consolas", Font.PLAIN, 20));
+		label_15.setBounds(301, 269, 85, 31);
+		panel_1.add(label_15);
+		
+		textField_26 = new JTextField() {
+			/************* PARA REDONDEAR JTEXTFIELD *************/
+			@Override 
+			protected void paintComponent(Graphics g) {
+				if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+					Graphics2D g2 = (Graphics2D) g.create();
+					g2.setPaint(getBackground());
+					g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+							0, 0, getWidth() - 1, getHeight() - 1));
+					g2.dispose();
+				}
+				super.paintComponent(g);
+			}
+			@Override 
+			public void updateUI() {
+				super.updateUI();
+				setOpaque(false);
+				setBorder(new RoundedCornerBorder());
+			}
+		};
+		/**********************************************************/	
+		textField_26.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_26.setFont(new Font("Consolas", Font.PLAIN, 18));
+		textField_26.setEditable(false);
+		textField_26.setDisabledTextColor(Color.BLACK);
+		textField_26.setColumns(10);
+		textField_26.setBounds(301, 303, 85, 30);
+		panel_1.add(textField_26);
+		
+		label_16 = new JLabel("SB");
+		label_16.setVerticalTextPosition(SwingConstants.BOTTOM);
+		label_16.setVerticalAlignment(SwingConstants.BOTTOM);
+		label_16.setHorizontalAlignment(SwingConstants.CENTER);
+		label_16.setForeground(new Color(255, 255, 255));
+		label_16.setFont(new Font("Consolas", Font.PLAIN, 20));
+		label_16.setBounds(204, 346, 85, 31);
+		panel_1.add(label_16);
+		
+		textField_27 = new JTextField() {
+			/************* PARA REDONDEAR JTEXTFIELD *************/
+			@Override 
+			protected void paintComponent(Graphics g) {
+				if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+					Graphics2D g2 = (Graphics2D) g.create();
+					g2.setPaint(getBackground());
+					g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+							0, 0, getWidth() - 1, getHeight() - 1));
+					g2.dispose();
+				}
+				super.paintComponent(g);
+			}
+			@Override 
+			public void updateUI() {
+				super.updateUI();
+				setOpaque(false);
+				setBorder(new RoundedCornerBorder());
+			}
+		};
+		/**********************************************************/	
+		textField_27.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_27.setFont(new Font("Consolas", Font.PLAIN, 18));
+		textField_27.setEditable(false);
+		textField_27.setDisabledTextColor(Color.BLACK);
+		textField_27.setColumns(10);
+		textField_27.setBounds(204, 380, 85, 30);
+		panel_1.add(textField_27);
+		
+		textField_28 = new JTextField() {
+			/************* PARA REDONDEAR JTEXTFIELD *************/
+			@Override 
+			protected void paintComponent(Graphics g) {
+				if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+					Graphics2D g2 = (Graphics2D) g.create();
+					g2.setPaint(getBackground());
+					g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+							0, 0, getWidth() - 1, getHeight() - 1));
+					g2.dispose();
+				}
+				super.paintComponent(g);
+			}
+			@Override 
+			public void updateUI() {
+				super.updateUI();
+				setOpaque(false);
+				setBorder(new RoundedCornerBorder());
+			}
+		};
+		/**********************************************************/	
+		textField_28.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_28.setFont(new Font("Consolas", Font.PLAIN, 18));
+		textField_28.setEditable(false);
+		textField_28.setDisabledTextColor(Color.BLACK);
+		textField_28.setColumns(10);
+		textField_28.setBounds(109, 303, 85, 30);
+		panel_1.add(textField_28);
+		
+		label_17 = new JLabel("R");
+		label_17.setVerticalTextPosition(SwingConstants.BOTTOM);
+		label_17.setVerticalAlignment(SwingConstants.BOTTOM);
+		label_17.setHorizontalAlignment(SwingConstants.CENTER);
+		label_17.setForeground(new Color(255, 255, 255));
+		label_17.setFont(new Font("Consolas", Font.PLAIN, 20));
+		label_17.setBounds(109, 269, 85, 31);
+		panel_1.add(label_17);
+		
+		textField_29 = new JTextField() {
+			/************* PARA REDONDEAR JTEXTFIELD *************/
+			@Override 
+			protected void paintComponent(Graphics g) {
+				if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+					Graphics2D g2 = (Graphics2D) g.create();
+					g2.setPaint(getBackground());
+					g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+							0, 0, getWidth() - 1, getHeight() - 1));
+					g2.dispose();
+				}
+				super.paintComponent(g);
+			}
+			@Override 
+			public void updateUI() {
+				super.updateUI();
+				setOpaque(false);
+				setBorder(new RoundedCornerBorder());
+			}
+		};
+		/**********************************************************/	
+		textField_29.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_29.setFont(new Font("Consolas", Font.PLAIN, 18));
+		textField_29.setEditable(false);
+		textField_29.setDisabledTextColor(Color.BLACK);
+		textField_29.setColumns(10);
+		textField_29.setBounds(301, 380, 85, 30);
+		panel_1.add(textField_29);
+		
+		label_18 = new JLabel("RBI");
+		label_18.setVerticalTextPosition(SwingConstants.BOTTOM);
+		label_18.setVerticalAlignment(SwingConstants.BOTTOM);
+		label_18.setHorizontalAlignment(SwingConstants.CENTER);
+		label_18.setForeground(new Color(255, 255, 255));
+		label_18.setFont(new Font("Consolas", Font.PLAIN, 20));
+		label_18.setBounds(301, 346, 85, 31);
+		panel_1.add(label_18);
+		
+		textField_30 = new JTextField() {
+			/************* PARA REDONDEAR JTEXTFIELD *************/
+			@Override 
+			protected void paintComponent(Graphics g) {
+				if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+					Graphics2D g2 = (Graphics2D) g.create();
+					g2.setPaint(getBackground());
+					g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+							0, 0, getWidth() - 1, getHeight() - 1));
+					g2.dispose();
+				}
+				super.paintComponent(g);
+			}
+			@Override 
+			public void updateUI() {
+				super.updateUI();
+				setOpaque(false);
+				setBorder(new RoundedCornerBorder());
+			}
+		};
+		/**********************************************************/	
+		textField_30.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_30.setFont(new Font("Consolas", Font.PLAIN, 18));
+		textField_30.setEditable(false);
+		textField_30.setDisabledTextColor(Color.BLACK);
+		textField_30.setColumns(10);
+		textField_30.setBounds(12, 380, 85, 30);
+		panel_1.add(textField_30);
+		
+		label_19 = new JLabel("H3");
+		label_19.setVerticalTextPosition(SwingConstants.BOTTOM);
+		label_19.setVerticalAlignment(SwingConstants.BOTTOM);
+		label_19.setHorizontalAlignment(SwingConstants.CENTER);
+		label_19.setForeground(new Color(255, 255, 255));
+		label_19.setFont(new Font("Consolas", Font.PLAIN, 20));
+		label_19.setBounds(12, 346, 85, 31);
+		panel_1.add(label_19);
+		
+		label_20 = new JLabel("BB");
+		label_20.setVerticalTextPosition(SwingConstants.BOTTOM);
+		label_20.setVerticalAlignment(SwingConstants.BOTTOM);
+		label_20.setHorizontalAlignment(SwingConstants.CENTER);
+		label_20.setForeground(new Color(255, 255, 255));
+		label_20.setFont(new Font("Consolas", Font.PLAIN, 20));
+		label_20.setBounds(12, 423, 85, 31);
+		panel_1.add(label_20);
+		
+		textField_31 = new JTextField() {
+			/************* PARA REDONDEAR JTEXTFIELD *************/
+			@Override 
+			protected void paintComponent(Graphics g) {
+				if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+					Graphics2D g2 = (Graphics2D) g.create();
+					g2.setPaint(getBackground());
+					g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+							0, 0, getWidth() - 1, getHeight() - 1));
+					g2.dispose();
+				}
+				super.paintComponent(g);
+			}
+			@Override 
+			public void updateUI() {
+				super.updateUI();
+				setOpaque(false);
+				setBorder(new RoundedCornerBorder());
+			}
+		};
+		/**********************************************************/	
+		textField_31.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_31.setFont(new Font("Consolas", Font.PLAIN, 18));
+		textField_31.setEditable(false);
+		textField_31.setDisabledTextColor(Color.BLACK);
+		textField_31.setColumns(10);
+		textField_31.setBounds(12, 457, 85, 30);
+		panel_1.add(textField_31);
+		
+		textField_32 = new JTextField() {
+			/************* PARA REDONDEAR JTEXTFIELD *************/
+			@Override 
+			protected void paintComponent(Graphics g) {
+				if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+					Graphics2D g2 = (Graphics2D) g.create();
+					g2.setPaint(getBackground());
+					g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+							0, 0, getWidth() - 1, getHeight() - 1));
+					g2.dispose();
+				}
+				super.paintComponent(g);
+			}
+			@Override 
+			public void updateUI() {
+				super.updateUI();
+				setOpaque(false);
+				setBorder(new RoundedCornerBorder());
+			}
+		};
+		/**********************************************************/	
+		textField_32.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_32.setFont(new Font("Consolas", Font.PLAIN, 18));
+		textField_32.setEditable(false);
+		textField_32.setDisabledTextColor(Color.BLACK);
+		textField_32.setColumns(10);
+		textField_32.setBounds(109, 457, 85, 30);
+		panel_1.add(textField_32);
+		
+		label_21 = new JLabel("SO");
+		label_21.setVerticalTextPosition(SwingConstants.BOTTOM);
+		label_21.setVerticalAlignment(SwingConstants.BOTTOM);
+		label_21.setHorizontalAlignment(SwingConstants.CENTER);
+		label_21.setForeground(new Color(255, 255, 255));
+		label_21.setFont(new Font("Consolas", Font.PLAIN, 20));
+		label_21.setBounds(109, 423, 85, 31);
+		panel_1.add(label_21);
+		
+		textField_33 = new JTextField() {
+			/************* PARA REDONDEAR JTEXTFIELD *************/
+			@Override 
+			protected void paintComponent(Graphics g) {
+				if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+					Graphics2D g2 = (Graphics2D) g.create();
+					g2.setPaint(getBackground());
+					g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+							0, 0, getWidth() - 1, getHeight() - 1));
+					g2.dispose();
+				}
+				super.paintComponent(g);
+			}
+			@Override 
+			public void updateUI() {
+				super.updateUI();
+				setOpaque(false);
+				setBorder(new RoundedCornerBorder());
+			}
+		};
+		/**********************************************************/	
+		textField_33.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_33.setFont(new Font("Consolas", Font.PLAIN, 18));
+		textField_33.setEditable(false);
+		textField_33.setDisabledTextColor(Color.BLACK);
+		textField_33.setColumns(10);
+		textField_33.setBounds(109, 380, 85, 30);
+		panel_1.add(textField_33);
+		
+		label_22 = new JLabel("HR");
+		label_22.setVerticalTextPosition(SwingConstants.BOTTOM);
+		label_22.setVerticalAlignment(SwingConstants.BOTTOM);
+		label_22.setHorizontalAlignment(SwingConstants.CENTER);
+		label_22.setForeground(new Color(255, 255, 255));
+		label_22.setFont(new Font("Consolas", Font.PLAIN, 20));
+		label_22.setBounds(109, 346, 85, 31);
+		panel_1.add(label_22);
+		
+		lblb = new JLabel("3B");
+		lblb.setVerticalTextPosition(SwingConstants.BOTTOM);
+		lblb.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblb.setHorizontalTextPosition(SwingConstants.LEFT);
+		lblb.setHorizontalAlignment(SwingConstants.CENTER);
+		lblb.setForeground(new Color(255, 255, 255));
+		lblb.setFont(new Font("Consolas", Font.BOLD, 32));
+		lblb.setBackground(new Color(0, 30, 72));
+		lblb.setBounds(184, 123, 70, 50);
+		panel_1.add(lblb);
 
 		lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(Home.class.getResource("/iconos_imagenes/BgGameSimulation.png")));
@@ -3473,77 +3085,7 @@ public class Home extends JFrame implements Runnable {
 		button.setBackground(new Color(0,30,72));
 	}
 
-	// metodo para abrir la ventana de admin equipo con los datos correspondientes.
-	public static void manageTeamOpen(Team auxTeam) {
-
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-
-		if (auxTeam!=null) {
-			panelBgDashboard.setVisible(false);
-			panelManageTeams.setVisible(true);
-			panelLineUp.setVisible(false);
-
-
-			lblNameTeam.setText(auxTeam.getName());
-			lblEstadioTeam.setText(auxTeam.getStadium());
-			lblFundadoTeam.setText(formatter.format(auxTeam.getFoundationDate()));
-			lblManagerTeam.setText(auxTeam.getManager());
-
-
-			String routetosave = "Fotos_Equipos/"+ auxTeam.getName() + ".png";
-			/** to adjust image at size of JLabel **/
-			ImageIcon fotoJugador = new ImageIcon(routetosave);
-			Icon fotoJ = new ImageIcon(fotoJugador.getImage().getScaledInstance(lblLogoTeam.getWidth(), lblLogoTeam.getHeight(), Image.SCALE_SMOOTH));
-			lblLogoTeam.setIcon(fotoJ);
-
-		}
-	}
-	// Metodo para cargar la lista de jugadores de un equipo, roster.
-	public static void loadRosterPlayerByTeam(Team team) {
-
-		modelRoster= (DefaultTableModel) tableRoster.getModel();
-		modelRoster.setRowCount(0);
-		columnRoster = new Object[modelRoster.getColumnCount()];
-
-		for (Player playerR : team.getRosterPlayers()) {
-			if (!playerR.getLesionado()) {
-
-
-				columnRoster[0] = playerR.getId();
-				columnRoster[1] = playerR.getName() + " " + playerR.getLastname();
-
-				if (playerR instanceof Pitcher) {
-					columnRoster[2] = "P - " + ((Pitcher) playerR).getTipo();	
-				}
-				else if (playerR instanceof Batter) {
-					columnRoster[2] = "B - " + ((Batter) playerR).getPosition();
-				}
-			}
-			modelRoster.addRow(columnRoster);
-
-		}
-
-	}
 	
-	// Metodo para cargar la lista de jugadores lesionados de un equipo.
-	public static void loadInjuryPlayerByTeam(Team team) {
-
-		modelLesionados= (DefaultTableModel) tableLesionados.getModel();
-		modelLesionados.setRowCount(0);
-		columnLesionados = new Object[modelLesionados.getColumnCount()];
-
-		for (Player playerR : team.getRosterPlayers()) {
-			if (playerR.getLesionado()== true) {
-                System.out.println("ENTRE LESIONADO");
-				columnLesionados[0] = playerR.getId();
-				columnLesionados[1] = playerR.getName() + " " + playerR.getLastname();
-				modelLesionados.addRow(columnLesionados);
-			}
-			
-
-		}
-
-	}
 
 	// Metodo para cargar la lista de jugadores de un equipo, roster.
 	public static void loadLineUpPlayerByTeam(Team team, DefaultTableModel model, Object [] column, JTable table) {
@@ -3567,6 +3109,24 @@ public class Home extends JFrame implements Runnable {
 
 		}
 
+	}
+	
+	public boolean verificarEquipoLineUp(String local, String visitante) {
+		 boolean correct = false;
+		Team auxLocal = Lidom.getInstance().searchTeamByName(local);
+		Team auxVisita = Lidom.getInstance().searchTeamByName(visitante);
+		
+		if (auxLocal.getLineUp().size() > 9 && auxVisita.getLineUp().size() > 9) {
+			correct = true;
+			
+		}
+		else{
+			correct = false;
+		}
+		
+		return correct;
+		
+		
 	}
 
 

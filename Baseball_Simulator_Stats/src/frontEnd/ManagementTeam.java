@@ -200,6 +200,7 @@ public class ManagementTeam extends JDialog {
 	private JLabel lblC;
 	private JButton btnBD;
 	private JLabel lblBD;
+	private JButton btnEliminarJugador;
 
 
 	/**
@@ -2003,6 +2004,38 @@ public class ManagementTeam extends JDialog {
 			label_29.setFont(new Font("Consolas", Font.PLAIN, 20));
 			label_29.setBounds(478, 147, 85, 31);
 			panelEstadisticaPitcher.add(label_29);
+			
+			btnEliminarJugador = new JButton("");
+			btnEliminarJugador.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
+					String[] options = {"Si", "No"};	
+					int xOption	= JOptionPane.showOptionDialog(null, "¿Seguro que desea eliminar el jugador? " + codeJugadorRoster, "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
+
+					if (xOption == 0) {
+						Player auxPlayer = Lidom.getInstance().searchPlayerByID(codeJugadorRoster);
+						Lidom.getInstance().deletePlayer(auxPlayer);
+						Lidom.getInstance().deletePlayerToTeam(auxPlayer.getTeamName(), auxPlayer);
+
+						ImageIcon icon1 = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_checked_48px_1.png"));
+						String[] options1 = {"Ok"};	
+						JOptionPane.showOptionDialog(null, "Eliminado con exito!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1);
+						loadRosterPlayerByTeam();
+						
+					}
+				}
+			});
+			btnEliminarJugador.setIcon(new ImageIcon(ManagementTeam.class.getResource("/iconos_imagenes/icons8_delete_sign_36px_1.png")));
+			btnEliminarJugador.setToolTipText("Eliminar jugador.");
+			btnEliminarJugador.setIconTextGap(5);
+			btnEliminarJugador.setHorizontalTextPosition(SwingConstants.RIGHT);
+			btnEliminarJugador.setForeground(new Color(255, 255, 240));
+			btnEliminarJugador.setFont(new Font("Consolas", Font.BOLD, 20));
+			btnEliminarJugador.setBorder(null);
+			btnEliminarJugador.setBackground(new Color(4, 10, 20));
+			btnEliminarJugador.setBounds(721, 85, 38, 37);
+			panelPerfilJugador.add(btnEliminarJugador);
 
 			scrollPaneLineUp = new JScrollPane();
 			scrollPaneLineUp.setBackground(new Color(255, 255, 255));
@@ -2452,7 +2485,7 @@ public class ManagementTeam extends JDialog {
 
 		lblName.setText(auxP.getName() + " " + auxP.getLastname());
 
-		String routetosave = "Fotos_Jugadores/"+ auxP.getName() + ".png";
+		String routetosave = "Fotos_Jugadores/"+ auxP.getName() + " " + auxP.getLastname() + ".png";
 		/** to adjust image at size of JLabel **/
 		ImageIcon fotoJugador = new ImageIcon(routetosave);
 		Icon fotoJ = new ImageIcon(fotoJugador.getImage().getScaledInstance(lblFotoJugador.getWidth(), lblFotoJugador.getHeight(), Image.SCALE_SMOOTH));

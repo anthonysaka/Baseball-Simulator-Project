@@ -528,6 +528,11 @@ public class Lidom implements Serializable {
 		Team auxTeam = searchTeamByName(nameTeam); //Buscar el equipo correspondiente.
 		auxTeam.addPlayerRoster(player);
 	}
+	
+	public void deletePlayerToTeam(String nameTeam, Player player) {
+		Team auxTeam = searchTeamByName(nameTeam); //Buscar el equipo correspondiente.
+		auxTeam.deletePlayerRoster(player);
+	}
 
 	public Boolean checkIdPlayer(String myPlayerId) {
 
@@ -580,6 +585,8 @@ public class Lidom implements Serializable {
 
 		return Mejor_Team;
 	}
+	
+
 
 
 

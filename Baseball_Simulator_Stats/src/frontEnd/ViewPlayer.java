@@ -197,11 +197,12 @@ public class ViewPlayer extends JDialog {
 					
 					ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
 					String[] options = {"Si", "No"};	
-					int xOption	= JOptionPane.showOptionDialog(null, "¿Seguro que desea eliminar el estadio? " + codePlayer + namePlayer, "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
+					int xOption	= JOptionPane.showOptionDialog(null, "¿Seguro que desea eliminar el jugador? " + codePlayer + namePlayer, "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
 
 					if (xOption == 0) {
 						Player auxPlayer = Lidom.getInstance().searchPlayerByID(codePlayer);
 						Lidom.getInstance().deletePlayer(auxPlayer);
+						Lidom.getInstance().deletePlayerToTeam(auxPlayer.getTeamName(), auxPlayer);
 
 						ImageIcon icon1 = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_checked_48px_1.png"));
 						String[] options1 = {"Ok"};	
