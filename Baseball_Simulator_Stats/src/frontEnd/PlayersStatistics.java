@@ -18,6 +18,8 @@ import javax.swing.table.DefaultTableModel;
 import backEnd.Batter;
 import backEnd.Lidom;
 import backEnd.Player;
+import backEnd.Stadium;
+import backEnd.Team;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -26,6 +28,7 @@ import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.CardLayout;
+import javax.swing.JComboBox;
 
 
 
@@ -47,6 +50,7 @@ public class PlayersStatistics extends JDialog {
 	private static Object[] column;
 	private JTable StatisticsTableBat;
 	private JTable StatisticsTablePit;
+	private JComboBox cbxTeam;
 
 	/**
 	 * Launch the application.
@@ -423,8 +427,27 @@ public class PlayersStatistics extends JDialog {
 		StatisticsTablePit.getColumnModel().getColumn(11).setMinWidth(20);
 		StatisticsTablePit.getColumnModel().getColumn(12).setMinWidth(20);
 		scrollPanePit.setViewportView(StatisticsTablePit);
+		
+		cbxTeam = new JComboBox();
+		cbxTeam.setBounds(633, 58, 146, 30);
+		panelBg.add(cbxTeam);
 
 		loadTable();
+		loadteamCbx();
+	}
+	
+	private void loadteamCbx() {
+
+		cbxTeam.removeAllItems();
+
+		for (Team s : Lidom.getInstance().getListTeams()) {
+			cbxTeam.addItem(s.getName());	
+		}
+		
+		cbxTeam.insertItemAt(new String("<Seleccionar"), 0);
+		cbxTeam.setSelectedIndex(0);
+		
+
 	}
 
 

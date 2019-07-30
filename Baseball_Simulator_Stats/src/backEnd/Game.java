@@ -26,6 +26,9 @@ public class Game implements Serializable{
 		this.homeTeam = homeTeam;
 		this.awayTeam = awayTeam;
 		this.stadium = stadium;
+		homeRun = 0;
+		awayRun = 0;
+		finished = false;
 	//	this.hora = hora;
 	//	this.date = date;
 	}

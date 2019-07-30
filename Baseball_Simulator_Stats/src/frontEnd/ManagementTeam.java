@@ -204,6 +204,8 @@ public class ManagementTeam extends JDialog {
 	private JButton btnEliminarJugador;
 	private String codePlayer;
 	private String namePlayer;
+	private static JTextField txtTurnos;
+	private JLabel lblTurnos;
 
 
 	/**
@@ -428,21 +430,25 @@ public class ManagementTeam extends JDialog {
 
 							if (auxTeam.getLineUp().size() > 0) {
 
+								try {
+									for (Player playel : auxTeam.getLineUp()) {
 
-								for (Player playel : auxTeam.getLineUp()) {
+										if (playel  instanceof Batter) {
 
-									if (playel  instanceof Batter) {
+											if (((Batter) playel).getPosition().equalsIgnoreCase("Center fielder")) {
+												auxTeam.getLineUp().remove(i);
+												auxTeam.getLineUp().add(i, auxPlayer);
+												jugadorRepetido = true;
 
-										if (((Batter) playel).getPosition().equalsIgnoreCase("Center fielder")) {
-											auxTeam.getLineUp().remove(i);
-											auxTeam.getLineUp().add(i, auxPlayer);
+											}
 
 										}
 
+
+										i++;
 									}
+								}catch(java.util.ConcurrentModificationException e2) {
 
-
-									i++;
 								}
 							}if(jugadorRepetido == false){
 								auxTeam.addPlayerLineUp(auxPlayer);
@@ -495,21 +501,25 @@ public class ManagementTeam extends JDialog {
 
 							if (auxTeam.getLineUp().size() > 0) {
 
+								try {
+									for (Player playel : auxTeam.getLineUp()) {
 
-								for (Player playel : auxTeam.getLineUp()) {
+										if (playel  instanceof Batter) {
 
-									if (playel  instanceof Batter) {
+											if (((Batter) playel).getPosition().equalsIgnoreCase("Left fielder")) {
+												auxTeam.getLineUp().remove(i);
+												auxTeam.getLineUp().add(i, auxPlayer);
+												jugadorRepetido = true;
 
-										if (((Batter) playel).getPosition().equalsIgnoreCase("Left fielder")) {
-											auxTeam.getLineUp().remove(i);
-											auxTeam.getLineUp().add(i, auxPlayer);
+											}
 
 										}
 
+
+										i++;
 									}
+								}catch(java.util.ConcurrentModificationException e2) {
 
-
-									i++;
 								}
 							}if(jugadorRepetido == false){
 								auxTeam.addPlayerLineUp(auxPlayer);
@@ -563,24 +573,26 @@ public class ManagementTeam extends JDialog {
 							int i = 0;
 
 							if (auxTeam.getLineUp().size() > 0) {
+								try {
+									for (Player playel : auxTeam.getLineUp()) {
 
-								for (Player playel : auxTeam.getLineUp()) {
+										if (playel  instanceof Batter) {
 
-									if (playel  instanceof Batter) {
+											if (((Batter) playel).getPosition().equalsIgnoreCase("Short stop")) {
+												auxTeam.getLineUp().remove(i);
+												auxTeam.getLineUp().add(i, auxPlayer);
+												jugadorRepetido = true;
 
-										if (((Batter) playel).getPosition().equalsIgnoreCase("Short stop")) {
-											auxTeam.getLineUp().remove(i);
-											auxTeam.getLineUp().add(i, auxPlayer);
-											jugadorRepetido = true;
-
+											}
 										}
+										i++;
 									}
-									i++;
+								}catch(java.util.ConcurrentModificationException e2) {
+
 								}
-								
-								
+
 							}
-							
+
 							if(jugadorRepetido == false){
 								auxTeam.addPlayerLineUp(auxPlayer);
 							}
@@ -632,16 +644,21 @@ public class ManagementTeam extends JDialog {
 
 							if (auxTeam.getLineUp().size() > 0) {
 
-								for (Player playel : auxTeam.getLineUp()) {
+								try {
+									for (Player playel : auxTeam.getLineUp()) {
 
-									if (playel  instanceof Batter) {
+										if (playel  instanceof Batter) {
 
-										if (((Batter) playel).getPosition().equalsIgnoreCase("Tercera base")) {
-											auxTeam.getLineUp().remove(i);
-											auxTeam.getLineUp().add(i, auxPlayer);  /// para sustituir la posicion en el lineup
+											if (((Batter) playel).getPosition().equalsIgnoreCase("Tercera base")) {
+												auxTeam.getLineUp().remove(i);
+												auxTeam.getLineUp().add(i, auxPlayer);  /// para sustituir la posicion en el lineup
+												jugadorRepetido = true;
+											}
 										}
+										i++;
 									}
-									i++;
+								}catch(java.util.ConcurrentModificationException e2) {
+
 								}
 							}if(jugadorRepetido == false){
 								auxTeam.addPlayerLineUp(auxPlayer);
@@ -693,17 +710,20 @@ public class ManagementTeam extends JDialog {
 							int i = 0;
 
 							if (auxTeam.getLineUp().size() > 0) {
+								try {
+									for (Player playel : auxTeam.getLineUp()) {
 
-								for (Player playel : auxTeam.getLineUp()) {
+										if (playel  instanceof Pitcher) {
 
-									if (playel  instanceof Pitcher) {
-
-										auxTeam.getLineUp().remove(i);
-										auxTeam.getLineUp().add(i, auxPlayer);
+											auxTeam.getLineUp().remove(i);
+											auxTeam.getLineUp().add(i, auxPlayer);
+											jugadorRepetido = true;
+										}
+										i++;
 									}
-									i++;
-								}
+								}catch(java.util.ConcurrentModificationException e2) {
 
+								}
 							}if(jugadorRepetido == false){
 								auxTeam.addPlayerLineUp(auxPlayer);
 							}
@@ -755,21 +775,25 @@ public class ManagementTeam extends JDialog {
 
 							if (auxTeam.getLineUp().size() > 0) {
 
+								try {
+									for (Player playel : auxTeam.getLineUp()) {
 
-								for (Player playel : auxTeam.getLineUp()) {
+										if (playel  instanceof Batter) {
 
-									if (playel  instanceof Batter) {
+											if (((Batter) playel).getPosition().equalsIgnoreCase("Catcher")) {
+												auxTeam.getLineUp().remove(i);
+												auxTeam.getLineUp().add(i, auxPlayer);
+												jugadorRepetido = true;
 
-										if (((Batter) playel).getPosition().equalsIgnoreCase("Catcher")) {
-											auxTeam.getLineUp().remove(i);
-											auxTeam.getLineUp().add(i, auxPlayer);
+											}
 
 										}
 
+
+										i++;
 									}
+								}catch(java.util.ConcurrentModificationException e2) {
 
-
-									i++;
 								}
 							}if(jugadorRepetido == false){
 								auxTeam.addPlayerLineUp(auxPlayer);
@@ -833,22 +857,24 @@ public class ManagementTeam extends JDialog {
 							int i = 0;
 
 							if (auxTeam.getLineUp().size() > 0) {
+								try {
 
+									for (Player playel : auxTeam.getLineUp()) {
 
-								for (Player playel : auxTeam.getLineUp()) {
+										if (playel  instanceof Batter) {
 
-									if (playel  instanceof Batter) {
+											if (((Batter) playel).getPosition().equalsIgnoreCase("Primera base")) {
 
-										if (((Batter) playel).getPosition().equalsIgnoreCase("Primera base")) {
-											auxTeam.getLineUp().remove(i);
-											auxTeam.getLineUp().add(i, auxPlayer);
-
-										}
-
+												auxTeam.getLineUp().remove(i);
+												auxTeam.getLineUp().add(i, auxPlayer);
+												jugadorRepetido = true;
+											}
+										}	
+										i++;
 									}
+								}
+								catch (java.util.ConcurrentModificationException e2) {
 
-
-									i++;
 								}
 							}if(jugadorRepetido == false){
 								auxTeam.addPlayerLineUp(auxPlayer);
@@ -903,21 +929,25 @@ public class ManagementTeam extends JDialog {
 
 							if (auxTeam.getLineUp().size() > 0) {
 
+								try {
+									for (Player playel : auxTeam.getLineUp()) {
 
-								for (Player playel : auxTeam.getLineUp()) {
+										if (playel  instanceof Batter) {
 
-									if (playel  instanceof Batter) {
+											if (((Batter) playel).getPosition().equalsIgnoreCase("Segunda base")) {
+												auxTeam.getLineUp().remove(i);
+												auxTeam.getLineUp().add(i, auxPlayer);
+												jugadorRepetido = true;
 
-										if (((Batter) playel).getPosition().equalsIgnoreCase("Segunda base")) {
-											auxTeam.getLineUp().remove(i);
-											auxTeam.getLineUp().add(i, auxPlayer);
+											}
 
 										}
 
+
+										i++;
 									}
+								}catch(java.util.ConcurrentModificationException e2) {
 
-
-									i++;
 								}
 							}if(jugadorRepetido == false){
 								auxTeam.addPlayerLineUp(auxPlayer);
@@ -972,21 +1002,25 @@ public class ManagementTeam extends JDialog {
 
 							if (auxTeam.getLineUp().size() > 0) {
 
+								try {
+									for (Player playel : auxTeam.getLineUp()) {
 
-								for (Player playel : auxTeam.getLineUp()) {
+										if (playel  instanceof Batter) {
 
-									if (playel  instanceof Batter) {
+											if (((Batter) playel).getPosition().equalsIgnoreCase("Right fielder")) {
+												auxTeam.getLineUp().remove(i);
+												auxTeam.getLineUp().add(i, auxPlayer);
+												jugadorRepetido = true;
 
-										if (((Batter) playel).getPosition().equalsIgnoreCase("Right fielder")) {
-											auxTeam.getLineUp().remove(i);
-											auxTeam.getLineUp().add(i, auxPlayer);
+											}
 
 										}
 
+
+										i++;
 									}
+								}catch(java.util.ConcurrentModificationException e2) {
 
-
-									i++;
 								}
 							}if(jugadorRepetido == false){
 								auxTeam.addPlayerLineUp(auxPlayer);
@@ -1040,22 +1074,26 @@ public class ManagementTeam extends JDialog {
 							int i = 0;
 
 							if (auxTeam.getLineUp().size() > 0) {
+								try {
 
+									for (Player playel : auxTeam.getLineUp()) {
 
-								for (Player playel : auxTeam.getLineUp()) {
+										if (playel  instanceof Batter) {
 
-									if (playel  instanceof Batter) {
+											if (((Batter) playel).getPosition().equalsIgnoreCase("Designado")) {
+												auxTeam.getLineUp().remove(i);
+												auxTeam.getLineUp().add(i, auxPlayer);
+												jugadorRepetido = true;
 
-										if (((Batter) playel).getPosition().equalsIgnoreCase("Designado")) {
-											auxTeam.getLineUp().remove(i);
-											auxTeam.getLineUp().add(i, auxPlayer);
+											}
 
 										}
 
+
+										i++;
 									}
+								}catch(java.util.ConcurrentModificationException e2) {
 
-
-									i++;
 								}
 							}if(jugadorRepetido == false){
 								auxTeam.addPlayerLineUp(auxPlayer);
@@ -1788,6 +1826,43 @@ public class ManagementTeam extends JDialog {
 			label_17.setFont(new Font("Consolas", Font.PLAIN, 20));
 			label_17.setBounds(229, 132, 85, 31);
 			panelEstadisticaBateador.add(label_17);
+			
+			txtTurnos = new JTextField() {
+				/************* PARA REDONDEAR JTEXTFIELD *************/
+				@Override 
+				protected void paintComponent(Graphics g) {
+					if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+						Graphics2D g2 = (Graphics2D) g.create();
+						g2.setPaint(getBackground());
+						g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+								0, 0, getWidth() - 1, getHeight() - 1));
+						g2.dispose();
+					}
+					super.paintComponent(g);
+				}
+				@Override 
+				public void updateUI() {
+					super.updateUI();
+					setOpaque(false);
+					setBorder(new RoundedCornerBorder());
+				}
+			};
+			txtTurnos.setHorizontalAlignment(SwingConstants.CENTER);
+			txtTurnos.setFont(new Font("Consolas", Font.PLAIN, 18));
+			txtTurnos.setEditable(false);
+			txtTurnos.setDisabledTextColor(Color.BLACK);
+			txtTurnos.setColumns(10);
+			txtTurnos.setBounds(638, 132, 80, 50);
+			panelEstadisticaBateador.add(txtTurnos);
+			
+			lblTurnos = new JLabel("Turnos");
+			lblTurnos.setVerticalTextPosition(SwingConstants.BOTTOM);
+			lblTurnos.setVerticalAlignment(SwingConstants.BOTTOM);
+			lblTurnos.setHorizontalAlignment(SwingConstants.CENTER);
+			lblTurnos.setForeground(Color.BLACK);
+			lblTurnos.setFont(new Font("Consolas", Font.PLAIN, 20));
+			lblTurnos.setBounds(638, 89, 85, 31);
+			panelEstadisticaBateador.add(lblTurnos);
 
 			panelEstadisticaPitcher = new JPanel();
 			panelEstadisticaPitcher.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
@@ -2307,13 +2382,14 @@ public class ManagementTeam extends JDialog {
 
 						Player auxPlayer = Lidom.getInstance().searchPlayerByID(codePlayer);
 						myTeam.getLineUp().remove(auxPlayer);
+						loadLineUpPlayerByTeam();
 
 						ImageIcon icon1 = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_checked_48px_1.png"));
 						String[] options1 = {"Ok"};	
 						JOptionPane.showOptionDialog(null, "Eliminado con exito!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon1, options1, options1);
 
+
 						loadLineUpLabel();
-						loadLineUpPlayerByTeam();
 
 					}
 
@@ -2836,6 +2912,7 @@ public class ManagementTeam extends JDialog {
 			txtBBb.setText(String.valueOf(((Batter) auxP).getBaseBall()));
 			txtSOb.setText(String.valueOf(((Batter) auxP).getStrikeOut()));
 			txtSBb.setText(String.valueOf(((Batter) auxP).getStolenBase()));
+			txtTurnos.setText(String.valueOf(((Batter) auxP).getTurnos()));
 		}
 		else if (auxP instanceof Pitcher) {
 			txtWp.setText(String.valueOf(((Pitcher) auxP).getGameWin()));
@@ -2923,7 +3000,5 @@ public class ManagementTeam extends JDialog {
 
 		}
 	}
-
-
 }
 
