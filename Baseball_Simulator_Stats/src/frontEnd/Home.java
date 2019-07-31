@@ -149,7 +149,7 @@ public class Home extends JFrame implements Runnable {
 	private JLabel label_9;
 	private JLabel lblR;
 
-	
+
 	private static JTextField txtIni1Visit;
 	private  static JTextField txtIni2Visit;
 	private  static JTextField txtIni3Visit;
@@ -212,9 +212,9 @@ public class Home extends JFrame implements Runnable {
 	private JButton btnNa;
 	private JButton btnNa_1;
 	private JLabel lblFinalizarPartido;
-	private JLabel lblEquipDef;
-	private JLabel lblEquipOfen;
-	private JLabel lblBatAct;
+	private  static JLabel lblEquipDef;
+	private static JLabel lblEquipOfen;
+	private static JLabel lblBatAct;
 	static int randomNum = 0;
 
 	/****************/
@@ -247,20 +247,21 @@ public class Home extends JFrame implements Runnable {
 	private  static JTextField txtHRb;
 	private JLabel label_22;
 	private static JLabel lblNumero;
-	
-	
+
+
 	/*********** variables para el juego **********/
-	
+
 	public static int numberOut = 0;
-	public static int turno=0;
+	public static int turnoVisitante=0;
+	public static int turnoLocal=0;
 	private static JTextField txtCarrerasLocal;
 	private static JTextField txtCarerasVisita;
 	private static int carrerasPorInningLocal = 0;
 	private static int carrerasPorInningVisita = 0;
 	private JLabel lblNewLabel_1;
-	
+
 	private  static int i = 0 ;
-	
+
 	/********************************************/
 
 
@@ -2441,9 +2442,9 @@ public class Home extends JFrame implements Runnable {
 		btnH = new JButton("H");
 		btnH.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				incrementTurno();
+				//	incrementTurno();
 				Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
-				String codePlayer = auxEquipoBateando.getLineUp().get(turno).getId();
+				String codePlayer = auxEquipoBateando.getLineUp().get(turnoVisitante).getId();
 				loadStatsSimulationPlayer(codePlayer);
 				loadPerfilPlayerSimulation(codePlayer);
 				bateadorQueEstaBateando(lblEquipOfen.getText());
@@ -2475,9 +2476,19 @@ public class Home extends JFrame implements Runnable {
 		btnH_1 = new JButton("H2");
 		btnH_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				incrementTurno();
 				Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
-				String codePlayer = auxEquipoBateando.getLineUp().get(turno).getId();
+				String codePlayer = null;
+
+				if (auxEquipoBateando.getName().equalsIgnoreCase(auxGame.getAwayTeam())) {
+					incrementTurnoVisitante();
+					codePlayer = auxEquipoBateando.getLineUp().get(turnoVisitante).getId();	
+				}
+
+				if (auxEquipoBateando.getName().equalsIgnoreCase(auxGame.getHomeTeam())) {
+					incrementTurnoLocal();
+					codePlayer = auxEquipoBateando.getLineUp().get(turnoLocal).getId();
+				}
+
 				//	loadStatsSimulationPlayer(codePlayer);
 				loadPerfilPlayerSimulation(codePlayer);
 				bateadorQueEstaBateando(lblEquipOfen.getText());
@@ -2504,9 +2515,9 @@ public class Home extends JFrame implements Runnable {
 		btnOut = new JButton("S.O");
 		btnOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				incrementTurno();
+				//	incrementTurno();
 				Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
-				String codePlayer = auxEquipoBateando.getLineUp().get(turno).getId();
+				String codePlayer = auxEquipoBateando.getLineUp().get(turnoVisitante).getId();
 				loadPerfilPlayerSimulation(codePlayer);
 				bateadorQueEstaBateando(lblEquipOfen.getText());
 
@@ -2531,9 +2542,9 @@ public class Home extends JFrame implements Runnable {
 		btnHr = new JButton("HR");
 		btnHr.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				incrementTurno();
+				//	incrementTurno();
 				Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
-				String codePlayer = auxEquipoBateando.getLineUp().get(turno).getId();
+				String codePlayer = auxEquipoBateando.getLineUp().get(turnoVisitante).getId();
 				loadPerfilPlayerSimulation(codePlayer);
 				bateadorQueEstaBateando(lblEquipOfen.getText());
 
@@ -2558,9 +2569,9 @@ public class Home extends JFrame implements Runnable {
 		btnH_2 = new JButton("H3");
 		btnH_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				incrementTurno();
+				//	incrementTurno();
 				Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
-				String codePlayer = auxEquipoBateando.getLineUp().get(turno).getId();
+				String codePlayer = auxEquipoBateando.getLineUp().get(turnoVisitante).getId();
 				loadPerfilPlayerSimulation(codePlayer);
 				bateadorQueEstaBateando(lblEquipOfen.getText());
 				Player auxPlayer = Lidom.getInstance().searchPlayerByID(codePlayer);
@@ -2610,23 +2621,23 @@ public class Home extends JFrame implements Runnable {
 		btnCarreraControl = new JButton("CARRERA");
 		btnCarreraControl.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				//numberOut % 2 == 0
-			
+
 				if ( i < 3) { // para visita
 					auxGame.setAwayRun(auxGame.getAwayRun() + 1);
 					carrerasPorInningVisita++;
 					carrerasPorInningLocal = 0;
 					loadBoxScoreGameSimulation(auxGame);
-					
+
 				}
-				
+
 				if (i < 6 && i >= 3) {
 					auxGame.setHomeRun(auxGame.getHomeRun() + 1);
 					carrerasPorInningLocal++;
 					carrerasPorInningVisita = 0;
 					loadBoxScoreGameSimulation(auxGame);
-			
+
 				}
 				// para local			
 			}
@@ -2645,20 +2656,26 @@ public class Home extends JFrame implements Runnable {
 			public void actionPerformed(ActionEvent e) {
 				incrementOut();
 				
+
 				i++;
-				if (i == 6 && carrerasPorInningLocal != 0) {
+
+				if (i == 3) {
+					loadBoxScoreGameSimulationOut(auxGame);
+					carrerasPorInningVisita = 0;
+
+				}
+
+				if (i == 6) {
+					loadBoxScoreGameSimulationOut(auxGame);
 					carrerasPorInningLocal = 0;
 					i=0;
-					loadBoxScoreGameSimulationOut();
-					
+
+
 				}
-				if (i == 3 && carrerasPorInningVisita != 0) {
-					carrerasPorInningVisita = 0;
-					loadBoxScoreGameSimulationOut();
-			}
+				incrementTurnosByTeam();
 				lblNewLabel_1.setText(String.valueOf(numberOut));
-				
-				
+
+
 			}
 		});
 		btnOutControl.setIconTextGap(5);
@@ -3176,7 +3193,7 @@ public class Home extends JFrame implements Runnable {
 		txtAVGb.setEditable(false);
 		txtAVGb.setDisabledTextColor(Color.BLACK);
 		txtAVGb.setColumns(10);
-		
+
 		lblNewLabel_1 = new JLabel("New label");
 		lblNewLabel_1.setFont(new Font("Consolas", Font.BOLD, 18));
 		lblNewLabel_1.setForeground(Color.WHITE);
@@ -3305,10 +3322,11 @@ public class Home extends JFrame implements Runnable {
 		txtEquipVisi.setText(auxEquipoVisitante.getName());
 		loadLineUpPlayerByTeam(auxEquipoLocal, modelGameLocal, columnGameLocal, tableGameLocal);
 		loadLineUpPlayerByTeam(auxEquipoVisitante, modelGameVisit, columnGameVisit, tableGameVisit);
-		lblEquipOfen.setText(auxEquipoVisitante.getName());
+		lblEquipOfen.setText(auxEquipoVisitante.getName()); // para poner el equipo ofensiva inicial
+		lblEquipDef.setText(auxEquipoLocal.getName()); //  para poner el equipo defensiva inicial
 		bateadorQueEstaBateando(visitante);
 		Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
-		String codePlayer = auxEquipoBateando.getLineUp().get(turno).getId();
+		String codePlayer = auxEquipoBateando.getLineUp().get(turnoVisitante).getId();
 		Player auxPlayer = Lidom.getInstance().searchPlayerByID(codePlayer);
 		((Batter) auxPlayer).setTurnos(((Batter) auxPlayer).getTurnos() + 1);
 		loadPerfilPlayerSimulation(codePlayer);
@@ -3318,27 +3336,37 @@ public class Home extends JFrame implements Runnable {
 
 	}
 
-	public void bateadorQueEstaBateando(String teamOfensive) {
+	public static void bateadorQueEstaBateando(String teamOfensive) {
 
 		Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(teamOfensive);
-		lblBatAct.setText(auxEquipoBateando.getLineUp().get(turno).getName()+" "+
-				auxEquipoBateando.getLineUp().get(turno).getLastname());
-
+		lblBatAct.setText(auxEquipoBateando.getLineUp().get(turnoVisitante).getName()+" "+
+				auxEquipoBateando.getLineUp().get(turnoVisitante).getLastname());
 
 
 	}
 
-	public void incrementTurno() {
-		if (turno > 7) {
-			turno = 0;
+	public static  void incrementTurnoLocal() {
+		if (turnoLocal > 7) {
+			turnoLocal = 0;
 
 		}
 		else {
 
-			turno++;
+			turnoLocal++;
 		}
 	}
-	
+
+	public  static void incrementTurnoVisitante() {
+		if (turnoVisitante > 7) {
+			turnoVisitante = 0;
+
+		}
+		else {
+
+			turnoVisitante++;
+		}
+	}
+
 	public void incrementOut() {
 		if (numberOut >= 54) {
 			numberOut = 0;
@@ -3553,7 +3581,6 @@ public class Home extends JFrame implements Runnable {
 
 	}
 
-
 	public static void loadStatsSimulationPlayer(String codePlayer) {
 		Player auxP = Lidom.getInstance().searchPlayerByID(codePlayer);
 
@@ -3587,14 +3614,16 @@ public class Home extends JFrame implements Runnable {
 
 
 	}
-	
+
 	public static void loadBoxScoreGameSimulation(Game game) {
-		
+
 		txtCarerasVisita.setText(String.valueOf(game.getAwayRun()));
 		txtCarrerasLocal.setText(String.valueOf(game.getHomeRun()));
-		
+
+
 		if (numberOut < 3 && numberOut >= 0) {
 			txtIni1Visit.setText(String.valueOf(carrerasPorInningVisita));
+
 
 		}
 		if (numberOut < 6 && numberOut >= 3) {
@@ -3665,87 +3694,472 @@ public class Home extends JFrame implements Runnable {
 			txtIni9Local.setText(String.valueOf(carrerasPorInningLocal));
 
 		}
-		
+
 
 	}
 
+	public static void loadBoxScoreGameSimulationOut(Game game) {
 
-public static void loadBoxScoreGameSimulationOut() {
-		
 		if (numberOut <= 3 && numberOut >= 0) {
 			txtIni1Visit.setText(String.valueOf(carrerasPorInningVisita));
+			lblEquipOfen.setText(game.getHomeTeam()); // el que batea
+			lblEquipDef.setText(game.getAwayTeam()); // el que cubre
 
 		}
 		if (numberOut <= 6 && numberOut > 3) {
 			txtIni1Local.setText(String.valueOf(carrerasPorInningLocal));
+			lblEquipOfen.setText(game.getAwayTeam()); // el que batea
+			lblEquipDef.setText(game.getHomeTeam()); // el que cubre
 
 		}
 		if (numberOut <= 9 && numberOut > 6) {
 			txtIni2Visit.setText(String.valueOf(carrerasPorInningVisita));
+			lblEquipOfen.setText(game.getHomeTeam());
+			lblEquipDef.setText(game.getAwayTeam()); // el que cubre
 
 		}
 		if (numberOut <= 12 && numberOut > 9) {
 			txtIni2Local.setText(String.valueOf(carrerasPorInningLocal));
+			lblEquipOfen.setText(game.getAwayTeam());
+			lblEquipDef.setText(game.getHomeTeam()); // el que cubre
 
 		}
 		if (numberOut <= 15 && numberOut > 12) {
 			txtIni3Visit.setText(String.valueOf(carrerasPorInningVisita));
+			lblEquipOfen.setText(game.getHomeTeam());
+			lblEquipDef.setText(game.getAwayTeam()); // el que cubre
+	
 
 		}
 		if (numberOut <= 18 && numberOut > 15) {
 			txtIni3Local.setText(String.valueOf(carrerasPorInningLocal));
+			lblEquipOfen.setText(game.getAwayTeam());
+			lblEquipDef.setText(game.getHomeTeam()); // el que cubre
+
 
 		}
 		if (numberOut <= 21 && numberOut > 18) {
 			txtIni4Visit.setText(String.valueOf(carrerasPorInningVisita));
+			lblEquipOfen.setText(game.getHomeTeam());
+			lblEquipDef.setText(game.getAwayTeam()); // el que cubre
 
 		}
 		if (numberOut <= 24 && numberOut > 21) {
 			txtIni4Local.setText(String.valueOf(carrerasPorInningLocal));
+			lblEquipOfen.setText(game.getAwayTeam());
+			lblEquipDef.setText(game.getHomeTeam()); // el que cubre
 
 		}
 		if (numberOut <= 27 && numberOut > 24) {
 			txtIni5Visit.setText(String.valueOf(carrerasPorInningVisita));
+			lblEquipOfen.setText(game.getHomeTeam());
+			lblEquipDef.setText(game.getAwayTeam()); // el que cubre
+		
 
 		}
 		if (numberOut <= 30 && numberOut > 27) {
 			txtIni5Local.setText(String.valueOf(carrerasPorInningLocal));
+			lblEquipOfen.setText(game.getAwayTeam());
+			lblEquipDef.setText(game.getHomeTeam()); // el que cubre
 
 		}
 		if (numberOut <= 33 && numberOut > 30) {
 			txtIni6Visit.setText(String.valueOf(carrerasPorInningVisita));
-
+			lblEquipOfen.setText(game.getHomeTeam());
+			lblEquipDef.setText(game.getAwayTeam()); // el que cubre
+		
 		}
 		if (numberOut <= 36 && numberOut >33) {
 			txtIni6Local.setText(String.valueOf(carrerasPorInningLocal));
-
+			lblEquipOfen.setText(game.getAwayTeam());
+			lblEquipDef.setText(game.getHomeTeam()); // el que cubre
+	
 		}
 		if (numberOut <= 39 && numberOut >36) {
 			txtIni7Visit.setText(String.valueOf(carrerasPorInningVisita));
+			lblEquipOfen.setText(game.getHomeTeam());
+			lblEquipDef.setText(game.getAwayTeam()); // el que cubre
+		
 
 		}
 		if (numberOut <= 42 && numberOut >39) {
 			txtIni7Local.setText(String.valueOf(carrerasPorInningLocal));
+			lblEquipOfen.setText(game.getAwayTeam());
+			lblEquipDef.setText(game.getHomeTeam()); // el que cubre
+
 
 		}
 		if (numberOut <= 45 && numberOut > 42) {
 			txtIni8Visit.setText(String.valueOf(carrerasPorInningVisita));
+			lblEquipOfen.setText(game.getHomeTeam());
+			lblEquipDef.setText(game.getAwayTeam()); // el que cubre
 
 		}
 		if (numberOut <= 48 && numberOut > 45) {
 			txtIni8Local.setText(String.valueOf(carrerasPorInningLocal));
+			lblEquipOfen.setText(game.getAwayTeam());
+			lblEquipDef.setText(game.getHomeTeam()); // el que cubre
+
 
 		}
 		if (numberOut <= 51 && numberOut > 48) {
 			txtIni9Visit.setText(String.valueOf(carrerasPorInningVisita));
+			lblEquipOfen.setText(game.getHomeTeam());
+			lblEquipDef.setText(game.getAwayTeam()); // el que cubre
+		
 
 		}
 		if (numberOut <= 54 && numberOut > 51) {
 			txtIni9Local.setText(String.valueOf(carrerasPorInningLocal));
+			lblEquipOfen.setText(game.getAwayTeam());
+			lblEquipDef.setText(game.getHomeTeam()); // el que cubre
+
+		}
+
+
+	}
+	
+	
+	public void incrementTurnosByTeam() {
+
+		if (numberOut < 3 && numberOut >= 0) {
+		
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			incrementTurnoVisitante();
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoVisitante).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+
+
+		}
+	if (numberOut == 3) {
+		incrementTurnoVisitante();
+		Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+		String codePlayer = auxEquipoBateando.getLineUp().get(turnoLocal).getId();
+		loadPerfilPlayerSimulation(codePlayer);
+		bateadorQueEstaBateando(auxEquipoBateando.getName());
+		
+			
+		}
+		if (numberOut < 6 && numberOut > 3) {
+		
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			incrementTurnoLocal();
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoLocal).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+			
+
+		}
+		if (numberOut == 6) {
+			incrementTurnoLocal();
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoVisitante).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+			
+				
+			}
+	
+		if (numberOut < 9 && numberOut > 6) {
+			
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			incrementTurnoVisitante();
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoVisitante).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+		
+
+		}
+		if (numberOut == 9) {
+			incrementTurnoVisitante();
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoLocal).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+			
+				
+			}
+		if (numberOut < 12 && numberOut > 9) {
+		
+
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			incrementTurnoLocal();
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoLocal).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+			
+
+		}
+		if (numberOut == 12) {
+			incrementTurnoLocal();
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoVisitante).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+			
+				
+			}
+		if (numberOut < 15 && numberOut > 12) {
+			
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			incrementTurnoVisitante();
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoVisitante).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+			
+
+		}
+		if (numberOut == 15) {
+			incrementTurnoVisitante();
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoLocal).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+			
+				
+			}
+		if (numberOut < 18 && numberOut > 15) {
+		
+
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoLocal).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+			incrementTurnoLocal();
+
+		}
+		if (numberOut == 18) {
+			incrementTurnoLocal();
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoVisitante).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+			
+				
+			}
+		if (numberOut < 21 && numberOut > 18) {
+			
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			incrementTurnoVisitante();
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoVisitante).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+			
+
+		}
+		if (numberOut == 21) {
+			incrementTurnoVisitante();
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoLocal).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+			
+				
+			}
+		if (numberOut < 24 && numberOut > 21) {
+			
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			incrementTurnoLocal();
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoLocal).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+	
+
+		}
+		if (numberOut == 24) {
+			incrementTurnoLocal();
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoVisitante).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+			
+				
+			}
+		if (numberOut < 27 && numberOut > 24) {
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			incrementTurnoVisitante();
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoVisitante).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+		
+
+		}
+		if (numberOut == 27) {
+			incrementTurnoVisitante();
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoLocal).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+			
+				
+			}
+		if (numberOut < 30 && numberOut > 27) {
+		
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			incrementTurnoLocal();
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoLocal).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+			
+
+		}
+		if (numberOut == 30) {
+			incrementTurnoLocal();
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoVisitante).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+			
+				
+			}
+		if (numberOut < 33 && numberOut > 30) {
+			
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			incrementTurnoVisitante();
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoVisitante).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+			
+
+		}
+		if (numberOut == 33) {
+			incrementTurnoVisitante();
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoLocal).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+			
+				
+			}
+		if (numberOut < 36 && numberOut >33) {
+		
+
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			incrementTurnoLocal();
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoLocal).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+			
+
+		}
+		if (numberOut == 36) {
+			incrementTurnoLocal();
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoVisitante).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+			
+				
+			}
+		if (numberOut < 39 && numberOut >36) {
+			txtIni7Visit.setText(String.valueOf(carrerasPorInningVisita));
+			
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			incrementTurnoVisitante();
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoVisitante).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+			
+
+		}
+		if (numberOut == 39) {
+			incrementTurnoVisitante();
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoLocal).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+						
+			}
+		if (numberOut < 42 && numberOut >39) {
+			
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			incrementTurnoLocal();
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoLocal).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+		
+
+		}
+		if (numberOut == 42) {
+			incrementTurnoLocal();
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoVisitante).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+			
+				
+			}
+		if (numberOut < 45 && numberOut > 42) {
+			
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			incrementTurnoVisitante();
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoVisitante).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());	
+
+		}
+		if (numberOut == 45) {
+			incrementTurnoVisitante();
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoLocal).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+			
+				
+			}
+		if (numberOut < 48 && numberOut > 45) {
+			
+
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			incrementTurnoLocal();
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoLocal).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+			
+
+		}
+		if (numberOut == 48) {
+			incrementTurnoLocal();
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoVisitante).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+			
+				
+			}
+		
+		if (numberOut < 51 && numberOut > 48) {
+			
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			incrementTurnoVisitante();
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoVisitante).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+		
+
+		}
+		if (numberOut == 51) {
+			incrementTurnoVisitante();
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoLocal).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+			
+				
+			}
+		if (numberOut < 54 && numberOut > 51) {
+
+			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
+			incrementTurnoLocal();
+			String codePlayer = auxEquipoBateando.getLineUp().get(turnoLocal).getId();
+			loadPerfilPlayerSimulation(codePlayer);
+			bateadorQueEstaBateando(auxEquipoBateando.getName());
+			
 
 		}
 		
-
+		
 	}
 }
 

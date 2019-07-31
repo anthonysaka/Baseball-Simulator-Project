@@ -193,6 +193,7 @@ public class ViewGame extends JDialog {
 			btnEliminar = new JButton("Eliminar");
 			btnEliminar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					Lidom.getInstance().getListGame().removeAll(Lidom.getInstance().getListGame());
 					
 				ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
 					String[] options = {"Si", "No"};	
@@ -320,6 +321,7 @@ public class ViewGame extends JDialog {
 			btnModificar = new JButton("Modificar");
 			btnModificar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					
 					Game auxGame = Lidom.getInstance().searchGame(equipoLocal, equipoVisitante, estadio, fecha, hora);
 					AddGame modGame = new AddGame(auxGame);
 					modGame.setModal(true);
