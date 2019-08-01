@@ -22,7 +22,7 @@ public class Batter extends Player implements Serializable {
 	private int strikeOut;
 	private int stolenBase;
 	private String manoDeBateo;
-	//private int numeroHitparapromedio = 0;
+//	private int numeroHitparapromedio = 0;
 	private int turnos = 0;
 	
 	/* Constructor */
@@ -51,29 +51,17 @@ public class Batter extends Player implements Serializable {
 		return turnos;
 	}
 
-
-
-
 	public void setTurnos(int turnos) {
 		this.turnos = turnos;
 	}
-
-
-
 
 //	public int getNumeroHitparapromedio() {
 //		return numeroHitparapromedio;
 //	}
 //
-//
-//
-//
 //	public void setNumeroHitparapromedio(int numeroHitparapromedio) {
 //		this.numeroHitparapromedio = numeroHitparapromedio;
 //	}
-
-
-
 
 	public String getManoDeBateo() {
 		return manoDeBateo;
@@ -172,11 +160,21 @@ public class Batter extends Player implements Serializable {
 	}
 	
 	
-	public float Average_Bateador(int contador, int contador2) {
+	public float Average_Bateador(int numerHitsPromedio	, int turnosPromedio) {
 		
-	    float Resultado = 0;
+	    float Resultado = 0.0f;
+	    float nH = numerHitsPromedio;
+	    float tP = turnosPromedio;
+	   
+	    if (nH == 0 && tP ==0) {
+			Resultado = 0.0f;
+		}
+	    else {
+	    	 Resultado = (float) (nH / tP);
+	 	    
+	    }
 	    
-	    Resultado = contador / contador2;
+	    this.setAverage(Resultado);
 	    
 		return Resultado;
 		

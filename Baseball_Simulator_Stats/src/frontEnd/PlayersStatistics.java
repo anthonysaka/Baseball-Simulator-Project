@@ -5,6 +5,7 @@ package frontEnd;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.ImageIcon;
@@ -13,6 +14,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -158,45 +160,63 @@ public class PlayersStatistics extends JDialog {
 		panelBackground.add(scrollPaneBat, "name_79233563345800");
 
 		StatisticsTableBat = new JTable();
+		StatisticsTableBat.setRowMargin(0);
+		StatisticsTableBat .setFocusable(false);
+		StatisticsTableBat.setRowHeight(20);
+		StatisticsTableBat.setIntercellSpacing(new Dimension(0, 0));
+		StatisticsTableBat.setGridColor(new Color(255, 255, 255));
+		StatisticsTableBat.setShowVerticalLines(false);
+		StatisticsTableBat.getTableHeader().setReorderingAllowed(false);
+		StatisticsTableBat.setSelectionBackground(new Color(239, 108, 0));
+		StatisticsTableBat.getTableHeader().setFont(new Font("Consolas", Font.BOLD, 16));
+		StatisticsTableBat.getTableHeader().setOpaque(false);
+		StatisticsTableBat.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		StatisticsTableBat.getTableHeader().setBackground(new Color(255,255,255));
+		StatisticsTableBat.setFont(new Font("Consolas", Font.PLAIN, 15));
 		StatisticsTableBat.setAutoCreateRowSorter(true);
 
-		// SE USA PARA TENER MEJOR CONTROL SOBRE LA TABLA.
-		// TableRowSorter<TableModel> sorter = new
-		// TableRowSorter<>(StatisticsTableBat.getModel());
-		// StatisticsTableBat.setRowSorter(sorter);
-		// java.util.List<RowSorter.SortKey> sortKeys = new ArrayList<>(25);
-		// sortKeys.add(new RowSorter.SortKey(2, SortOrder.ASCENDING));
-		// sortKeys.add(new RowSorter.SortKey(2,SortOrder.DESCENDING));
-		// sorter.setSortKeys(sortKeys);
-		//
 		StatisticsTableBat.setModel(new DefaultTableModel(new Object[][] {},
-				new String[] { "Equipo", "Nombre", "Average", "Hits", "Dobles", "Triples", "HR" }) {
+				new String[] { "Equipo", "Nombre", "Average", "Hits", "Dobles", "Triples", "HR", "RBI", "S.O.", "S.B.", "B.B." }) {
 			/**
 			 * 
 			 */
 			private static final long serialVersionUID = -3449633077541811227L;
 
 			Class[] columnTypes = new Class[] { String.class, String.class, String.class, String.class, String.class,
-					String.class, String.class };
+					String.class, String.class, String.class, String.class, String.class, String.class};
 
 			@SuppressWarnings({})
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
 
-			boolean[] columnEditables = new boolean[] { false, false, false, false, false, false, false };
+			boolean[] columnEditables = new boolean[] { false, false, false, false, false, false, false, false, false, false, false };
 
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
 		});
-		StatisticsTableBat.getColumnModel().getColumn(0).setMinWidth(20);
+		StatisticsTableBat.getColumnModel().getColumn(0).setMinWidth(150);
+		StatisticsTableBat.getColumnModel().getColumn(1).setMinWidth(90);
 		scrollPaneBat.setViewportView(StatisticsTableBat);
 
 		JScrollPane scrollPanePit = new JScrollPane();
 		panelBackground.add(scrollPanePit, "name_79309930304300");
 
 		StatisticsTablePit = new JTable();
+		StatisticsTablePit.setRowMargin(0);
+		StatisticsTablePit .setFocusable(false);
+		StatisticsTablePit.setRowHeight(20);
+		StatisticsTablePit.setIntercellSpacing(new Dimension(0, 0));
+		StatisticsTablePit.setGridColor(new Color(255, 255, 255));
+		StatisticsTablePit.setShowVerticalLines(false);
+		StatisticsTablePit.getTableHeader().setReorderingAllowed(false);
+		StatisticsTablePit.setSelectionBackground(new Color(239, 108, 0));
+		StatisticsTablePit.getTableHeader().setFont(new Font("Consolas", Font.BOLD, 16));
+		StatisticsTablePit.getTableHeader().setOpaque(false);
+		StatisticsTablePit.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		StatisticsTablePit.getTableHeader().setBackground(new Color(255,255,255));
+		StatisticsTablePit.setFont(new Font("Consolas", Font.PLAIN, 15));
 		StatisticsTablePit.setAutoCreateRowSorter(true);
 		StatisticsTablePit.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "Equipo", "Nombre", "W", "L", "ERA", "G", "GS", "SV", "HR", "H", "R", "IP", "AVG" }) {
@@ -220,8 +240,8 @@ public class PlayersStatistics extends JDialog {
 				return columnEditables[column];
 			}
 		});
-		StatisticsTablePit.getColumnModel().getColumn(0).setMinWidth(40);
-		StatisticsTablePit.getColumnModel().getColumn(1).setMinWidth(40);
+		StatisticsTablePit.getColumnModel().getColumn(0).setMinWidth(150);
+		StatisticsTablePit.getColumnModel().getColumn(1).setMinWidth(90);
 		StatisticsTablePit.getColumnModel().getColumn(2).setMinWidth(20);
 		StatisticsTablePit.getColumnModel().getColumn(3).setMinWidth(20);
 		StatisticsTablePit.getColumnModel().getColumn(4).setMinWidth(20);
@@ -252,15 +272,10 @@ public class PlayersStatistics extends JDialog {
 					scrollPaneBat.setVisible(true);
 					scrollPanePit.setVisible(false);
 
-					// panelBatBtn.setVisible(true);
-					// panelPitBtn.setVisible(false);
-
 				} else if (string.equals("Pitcher")) {
 					scrollPaneBat.setVisible(false);
 					scrollPanePit.setVisible(true);
 
-					// panelBatBtn.setVisible(false);
-					// panelPitBtn.setVisible(true);
 				}
 			}
 		});
@@ -280,21 +295,9 @@ public class PlayersStatistics extends JDialog {
 				loadTable();
 				loadTablePit();
 
-				//				System.out.println(Listar_Equipos);
 			}
 		});
-		//		cbxTeams.addActionListener(new ActionListener() {
-		//			public void actionPerformed(ActionEvent e) {
-		//				JComboBox<String> cbteam = (JComboBox<String>) e.getSource();
-		//				String string = (String) cbteam.getSelectedItem();
-		//
-		//				//Listar_Equipos = Lidom.getInstance().Filtrar_Equipo(string);
-		////				Listar_Equipos = new ArrayList<Player>(Lidom.getInstance().Filtrar_Equipo(string));
-		//				
-		////				System.out.print(Lidom.getInstance().Filtrar_Equipo(string));
-		//
-		//			}
-		//		});
+		
 		cbxTeams.setBounds(229, 76, 146, 30);
 		panelBg.add(cbxTeams);
 
@@ -305,6 +308,8 @@ public class PlayersStatistics extends JDialog {
 		loadTeamsCbx();
 
 	}
+	
+	
 
 	private void loadTeamsCbx() {
 
@@ -322,6 +327,19 @@ public class PlayersStatistics extends JDialog {
 	public void loadTable() {
 		model = (DefaultTableModel) StatisticsTableBat.getModel();
 		model.setRowCount(0);
+		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+		tcr.setHorizontalAlignment(SwingConstants.CENTER);
+		StatisticsTableBat.getColumnModel().getColumn(0).setCellRenderer(tcr);
+		StatisticsTableBat.getColumnModel().getColumn(1).setCellRenderer(tcr);
+		StatisticsTableBat.getColumnModel().getColumn(2).setCellRenderer(tcr);
+		StatisticsTableBat.getColumnModel().getColumn(3).setCellRenderer(tcr);
+		StatisticsTableBat.getColumnModel().getColumn(4).setCellRenderer(tcr);
+		StatisticsTableBat.getColumnModel().getColumn(5).setCellRenderer(tcr);
+		StatisticsTableBat.getColumnModel().getColumn(6).setCellRenderer(tcr);
+		StatisticsTableBat.getColumnModel().getColumn(7).setCellRenderer(tcr);
+		StatisticsTableBat.getColumnModel().getColumn(8).setCellRenderer(tcr);
+		StatisticsTableBat.getColumnModel().getColumn(9).setCellRenderer(tcr);
+		StatisticsTableBat.getColumnModel().getColumn(10).setCellRenderer(tcr);
 		column = new Object[model.getColumnCount()];
 
 		// System.out.println(Listar_Equipos);
@@ -337,7 +355,11 @@ public class PlayersStatistics extends JDialog {
 					column[4] = String.valueOf(((Batter) p).getH2());
 					column[5] = String.valueOf(((Batter) p).getH3());
 					column[6] = String.valueOf(((Batter) p).getHR());
-
+					column[6] = String.valueOf(((Batter) p).getHR());
+					column[7] = String.valueOf(((Batter) p).getRBI());
+					column[8] = String.valueOf(((Batter) p).getStrikeOut());
+					column[9] = String.valueOf(((Batter) p).getStolenBase());
+					column[10] = String.valueOf(((Batter) p).getBaseBall());
 					model.addRow(column);
 				}
 
@@ -348,6 +370,22 @@ public class PlayersStatistics extends JDialog {
 	public void loadTablePit() {
 		model = (DefaultTableModel) StatisticsTablePit.getModel();
 		model.setRowCount(0);
+		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+		tcr.setHorizontalAlignment(SwingConstants.CENTER);
+		StatisticsTablePit.getColumnModel().getColumn(0).setCellRenderer(tcr);
+		StatisticsTablePit.getColumnModel().getColumn(1).setCellRenderer(tcr);
+		StatisticsTablePit.getColumnModel().getColumn(2).setCellRenderer(tcr);
+		StatisticsTablePit.getColumnModel().getColumn(3).setCellRenderer(tcr);
+		StatisticsTablePit.getColumnModel().getColumn(4).setCellRenderer(tcr);
+		StatisticsTablePit.getColumnModel().getColumn(5).setCellRenderer(tcr);
+		StatisticsTablePit.getColumnModel().getColumn(6).setCellRenderer(tcr);
+		StatisticsTablePit.getColumnModel().getColumn(7).setCellRenderer(tcr);
+		StatisticsTablePit.getColumnModel().getColumn(8).setCellRenderer(tcr);
+		StatisticsTablePit.getColumnModel().getColumn(9).setCellRenderer(tcr);
+		StatisticsTablePit.getColumnModel().getColumn(10).setCellRenderer(tcr);
+		StatisticsTablePit.getColumnModel().getColumn(11).setCellRenderer(tcr);
+		StatisticsTablePit.getColumnModel().getColumn(12).setCellRenderer(tcr);
+		
 		column = new Object[model.getColumnCount()];
 
 		if (Listar_Equipos != null) {

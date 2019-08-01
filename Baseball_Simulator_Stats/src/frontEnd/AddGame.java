@@ -169,18 +169,27 @@ private static Game myGame;
 //				}else {
 					/*MODIFICAR*/
 					String dateGameString = formatter.format(dateGame);
-					
-					myGame.setAwayTeam(teamAway);
-					myGame.setHomeTeam(teamHome);
-					myGame.setDate(dateGameString);
-					myGame.setHora(hour);
-					myGame.setStadium(estadio);
-					Lidom.getInstance().updateGame(myGame);
-					JOptionPane.showMessageDialog(null, "Modificado con exito!", "Alerta - Hecho!", JOptionPane.INFORMATION_MESSAGE);
-					dispose();
-					ViewGame.loadTableGame();
+					if (cbxHora.getSelectedIndex() > 0 && dateGameString != null) {
+						myGame.setAwayTeam(teamAway);
+						myGame.setHomeTeam(teamHome);
+						myGame.setDate(dateGameString);
+						myGame.setHora(hour);
+						myGame.setStadium(estadio);
+						Lidom.getInstance().updateGame(myGame);
+						JOptionPane.showMessageDialog(null, "Modificado con exito!", "Alerta - Hecho!", JOptionPane.INFORMATION_MESSAGE);
+						dispose();
+						ViewGame.loadTableGame();
+						Home.loadGameToday();
+						
+					}
+					else {
+						ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
+						String[] options = {"Ok"};	
+						JOptionPane.showOptionDialog(null, "Complete todos los campos, correctamente!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
 				}
-			//	}
+					
+					
+				}
 			});
 			btnRegistrar.setIcon(new ImageIcon(AddPlayer.class.getResource("/iconos_imagenes/icons8_baseball_24px.png")));
 			btnRegistrar.setIconTextGap(5);

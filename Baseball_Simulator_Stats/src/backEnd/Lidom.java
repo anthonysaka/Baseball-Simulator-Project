@@ -17,7 +17,7 @@ import java.util.ArrayList;
  *              Arnold Lantigua
  *              Victor Rosario
  *
- *              Controller Class - LIDOM (Liga de Béisbol Profesional de República Dominicana)
+ *              Controller Class - LIDOM (Liga de Bï¿½isbol Profesional de Repï¿½blica Dominicana)
  */
 
 
@@ -534,8 +534,9 @@ public class Lidom implements Serializable {
 	
 	//esta funcion es para calcular el porcentage de victorias de los equipos
 	public float TeamAvr(int win, int game) {
-		
-		return win/game;
+		float w = win;
+        float g = game;
+		return (float) (w/g);
 		
 	}
 
@@ -743,5 +744,22 @@ public class Lidom implements Serializable {
 
 	}
 
+	public ArrayList<Player> Filtrar_Equipo(String team) {
 
+		ArrayList<Player> TeamFiltered = new ArrayList<Player>();
+
+		if (team.equals("Todos")) {
+			//			System.out.println(listPlayer);
+			return listPlayer;
+		}
+
+		for (Player player : listPlayer) {
+			if (team.equals(player.getTeamName())) {
+				TeamFiltered.add(player);
+			}
+		}
+		//		System.out.println(TeamFiltered);
+		return TeamFiltered;
+
+	}
 }

@@ -35,6 +35,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -2045,9 +2046,10 @@ public class AddPlayer extends JDialog {
 				cbxManoBat.setSelectedItem(((Batter) myPlayer).getManoLanzar());
 				cbxManoBateo.setSelectedItem(((Batter) myPlayer).getManoDeBateo());
 				cbxPosicionBat.setSelectedItem(((Batter) myPlayer).getPosition());
+				DecimalFormat decimalFormat = new DecimalFormat("#.000");  
 
 
-				txtAVGb.setText(String.valueOf(((Batter) myPlayer).getAverage()));
+				txtAVGb.setText(String.valueOf(decimalFormat.format(((Batter) myPlayer).getAverage())));
 				txtRb.setText(String.valueOf(((Batter) myPlayer).getRuns()));
 				txtH1b.setText(String.valueOf(((Batter) myPlayer).getH1()));
 				txtH2b.setText(String.valueOf(((Batter) myPlayer).getH2()));

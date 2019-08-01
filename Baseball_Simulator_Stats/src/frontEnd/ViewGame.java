@@ -53,6 +53,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
 import java.awt.CardLayout;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -71,7 +72,6 @@ import javax.swing.JTable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-@SuppressWarnings("unused")
 public class ViewGame extends JDialog {
 
 	/**
@@ -110,7 +110,7 @@ public class ViewGame extends JDialog {
 
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setUndecorated(true);
-		setBounds(100, 100, 732, 566);
+		setBounds(100, 100, 850, 566);
 		getContentPane().setLayout(new BorderLayout());
 		setLocationRelativeTo(null);
 		contentPanel.setBackground(new Color(255, 255, 255));
@@ -120,26 +120,26 @@ public class ViewGame extends JDialog {
 		{
 			JPanel panelBg = new JPanel();
 			panelBg.setBackground(new Color(255, 255, 255));
-			panelBg.setBounds(0, 0, 732, 566);
+			panelBg.setBounds(0, 0, 850, 566);
 			contentPanel.add(panelBg);
 			panelBg.setLayout(null);
 
 			panelHeader = new JPanel();
 			panelHeader.setLayout(null);
 			panelHeader.setBackground(new Color(0, 30, 72));
-			panelHeader.setBounds(0, 0, 732, 45);
+			panelHeader.setBounds(0, 0, 850, 45);
 			panelBg.add(panelHeader);
 
 			lblListaPartidos = new JLabel("LISTA PARTIDOS");
 			lblListaPartidos.setHorizontalTextPosition(SwingConstants.CENTER);
-			lblListaPartidos.setBounds(269, 0, 192, 45);
+			lblListaPartidos.setBounds(340, 0, 192, 45);
 			panelHeader.add(lblListaPartidos);
 			lblListaPartidos.setHorizontalAlignment(SwingConstants.CENTER);
 			lblListaPartidos.setForeground(new Color(255, 255, 255));
 			lblListaPartidos.setFont(new Font("Consolas", Font.BOLD, 20));
 
 			scrollPane = new JScrollPane();
-			scrollPane.setBounds(10, 154, 710, 329);
+			scrollPane.setBounds(10, 154, 828, 329);
 			panelBg.add(scrollPane);
 			
 			tableGame = new JTable();
@@ -160,11 +160,24 @@ public class ViewGame extends JDialog {
 					}
 				}
 			});
+			tableGame.setRowMargin(0);
+			tableGame .setFocusable(false);
+			tableGame.setRowHeight(20);
+			tableGame.setIntercellSpacing(new Dimension(0, 0));
+			tableGame.setGridColor(new Color(255, 255, 255));
+			tableGame.setShowVerticalLines(false);
+			tableGame.getTableHeader().setReorderingAllowed(false);
+			tableGame.setSelectionBackground(new Color(239, 108, 0));
+			tableGame.getTableHeader().setFont(new Font("Consolas", Font.BOLD, 16));
+			tableGame.getTableHeader().setOpaque(false);
+
+			tableGame.getTableHeader().setBackground(new Color(255,255,255));
+			tableGame.setFont(new Font("Consolas", Font.PLAIN, 15));
 			tableGame.setModel(new DefaultTableModel(
 				new Object[][] {
 				},
 				new String[] {
-					"Equipo local", "Equipo visitante", "Estadio", "Fecha", "Hora"
+					"Equipo local", "Equipo visitante", "Estadio", "Fecha", "Hora", "Carreras",
 				}
 			) {
 				/**
@@ -174,7 +187,7 @@ public class ViewGame extends JDialog {
 				
 				
 				Class[] columnTypes = new Class[] {
-					String.class, String.class, String.class, String.class, String.class
+					String.class, String.class, String.class, String.class, String.class, String.class
 				};
 				@SuppressWarnings({ "unchecked" })
 				public Class getColumnClass(int columnIndex) {
@@ -187,7 +200,11 @@ public class ViewGame extends JDialog {
 					return columnEditables[column];
 				}
 			});
-			
+			tableGame.getColumnModel().getColumn(0).setMinWidth(125);
+			tableGame.getColumnModel().getColumn(1).setMinWidth(125);
+			tableGame.getColumnModel().getColumn(2).setMinWidth(125);
+			tableGame.getColumnModel().getColumn(3).setMinWidth(125);
+			tableGame.getColumnModel().getColumn(5).setMinWidth(30);
 			scrollPane.setViewportView(tableGame);
 
 			btnEliminar = new JButton("Eliminar");
@@ -219,7 +236,7 @@ public class ViewGame extends JDialog {
 			btnEliminar.setFont(new Font("Consolas", Font.BOLD, 17));
 			btnEliminar.setBorder(null);
 			btnEliminar.setBackground(new Color(0, 30, 72));
-			btnEliminar.setBounds(367, 523, 146, 30);
+			btnEliminar.setBounds(424, 523, 146, 30);
 			panelBg.add(btnEliminar);
 
 			btnCancelar = new JButton("Cancelar");
@@ -241,7 +258,7 @@ public class ViewGame extends JDialog {
 			btnCancelar.setFont(new Font("Consolas", Font.BOLD, 17));
 			btnCancelar.setBorder(null);
 			btnCancelar.setBackground(new Color(0, 30, 70));
-			btnCancelar.setBounds(525, 523, 146, 30);
+			btnCancelar.setBounds(582, 523, 146, 30);
 			panelBg.add(btnCancelar);
 
 			lblBuscar = new JLabel("Buscar:");
@@ -315,7 +332,7 @@ public class ViewGame extends JDialog {
 			btnGenerar.setFont(new Font("Consolas", Font.BOLD, 17));
 			btnGenerar.setBorder(null);
 			btnGenerar.setBackground(new Color(0, 30, 72));
-			btnGenerar.setBounds(51, 523, 146, 30);
+			btnGenerar.setBounds(108, 523, 146, 30);
 			panelBg.add(btnGenerar);
 			
 			btnModificar = new JButton("Modificar");
@@ -335,7 +352,7 @@ public class ViewGame extends JDialog {
 			btnModificar.setFont(new Font("Consolas", Font.BOLD, 17));
 			btnModificar.setBorder(null);
 			btnModificar.setBackground(new Color(0, 30, 72));
-			btnModificar.setBounds(209, 523, 146, 30);
+			btnModificar.setBounds(266, 523, 146, 30);
 			panelBg.add(btnModificar);
 
 		}
@@ -349,17 +366,22 @@ public class ViewGame extends JDialog {
 	/** Metodos **/
 
 	public static void loadTableGame() {
+		
 		model= (DefaultTableModel) tableGame.getModel();
 		column = new Object[model.getColumnCount()];
 		model.setRowCount(0);
-	
+		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+		tcr.setHorizontalAlignment(SwingConstants.CENTER);
+		tableGame.getColumnModel().getColumn(4).setCellRenderer(tcr);
+		tableGame.getColumnModel().getColumn(5).setCellRenderer(tcr);
 
 		for (int i = 0; i < Lidom.getInstance().getListGame().size(); i++) {
 			column[0] = Lidom.getInstance().getListGame().get(i).getHomeTeam();
 			column[1] =  Lidom.getInstance().getListGame().get(i).getAwayTeam();
 			column[2] =  Lidom.getInstance().getListGame().get(i).getStadium();
 			column[3] =  Lidom.getInstance().getListGame().get(i).getDate();
-			column[4] =   Lidom.getInstance().getListGame().get(i).getHora();			
+			column[4] =   Lidom.getInstance().getListGame().get(i).getHora();	
+			column[5] = Lidom.getInstance().getListGame().get(i).getHomeRun() + " - " + Lidom.getInstance().getListGame().get(i).getAwayRun();
 
 			model.addRow(column);
 

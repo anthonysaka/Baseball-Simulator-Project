@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.awt.Image;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -214,11 +215,6 @@ public class ManagementTeam extends JDialog {
 
 	public ManagementTeam(Team team) {
 		myTeam = Lidom.getInstance().searchTeamByName(team.getName());
-
-
-
-
-
 
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setUndecorated(true);
@@ -2901,8 +2897,12 @@ public class ManagementTeam extends JDialog {
 		Player auxP = Lidom.getInstance().searchPlayerByID(codePlayer);
 
 		if (auxP instanceof Batter) {
+			
+			int numHistP = ((Batter) auxP).getH1() + ((Batter) auxP).getH2() + ((Batter) auxP).getH3() + ((Batter) auxP).getHR();		
+			float avgB = ((Batter) auxP).Average_Bateador(numHistP, ((Batter) auxP).getTurnos());
+			DecimalFormat decimalFormat = new DecimalFormat("#.000");       
 
-			txtAVGb.setText(String.valueOf(((Batter) auxP).getAverage()));
+			txtAVGb.setText(decimalFormat.format(avgB));
 			txtRb.setText(String.valueOf(((Batter) auxP).getRuns()));
 			txtH1b.setText(String.valueOf(((Batter) auxP).getH1()));
 			txtH2b.setText(String.valueOf(((Batter) auxP).getH2()));
