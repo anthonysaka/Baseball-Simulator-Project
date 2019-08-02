@@ -20,6 +20,8 @@ import backEnd.Team;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
 
 public class Ranking_Team extends JDialog  implements Serializable{
 
@@ -37,6 +39,7 @@ public class Ranking_Team extends JDialog  implements Serializable{
 	private static Object[] column;
 
 	private static JTable tableTeam;
+	private JButton button;
 
 
 	/**
@@ -45,17 +48,17 @@ public class Ranking_Team extends JDialog  implements Serializable{
 
 	public Ranking_Team() {
 		
-		Lidom.getInstance().getListTeams().get(0).setGames(5);
-		Lidom.getInstance().getListTeams().get(0).setGamesWin(2);
-		
-		Lidom.getInstance().getListTeams().get(1).setGames(6);
-		Lidom.getInstance().getListTeams().get(1).setGamesWin(2);
-		
-		Lidom.getInstance().getListTeams().get(2).setGames(2);
-		Lidom.getInstance().getListTeams().get(2).setGamesWin(5);
-		
-		Lidom.getInstance().getListTeams().get(3).setGames(9);
-		Lidom.getInstance().getListTeams().get(3).setGamesWin(3);
+//		Lidom.getInstance().getListTeams().get(0).setGames(5);
+//		Lidom.getInstance().getListTeams().get(0).setGamesWin(2);
+//		
+//		Lidom.getInstance().getListTeams().get(1).setGames(6);
+//		Lidom.getInstance().getListTeams().get(1).setGamesWin(2);
+//		
+//		Lidom.getInstance().getListTeams().get(2).setGames(2);
+//		Lidom.getInstance().getListTeams().get(2).setGamesWin(5);
+//		
+//		Lidom.getInstance().getListTeams().get(3).setGames(9);
+//		Lidom.getInstance().getListTeams().get(3).setGamesWin(3);
 
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setUndecorated(true);
@@ -86,6 +89,19 @@ public class Ranking_Team extends JDialog  implements Serializable{
 			lnTituloPosiciones.setHorizontalAlignment(SwingConstants.CENTER);
 			lnTituloPosiciones.setForeground(new Color(255, 255, 255));
 			lnTituloPosiciones.setFont(new Font("Consolas", Font.BOLD, 20));
+			
+			button = new JButton("");
+			button.setIcon(new ImageIcon(Ranking_Team.class.getResource("/iconos_imagenes/icons8_close_window_24px_1.png")));
+			button.setPreferredSize(new Dimension(100, 30));
+			button.setOpaque(false);
+			button.setHideActionText(true);
+			button.setForeground(Color.WHITE);
+			button.setFont(new Font("Consolas", Font.BOLD, 20));
+			button.setBorder(null);
+			button.setBackground(new Color(4, 10, 20));
+			button.setActionCommand("Cancel");
+			button.setBounds(694, 0, 26, 30);
+			panelHeader.add(button);
 
 			scrollPane = new JScrollPane();
 			scrollPane.setBounds(12, 85, 710, 273);

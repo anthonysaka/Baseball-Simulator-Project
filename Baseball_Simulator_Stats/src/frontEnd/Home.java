@@ -3807,9 +3807,7 @@ public class Home extends JFrame implements Runnable {
 				if (i == 3) {
 					loadBoxScoreGameSimulationOut(auxGame);
 					carrerasPorInningVisita = 0;
-
 				}
-
 				if (i == 6) {
 					loadBoxScoreGameSimulationOut(auxGame);
 					carrerasPorInningLocal = 0;
@@ -3820,13 +3818,11 @@ public class Home extends JFrame implements Runnable {
 				String codePlayer = auxEquipoBateando.getLineUp().get(turnoVisitante).getId();
 
 				if (auxEquipoBateando.getName().equalsIgnoreCase(auxGame.getAwayTeam())) {
-					//incrementTurnoVisitante();
 					incrementTurnosByTeam();
 					codePlayer = auxEquipoBateando.getLineUp().get(turnoVisitante).getId();	
 				}
 
 				if (auxEquipoBateando.getName().equalsIgnoreCase(auxGame.getHomeTeam())) {
-					//incrementTurnoLocal();
 					incrementTurnosByTeam();
 					codePlayer = auxEquipoBateando.getLineUp().get(turnoLocal).getId();
 				}
@@ -3838,7 +3834,6 @@ public class Home extends JFrame implements Runnable {
 				Player auxPlayer = Lidom.getInstance().searchPlayerByID(codePlayer);
 
 				if (auxPlayer instanceof Batter) {
-					//	((Batter) auxPlayer).setNumeroHitparapromedio(0); //Para aumentar hits del que bateo, para avg.
 					((Batter) auxPlayer).setStrikeOut(((Batter)auxPlayer).getStrikeOut() + 1); // para aumentar numeros de h1.
 					((Batter) auxPlayer).setTurnos(((Batter) auxPlayer).getTurnos() + 1); // para aumentar cantidad de turnos.
 				}
@@ -3864,7 +3859,6 @@ public class Home extends JFrame implements Runnable {
 					carrerasPorInningVisita++;
 					carrerasPorInningLocal = 0;
 					txtHitsVisita.setText(String.valueOf(auxGame.getHitsAway()));
-
 				}
 
 				if (i < 6 && i >= 3) {
@@ -3873,9 +3867,7 @@ public class Home extends JFrame implements Runnable {
 					carrerasPorInningLocal++;
 					carrerasPorInningVisita = 0;
 					txtHitsLocal.setText(String.valueOf(auxGame.getHitsHome()));
-
 				}
-
 
 				Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
 				String codePlayer = auxEquipoBateando.getLineUp().get(turnoVisitante).getId();
@@ -3898,23 +3890,19 @@ public class Home extends JFrame implements Runnable {
 
 				if (auxPlayer instanceof Batter) {
 					//	((Batter) auxPlayer).setNumeroHitparapromedio(0); //Para aumentar hits del que bateo, para avg.
-					((Batter) auxPlayer).setH1(((Batter)auxPlayer).getHR() + 1); // para aumentar numeros de h1.
+					((Batter) auxPlayer).setHR(((Batter)auxPlayer).getHR() + 1); // para aumentar numeros de h1.
 					((Batter) auxPlayer).setTurnos(((Batter) auxPlayer).getTurnos() + 1); // para aumentar cantidad de turnos.
 				}
-
 
 				if ( i < 3) { // para visita
 					auxGame.setHitsAway(auxGame.getHitsAway()+ 1);
 					loadBoxScoreGameSimulation(auxGame);
-
 				}
 
 				if (i < 6 && i >= 3) {
 					auxGame.setHitsHome(auxGame.getHitsHome()+ 1);	
 					loadBoxScoreGameSimulation(auxGame);
-
 				}
-
 			}
 		});
 		btnHr.setBounds(226, 50, 60, 37);
@@ -3950,7 +3938,7 @@ public class Home extends JFrame implements Runnable {
 
 				if (auxPlayer instanceof Batter) {
 					//	((Batter) auxPlayer).setNumeroHitparapromedio(0); //Para aumentar hits del que bateo, para avg.
-					((Batter) auxPlayer).setH1(((Batter)auxPlayer).getH3() + 1); // para aumentar numeros de h1.
+					((Batter) auxPlayer).setH3(((Batter)auxPlayer).getH3() + 1); // para aumentar numeros de h1.
 					((Batter) auxPlayer).setTurnos(((Batter) auxPlayer).getTurnos() + 1); // para aumentar cantidad de turnos.
 				}
 
@@ -5236,84 +5224,60 @@ public class Home extends JFrame implements Runnable {
 
 		txtCarerasVisita.setText(String.valueOf(game.getAwayRun()));
 		txtCarrerasLocal.setText(String.valueOf(game.getHomeRun()));
-	//	txtHitsVisita.setText(String.valueOf(game.getHitsAway()));
-	//	txtHitsLocal.setText(String.valueOf(game.getHitsHome()));
-	//	txtErroresLocal.setText(String.valueOf(game.getErroresHome()));
-	//	txtErroresVisita.setText(String.valueOf(game.getErroresAway()));
-		
 
 		if (numberOut < 3 && numberOut >= 0) {
 			txtIni1Visit.setText(String.valueOf(carrerasPorInningVisita));
-
-
 		}
 		if (numberOut < 6 && numberOut >= 3) {
 			txtIni1Local.setText(String.valueOf(carrerasPorInningLocal));
-
 		}
 		if (numberOut < 9 && numberOut >= 6) {
 			txtIni2Visit.setText(String.valueOf(carrerasPorInningVisita));
-
 		}
 		if (numberOut < 12 && numberOut >= 9) {
 			txtIni2Local.setText(String.valueOf(carrerasPorInningLocal));
-
 		}
 		if (numberOut < 15 && numberOut >= 12) {
 			txtIni3Visit.setText(String.valueOf(carrerasPorInningVisita));
-
 		}
 		if (numberOut < 18 && numberOut >= 15) {
 			txtIni3Local.setText(String.valueOf(carrerasPorInningLocal));
-
 		}
 		if (numberOut < 21 && numberOut >= 18) {
 			txtIni4Visit.setText(String.valueOf(carrerasPorInningVisita));
-
 		}
 		if (numberOut < 24 && numberOut >= 21) {
 			txtIni4Local.setText(String.valueOf(carrerasPorInningLocal));
-
 		}
 		if (numberOut < 27 && numberOut >= 24) {
 			txtIni5Visit.setText(String.valueOf(carrerasPorInningVisita));
-
 		}
 		if (numberOut < 30 && numberOut >= 27) {
 			txtIni5Local.setText(String.valueOf(carrerasPorInningLocal));
-
 		}
 		if (numberOut < 33 && numberOut >= 30) {
 			txtIni6Visit.setText(String.valueOf(carrerasPorInningVisita));
-
 		}
 		if (numberOut < 36 && numberOut >= 33) {
 			txtIni6Local.setText(String.valueOf(carrerasPorInningLocal));
-
 		}
 		if (numberOut < 39 && numberOut >= 36) {
 			txtIni7Visit.setText(String.valueOf(carrerasPorInningVisita));
-
 		}
 		if (numberOut < 42 && numberOut >= 39) {
 			txtIni7Local.setText(String.valueOf(carrerasPorInningLocal));
-
 		}
 		if (numberOut < 45 && numberOut >= 42) {
 			txtIni8Visit.setText(String.valueOf(carrerasPorInningVisita));
-
 		}
 		if (numberOut < 48 && numberOut >= 45) {
 			txtIni8Local.setText(String.valueOf(carrerasPorInningLocal));
-
 		}
 		if (numberOut < 51 && numberOut >= 48) {
 			txtIni9Visit.setText(String.valueOf(carrerasPorInningVisita));
-
 		}
 		if (numberOut < 54 && numberOut >= 51) {
 			txtIni9Local.setText(String.valueOf(carrerasPorInningLocal));
-
 		}
 
 

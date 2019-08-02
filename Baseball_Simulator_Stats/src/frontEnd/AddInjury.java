@@ -64,8 +64,6 @@ public class AddInjury extends JDialog {
 
 	public AddInjury(Team auxTeam, Boolean quitar) {
 
-
-
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setUndecorated(true);
 		setBounds(100, 100, 670, 395);
@@ -154,7 +152,7 @@ public class AddInjury extends JDialog {
 						Date date = dateChooser.getDatoFecha();
 						DateFormat df = new SimpleDateFormat("dd-MMMM-yyyy");
 						String fechalesion = df.format(date);
-						if (cbxTipoLesion.getSelectedIndex() > 0 && cbxJugadoresLesion.getSelectedIndex() > 0 && date != null) {
+						if (cbxTipoLesion.getSelectedIndex() >= 0 && cbxJugadoresLesion.getSelectedIndex() > 0 && date != null) {
 
 							Injury injurys = new Injury(nameTeam, nameCompletePlayer, fechalesion, injuryType);
 
@@ -254,7 +252,7 @@ public class AddInjury extends JDialog {
 			cbxJugadoresLesion.setBounds(55, 224, 225, 30);
 			panelBg.add(cbxJugadoresLesion);
 
-			lblJugadores = new JLabel("Jugador a lesionar");
+			lblJugadores = new JLabel("Jugadores");
 			lblJugadores.setVerticalTextPosition(SwingConstants.BOTTOM);
 			lblJugadores.setVerticalAlignment(SwingConstants.BOTTOM);
 			lblJugadores.setHorizontalAlignment(SwingConstants.LEFT);
@@ -279,7 +277,8 @@ public class AddInjury extends JDialog {
 				dateChooser.setFocusable(false);
 
 			}
-			dateChooser.setPlaceholder("");
+			dateChooser.setEnabled(false);
+			dateChooser.setPlaceholder("dd/MM/yyyy");
 			dateChooser.setFuente(new Font("Consolas", Font.PLAIN, 18));
 			dateChooser.setFormatoFecha("dd/MM/yyyy");
 			dateChooser.setColorForeground(Color.BLACK);
