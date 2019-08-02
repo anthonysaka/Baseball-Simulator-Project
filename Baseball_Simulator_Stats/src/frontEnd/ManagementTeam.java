@@ -945,10 +945,11 @@ public class ManagementTeam extends JDialog {
 								}
 							}if(jugadorRepetido == false){
 								auxTeam.addPlayerLineUp(auxPlayer);
+								lbl2b.setText(seleccionarjugador+ " " +  auxPlayer.getLastname());
 							}
-							lbl2b.setText(seleccionarjugador+ " " +  auxPlayer.getLastname());
+							
 
-						} //FALTA MANDAR MENSAJE DE QUE NO ESTA SELECCIONADO MMG
+						}
 
 
 						loadLineUpPlayerByTeam();
@@ -1005,11 +1006,8 @@ public class ManagementTeam extends JDialog {
 												auxTeam.getLineUp().remove(i);
 												auxTeam.getLineUp().add(i, auxPlayer);
 												jugadorRepetido = true;
-
 											}
-
 										}
-
 
 										i++;
 									}
@@ -1020,7 +1018,7 @@ public class ManagementTeam extends JDialog {
 								auxTeam.addPlayerLineUp(auxPlayer);
 							}
 							lblRf.setText(seleccionarjugador+ " " +  auxPlayer.getLastname());
-						} //FALTA MANDAR MENSAJE DE QUE NO ESTA SELECCIONADO MMG
+						}
 
 
 						loadLineUpPlayerByTeam();
@@ -2719,7 +2717,7 @@ public class ManagementTeam extends JDialog {
 		}
 		loadInjuryPlayerByTeam();
 		loadRosterPlayerByTeam();
-		loadLineUpPlayerByTeam();
+	//	loadLineUpPlayerByTeam();
 		loadGamesByTeam();
 		loadLineUpLabel();
 

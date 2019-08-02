@@ -186,7 +186,7 @@ public class Home extends JFrame implements Runnable {
 	private String fecha;
 	private String hora;
 	private String estadio;
-	private Game auxGame = null;
+	private static Game auxGame = null;
 	private Game auxGameBox = null;
 	private JScrollPane scrollPaneLocal;
 	private JPanel panelGameVisitant;
@@ -208,7 +208,6 @@ public class Home extends JFrame implements Runnable {
 	private JPanel panel_1;
 	private static JLabel lblName;
 	private static JLabel lblFotoJugador;
-	private JLabel label_11;
 	private JLabel lblEstadsticasBateadorEn;
 	private JSeparator separator_3;
 	private JLabel label_13;
@@ -245,7 +244,7 @@ public class Home extends JFrame implements Runnable {
 	private static int carrerasPorInningVisita = 0;
 	private static int erroresLocal = 0;
 	private static int erroresVisita = 0;
-	private JLabel lblNewLabel_1;
+	private JLabel lblNumberOut;
 
 	private  static int i = 0 ;
 	private static JTextField txtTurnos;
@@ -1248,6 +1247,10 @@ public class Home extends JFrame implements Runnable {
 
 				if (auxGame.getHomeRun() == 0 && auxGame.getAwayRun() == 0) {
 					if (verificarEquipoLineUp(equipoLocal, equipoVisitante) == true) {
+						
+						JOptionPane.showMessageDialog(null, "El programa no se podrá cerrar hasta que se finalize el partido!", 
+								"Advertencia",JOptionPane.WARNING_MESSAGE);
+						
 						panelBgDashboard.setVisible(false);
 						panelGameSimulation.setVisible(true);
 						btnMenu.setEnabled(false);
@@ -1255,6 +1258,8 @@ public class Home extends JFrame implements Runnable {
 						btnJugadores.setEnabled(false);
 						btnEquipos.setEnabled(false);
 						btnEstadios.setEnabled(false);
+						btnClose.setEnabled(false);
+						
 						gameSimulationOpen(equipoLocal, equipoVisitante, auxGame);
 
 					} else {
@@ -2378,7 +2383,7 @@ public class Home extends JFrame implements Runnable {
 		};
 		/**********************************************************/	
 		txtteamV.setHorizontalAlignment(SwingConstants.CENTER);
-		txtteamV.setFont(new Font("Consolas", Font.PLAIN, 18));
+		txtteamV.setFont(new Font("Consolas", Font.PLAIN, 14));
 		txtteamV.setDisabledTextColor(Color.BLACK);
 		txtteamV.setColumns(10);
 		txtteamV.setBounds(12, 77, 185, 30);
@@ -2419,7 +2424,7 @@ public class Home extends JFrame implements Runnable {
 		};
 		/**********************************************************/	
 		txtteamH.setHorizontalAlignment(SwingConstants.CENTER);
-		txtteamH.setFont(new Font("Consolas", Font.PLAIN, 18));
+		txtteamH.setFont(new Font("Consolas", Font.PLAIN, 14));
 		txtteamH.setDisabledTextColor(Color.BLACK);
 		txtteamH.setColumns(10);
 		txtteamH.setBounds(12, 120, 185, 30);
@@ -2492,6 +2497,7 @@ public class Home extends JFrame implements Runnable {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
+		txtEquipVisi.setEditable(false);
 		/**********************************************************/	
 		txtEquipVisi.setHorizontalAlignment(SwingConstants.CENTER);
 		txtEquipVisi.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -2542,6 +2548,7 @@ public class Home extends JFrame implements Runnable {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
+		txtIni1Visit.setEditable(false);
 		/**********************************************************/	
 		txtIni1Visit.setHorizontalAlignment(SwingConstants.CENTER);
 		txtIni1Visit.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -2574,6 +2581,7 @@ public class Home extends JFrame implements Runnable {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
+		txtIni2Visit.setEditable(false);
 		/**********************************************************/	
 		txtIni2Visit.setHorizontalAlignment(SwingConstants.CENTER);
 		txtIni2Visit.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -2615,6 +2623,7 @@ public class Home extends JFrame implements Runnable {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
+		txtIni3Visit.setEditable(false);
 		/**********************************************************/	
 		txtIni3Visit.setHorizontalAlignment(SwingConstants.CENTER);
 		txtIni3Visit.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -2665,6 +2674,7 @@ public class Home extends JFrame implements Runnable {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
+		txtIni4Visit.setEditable(false);
 		/**********************************************************/	
 		txtIni4Visit.setHorizontalAlignment(SwingConstants.CENTER);
 		txtIni4Visit.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -2697,6 +2707,7 @@ public class Home extends JFrame implements Runnable {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
+		txtIni5Visit.setEditable(false);
 		/**********************************************************/	
 		txtIni5Visit.setHorizontalAlignment(SwingConstants.CENTER);
 		txtIni5Visit.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -2747,6 +2758,7 @@ public class Home extends JFrame implements Runnable {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
+		txtIni6Visit.setEditable(false);
 		/**********************************************************/	
 		txtIni6Visit.setHorizontalAlignment(SwingConstants.CENTER);
 		txtIni6Visit.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -2779,6 +2791,7 @@ public class Home extends JFrame implements Runnable {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
+		txtIni7Visit.setEditable(false);
 		/**********************************************************/	
 		txtIni7Visit.setHorizontalAlignment(SwingConstants.CENTER);
 		txtIni7Visit.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -2829,6 +2842,7 @@ public class Home extends JFrame implements Runnable {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
+		txtIni8Visit.setEditable(false);
 		/**********************************************************/	
 		txtIni8Visit.setHorizontalAlignment(SwingConstants.CENTER);
 		txtIni8Visit.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -2861,6 +2875,7 @@ public class Home extends JFrame implements Runnable {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
+		txtIni9Visit.setEditable(false);
 		/**********************************************************/	
 		txtIni9Visit.setHorizontalAlignment(SwingConstants.CENTER);
 		txtIni9Visit.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -2911,6 +2926,7 @@ public class Home extends JFrame implements Runnable {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
+		txtCarerasVisita.setEditable(false);
 		/**********************************************************/	
 		txtCarerasVisita.setHorizontalAlignment(SwingConstants.CENTER);
 		txtCarerasVisita.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -2943,6 +2959,7 @@ public class Home extends JFrame implements Runnable {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
+		txtEquipLocal.setEditable(false);
 		/**********************************************************/	
 		txtEquipLocal.setHorizontalAlignment(SwingConstants.CENTER);
 		txtEquipLocal.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -2975,6 +2992,7 @@ public class Home extends JFrame implements Runnable {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
+		txtIni1Local.setEditable(false);
 		/**********************************************************/	
 		txtIni1Local.setHorizontalAlignment(SwingConstants.CENTER);
 		txtIni1Local.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -3007,6 +3025,7 @@ public class Home extends JFrame implements Runnable {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
+		txtIni2Local.setEditable(false);
 		/**********************************************************/	
 		txtIni2Local.setHorizontalAlignment(SwingConstants.CENTER);
 		txtIni2Local.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -3039,6 +3058,7 @@ public class Home extends JFrame implements Runnable {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
+		txtIni3Local.setEditable(false);
 		/**********************************************************/	
 		txtIni3Local.setHorizontalAlignment(SwingConstants.CENTER);
 		txtIni3Local.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -3071,6 +3091,7 @@ public class Home extends JFrame implements Runnable {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
+		txtIni4Local.setEditable(false);
 		/**********************************************************/	
 		txtIni4Local.setHorizontalAlignment(SwingConstants.CENTER);
 		txtIni4Local.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -3103,6 +3124,7 @@ public class Home extends JFrame implements Runnable {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
+		txtIni5Local.setEditable(false);
 		/**********************************************************/	
 		txtIni5Local.setHorizontalAlignment(SwingConstants.CENTER);
 		txtIni5Local.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -3135,6 +3157,7 @@ public class Home extends JFrame implements Runnable {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
+		txtIni6Local.setEditable(false);
 		/**********************************************************/	
 		txtIni6Local.setHorizontalAlignment(SwingConstants.CENTER);
 		txtIni6Local.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -3167,6 +3190,7 @@ public class Home extends JFrame implements Runnable {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
+		txtIni7Local.setEditable(false);
 		/**********************************************************/	
 		txtIni7Local.setHorizontalAlignment(SwingConstants.CENTER);
 		txtIni7Local.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -3199,6 +3223,7 @@ public class Home extends JFrame implements Runnable {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
+		txtIni8Local.setEditable(false);
 		/**********************************************************/	
 		txtIni8Local.setHorizontalAlignment(SwingConstants.CENTER);
 		txtIni8Local.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -3249,6 +3274,7 @@ public class Home extends JFrame implements Runnable {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
+		txtIni9Local.setEditable(false);
 		/**********************************************************/	
 		txtIni9Local.setHorizontalAlignment(SwingConstants.CENTER);
 		txtIni9Local.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -3281,6 +3307,7 @@ public class Home extends JFrame implements Runnable {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
+		txtCarrerasLocal.setEditable(false);
 		/**********************************************************/	
 		txtCarrerasLocal.setHorizontalAlignment(SwingConstants.CENTER);
 		txtCarrerasLocal.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -3313,6 +3340,7 @@ public class Home extends JFrame implements Runnable {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
+		txtHitsVisita.setEditable(false);
 		/**********************************************************/	
 		txtHitsVisita.setHorizontalAlignment(SwingConstants.CENTER);
 		txtHitsVisita.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -3345,6 +3373,7 @@ public class Home extends JFrame implements Runnable {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
+		txtHitsLocal.setEditable(false);
 		/**********************************************************/	
 		txtHitsLocal.setHorizontalAlignment(SwingConstants.CENTER);
 		txtHitsLocal.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -3377,6 +3406,7 @@ public class Home extends JFrame implements Runnable {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
+		txtErroresVisita.setEditable(false);
 		/**********************************************************/	
 		txtErroresVisita.setHorizontalAlignment(SwingConstants.CENTER);
 		txtErroresVisita.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -3409,6 +3439,7 @@ public class Home extends JFrame implements Runnable {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
+		txtErroresLocal.setEditable(false);
 		/**********************************************************/	
 		txtErroresLocal.setHorizontalAlignment(SwingConstants.CENTER);
 		txtErroresLocal.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -3840,6 +3871,8 @@ public class Home extends JFrame implements Runnable {
 					((Batter) auxPlayer).setStrikeOut(((Batter)auxPlayer).getStrikeOut() + 1); // para aumentar numeros de h1.
 					((Batter) auxPlayer).setTurnos(((Batter) auxPlayer).getTurnos() + 1); // para aumentar cantidad de turnos.
 				}
+				
+				lblNumberOut.setText(String.valueOf(numberOut));
 
 			}
 		});
@@ -3856,21 +3889,7 @@ public class Home extends JFrame implements Runnable {
 		btnHr.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				if ( i < 3) { // para visita
-					auxGame.setAwayRun(auxGame.getAwayRun() + 1);
-					auxGame.setHitsAway(auxGame.getHitsAway()+ 1);
-					carrerasPorInningVisita++;
-					carrerasPorInningLocal = 0;
-					txtHitsVisita.setText(String.valueOf(auxGame.getHitsAway()));
-				}
-
-				if (i < 6 && i >= 3) {
-					auxGame.setHomeRun(auxGame.getHomeRun() + 1);
-					auxGame.setHitsHome(auxGame.getHitsHome()+ 1);	
-					carrerasPorInningLocal++;
-					carrerasPorInningVisita = 0;
-					txtHitsLocal.setText(String.valueOf(auxGame.getHitsHome()));
-				}
+				
 
 				Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
 				String codePlayer = auxEquipoBateando.getLineUp().get(turnoVisitante).getId();
@@ -3896,14 +3915,24 @@ public class Home extends JFrame implements Runnable {
 					((Batter) auxPlayer).setHR(((Batter)auxPlayer).getHR() + 1); // para aumentar numeros de h1.
 					((Batter) auxPlayer).setTurnos(((Batter) auxPlayer).getTurnos() + 1); // para aumentar cantidad de turnos.
 				}
-
+				
+				
 				if ( i < 3) { // para visita
+					auxGame.setAwayRun(auxGame.getAwayRun() + 1);
 					auxGame.setHitsAway(auxGame.getHitsAway()+ 1);
+					txtHitsVisita.setText(String.valueOf(auxGame.getHitsAway()));
+					carrerasPorInningVisita++;
+					carrerasPorInningLocal = 0;
 					loadBoxScoreGameSimulation(auxGame);
+					
 				}
 
 				if (i < 6 && i >= 3) {
+					auxGame.setHomeRun(auxGame.getHomeRun() + 1);
 					auxGame.setHitsHome(auxGame.getHitsHome()+ 1);	
+					txtHitsLocal.setText(String.valueOf(auxGame.getHitsHome()));
+					carrerasPorInningLocal++;
+					carrerasPorInningVisita = 0;
 					loadBoxScoreGameSimulation(auxGame);
 				}
 			}
@@ -4008,7 +4037,6 @@ public class Home extends JFrame implements Runnable {
 		btnCarreraControl.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				//numberOut % 2 == 0
 
 				if ( i < 3) { // para visita
 					auxGame.setAwayRun(auxGame.getAwayRun() + 1);
@@ -4041,24 +4069,21 @@ public class Home extends JFrame implements Runnable {
 		btnOutControl.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				incrementOut();
-
 				i++;
 
 				if (i == 3) {
 					loadBoxScoreGameSimulationOut(auxGame);
 					carrerasPorInningVisita = 0;
-
 				}
 
 				if (i == 6) {
 					loadBoxScoreGameSimulationOut(auxGame);
 					carrerasPorInningLocal = 0;
 					i=0;
-
-
 				}
+				
 				incrementTurnosByTeam();
-				lblNewLabel_1.setText(String.valueOf(numberOut));
+				lblNumberOut.setText(String.valueOf(numberOut));
 
 
 			}
@@ -4165,6 +4190,13 @@ public class Home extends JFrame implements Runnable {
 				loadGameFinalizadosBoxScore();
 				loadGameToday();
 				panelBgDashboard.setVisible(true);
+				
+				btnMenu.setEnabled(true);
+				btnHome.setEnabled(true);
+				btnJugadores.setEnabled(true);
+				btnEquipos.setEnabled(true);
+				btnEstadios.setEnabled(true);
+				btnClose.setEnabled(true);
 			}
 		});
 		btnFinalizarPartido.setIconTextGap(5);
@@ -4223,17 +4255,6 @@ public class Home extends JFrame implements Runnable {
 		lblFotoJugador.setBackground(Color.BLACK);
 		lblFotoJugador.setBounds(12, 13, 160, 160);
 		panel_1.add(lblFotoJugador);
-
-		label_11 = new JLabel();
-		label_11.setVerticalTextPosition(SwingConstants.BOTTOM);
-		label_11.setVerticalAlignment(SwingConstants.BOTTOM);
-		label_11.setText("#");
-		label_11.setHorizontalAlignment(SwingConstants.CENTER);
-		label_11.setForeground(new Color(255, 255, 255));
-		label_11.setFont(new Font("Consolas", Font.BOLD, 32));
-		label_11.setBackground(Color.WHITE);
-		label_11.setBounds(316, 130, 70, 38);
-		panel_1.add(label_11);
 
 		lblEstadsticasBateadorEn = new JLabel("Estad\u00EDsticas Bateador En Turno");
 		lblEstadsticasBateadorEn.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -4748,12 +4769,12 @@ public class Home extends JFrame implements Runnable {
 		lblTotalOuts.setBounds(0, 0, 135, 31);
 		panel_3.add(lblTotalOuts);
 
-		lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setBounds(0, 37, 135, 50);
-		panel_3.add(lblNewLabel_1);
-		lblNewLabel_1.setFont(new Font("Consolas", Font.BOLD, 24));
-		lblNewLabel_1.setForeground(Color.WHITE);
+		lblNumberOut = new JLabel("");
+		lblNumberOut.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNumberOut.setBounds(0, 37, 135, 50);
+		panel_3.add(lblNumberOut);
+		lblNumberOut.setFont(new Font("Consolas", Font.BOLD, 24));
+		lblNumberOut.setForeground(Color.WHITE);
 
 		lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(Home.class.getResource("/iconos_imagenes/BgGameSimulation.png")));
@@ -4919,6 +4940,7 @@ public class Home extends JFrame implements Runnable {
 		txtCarerasVisita.setText(String.valueOf(myGame.getAwayRun()));
 		txtErroresLocal.setText(String.valueOf(myGame.getErroresHome()));
 		txtErroresVisita.setText(String.valueOf(myGame.getErroresAway()));
+		lblNumberOut.setText(String.valueOf(numberOut));
 		lblEquipoVisitante.setBackground(new Color(239, 108, 0));
 		lblEquipoLocal.setBackground(new Color(0,30,72));
 
@@ -4941,8 +4963,16 @@ public class Home extends JFrame implements Runnable {
 	public static void bateadorQueEstaBateando(String teamOfensive) {
 
 		Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(teamOfensive);
-		lblBatAct.setText(auxEquipoBateando.getLineUp().get(turnoVisitante).getName()+" "+
-				auxEquipoBateando.getLineUp().get(turnoVisitante).getLastname());
+		
+		if (auxEquipoBateando.getName().equalsIgnoreCase(auxGame.getAwayTeam())) {
+			lblBatAct.setText(auxEquipoBateando.getLineUp().get(turnoVisitante).getName()+" "+
+					auxEquipoBateando.getLineUp().get(turnoVisitante).getLastname());
+		}else {
+			lblBatAct.setText(auxEquipoBateando.getLineUp().get(turnoLocal).getName()+" "+
+					auxEquipoBateando.getLineUp().get(turnoLocal).getLastname());
+		}
+		
+	
 
 
 	}
@@ -5204,20 +5234,7 @@ public class Home extends JFrame implements Runnable {
 			txtTurnos.setText(String.valueOf(((Batter) auxP).getTurnos()));
 
 		}
-		//		else if (auxP instanceof Pitcher) {
-		//			txtWp.setText(String.valueOf(((Pitcher) auxP).getGameWin()));
-		//			txtLp.setText(String.valueOf(((Pitcher) auxP).getGameLose()));
-		//			txtERA.setText(String.valueOf(((Pitcher) auxP).getERA()));
-		//			txtGp.setText(String.valueOf(((Pitcher) auxP).getPlayedGame()));
-		//			txtGSp.setText(String.valueOf(((Pitcher) auxP).getStartedGame()));
-		//			txtSVp.setText(String.valueOf(((Pitcher) auxP).getSavedGame()));
-		//			txtHRp.setText(String.valueOf(((Pitcher) auxP).getNumberHR()));
-		//			txtHp.setText(String.valueOf(((Pitcher) auxP).getNumberHit()));
-		//			txtRp.setText(String.valueOf(((Pitcher) auxP).getNumberRun()));
-		//			txtSOp.setText(String.valueOf(((Pitcher) auxP).getNumberStrikeOut()));
-		//			txtIPp.setText(String.valueOf(((Pitcher) auxP).getIP()));
-		//			txtAVGp.setText(String.valueOf(((Pitcher) auxP).getAverage()));
-		//	}
+		
 
 
 	}
@@ -5539,13 +5556,11 @@ public class Home extends JFrame implements Runnable {
 
 		}
 		if (numberOut < 18 && numberOut > 15) {
-
-
+			incrementTurnoLocal();
 			Team auxEquipoBateando = Lidom.getInstance().searchTeamByName(lblEquipOfen.getText());
 			String codePlayer = auxEquipoBateando.getLineUp().get(turnoLocal).getId();
 			loadPerfilPlayerSimulation(codePlayer);
 			bateadorQueEstaBateando(auxEquipoBateando.getName());
-			incrementTurnoLocal();
 			lblEquipoLocal.setBackground(new Color(239, 108, 0));
 			lblEquipoVisitante.setBackground(new Color(0,30,72));
 
@@ -5766,8 +5781,6 @@ public class Home extends JFrame implements Runnable {
 			bateadorQueEstaBateando(auxEquipoBateando.getName());
 			lblEquipoLocal.setBackground(new Color(239, 108, 0));
 			lblEquipoVisitante.setBackground(new Color(0,30,72));
-
-
 
 		}
 		if (numberOut < 48 && numberOut > 45) {

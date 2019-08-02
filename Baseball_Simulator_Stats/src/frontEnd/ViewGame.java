@@ -323,6 +323,7 @@ public class ViewGame extends JDialog {
 					}
 					
 					loadTableGame();
+					Home.loadGameToday();
 					Lidom.getInstance().saveInitData(Lidom.getInstance());
 					
 				}
