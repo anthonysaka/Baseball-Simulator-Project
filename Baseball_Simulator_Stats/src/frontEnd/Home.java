@@ -787,10 +787,7 @@ public class Home extends JFrame implements Runnable {
 		btnButtonNa.setIcon(new ImageIcon(Home.class.getResource("/iconos_imagenes/icons8_olympic_medal_silver_36px.png")));
 		btnButtonNa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//	PlayersStatistics p = new PlayersStatistics();
-				//	p.setModal(true);
-				//	p.setVisible(true);
-
+				Animacion.mover_izquierda(0, -400, 3, 3, panelMenuLateral);
 				Ranking_Team rkt = new Ranking_Team();
 				rkt.setModal(true);
 				rkt.setVisible(true);
@@ -808,6 +805,7 @@ public class Home extends JFrame implements Runnable {
 		btnRegistrarUsuario = new JButton("Registrar usuario");
 		btnRegistrarUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Animacion.mover_izquierda(0, -400, 3, 3, panelMenuLateral);
 				Login lg = new Login(true);
 				lg.setModal(true);
 				lg.setVisible(true);
@@ -850,7 +848,7 @@ public class Home extends JFrame implements Runnable {
 		btnGestionPartido.setIcon(new ImageIcon(Home.class.getResource("/iconos_imagenes/icons8_calendar_36px.png")));
 		btnGestionPartido.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				Animacion.mover_izquierda(0, -400, 3, 3, panelMenuLateral);
 				ViewGame listGame = new ViewGame();
 				listGame.setModal(true);
 				listGame.setVisible(true);
@@ -1317,6 +1315,7 @@ public class Home extends JFrame implements Runnable {
 		panelPartidoJugados.add(scrollPaneBoxScore);
 
 		tableBoxScore = new JTable();
+	
 		tableBoxScore.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -1382,6 +1381,10 @@ public class Home extends JFrame implements Runnable {
 				return columnEditables[column];
 			}
 		});
+		DefaultTableCellRenderer tcr1 = new DefaultTableCellRenderer();
+		tcr1.setHorizontalAlignment(SwingConstants.CENTER);
+		tableBoxScore.getColumnModel().getColumn(4).setCellRenderer(tcr1);
+		tableBoxScore.getColumnModel().getColumn(5).setCellRenderer(tcr1);
 		tableBoxScore.getColumnModel().getColumn(0).setPreferredWidth(120);
 		tableBoxScore.getColumnModel().getColumn(1).setPreferredWidth(120);
 		tableBoxScore.getColumnModel().getColumn(2).setPreferredWidth(125);

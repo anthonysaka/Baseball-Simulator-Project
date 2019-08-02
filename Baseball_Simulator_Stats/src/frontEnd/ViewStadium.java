@@ -184,7 +184,9 @@ public class ViewStadium extends JDialog {
 					return columnEditables[column];
 				}
 			});
-			tableStadiums.getColumnModel().getColumn(0).setResizable(false);
+			tableStadiums.getColumnModel().getColumn(0).setPreferredWidth(2);
+			tableStadiums.getColumnModel().getColumn(2).setPreferredWidth(150);
+			tableStadiums.getColumnModel().getColumn(0).setResizable(true);
 			tableStadiums.getColumnModel().getColumn(1).setResizable(true);
 			tableStadiums.getColumnModel().getColumn(2).setResizable(true);
 			scrollPane.setViewportView(tableStadiums);

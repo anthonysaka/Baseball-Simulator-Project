@@ -113,8 +113,6 @@ public class AddPlayer extends JDialog {
 	private JLabel lblR;
 	private JLabel label;
 	private JLabel lblSo;
-	private JLabel lblIp;
-	private JLabel lblAvg;
 	private JTextField txtLosep;
 	private JTextField txtErap;
 	private JTextField txtGamesp;
@@ -124,8 +122,6 @@ public class AddPlayer extends JDialog {
 	private JTextField txtHp;
 	private JTextField txtRp;
 	private JTextField txtSOp;
-	private JTextField txtIPp;
-	private JTextField txtAVGp;
 	private JSeparator separator_3;
 	private JLabel lblEstadsticaLanzador;
 	private JPanel panelBateador;
@@ -369,7 +365,7 @@ public class AddPlayer extends JDialog {
 			panelBg.add(lblInformacinPersonal);
 
 			dateChooserDateBorn = new RSDateChooser();
-			dateChooserDateBorn.setPlaceholder("");
+			dateChooserDateBorn.setPlaceholder("dd/MM/yyyy");
 			dateChooserDateBorn.setFormatoFecha("dd/MM/yyyy");
 			dateChooserDateBorn.setFuente(new Font("Consolas", Font.PLAIN, 18));
 			dateChooserDateBorn.setColorForeground(Color.BLACK);
@@ -593,7 +589,7 @@ public class AddPlayer extends JDialog {
 			lblW.setHorizontalAlignment(SwingConstants.CENTER);
 			lblW.setForeground(Color.BLACK);
 			lblW.setFont(new Font("Consolas", Font.PLAIN, 20));
-			lblW.setBounds(26, 164, 52, 31);
+			lblW.setBounds(41, 164, 52, 31);
 			panelPitcher.add(lblW);
 
 			txtWinp = new JTextField() {
@@ -616,13 +612,24 @@ public class AddPlayer extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
+			txtWinp.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					//Restringir a solo num.
+					char c = e.getKeyChar();
+					if (!Character.isDigit(c)) {
+						getToolkit().beep();
+						e.consume();
+					}
+				}
+			});
 			/**********************************************************/
 
 			txtWinp.setHorizontalAlignment(SwingConstants.CENTER);
 			txtWinp.setFont(new Font("Consolas", Font.PLAIN, 18));
 			txtWinp.setDisabledTextColor(Color.BLACK);
 			txtWinp.setColumns(10);
-			txtWinp.setBounds(26, 198, 52, 30);
+			txtWinp.setBounds(41, 198, 52, 30);
 			panelPitcher.add(txtWinp);
 
 			lblGl = new JLabel("L");
@@ -631,7 +638,7 @@ public class AddPlayer extends JDialog {
 			lblGl.setHorizontalAlignment(SwingConstants.CENTER);
 			lblGl.setForeground(Color.BLACK);
 			lblGl.setFont(new Font("Consolas", Font.PLAIN, 20));
-			lblGl.setBounds(104, 164, 52, 31);
+			lblGl.setBounds(134, 164, 52, 31);
 			panelPitcher.add(lblGl);
 
 			lblEra = new JLabel("ERA");
@@ -640,7 +647,7 @@ public class AddPlayer extends JDialog {
 			lblEra.setHorizontalAlignment(SwingConstants.CENTER);
 			lblEra.setForeground(Color.BLACK);
 			lblEra.setFont(new Font("Consolas", Font.PLAIN, 20));
-			lblEra.setBounds(182, 164, 52, 31);
+			lblEra.setBounds(227, 164, 52, 31);
 			panelPitcher.add(lblEra);
 
 			lblG = new JLabel("G");
@@ -649,7 +656,7 @@ public class AddPlayer extends JDialog {
 			lblG.setHorizontalAlignment(SwingConstants.CENTER);
 			lblG.setForeground(Color.BLACK);
 			lblG.setFont(new Font("Consolas", Font.PLAIN, 20));
-			lblG.setBounds(260, 164, 52, 31);
+			lblG.setBounds(320, 164, 52, 31);
 			panelPitcher.add(lblG);
 
 			lblGs = new JLabel("GS");
@@ -658,7 +665,7 @@ public class AddPlayer extends JDialog {
 			lblGs.setHorizontalAlignment(SwingConstants.CENTER);
 			lblGs.setForeground(Color.BLACK);
 			lblGs.setFont(new Font("Consolas", Font.PLAIN, 20));
-			lblGs.setBounds(338, 164, 52, 31);
+			lblGs.setBounds(413, 164, 52, 31);
 			panelPitcher.add(lblGs);
 
 			lblSv = new JLabel("SV");
@@ -667,7 +674,7 @@ public class AddPlayer extends JDialog {
 			lblSv.setHorizontalAlignment(SwingConstants.CENTER);
 			lblSv.setForeground(Color.BLACK);
 			lblSv.setFont(new Font("Consolas", Font.PLAIN, 20));
-			lblSv.setBounds(416, 164, 52, 31);
+			lblSv.setBounds(506, 164, 52, 31);
 			panelPitcher.add(lblSv);
 
 			lblHr = new JLabel("HR");
@@ -676,7 +683,7 @@ public class AddPlayer extends JDialog {
 			lblHr.setHorizontalAlignment(SwingConstants.CENTER);
 			lblHr.setForeground(Color.BLACK);
 			lblHr.setFont(new Font("Consolas", Font.PLAIN, 20));
-			lblHr.setBounds(494, 164, 52, 31);
+			lblHr.setBounds(599, 164, 52, 31);
 			panelPitcher.add(lblHr);
 
 			lblR = new JLabel("H");
@@ -685,7 +692,7 @@ public class AddPlayer extends JDialog {
 			lblR.setHorizontalAlignment(SwingConstants.CENTER);
 			lblR.setForeground(Color.BLACK);
 			lblR.setFont(new Font("Consolas", Font.PLAIN, 20));
-			lblR.setBounds(572, 164, 52, 31);
+			lblR.setBounds(692, 164, 52, 31);
 			panelPitcher.add(lblR);
 
 			label = new JLabel("R");
@@ -694,7 +701,7 @@ public class AddPlayer extends JDialog {
 			label.setHorizontalAlignment(SwingConstants.CENTER);
 			label.setForeground(Color.BLACK);
 			label.setFont(new Font("Consolas", Font.PLAIN, 20));
-			label.setBounds(650, 164, 52, 31);
+			label.setBounds(785, 164, 52, 31);
 			panelPitcher.add(label);
 
 			lblSo = new JLabel("SO");
@@ -703,26 +710,8 @@ public class AddPlayer extends JDialog {
 			lblSo.setHorizontalAlignment(SwingConstants.CENTER);
 			lblSo.setForeground(Color.BLACK);
 			lblSo.setFont(new Font("Consolas", Font.PLAIN, 20));
-			lblSo.setBounds(728, 164, 52, 31);
+			lblSo.setBounds(878, 164, 52, 31);
 			panelPitcher.add(lblSo);
-
-			lblIp = new JLabel("IP");
-			lblIp.setVerticalTextPosition(SwingConstants.BOTTOM);
-			lblIp.setVerticalAlignment(SwingConstants.BOTTOM);
-			lblIp.setHorizontalAlignment(SwingConstants.CENTER);
-			lblIp.setForeground(Color.BLACK);
-			lblIp.setFont(new Font("Consolas", Font.PLAIN, 20));
-			lblIp.setBounds(806, 164, 52, 31);
-			panelPitcher.add(lblIp);
-
-			lblAvg = new JLabel("AVG");
-			lblAvg.setVerticalTextPosition(SwingConstants.BOTTOM);
-			lblAvg.setVerticalAlignment(SwingConstants.BOTTOM);
-			lblAvg.setHorizontalAlignment(SwingConstants.CENTER);
-			lblAvg.setForeground(Color.BLACK);
-			lblAvg.setFont(new Font("Consolas", Font.PLAIN, 20));
-			lblAvg.setBounds(884, 164, 52, 31);
-			panelPitcher.add(lblAvg);
 
 			txtLosep = new JTextField() {
 				/************* PARA REDONDEAR JTEXTFIELD *************/
@@ -744,12 +733,23 @@ public class AddPlayer extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
+			txtLosep.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					//Restringir a solo num.
+					char c = e.getKeyChar();
+					if (!Character.isDigit(c)) {
+						getToolkit().beep();
+						e.consume();
+					}
+				}
+			});
 			/**********************************************************/
 			txtLosep.setHorizontalAlignment(SwingConstants.CENTER);
 			txtLosep.setFont(new Font("Consolas", Font.PLAIN, 18));
 			txtLosep.setDisabledTextColor(Color.BLACK);
 			txtLosep.setColumns(10);
-			txtLosep.setBounds(104, 198, 52, 30);
+			txtLosep.setBounds(134, 198, 52, 30);
 			panelPitcher.add(txtLosep);
 
 			txtErap = new JTextField() {
@@ -772,12 +772,13 @@ public class AddPlayer extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
+			txtErap.setEditable(false);
 			/**********************************************************/
 			txtErap.setHorizontalAlignment(SwingConstants.CENTER);
 			txtErap.setFont(new Font("Consolas", Font.PLAIN, 18));
 			txtErap.setDisabledTextColor(Color.BLACK);
 			txtErap.setColumns(10);
-			txtErap.setBounds(182, 198, 52, 30);
+			txtErap.setBounds(227, 198, 52, 30);
 			panelPitcher.add(txtErap);
 
 			txtGamesp = new JTextField() {
@@ -800,12 +801,23 @@ public class AddPlayer extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
+			txtGamesp.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					//Restringir a solo num.
+					char c = e.getKeyChar();
+					if (!Character.isDigit(c)) {
+						getToolkit().beep();
+						e.consume();
+					}
+				}
+			});
 			/**********************************************************/
 			txtGamesp.setHorizontalAlignment(SwingConstants.CENTER);
 			txtGamesp.setFont(new Font("Consolas", Font.PLAIN, 18));
 			txtGamesp.setDisabledTextColor(Color.BLACK);
 			txtGamesp.setColumns(10);
-			txtGamesp.setBounds(260, 198, 52, 30);
+			txtGamesp.setBounds(320, 198, 52, 30);
 			panelPitcher.add(txtGamesp);
 
 			txtGSp = new JTextField() {
@@ -828,12 +840,23 @@ public class AddPlayer extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
+			txtGSp.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					//Restringir a solo num.
+					char c = e.getKeyChar();
+					if (!Character.isDigit(c)) {
+						getToolkit().beep();
+						e.consume();
+					}
+				}
+			});
 			/**********************************************************/
 			txtGSp.setHorizontalAlignment(SwingConstants.CENTER);
 			txtGSp.setFont(new Font("Consolas", Font.PLAIN, 18));
 			txtGSp.setDisabledTextColor(Color.BLACK);
 			txtGSp.setColumns(10);
-			txtGSp.setBounds(338, 198, 52, 30);
+			txtGSp.setBounds(413, 198, 52, 30);
 			panelPitcher.add(txtGSp);
 
 			txtSVp = new JTextField() {
@@ -856,12 +879,23 @@ public class AddPlayer extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
+			txtSVp.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					//Restringir a solo num.
+					char c = e.getKeyChar();
+					if (!Character.isDigit(c)) {
+						getToolkit().beep();
+						e.consume();
+					}
+				}
+			});
 			/**********************************************************/
 			txtSVp.setHorizontalAlignment(SwingConstants.CENTER);
 			txtSVp.setFont(new Font("Consolas", Font.PLAIN, 18));
 			txtSVp.setDisabledTextColor(Color.BLACK);
 			txtSVp.setColumns(10);
-			txtSVp.setBounds(416, 198, 52, 30);
+			txtSVp.setBounds(506, 198, 52, 30);
 			panelPitcher.add(txtSVp);
 
 			txtHRp = new JTextField() {
@@ -884,12 +918,23 @@ public class AddPlayer extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
+			txtHRp.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					//Restringir a solo num.
+					char c = e.getKeyChar();
+					if (!Character.isDigit(c)) {
+						getToolkit().beep();
+						e.consume();
+					}
+				}
+			});
 			/**********************************************************/
 			txtHRp.setHorizontalAlignment(SwingConstants.CENTER);
 			txtHRp.setFont(new Font("Consolas", Font.PLAIN, 18));
 			txtHRp.setDisabledTextColor(Color.BLACK);
 			txtHRp.setColumns(10);
-			txtHRp.setBounds(494, 198, 52, 30);
+			txtHRp.setBounds(599, 198, 52, 30);
 			panelPitcher.add(txtHRp);
 
 			txtHp = new JTextField() {
@@ -912,12 +957,23 @@ public class AddPlayer extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
+			txtHp.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					//Restringir a solo num.
+					char c = e.getKeyChar();
+					if (!Character.isDigit(c)) {
+						getToolkit().beep();
+						e.consume();
+					}
+				}
+			});
 			/**********************************************************/
 			txtHp.setHorizontalAlignment(SwingConstants.CENTER);
 			txtHp.setFont(new Font("Consolas", Font.PLAIN, 18));
 			txtHp.setDisabledTextColor(Color.BLACK);
 			txtHp.setColumns(10);
-			txtHp.setBounds(572, 198, 52, 30);
+			txtHp.setBounds(692, 198, 52, 30);
 			panelPitcher.add(txtHp);
 
 			txtRp = new JTextField() {
@@ -940,12 +996,23 @@ public class AddPlayer extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
+			txtRp.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					//Restringir a solo num.
+					char c = e.getKeyChar();
+					if (!Character.isDigit(c)) {
+						getToolkit().beep();
+						e.consume();
+					}
+				}
+			});
 			/**********************************************************/
 			txtRp.setHorizontalAlignment(SwingConstants.CENTER);
 			txtRp.setFont(new Font("Consolas", Font.PLAIN, 18));
 			txtRp.setDisabledTextColor(Color.BLACK);
 			txtRp.setColumns(10);
-			txtRp.setBounds(650, 198, 52, 30);
+			txtRp.setBounds(785, 198, 52, 30);
 			panelPitcher.add(txtRp);
 
 			txtSOp = new JTextField() {
@@ -968,69 +1035,24 @@ public class AddPlayer extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
+			txtSOp.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					//Restringir a solo num.
+					char c = e.getKeyChar();
+					if (!Character.isDigit(c)) {
+						getToolkit().beep();
+						e.consume();
+					}
+				}
+			});
 			/**********************************************************/
 			txtSOp.setHorizontalAlignment(SwingConstants.CENTER);
 			txtSOp.setFont(new Font("Consolas", Font.PLAIN, 18));
 			txtSOp.setDisabledTextColor(Color.BLACK);
 			txtSOp.setColumns(10);
-			txtSOp.setBounds(728, 198, 52, 30);
+			txtSOp.setBounds(878, 198, 52, 30);
 			panelPitcher.add(txtSOp);
-
-			txtAVGp = new JTextField() {
-				/************* PARA REDONDEAR JTEXTFIELD *************/
-				@Override 
-				protected void paintComponent(Graphics g) {
-					if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
-						Graphics2D g2 = (Graphics2D) g.create();
-						g2.setPaint(getBackground());
-						g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
-								0, 0, getWidth() - 1, getHeight() - 1));
-						g2.dispose();
-					}
-					super.paintComponent(g);
-				}
-				@Override 
-				public void updateUI() {
-					super.updateUI();
-					setOpaque(false);
-					setBorder(new RoundedCornerBorder());
-				}
-			};
-			/**********************************************************/
-			txtAVGp.setHorizontalAlignment(SwingConstants.CENTER);
-			txtAVGp.setFont(new Font("Consolas", Font.PLAIN, 18));
-			txtAVGp.setDisabledTextColor(Color.BLACK);
-			txtAVGp.setColumns(10);
-			txtAVGp.setBounds(884, 198, 52, 30);
-			panelPitcher.add(txtAVGp);
-
-			txtIPp = new JTextField() {
-				/************* PARA REDONDEAR JTEXTFIELD *************/
-				@Override 
-				protected void paintComponent(Graphics g) {
-					if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
-						Graphics2D g2 = (Graphics2D) g.create();
-						g2.setPaint(getBackground());
-						g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
-								0, 0, getWidth() - 1, getHeight() - 1));
-						g2.dispose();
-					}
-					super.paintComponent(g);
-				}
-				@Override 
-				public void updateUI() {
-					super.updateUI();
-					setOpaque(false);
-					setBorder(new RoundedCornerBorder());
-				}
-			};
-			/**********************************************************/
-			txtIPp.setHorizontalAlignment(SwingConstants.CENTER);
-			txtIPp.setFont(new Font("Consolas", Font.PLAIN, 18));
-			txtIPp.setDisabledTextColor(Color.BLACK);
-			txtIPp.setColumns(10);
-			txtIPp.setBounds(806, 198, 52, 30);
-			panelPitcher.add(txtIPp);
 
 			separator_3 = new JSeparator();
 			separator_3.setOpaque(true);
@@ -1175,6 +1197,7 @@ public class AddPlayer extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
+			txtAVGb.setEditable(false);
 			/**********************************************************/
 			txtAVGb.setHorizontalAlignment(SwingConstants.CENTER);
 			txtAVGb.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -1203,6 +1226,17 @@ public class AddPlayer extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
+			txtRb.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					//Restringir a solo num.
+					char c = e.getKeyChar();
+					if (!Character.isDigit(c)) {
+						getToolkit().beep();
+						e.consume();
+					}
+				}
+			});
 			/**********************************************************/
 			txtRb.setHorizontalAlignment(SwingConstants.CENTER);
 			txtRb.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -1249,6 +1283,17 @@ public class AddPlayer extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
+			txtH1b.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					//Restringir a solo num.
+					char c = e.getKeyChar();
+					if (!Character.isDigit(c)) {
+						getToolkit().beep();
+						e.consume();
+					}
+				}
+			});
 			/**********************************************************/
 			txtH1b.setHorizontalAlignment(SwingConstants.CENTER);
 			txtH1b.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -1277,6 +1322,17 @@ public class AddPlayer extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
+			txtH2b.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					//Restringir a solo num.
+					char c = e.getKeyChar();
+					if (!Character.isDigit(c)) {
+						getToolkit().beep();
+						e.consume();
+					}
+				}
+			});
 			/**********************************************************/
 			txtH2b.setHorizontalAlignment(SwingConstants.CENTER);
 			txtH2b.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -1323,6 +1379,17 @@ public class AddPlayer extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
+			txtH3b.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					//Restringir a solo num.
+					char c = e.getKeyChar();
+					if (!Character.isDigit(c)) {
+						getToolkit().beep();
+						e.consume();
+					}
+				}
+			});
 			/**********************************************************/
 			txtH3b.setHorizontalAlignment(SwingConstants.CENTER);
 			txtH3b.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -1351,6 +1418,17 @@ public class AddPlayer extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
+			txtHRb.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					//Restringir a solo num.
+					char c = e.getKeyChar();
+					if (!Character.isDigit(c)) {
+						getToolkit().beep();
+						e.consume();
+					}
+				}
+			});
 			/**********************************************************/
 			txtHRb.setHorizontalAlignment(SwingConstants.CENTER);
 			txtHRb.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -1397,6 +1475,17 @@ public class AddPlayer extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
+			txtRBIb.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					//Restringir a solo num.
+					char c = e.getKeyChar();
+					if (!Character.isDigit(c)) {
+						getToolkit().beep();
+						e.consume();
+					}
+				}
+			});
 			/**********************************************************/
 			txtRBIb.setHorizontalAlignment(SwingConstants.CENTER);
 			txtRBIb.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -1425,6 +1514,17 @@ public class AddPlayer extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
+			txtBBb.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					//Restringir a solo num.
+					char c = e.getKeyChar();
+					if (!Character.isDigit(c)) {
+						getToolkit().beep();
+						e.consume();
+					}
+				}
+			});
 			/**********************************************************/
 			txtBBb.setHorizontalAlignment(SwingConstants.CENTER);
 			txtBBb.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -1471,6 +1571,17 @@ public class AddPlayer extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
+			txtSOb.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					//Restringir a solo num.
+					char c = e.getKeyChar();
+					if (!Character.isDigit(c)) {
+						getToolkit().beep();
+						e.consume();
+					}
+				}
+			});
 			/**********************************************************/
 			txtSOb.setHorizontalAlignment(SwingConstants.CENTER);
 			txtSOb.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -1499,6 +1610,17 @@ public class AddPlayer extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
+			txtSBb.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					//Restringir a solo num.
+					char c = e.getKeyChar();
+					if (!Character.isDigit(c)) {
+						getToolkit().beep();
+						e.consume();
+					}
+				}
+			});
 			/**********************************************************/
 			txtSBb.setHorizontalAlignment(SwingConstants.CENTER);
 			txtSBb.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -1627,6 +1749,17 @@ public class AddPlayer extends JDialog {
 					setBorder(new RoundedCornerBorder());
 				}
 			};
+			txtTurno.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					//Restringir a solo num.
+					char c = e.getKeyChar();
+					if (!Character.isDigit(c)) {
+						getToolkit().beep();
+						e.consume();
+					}
+				}
+			});
 			/**********************************************************/
 			txtTurno.setHorizontalAlignment(SwingConstants.CENTER);
 			txtTurno.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -1774,16 +1907,18 @@ public class AddPlayer extends JDialog {
 									String manoPitcher = cbxManoPitcher.getSelectedItem().toString(); // OJO crear artributo
 									String equipoPitcher = cbxEquipoPit.getSelectedItem().toString();
 
-									if ( (cbxTipoPitcher.getSelectedIndex() > 0)  && (cbxManoPitcher.getSelectedIndex() > 0) && (cbxEquipoPit.getSelectedIndex() > 0) ) {
+									if ( (cbxTipoPitcher.getSelectedIndex() > 0)  && (cbxManoPitcher.getSelectedIndex() > 0) && (!cbxEquipoPit.getSelectedItem().equals("<Seleccionar>") )) {
 
 										if (Lidom.getInstance().checkNumberPlayer(number, equipoPitcher)) {
 
 											Player pitcher = new Pitcher(id, name, number, lastname, equipoPitcher, dateBorn, placeBorn, height, weight, manoPitcher, tipoPitcher);
 											Lidom.getInstance().addPlayer(pitcher); // agrego lista de lidom
 											Lidom.getInstance().addPlayerToTeam(equipoPitcher, pitcher); // agrego a lista de roster del equipo
+											ManagementTeam.loadRosterPlayerByTeam();
 
 
 											JOptionPane.showOptionDialog(null, "Registro de un PITCHER con exito!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
+											Lidom.getInstance().saveInitData(Lidom.getInstance());
 											clean();
 											typePlayer = 0;
 											panelInformacionJugador.setVisible(false);
@@ -1808,12 +1943,13 @@ public class AddPlayer extends JDialog {
 									String manoDeBateo = cbxManoBateo.getSelectedItem().toString();
 									String equipoBateeador = cbxEquipoBat.getSelectedItem().toString();
 
-									if ((cbxManoBateo.getSelectedIndex() > 0) && (cbxPosicionBat.getSelectedIndex() > 0)  && (cbxManoBat.getSelectedIndex() > 0) && (cbxEquipoBat.getSelectedIndex() > 0) ) {
+									if ((cbxManoBateo.getSelectedIndex() > 0) && (cbxPosicionBat.getSelectedIndex() > 0)  && (cbxManoBat.getSelectedIndex() > 0) && (!cbxEquipoBat.getSelectedItem().equals("<Seleccionar>") )) {
 
 										if (Lidom.getInstance().checkNumberPlayer(number, equipoBateeador)) {
 											Player bateador = new Batter(id, name, number, lastname, equipoBateeador, dateBorn, placeBorn, height, weight, manobateador, posicion, manoDeBateo);
 											Lidom.getInstance().addPlayer(bateador);// agrego lista de lidom
 											Lidom.getInstance().addPlayerToTeam(equipoBateeador, bateador); // agrego a lista de roster del equipo
+											ManagementTeam.loadRosterPlayerByTeam();
 
 											JOptionPane.showOptionDialog(null, "Registro de un BATEADOR con exito!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
 											clean();
@@ -1926,9 +2062,7 @@ public class AddPlayer extends JDialog {
 							int h = Integer.valueOf(txtHp.getText());					
 							int run =	Integer.valueOf(txtRp.getText());
 							int strikeOut = Integer.valueOf(txtSOp.getText());
-							float ip = Float.valueOf(txtIPp.getText());
-							float avg = 	Float.valueOf(txtAVGp.getText());
-							
+						
 							((Pitcher) myPlayer).setGameWin(win);
 							((Pitcher) myPlayer).setGameLose(lose);
 							((Pitcher) myPlayer).setERA(era);
@@ -1939,8 +2073,7 @@ public class AddPlayer extends JDialog {
 							((Pitcher) myPlayer).setNumberHit(h);
 							((Pitcher) myPlayer).setNumberRun(run);
 							((Pitcher) myPlayer).setNumberStrikeOut(strikeOut);
-							((Pitcher) myPlayer).setIP(ip);
-							((Pitcher) myPlayer).setAverage(avg);
+						
 							
 							Lidom.getInstance().updatePlayer(myPlayer);
 							JOptionPane.showMessageDialog(null, "Modificado con exito!", "Alerta - Hecho!", JOptionPane.INFORMATION_MESSAGE);
@@ -2087,8 +2220,7 @@ public class AddPlayer extends JDialog {
 				txtHp.setText(String.valueOf(((Pitcher) myPlayer).getNumberHit()));
 				txtRp.setText(String.valueOf(((Pitcher) myPlayer).getNumberRun()));
 				txtSOp.setText(String.valueOf(((Pitcher) myPlayer).getNumberStrikeOut()));
-				txtIPp.setText(String.valueOf(((Pitcher) myPlayer).getIP()));
-				txtAVGp.setText(String.valueOf(((Pitcher) myPlayer).getAverage()));
+			
 
 			}
 
@@ -2131,8 +2263,7 @@ public class AddPlayer extends JDialog {
 			txtHp.setEditable(false);
 			txtRp.setEditable(false);
 			txtSOp.setEditable(false);
-			txtIPp.setEditable(false);
-			txtAVGp.setEditable(false);
+		
 
 			txtAVGb.setEditable(false);
 			txtRb.setEditable(false);
@@ -2156,8 +2287,6 @@ public class AddPlayer extends JDialog {
 			txtHp.setText("0");
 			txtRp.setText("0");
 			txtSOp.setText("0");
-			txtIPp.setText("0");
-			txtAVGp.setText("0");
 
 			txtAVGb.setText("0");
 			txtRb.setText("0");
@@ -2189,8 +2318,8 @@ public class AddPlayer extends JDialog {
 
 		if (nameTeam == null) {
 
-			cbxEquipoBat.insertItemAt(new String("<Seleccionar"), 0);
-			cbxEquipoPit.insertItemAt(new String("<Seleccionar"), 0);
+			cbxEquipoBat.insertItemAt(new String("<Seleccionar>"), 0);
+			cbxEquipoPit.insertItemAt(new String("<Seleccionar>"), 0);
 			cbxEquipoBat.setSelectedIndex(0);
 			cbxEquipoPit.setSelectedIndex(0);
 		}else {

@@ -42,6 +42,7 @@ import java.awt.CardLayout;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ItemListener;
+import java.text.DecimalFormat;
 import java.awt.event.ItemEvent;
 
 /**
@@ -219,21 +220,20 @@ public class PlayersStatistics extends JDialog {
 		StatisticsTablePit.setFont(new Font("Consolas", Font.PLAIN, 15));
 		StatisticsTablePit.setAutoCreateRowSorter(true);
 		StatisticsTablePit.setModel(new DefaultTableModel(new Object[][] {},
-				new String[] { "Equipo", "Nombre", "W", "L", "ERA", "G", "GS", "SV", "HR", "H", "R", "IP", "AVG" }) {
+				new String[] { "Equipo", "Nombre", "W", "L", "ERA", "G", "GS", "SV", "HR", "H", "R" }) {
 			/**
 			 * 
 			 */
 			private static final long serialVersionUID = 2212776801690834304L;
 
 			Class[] columnTypes = new Class[] { String.class, String.class, String.class, String.class, String.class,
-					String.class, String.class, String.class, String.class, String.class, String.class, String.class,
-					String.class };
+					String.class, String.class, String.class, String.class, String.class, String.class };
 
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
 
-			boolean[] columnEditables = new boolean[] { false, false, false, false, false, false, false, false, false,
+			boolean[] columnEditables = new boolean[] { false, false, false, false, false, false, false, 
 					false, false, false, false };
 
 			public boolean isCellEditable(int row, int column) {
@@ -251,8 +251,7 @@ public class PlayersStatistics extends JDialog {
 		StatisticsTablePit.getColumnModel().getColumn(8).setMinWidth(20);
 		StatisticsTablePit.getColumnModel().getColumn(9).setMinWidth(20);
 		StatisticsTablePit.getColumnModel().getColumn(10).setMinWidth(20);
-		StatisticsTablePit.getColumnModel().getColumn(11).setMinWidth(20);
-		StatisticsTablePit.getColumnModel().getColumn(12).setMinWidth(20);
+
 		scrollPanePit.setViewportView(StatisticsTablePit);
 
 		JLabel lblVer = new JLabel("Ver:");
@@ -285,6 +284,7 @@ public class PlayersStatistics extends JDialog {
 		panelBg.add(cbxBatPit);
 
 		cbxTeams = new JComboBox();
+		cbxTeams.setFont(new Font("Consolas", Font.PLAIN, 18));
 		cbxTeams.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				JComboBox<String> cbteam = (JComboBox<String>) e.getSource();
@@ -298,13 +298,11 @@ public class PlayersStatistics extends JDialog {
 			}
 		});
 		
-		cbxTeams.setBounds(229, 76, 146, 30);
+		cbxTeams.setBounds(229, 76, 235, 30);
 		panelBg.add(cbxTeams);
 
 		loadTable();
-
 		loadTablePit();
-
 		loadTeamsCbx();
 
 	}
@@ -327,6 +325,8 @@ public class PlayersStatistics extends JDialog {
 	public void loadTable() {
 		model = (DefaultTableModel) StatisticsTableBat.getModel();
 		model.setRowCount(0);
+		DecimalFormat decimalFormat = new DecimalFormat("#.000");       
+		String avg = null;
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
 		StatisticsTableBat.getColumnModel().getColumn(0).setCellRenderer(tcr);
@@ -348,9 +348,11 @@ public class PlayersStatistics extends JDialog {
 				// System.out.println(p);
 
 				if (p instanceof Batter) {
+					
+					 avg = decimalFormat.format(((Batter) p).getAverage());
 					column[0] = p.getTeamName();
 					column[1] = p.getName();
-					column[2] = String.valueOf(((Batter) p).getAverage());
+					column[2] = avg;
 					column[3] = String.valueOf(((Batter) p).getH1());
 					column[4] = String.valueOf(((Batter) p).getH2());
 					column[5] = String.valueOf(((Batter) p).getH3());
@@ -370,6 +372,8 @@ public class PlayersStatistics extends JDialog {
 	public void loadTablePit() {
 		model = (DefaultTableModel) StatisticsTablePit.getModel();
 		model.setRowCount(0);
+		DecimalFormat decimalFormat = new DecimalFormat("#.000");       
+		String era = null;
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
 		StatisticsTablePit.getColumnModel().getColumn(0).setCellRenderer(tcr);
@@ -383,27 +387,26 @@ public class PlayersStatistics extends JDialog {
 		StatisticsTablePit.getColumnModel().getColumn(8).setCellRenderer(tcr);
 		StatisticsTablePit.getColumnModel().getColumn(9).setCellRenderer(tcr);
 		StatisticsTablePit.getColumnModel().getColumn(10).setCellRenderer(tcr);
-		StatisticsTablePit.getColumnModel().getColumn(11).setCellRenderer(tcr);
-		StatisticsTablePit.getColumnModel().getColumn(12).setCellRenderer(tcr);
+	
 		
 		column = new Object[model.getColumnCount()];
 
 		if (Listar_Equipos != null) {
 			for (Player p : Listar_Equipos) {
 				if (p instanceof Pitcher) {
+					 era = decimalFormat.format(((Pitcher) p).getERA());
 					column[0] = p.getTeamName();
 					column[1] = p.getName();
 					column[2] = String.valueOf(((Pitcher) p).getGameWin()); // Convertir el tipo de variable a String
 					column[3] = String.valueOf(((Pitcher) p).getGameLose());
-					column[4] = String.valueOf(((Pitcher) p).getERA());
+					column[4] = era;
 					column[5] = String.valueOf(((Pitcher) p).getPlayedGame());
 					column[6] = String.valueOf(((Pitcher) p).getStartedGame());
 					column[7] = String.valueOf(((Pitcher) p).getSavedGame());
 					column[8] = String.valueOf(((Pitcher) p).getNumberHR());
 					column[9] = String.valueOf(((Pitcher) p).getNumberHit());
 					column[10] = String.valueOf(((Pitcher) p).getNumberRun());
-					column[11] = String.valueOf(((Pitcher) p).getIP());
-					column[12] = String.valueOf(((Pitcher) p).getAverage());
+				
 
 					model.addRow(column);
 				}

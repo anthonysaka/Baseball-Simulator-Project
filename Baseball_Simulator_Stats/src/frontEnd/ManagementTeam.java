@@ -186,8 +186,7 @@ public class ManagementTeam extends JDialog {
 	private static JTextField txtIPp;
 	private static JTextField txtAVGp;
 	private JLabel label_29;
-	private JButton btnNa_1;
-	private JButton btnAddPlayerTeam;
+	private JButton btnAddPlayer;
 	private JButton btnNa_2;
 	private String seleccionarjugador;
 	private JLabel lblCf;
@@ -239,7 +238,7 @@ public class ManagementTeam extends JDialog {
 
 			lblRegistroEquipo = new JLabel("GESTION DE EQUIPO");
 			lblRegistroEquipo.setHorizontalTextPosition(SwingConstants.CENTER);
-			lblRegistroEquipo.setBounds(244, 0, 192, 45);
+			lblRegistroEquipo.setBounds(718, 0, 192, 45);
 			panelHeader.add(lblRegistroEquipo);
 			lblRegistroEquipo.setHorizontalAlignment(SwingConstants.CENTER);
 			lblRegistroEquipo.setForeground(new Color(255, 255, 255));
@@ -2684,41 +2683,24 @@ public class ManagementTeam extends JDialog {
 			});
 			scrollPaneLesionados.setViewportView(tableLesionados);
 
-			btnNa_1 = new JButton("Jugador");
-			btnNa_1.setIcon(new ImageIcon(ManagementTeam.class.getResource("/iconos_imagenes/icons8_add_36px_1.png")));
-			btnNa_1.addActionListener(new ActionListener() {
+			btnAddPlayer = new JButton("Jugador");
+			btnAddPlayer.setIcon(new ImageIcon(ManagementTeam.class.getResource("/iconos_imagenes/icons8_add_36px_1.png")));
+			btnAddPlayer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					AddPlayer player = new AddPlayer(null, myTeam.getName());
 					player.setModal(true);
 					player.setVisible(true);
 				}
 			});
-			btnNa_1.setToolTipText("Agregar jugador al equipo.");
-			btnNa_1.setIconTextGap(5);
-			btnNa_1.setHorizontalTextPosition(SwingConstants.RIGHT);
-			btnNa_1.setForeground(new Color(255, 255, 240));
-			btnNa_1.setFont(new Font("Consolas", Font.BOLD, 20));
-			btnNa_1.setBorder(null);
-			btnNa_1.setBackground(new Color(4, 10, 20));
-			btnNa_1.setBounds(992, 107, 170, 37);
-			panelFondo.add(btnNa_1);
-
-			btnAddPlayerTeam = new JButton("Temporal");
-			btnAddPlayerTeam.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					myTeam.getLineUp().removeAll(myTeam.getLineUp());
-					//	myTeam.getRosterPlayers().remove(2);
-				}
-			});
-			btnAddPlayerTeam.setToolTipText("");
-			btnAddPlayerTeam.setIconTextGap(5);
-			btnAddPlayerTeam.setHorizontalTextPosition(SwingConstants.RIGHT);
-			btnAddPlayerTeam.setForeground(new Color(255, 255, 240));
-			btnAddPlayerTeam.setFont(new Font("Consolas", Font.BOLD, 20));
-			btnAddPlayerTeam.setBorder(null);
-			btnAddPlayerTeam.setBackground(new Color(4, 10, 20));
-			btnAddPlayerTeam.setBounds(955, 236, 170, 37);
-			panelFondo.add(btnAddPlayerTeam);
+			btnAddPlayer.setToolTipText("Agregar jugador al equipo.");
+			btnAddPlayer.setIconTextGap(5);
+			btnAddPlayer.setHorizontalTextPosition(SwingConstants.RIGHT);
+			btnAddPlayer.setForeground(new Color(255, 255, 240));
+			btnAddPlayer.setFont(new Font("Consolas", Font.BOLD, 20));
+			btnAddPlayer.setBorder(null);
+			btnAddPlayer.setBackground(new Color(4, 10, 20));
+			btnAddPlayer.setBounds(992, 107, 170, 37);
+			panelFondo.add(btnAddPlayer);
 
 			btnNa_2 = new JButton("Equipo");
 			btnNa_2.setIcon(new ImageIcon(ManagementTeam.class.getResource("/iconos_imagenes/icons8_statistics_36px.png")));
@@ -2924,8 +2906,6 @@ public class ManagementTeam extends JDialog {
 			txtHp.setText(String.valueOf(((Pitcher) auxP).getNumberHit()));
 			txtRp.setText(String.valueOf(((Pitcher) auxP).getNumberRun()));
 			txtSOp.setText(String.valueOf(((Pitcher) auxP).getNumberStrikeOut()));
-			txtIPp.setText(String.valueOf(((Pitcher) auxP).getIP()));
-			txtAVGp.setText(String.valueOf(((Pitcher) auxP).getAverage()));
 		}
 
 

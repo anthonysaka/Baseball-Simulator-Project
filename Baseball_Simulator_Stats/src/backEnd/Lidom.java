@@ -330,210 +330,6 @@ public class Lidom implements Serializable {
 		return auxGame;
 	}
 
-	//metodo para filtrar el mejor bateador en HR, hit, 2b, 3b o averages.
-	public Player mayor (String caso) {
-		Player mejor= listPlayer.get(0);
-		switch (caso) {
-		case "HR": 
-			for (int i = 0; i < listPlayer.size(); i++) {
-				Player p = listPlayer.get(i); 
-				if(p instanceof Batter) {
-					if( ((Batter)p).getHR()>((Batter)mejor).getHR() ) {
-						mejor = p; 
-					}
-				}
-			}
-			break;
-
-		case "Hits":
-			for (int i = 0; i < listPlayer.size(); i++) {
-				Player p = listPlayer.get(i); 
-				if(p instanceof Batter) {
-					if( ((Batter)p).getH1()>((Batter)mejor).getH1() ) {
-						mejor = p; 
-					}
-				}
-			}
-			break;
-
-		case "Dobles":
-			for (int i = 0; i < listPlayer.size(); i++) {
-				Player p = listPlayer.get(i); 
-				if(p instanceof Batter) {
-					if( ((Batter)p).getH2()>((Batter)mejor).getH2() ) {
-						mejor = p; 
-					}
-				}
-			}
-			break;
-
-		case " Triples":
-			for (int i = 0; i < listPlayer.size(); i++) {
-				Player p = listPlayer.get(i); 
-				if(p instanceof Batter) {
-					if( ((Batter)p).getH2()>((Batter)mejor).getH2() ) {
-						mejor = p; 
-					}
-				}
-			}
-			break;
-
-		case "Average":
-			for (int i = 0; i < listPlayer.size(); i++) {
-				Player p = listPlayer.get(i); 
-				if(p instanceof Batter) {
-					if( ((Batter)p).getAverage()>((Batter)mejor).getAverage() ) {
-						mejor = p; 
-					}
-				}
-			}
-			break;
-
-		default:
-			break;
-		}
-		return mejor;//retorna el jugador con mas HR o estadisticas que el usuario diga.
-	}
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	//METODO PARA BUSCAR AL PITCHER DE MAYOR ESTADISTICA DESEADA POR EL USUARIO.
-
-	public Player Pitcher(String Estadistica) {
-
-		Player Statistic = listPlayer.get(0);
-
-		switch (Estadistica) {
-
-		case "W":
-			for (int i = 0; i < listPlayer.size(); i++) {
-				Player Pit = listPlayer.get(i);
-				if(Pit instanceof Pitcher) {
-					if(((Pitcher)Pit).getGameWin() > ((Pitcher)Statistic).getGameWin()){
-						Statistic = Pit;
-					}
-				}
-			}
-			break;
-
-		case "L":
-			for (int i = 0; i < listPlayer.size(); i++) {
-				Player Pit = listPlayer.get(i);
-				if(Pit instanceof Pitcher) {
-					if(((Pitcher)Pit).getGameLose() > ((Pitcher)Statistic).getGameLose()) {
-						Statistic = Pit;
-					}
-				}
-			}
-			break;
-
-		case "ERA":
-			for (int i = 0; i < listPlayer.size(); i++) {
-				Player Pit = listPlayer.get(i);
-				if(Pit instanceof Pitcher) {
-					if(((Pitcher)Pit).getERA() > ((Pitcher)Statistic).getERA()) {
-						Statistic = Pit;
-					}
-				}
-			}
-			break;
-
-		case "G":
-			for (int i = 0; i < listPlayer.size(); i++) {
-				Player Pit = listPlayer.get(i);
-				if(Pit instanceof Pitcher) {
-					if(((Pitcher)Pit).getPlayedGame() > ((Pitcher)Statistic).getPlayedGame()) {
-						Statistic = Pit;
-					}
-				}
-			}
-			break;
-
-		case "GS":
-			for (int i = 0; i < listPlayer.size(); i++) {
-				Player Pit = listPlayer.get(i);
-				if(Pit instanceof Pitcher) {
-					if(((Pitcher)Pit).getStartedGame() > ((Pitcher)Statistic).getStartedGame()) {
-						Statistic = Pit;
-					}
-				}
-			}
-			break;
-
-		case "SV":
-			for (int i = 0; i < listPlayer.size(); i++) {
-				Player Pit = listPlayer.get(i);
-				if(Pit instanceof Pitcher) {
-					if(((Pitcher)Pit).getSavedGame() > ((Pitcher)Statistic).getSavedGame()) {
-						Statistic = Pit;
-					}
-				}
-			}
-			break;
-
-		case "HR":
-			for (int i = 0; i < listPlayer.size(); i++) {
-				Player Pit = listPlayer.get(i);
-				if(Pit instanceof Pitcher) {
-					if(((Pitcher)Pit).getNumberHR() > ((Pitcher)Statistic).getNumberHR()) {
-						Statistic = Pit;
-					}
-				}
-			}
-			break;
-
-		case "H":
-			for (int i = 0; i < listPlayer.size(); i++) {
-				Player Pit = listPlayer.get(i);
-				if(Pit instanceof Pitcher) {
-					if(((Pitcher)Pit).getNumberHit() > ((Pitcher)Statistic).getNumberHit()) {
-						Statistic = Pit;
-					}
-				}
-			}
-			break;
-
-		case "R":
-			for (int i = 0; i < listPlayer.size(); i++) {
-				Player Pit = listPlayer.get(i);
-				if(Pit instanceof Pitcher) {
-					if(((Pitcher)Pit).getNumberRun() > ((Pitcher)Statistic).getNumberRun()) {
-						Statistic = Pit;
-					}
-				}
-			}
-			break;
-
-		case "IP":
-			for (int i = 0; i < listPlayer.size(); i++) {
-				Player Pit = listPlayer.get(i);
-				if(Pit instanceof Pitcher) {
-					if(((Pitcher)Pit).getIP() > ((Pitcher)Statistic).getIP()) {
-						Statistic = Pit;
-					}
-				}
-			}
-			break;
-
-		case "AVG":
-			for (int i = 0; i < listPlayer.size(); i++) {
-				Player Pit = listPlayer.get(i);
-				if(Pit instanceof Pitcher) {
-					if(((Pitcher)Pit).getAverage() > ((Pitcher)Statistic).getAverage()) {
-						Statistic = Pit;
-					}
-				}
-			}
-			break;
-
-		default:
-			break;
-		}
-		return Statistic;
-	}
-	
-	
 	//esta funcion es para calcular el porcentage de victorias de los equipos
 	public float TeamAvr(int win, int game) {
 		float w = win;
@@ -541,7 +337,6 @@ public class Lidom implements Serializable {
 		return (float) (w/g);
 		
 	}
-
 
 	public void addPlayerToTeam(String nameTeam, Player player) {
 		Team auxTeam = searchTeamByName(nameTeam); //Buscar el equipo correspondiente.
@@ -583,30 +378,6 @@ public class Lidom implements Serializable {
 
 		return correct; // return true si el Numero no se encuentra en otro jugador del equipo, o sea que el numero se puede usar.
 	}
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	//METODO PARA BUSCAR AL MEJOR EQUIPO DE LA SERIE
-	public String Mejor_Equipo() { //REVISAR
-
-		int Mejor = 0 ;
-		String Mejor_Team = null;
-
-
-		for (Team equipo : listTeams) {
-			if(Mejor < equipo.getGamesWin()) {
-				Mejor = equipo.getGamesWin();
-
-				Mejor_Team = equipo.getName();
-			}
-		}
-
-		return Mejor_Team;
-	}
-	
-
-
 
 
 	/************************ METODOS PARA CARGAR FILE Y GUARDAR FILE *******************************/
@@ -663,8 +434,6 @@ public class Lidom implements Serializable {
 		}
 	}
 	
-	
-
 	public void writeCodes(int code, String name) {
 
 		File file = new File(name + ".dat");
@@ -691,9 +460,6 @@ public class Lidom implements Serializable {
 			}
 		}
 	}
-
-
-
 
 	public void readStadiumCodes(int code, String name) {
 

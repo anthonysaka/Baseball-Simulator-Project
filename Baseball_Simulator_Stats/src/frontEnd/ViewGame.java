@@ -210,7 +210,7 @@ public class ViewGame extends JDialog {
 			btnEliminar = new JButton("Eliminar");
 			btnEliminar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					Lidom.getInstance().getListGame().removeAll(Lidom.getInstance().getListGame());
+					//Lidom.getInstance().getListGame().removeAll(Lidom.getInstance().getListGame());
 					
 				ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
 					String[] options = {"Si", "No"};	
@@ -321,7 +321,9 @@ public class ViewGame extends JDialog {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+					
 					loadTableGame();
+					Lidom.getInstance().saveInitData(Lidom.getInstance());
 					
 				}
 			});
@@ -340,9 +342,19 @@ public class ViewGame extends JDialog {
 				public void actionPerformed(ActionEvent e) {
 					
 					Game auxGame = Lidom.getInstance().searchGame(equipoLocal, equipoVisitante, estadio, fecha, hora);
-					AddGame modGame = new AddGame(auxGame);
-					modGame.setModal(true);
-					modGame.setVisible(true);
+					if (auxGame.getAwayRun() == 0 && auxGame.getHomeRun() == 0) {
+						AddGame modGame = new AddGame(auxGame);
+						modGame.setModal(true);
+						modGame.setVisible(true);
+					}else {
+						
+						ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
+						String[] options = {"OK"};	
+
+						JOptionPane.showOptionDialog(null, "No puede editar la fecha de un partido finalizado!", "Aviso!",
+								JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
+					}
+				
 				}
 			});
 			btnModificar.setToolTipText("Modifique fecha y hora.");

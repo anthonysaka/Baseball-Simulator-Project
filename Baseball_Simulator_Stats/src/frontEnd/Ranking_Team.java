@@ -6,22 +6,27 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import java.awt.Dimension;
-
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.io.Serializable;
 import java.text.DecimalFormat;
-
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import backEnd.Lidom;
 import backEnd.Team;
-
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.TableModel;
+import javax.swing.table.*;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Ranking_Team extends JDialog  implements Serializable{
 
@@ -34,7 +39,9 @@ public class Ranking_Team extends JDialog  implements Serializable{
 	private JLabel lnTituloPosiciones;
 	private JPanel panelHeader;
 	private JScrollPane scrollPane;
+	//private TableRowSorter;
 
+	
 	private static DefaultTableModel model;
 	private static Object[] column;
 
@@ -48,18 +55,6 @@ public class Ranking_Team extends JDialog  implements Serializable{
 
 	public Ranking_Team() {
 		
-//		Lidom.getInstance().getListTeams().get(0).setGames(5);
-//		Lidom.getInstance().getListTeams().get(0).setGamesWin(2);
-//		
-//		Lidom.getInstance().getListTeams().get(1).setGames(6);
-//		Lidom.getInstance().getListTeams().get(1).setGamesWin(2);
-//		
-//		Lidom.getInstance().getListTeams().get(2).setGames(2);
-//		Lidom.getInstance().getListTeams().get(2).setGamesWin(5);
-//		
-//		Lidom.getInstance().getListTeams().get(3).setGames(9);
-//		Lidom.getInstance().getListTeams().get(3).setGamesWin(3);
-
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setUndecorated(true);
 		setBounds(100, 100, 732, 371);
@@ -91,6 +86,11 @@ public class Ranking_Team extends JDialog  implements Serializable{
 			lnTituloPosiciones.setFont(new Font("Consolas", Font.BOLD, 20));
 			
 			button = new JButton("");
+			button.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+				}
+			});
 			button.setIcon(new ImageIcon(Ranking_Team.class.getResource("/iconos_imagenes/icons8_close_window_24px_1.png")));
 			button.setPreferredSize(new Dimension(100, 30));
 			button.setOpaque(false);
@@ -108,7 +108,8 @@ public class Ranking_Team extends JDialog  implements Serializable{
 			panelBg.add(scrollPane);
 			
 			tableTeam = new JTable();
-		
+			
+			
 			tableTeam.setModel(new DefaultTableModel(
 				new Object[][] {
 				},
@@ -146,12 +147,25 @@ public class Ranking_Team extends JDialog  implements Serializable{
 			tableTeam.setSelectionBackground(new Color(239, 108, 0));
 			tableTeam.getTableHeader().setFont(new Font("Consolas", Font.BOLD, 16));
 			tableTeam.getTableHeader().setOpaque(false);
+			
+			TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(tableTeam.getModel());
+			tableTeam.setRowSorter(sorter);
+			List<RowSorter.SortKey> sortkeys = new ArrayList<RowSorter.SortKey>();
+			
+			int columnaOrganizar = 1;
+			sortkeys.add(new RowSorter.SortKey(columnaOrganizar, SortOrder.DESCENDING));
+			
+			sorter.setSortKeys(sortkeys);
+			sorter.sort();
+			
 
 			tableTeam.getTableHeader().setBackground(new Color(255,255,255));
 			tableTeam.setFont(new Font("Consolas", Font.PLAIN, 20));
 			tableTeam.getColumnModel().getColumn(0).setMinWidth(155);
-			tableTeam.setAutoCreateRowSorter(true);
+			//tableTeam.setAutoCreateRowSorter(true);
 			scrollPane.setViewportView(tableTeam);
+			
+			
 
 		}
 		
@@ -162,7 +176,7 @@ public class Ranking_Team extends JDialog  implements Serializable{
 
 
 
-	/** Metodos **/
+	/* Metodos */
 
 	public void loadTablePosiciones() {
 		
@@ -183,11 +197,9 @@ public class Ranking_Team extends JDialog  implements Serializable{
 			   avg = decimalFormat.format((Lidom.getInstance().TeamAvr(p.getGamesWin(), p.getGames())));
 			   
 				column[0] = p.getName();
-				column[1] = p.getGamesWin();
+				column[1] = String.valueOf(p.getGamesWin());
 				column[2] = p.getGamesLose();
 				column[3] = avg;
-			//	column[4] =  7;//Falta el metodo para buscar los juegos que le faltan a los equipos para llegar a la primera posicion
-				
 				
 				model.addRow(column);
 			}

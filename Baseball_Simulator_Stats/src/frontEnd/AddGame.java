@@ -139,35 +139,6 @@ private static Game myGame;
 					String estadio = cbxEstadio.getSelectedItem().toString();
 					Date dateGame = dateChooser.getDatoFecha();
 					
-					
-//				if (myGame == null) {
-//					
-//				
-//					if ((cbxEquipoLocal.getSelectedIndex() > 0) && (cbxEquipoVisitante.getSelectedIndex() > 0) && (cbxHora.getSelectedIndex() > 0) && (cbxEstadio.getSelectedIndex() > 0) && (dateGame != null)) {
-//						if (teamHome.equalsIgnoreCase(teamAway)) {
-//							ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
-//							String[] options = {"Ok"};	
-//							JOptionPane.showOptionDialog(null, "Un equipo no puede ser local y visitante simultaneamente!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);	
-//						}else {
-//							String dateGameString = formatter.format(dateGame);
-//						//	Game newgame = new Game(teamHome, teamAway, estadio, hour, dateGameString);
-//						//	Lidom.getInstance().addGame(newgame);
-//							
-//
-//							ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_checked_48px_1.png"));
-//							String[] options = {"Ok"};	
-//							JOptionPane.showOptionDialog(null, "Registro con exito!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
-//							clean();
-//							Home.loadGameToday();
-//						}
-//					}
-//					else {
-//						ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_cancel_2_48px_1.png"));
-//						String[] options = {"Ok"};	
-//						JOptionPane.showOptionDialog(null, "Complete todos los campos, correctamente!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
-//					}
-//				}else {
-					/*MODIFICAR*/
 					String dateGameString = formatter.format(dateGame);
 					if (cbxHora.getSelectedIndex() > 0 && dateGameString != null) {
 						myGame.setAwayTeam(teamAway);
@@ -177,6 +148,7 @@ private static Game myGame;
 						myGame.setStadium(estadio);
 						Lidom.getInstance().updateGame(myGame);
 						JOptionPane.showMessageDialog(null, "Modificado con exito!", "Alerta - Hecho!", JOptionPane.INFORMATION_MESSAGE);
+						Lidom.getInstance().saveInitData(Lidom.getInstance());
 						dispose();
 						ViewGame.loadTableGame();
 						Home.loadGameToday();

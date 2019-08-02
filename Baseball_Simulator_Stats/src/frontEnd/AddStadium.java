@@ -291,6 +291,7 @@ public class AddStadium extends JDialog {
 						ImageIcon icon = new ImageIcon(getClass().getResource("/iconos_imagenes/icons8_checked_48px_1.png"));
 						String[] options = {"Ok"};	
 						JOptionPane.showOptionDialog(null, "Registro con exito!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
+						Lidom.getInstance().saveInitData(Lidom.getInstance());
 						clean();
 					}
 					else {

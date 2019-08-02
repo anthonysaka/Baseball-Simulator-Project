@@ -20,8 +20,7 @@ public class Pitcher extends Player implements Serializable {
 	private int numberHit;
 	private int numberRun;
 	private int numberStrikeOut;
-	private float IP;
-	private float average;
+
 	
 	/* Constructor */
 	
@@ -88,13 +87,6 @@ public class Pitcher extends Player implements Serializable {
 		return numberStrikeOut;
 	}
 
-	public float getIP() {
-		return IP;
-	}
-
-	public float getAverage() {
-		return average;
-	}
 
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
@@ -140,13 +132,7 @@ public class Pitcher extends Player implements Serializable {
 		this.numberStrikeOut = numberStrikeOut;
 	}
 
-	public void setIP(float iP) {
-		IP = iP;
-	}
-
-	public void setAverage(float average) {
-		this.average = average;
-	}
+	
 	
 	
 	public float Efectividad_Pitcher (int Carreras_Permitidas, float Cantidad_Innings) {
