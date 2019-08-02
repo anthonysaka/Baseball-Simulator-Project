@@ -19,7 +19,6 @@ import javax.swing.JSeparator;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.Cursor;
-import javax.swing.border.LineBorder;
 import Animacion.Animacion;
 import backEnd.Batter;
 import backEnd.BoxScore;
@@ -28,18 +27,14 @@ import backEnd.Lidom;
 import backEnd.Pitcher;
 import backEnd.Player;
 import backEnd.Team;
-import sun.util.locale.provider.AuxLocaleProviderAdapter;
-
 import java.awt.CardLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.peer.PanelPeer;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -50,11 +45,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import com.sun.javafx.geom.transform.CanTransformVec3d;
-
 import javax.swing.JTextField;
-import java.awt.FlowLayout;
-import javax.swing.JInternalFrame;
 
 public class Home extends JFrame implements Runnable {
 
@@ -85,8 +76,6 @@ public class Home extends JFrame implements Runnable {
 	private JLabel lblTitle;
 	private JButton btnButtons;
 	private JSeparator separator_1;
-	private JLabel lblTitle_1;
-	private JButton btnButtons_1;
 	private JButton btnButtons_2;
 	private JLabel lblTitle_2;
 	private JLabel lblSebVersinBeta;
@@ -117,12 +106,7 @@ public class Home extends JFrame implements Runnable {
 	private static Object[] columnGameVisit;
 	private static Object[] columnBoxScore;
 	private JButton btnHome;
-
-	private JButton btnPartidos;
 	private static JPanel panelPartidosDashboard;
-	private JPanel panelMenuPartidos;
-	private JButton btnBoxScores;
-	private JButton btnButtonsNa;
 	private JButton btnButtonNa;
 	private JPanel panelPartidoHoy;
 	private JPanel panelPartidoJugados;
@@ -221,10 +205,6 @@ public class Home extends JFrame implements Runnable {
 	private static JLabel lblEquipOfen;
 	private static JLabel lblBatAct;
 	static int randomNum = 0;
-
-	/****************/
-
-	private JButton btnListar;
 	private JPanel panel_1;
 	private static JLabel lblName;
 	private static JLabel lblFotoJugador;
@@ -326,6 +306,12 @@ public class Home extends JFrame implements Runnable {
 	private static JTextField txtteamH;
 	private JSeparator separator_8;
 	private JLabel lblTablaDePuntuaciones;
+	private JButton btnRegistrarUsuario;
+	private JLabel lblUsuarios;
+	private JLabel label_10;
+	private JButton btnGestionPartido;
+	private JPanel panel_3;
+	private JLabel lblTotalOuts;
 
 
 
@@ -605,41 +591,6 @@ public class Home extends JFrame implements Runnable {
 		btnHome.setBounds(1633, 0, 170, 50);
 		panelMenuBar.add(btnHome);
 
-		btnPartidos = new JButton("PARTIDOS");
-		btnPartidos.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		});
-		btnPartidos.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				//	panelMenuJugadores.setSize(170,218);
-				if (btnPartidos.isEnabled()) {
-					setColorBlue(btnPartidos);
-					panelMenuPartidos.setVisible(true);
-					if (panelMenuLateral.getX() >= 0) {
-						Animacion.mover_izquierda(0, -400, 3, 3, panelMenuLateral);	
-					}
-				}
-
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				//panelMenuJugadores.setSize(0,0);
-				resetColor(btnPartidos);
-				panelMenuPartidos.setVisible(false);
-			}
-		});
-		btnPartidos.setIconTextGap(10);
-		btnPartidos.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btnPartidos.setForeground(new Color(255, 255, 240));
-		btnPartidos.setFont(new Font("Consolas", Font.BOLD, 22));
-		btnPartidos.setBorder(null);
-		btnPartidos.setBackground(new Color(0, 30, 72));
-		btnPartidos.setBounds(875, 0, 170, 50);
-		panelMenuBar.add(btnPartidos);
-
 		lblTime = new JLabel("");
 		lblTime.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblTime.setHorizontalAlignment(SwingConstants.CENTER);
@@ -729,7 +680,7 @@ public class Home extends JFrame implements Runnable {
 		lblTitle.setForeground(Color.WHITE);
 		lblTitle.setFont(new Font("Consolas", Font.BOLD, 20));
 		lblTitle.setBackground(new Color(8, 18, 30));
-		lblTitle.setBounds(12, 248, 376, 37);
+		lblTitle.setBounds(12, 282, 376, 37);
 		panelMenuLateral.add(lblTitle);
 
 		btnButtons = new JButton("Gestionar equipos");
@@ -752,7 +703,7 @@ public class Home extends JFrame implements Runnable {
 		btnButtons.setFont(new Font("Consolas", Font.BOLD, 22));
 		btnButtons.setBorder(null);
 		btnButtons.setBackground(new Color(4, 10, 20));
-		btnButtons.setBounds(12, 298, 307, 37);
+		btnButtons.setBounds(12, 332, 320, 45);
 		panelMenuLateral.add(btnButtons);
 
 		separator_1 = new JSeparator();
@@ -761,28 +712,6 @@ public class Home extends JFrame implements Runnable {
 		separator_1.setBackground(Color.WHITE);
 		separator_1.setBounds(12, 161, 376, 4);
 		panelMenuLateral.add(separator_1);
-
-		lblTitle_1 = new JLabel("Partidos");
-		lblTitle_1.setVerticalTextPosition(SwingConstants.BOTTOM);
-		lblTitle_1.setOpaque(true);
-		lblTitle_1.setIconTextGap(10);
-		lblTitle_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTitle_1.setForeground(Color.WHITE);
-		lblTitle_1.setFont(new Font("Consolas", Font.BOLD, 20));
-		lblTitle_1.setBackground(new Color(8, 18, 30));
-		lblTitle_1.setBounds(12, 632, 376, 37);
-		panelMenuLateral.add(lblTitle_1);
-
-		btnButtons_1 = new JButton("Gestionar partidos");
-		btnButtons_1.setIconTextGap(30);
-		btnButtons_1.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btnButtons_1.setHorizontalAlignment(SwingConstants.LEADING);
-		btnButtons_1.setForeground(new Color(255, 255, 240));
-		btnButtons_1.setFont(new Font("Consolas", Font.BOLD, 22));
-		btnButtons_1.setBorder(null);
-		btnButtons_1.setBackground(new Color(4, 10, 20));
-		btnButtons_1.setBounds(12, 682, 307, 37);
-		panelMenuLateral.add(btnButtons_1);
 
 		btnButtons_2 = new JButton("Estad\u00EDstica jugadores");
 		btnButtons_2.setIcon(new ImageIcon(Home.class.getResource("/iconos_imagenes/icons8_statistics_36px.png")));
@@ -794,13 +723,12 @@ public class Home extends JFrame implements Runnable {
 				viewStat.setVisible(true);
 			}
 		});
-		btnButtons_2.setIconTextGap(5);
 		btnButtons_2.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnButtons_2.setForeground(new Color(255, 255, 240));
 		btnButtons_2.setFont(new Font("Consolas", Font.BOLD, 22));
 		btnButtons_2.setBorder(null);
 		btnButtons_2.setBackground(new Color(4, 10, 20));
-		btnButtons_2.setBounds(12, 480, 307, 37);
+		btnButtons_2.setBounds(12, 520, 320, 45);
 		panelMenuLateral.add(btnButtons_2);
 
 		lblTitle_2 = new JLabel("Estad\u00EDsticas");
@@ -811,7 +739,7 @@ public class Home extends JFrame implements Runnable {
 		lblTitle_2.setForeground(Color.WHITE);
 		lblTitle_2.setFont(new Font("Consolas", Font.BOLD, 20));
 		lblTitle_2.setBackground(new Color(8, 18, 30));
-		lblTitle_2.setBounds(12, 430, 376, 37);
+		lblTitle_2.setBounds(12, 470, 376, 37);
 		panelMenuLateral.add(lblTitle_2);
 
 		lblSebVersinBeta = new JLabel("S.E.B Versi\u00F3n beta: 1.0");
@@ -854,28 +782,6 @@ public class Home extends JFrame implements Runnable {
 		separator_2.setBounds(81, 209, 238, 4);
 		panelMenuLateral.add(separator_2);
 
-		btnBoxScores = new JButton("Box scores");
-		btnBoxScores.setIconTextGap(30);
-		btnBoxScores.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btnBoxScores.setHorizontalAlignment(SwingConstants.LEADING);
-		btnBoxScores.setForeground(new Color(255, 255, 240));
-		btnBoxScores.setFont(new Font("Consolas", Font.BOLD, 22));
-		btnBoxScores.setBorder(null);
-		btnBoxScores.setBackground(new Color(4, 10, 20));
-		btnBoxScores.setBounds(12, 732, 307, 37);
-		panelMenuLateral.add(btnBoxScores);
-
-		btnButtonsNa = new JButton("buttons n/a");
-		btnButtonsNa.setIconTextGap(30);
-		btnButtonsNa.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btnButtonsNa.setHorizontalAlignment(SwingConstants.LEADING);
-		btnButtonsNa.setForeground(new Color(255, 255, 240));
-		btnButtonsNa.setFont(new Font("Consolas", Font.BOLD, 22));
-		btnButtonsNa.setBorder(null);
-		btnButtonsNa.setBackground(new Color(4, 10, 20));
-		btnButtonsNa.setBounds(12, 530, 307, 37);
-		panelMenuLateral.add(btnButtonsNa);
-
 		btnButtonNa = new JButton("Tabla posiciones");
 		btnButtonNa.setHorizontalAlignment(SwingConstants.LEFT);
 		btnButtonNa.setIcon(new ImageIcon(Home.class.getResource("/iconos_imagenes/icons8_olympic_medal_silver_36px.png")));
@@ -896,8 +802,69 @@ public class Home extends JFrame implements Runnable {
 		btnButtonNa.setFont(new Font("Consolas", Font.BOLD, 22));
 		btnButtonNa.setBorder(null);
 		btnButtonNa.setBackground(new Color(4, 10, 20));
-		btnButtonNa.setBounds(12, 348, 307, 37);
+		btnButtonNa.setBounds(12, 390, 320, 45);
 		panelMenuLateral.add(btnButtonNa);
+		
+		btnRegistrarUsuario = new JButton("Registrar usuario");
+		btnRegistrarUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Login lg = new Login(true);
+				lg.setModal(true);
+				lg.setVisible(true);
+			}
+		});
+		btnRegistrarUsuario.setIcon(new ImageIcon(Home.class.getResource("/iconos_imagenes/icons8_add_user_male_36px.png")));
+		btnRegistrarUsuario.setIconTextGap(30);
+		btnRegistrarUsuario.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnRegistrarUsuario.setHorizontalAlignment(SwingConstants.LEADING);
+		btnRegistrarUsuario.setForeground(new Color(255, 255, 240));
+		btnRegistrarUsuario.setFont(new Font("Consolas", Font.BOLD, 22));
+		btnRegistrarUsuario.setBorder(null);
+		btnRegistrarUsuario.setBackground(new Color(4, 10, 20));
+		btnRegistrarUsuario.setBounds(12, 785, 320, 45);
+		panelMenuLateral.add(btnRegistrarUsuario);
+		
+		lblUsuarios = new JLabel("Partidos");
+		lblUsuarios.setVerticalTextPosition(SwingConstants.BOTTOM);
+		lblUsuarios.setOpaque(true);
+		lblUsuarios.setIconTextGap(10);
+		lblUsuarios.setHorizontalAlignment(SwingConstants.CENTER);
+		lblUsuarios.setForeground(Color.WHITE);
+		lblUsuarios.setFont(new Font("Consolas", Font.BOLD, 20));
+		lblUsuarios.setBackground(new Color(8, 18, 30));
+		lblUsuarios.setBounds(12, 602, 376, 37);
+		panelMenuLateral.add(lblUsuarios);
+		
+		label_10 = new JLabel("Usuarios");
+		label_10.setVerticalTextPosition(SwingConstants.BOTTOM);
+		label_10.setOpaque(true);
+		label_10.setIconTextGap(10);
+		label_10.setHorizontalAlignment(SwingConstants.CENTER);
+		label_10.setForeground(Color.WHITE);
+		label_10.setFont(new Font("Consolas", Font.BOLD, 20));
+		label_10.setBackground(new Color(8, 18, 30));
+		label_10.setBounds(12, 735, 376, 37);
+		panelMenuLateral.add(label_10);
+		
+		btnGestionPartido = new JButton("Gestionar partidos");
+		btnGestionPartido.setIcon(new ImageIcon(Home.class.getResource("/iconos_imagenes/icons8_calendar_36px.png")));
+		btnGestionPartido.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				ViewGame listGame = new ViewGame();
+				listGame.setModal(true);
+				listGame.setVisible(true);
+			}
+		});
+		btnGestionPartido.setIconTextGap(5);
+		btnGestionPartido.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnGestionPartido.setHorizontalAlignment(SwingConstants.LEFT);
+		btnGestionPartido.setForeground(new Color(255, 255, 240));
+		btnGestionPartido.setFont(new Font("Consolas", Font.BOLD, 22));
+		btnGestionPartido.setBorder(null);
+		btnGestionPartido.setBackground(new Color(4, 10, 20));
+		btnGestionPartido.setBounds(12, 652, 320, 45);
+		panelMenuLateral.add(btnGestionPartido);
 		panelMenuEstadio.setBounds(693, 50, 170, 141);
 		panelMenuEstadio.setBackground(new Color(0, 30, 72));
 		panelBackGround.add(panelMenuEstadio);
@@ -1141,63 +1108,7 @@ public class Home extends JFrame implements Runnable {
 		btnListarPlayers.setBackground(new Color(0, 30, 72));
 		btnListarPlayers.setBounds(0, 76, 170, 50);
 		panelMenuJugadores.add(btnListarPlayers);
-
-		panelMenuPartidos = new JPanel();
-		panelMenuPartidos.setVisible(false);
-		panelMenuPartidos.setBackground(new Color(0,30,72));
-		panelMenuPartidos.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				//panelMenuJugadores.setSize(170,218);
-				setColorBlue(btnPartidos);
-				panelMenuPartidos.setVisible(true);
-
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				//panelMenuJugadores.setSize(0,0);
-				resetColor(btnPartidos);
-				panelMenuPartidos.setVisible(false);
-			}
-		});
 		panelMenuEstadio.setVisible(false);
-		panelMenuPartidos.setBounds(875, 50, 170, 77);
-		panelBackGround.add(panelMenuPartidos);
-		panelMenuPartidos.setLayout(null);
-
-
-		btnListar = new JButton("Listar");
-		btnListar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-
-				setColorBlue(btnPartidos);
-				setColorOrange(btnListar);
-				panelMenuPartidos.setVisible(true);
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				resetColor(btnListar);
-				resetColor(btnPartidos);
-				panelMenuPartidos.setVisible(false);
-			}
-		});
-		btnListar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				ViewGame listGame = new ViewGame();
-				listGame.setModal(true);
-				listGame.setVisible(true);
-			}
-		});
-		btnListar.setIconTextGap(10);
-		btnListar.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btnListar.setForeground(new Color(255, 255, 240));
-		btnListar.setFont(new Font("Consolas", Font.BOLD, 22));
-		btnListar.setBorder(null);
-		btnListar.setBackground(new Color(0, 30, 72));
-		btnListar.setBounds(0, 13, 170, 50);
-		panelMenuPartidos.add(btnListar);
 
 		panelBgHome = new JPanel();
 		panelBgHome.setBackground(new Color(255, 255, 255));
@@ -1212,6 +1123,11 @@ public class Home extends JFrame implements Runnable {
 		panelBgDashboard.setLayout(null);
 
 		panelPartidoHoy = new JPanel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			protected void paintComponent(Graphics g) {
 				g.setColor(getBackground());
 				g.fillRect(0, 0, getWidth(), getHeight());
@@ -1278,9 +1194,15 @@ public class Home extends JFrame implements Runnable {
 						"Equipo local", "Equipo visitante", "Estadio", "Fecha", "Hora", "Carreras"
 				}
 				) {
+			/**
+					 * 
+					 */
+					private static final long serialVersionUID = 1L;
+			@SuppressWarnings("rawtypes")
 			Class[] columnTypes = new Class[] {
 					String.class, String.class, String.class, String.class, String.class, String.class
 			};
+		
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
@@ -1333,7 +1255,6 @@ public class Home extends JFrame implements Runnable {
 						btnMenu.setEnabled(false);
 						btnHome.setEnabled(false);
 						btnJugadores.setEnabled(false);
-						btnPartidos.setEnabled(false);
 						btnEquipos.setEnabled(false);
 						btnEstadios.setEnabled(false);
 						gameSimulationOpen(equipoLocal, equipoVisitante, auxGame);
@@ -1369,6 +1290,11 @@ public class Home extends JFrame implements Runnable {
 		panelPartidoHoy.add(btnPlayBall);
 
 		panelPartidoJugados = new JPanel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			protected void paintComponent(Graphics g) {
 				g.setColor(getBackground());
 				g.fillRect(0, 0, getWidth(), getHeight());
@@ -1439,6 +1365,10 @@ public class Home extends JFrame implements Runnable {
 						"Equipo local", "Equipo visitante", "Estadio", "Fecha", "Hora", "Carreras"
 				}
 				) {
+			/**
+					 * 
+					 */
+					private static final long serialVersionUID = 1L;
 			Class[] columnTypes = new Class[] {
 					String.class, String.class, String.class, String.class, String.class, String.class
 			};
@@ -1466,6 +1396,11 @@ public class Home extends JFrame implements Runnable {
 		panelPartidoJugados.add(lblListaBoxscoresPartidos);
 
 		panelPartidosDashboard = new JPanel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			protected void paintComponent(Graphics g) {
 				g.setColor(getBackground());
 
@@ -1505,6 +1440,11 @@ public class Home extends JFrame implements Runnable {
 		panelPartidosDashboard.add(lblVs);
 
 		PanelScoresDashBoard = new JPanel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			protected void paintComponent(Graphics g) {
 				g.setColor(getBackground());
 
@@ -1529,6 +1469,10 @@ public class Home extends JFrame implements Runnable {
 		PanelScoresDashBoard.add(label_23);
 
 		txtinning1V = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -1557,6 +1501,10 @@ public class Home extends JFrame implements Runnable {
 		PanelScoresDashBoard.add(txtinning1V);
 
 		txtinnig2V = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -1594,6 +1542,10 @@ public class Home extends JFrame implements Runnable {
 		PanelScoresDashBoard.add(label_24);
 
 		txtinning3V = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -1640,6 +1592,10 @@ public class Home extends JFrame implements Runnable {
 		PanelScoresDashBoard.add(label_26);
 
 		txtinnig4V = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -1668,6 +1624,10 @@ public class Home extends JFrame implements Runnable {
 		PanelScoresDashBoard.add(txtinnig4V);
 
 		txtinning5V = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -1714,6 +1674,10 @@ public class Home extends JFrame implements Runnable {
 		PanelScoresDashBoard.add(label_28);
 
 		txtinning6V = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -1742,6 +1706,10 @@ public class Home extends JFrame implements Runnable {
 		PanelScoresDashBoard.add(txtinning6V);
 
 		txtinning7V = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -1788,6 +1756,10 @@ public class Home extends JFrame implements Runnable {
 		PanelScoresDashBoard.add(label_30);
 
 		txtinning8V = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -1816,6 +1788,10 @@ public class Home extends JFrame implements Runnable {
 		PanelScoresDashBoard.add(txtinning8V);
 
 		txtinning9V = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -1862,6 +1838,10 @@ public class Home extends JFrame implements Runnable {
 		PanelScoresDashBoard.add(label_32);
 
 		txtxcarreraV = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -1890,6 +1870,10 @@ public class Home extends JFrame implements Runnable {
 		PanelScoresDashBoard.add(txtxcarreraV);
 
 		txtinning1H = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -1918,6 +1902,10 @@ public class Home extends JFrame implements Runnable {
 		PanelScoresDashBoard.add(txtinning1H);
 
 		txtinning2H = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -1946,6 +1934,10 @@ public class Home extends JFrame implements Runnable {
 		PanelScoresDashBoard.add(txtinning2H);
 
 		txtinning3H = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -1974,6 +1966,10 @@ public class Home extends JFrame implements Runnable {
 		PanelScoresDashBoard.add(txtinning3H);
 
 		txtinning4H = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2002,6 +1998,10 @@ public class Home extends JFrame implements Runnable {
 		PanelScoresDashBoard.add(txtinning4H);
 
 		txtinning5H = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2030,6 +2030,10 @@ public class Home extends JFrame implements Runnable {
 		PanelScoresDashBoard.add(txtinning5H);
 
 		txtinning6H = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2058,6 +2062,10 @@ public class Home extends JFrame implements Runnable {
 		PanelScoresDashBoard.add(txtinning6H);
 
 		txtinning7H = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2086,6 +2094,10 @@ public class Home extends JFrame implements Runnable {
 		PanelScoresDashBoard.add(txtinning7H);
 
 		txtinnig8H = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2132,6 +2144,10 @@ public class Home extends JFrame implements Runnable {
 		PanelScoresDashBoard.add(label_34);
 
 		txtinning9H = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2160,6 +2176,10 @@ public class Home extends JFrame implements Runnable {
 		PanelScoresDashBoard.add(txtinning9H);
 
 		txtcarreraH = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2195,6 +2215,10 @@ public class Home extends JFrame implements Runnable {
 		PanelScoresDashBoard.add(separator_8);
 
 		txthitsV = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2223,6 +2247,10 @@ public class Home extends JFrame implements Runnable {
 		PanelScoresDashBoard.add(txthitsV);
 
 		txthitsH = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2251,6 +2279,10 @@ public class Home extends JFrame implements Runnable {
 		PanelScoresDashBoard.add(txthitsH);
 
 		txterrorV = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2279,6 +2311,10 @@ public class Home extends JFrame implements Runnable {
 		PanelScoresDashBoard.add(txterrorV);
 
 		txterrorH = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2314,6 +2350,10 @@ public class Home extends JFrame implements Runnable {
 		PanelScoresDashBoard.add(separator_7);
 
 		txtteamV = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2351,6 +2391,10 @@ public class Home extends JFrame implements Runnable {
 		PanelScoresDashBoard.add(label);
 
 		txtteamH = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2401,6 +2445,11 @@ public class Home extends JFrame implements Runnable {
 		panelGameSimulation.setLayout(null);
 
 		panelScoreBoard = new JPanel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			protected void paintComponent(Graphics g) {
 				g.setColor(getBackground());
 
@@ -2417,6 +2466,10 @@ public class Home extends JFrame implements Runnable {
 		panelScoreBoard.setLayout(null);
 
 		txtEquipVisi = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2463,6 +2516,10 @@ public class Home extends JFrame implements Runnable {
 		panelScoreBoard.add(label_1);
 
 		txtIni1Visit = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2491,6 +2548,10 @@ public class Home extends JFrame implements Runnable {
 		panelScoreBoard.add(txtIni1Visit);
 
 		txtIni2Visit = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2528,6 +2589,10 @@ public class Home extends JFrame implements Runnable {
 		panelScoreBoard.add(label_2);
 
 		txtIni3Visit = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2574,6 +2639,10 @@ public class Home extends JFrame implements Runnable {
 		panelScoreBoard.add(label_4);
 
 		txtIni4Visit = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2602,6 +2671,10 @@ public class Home extends JFrame implements Runnable {
 		panelScoreBoard.add(txtIni4Visit);
 
 		txtIni5Visit = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2648,6 +2721,10 @@ public class Home extends JFrame implements Runnable {
 		panelScoreBoard.add(label_6);
 
 		txtIni6Visit = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2676,6 +2753,10 @@ public class Home extends JFrame implements Runnable {
 		panelScoreBoard.add(txtIni6Visit);
 
 		txtIni7Visit = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2722,6 +2803,10 @@ public class Home extends JFrame implements Runnable {
 		panelScoreBoard.add(label_8);
 
 		txtIni8Visit = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2750,6 +2835,10 @@ public class Home extends JFrame implements Runnable {
 		panelScoreBoard.add(txtIni8Visit);
 
 		txtIni9Visit = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2796,6 +2885,10 @@ public class Home extends JFrame implements Runnable {
 		panelScoreBoard.add(lblR);
 
 		txtCarerasVisita = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2824,6 +2917,10 @@ public class Home extends JFrame implements Runnable {
 		panelScoreBoard.add(txtCarerasVisita);
 
 		txtEquipLocal = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2852,6 +2949,10 @@ public class Home extends JFrame implements Runnable {
 		panelScoreBoard.add(txtEquipLocal);
 
 		txtIni1Local = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2880,6 +2981,10 @@ public class Home extends JFrame implements Runnable {
 		panelScoreBoard.add(txtIni1Local);
 
 		txtIni2Local = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2908,6 +3013,10 @@ public class Home extends JFrame implements Runnable {
 		panelScoreBoard.add(txtIni2Local);
 
 		txtIni3Local = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2936,6 +3045,10 @@ public class Home extends JFrame implements Runnable {
 		panelScoreBoard.add(txtIni3Local);
 
 		txtIni4Local = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2964,6 +3077,10 @@ public class Home extends JFrame implements Runnable {
 		panelScoreBoard.add(txtIni4Local);
 
 		txtIni5Local = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -2992,6 +3109,10 @@ public class Home extends JFrame implements Runnable {
 		panelScoreBoard.add(txtIni5Local);
 
 		txtIni6Local = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -3020,6 +3141,10 @@ public class Home extends JFrame implements Runnable {
 		panelScoreBoard.add(txtIni6Local);
 
 		txtIni7Local = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -3048,6 +3173,10 @@ public class Home extends JFrame implements Runnable {
 		panelScoreBoard.add(txtIni7Local);
 
 		txtIni8Local = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -3094,6 +3223,10 @@ public class Home extends JFrame implements Runnable {
 		panelScoreBoard.add(lblE);
 
 		txtIni9Local = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -3122,6 +3255,10 @@ public class Home extends JFrame implements Runnable {
 		panelScoreBoard.add(txtIni9Local);
 
 		txtCarrerasLocal = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -3150,6 +3287,10 @@ public class Home extends JFrame implements Runnable {
 		panelScoreBoard.add(txtCarrerasLocal);
 
 		txtHitsVisita = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -3178,6 +3319,10 @@ public class Home extends JFrame implements Runnable {
 		panelScoreBoard.add(txtHitsVisita);
 
 		txtHitsLocal = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -3206,6 +3351,10 @@ public class Home extends JFrame implements Runnable {
 		panelScoreBoard.add(txtHitsLocal);
 
 		txtErroresVisita = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -3234,6 +3383,10 @@ public class Home extends JFrame implements Runnable {
 		panelScoreBoard.add(txtErroresVisita);
 
 		txtErroresLocal = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -3276,6 +3429,11 @@ public class Home extends JFrame implements Runnable {
 		panelScoreBoard.add(separator_5);
 
 		panel_2 = new JPanel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			protected void paintComponent(Graphics g) {
 				g.setColor(getBackground());
 
@@ -3291,6 +3449,11 @@ public class Home extends JFrame implements Runnable {
 		panelGameSimulation.add(panel_2);
 
 		panelGameLocal = new JPanel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			protected void paintComponent(Graphics g) {
 				g.setColor(getBackground());
 
@@ -3338,6 +3501,10 @@ public class Home extends JFrame implements Runnable {
 						"N\u00FAmero ID", "Nombre", "Posici\u00F3n"
 				}
 				) {
+			/**
+					 * 
+					 */
+					private static final long serialVersionUID = 1L;
 			Class[] columnTypes = new Class[] {
 					String.class, String.class, String.class
 			};
@@ -3365,6 +3532,11 @@ public class Home extends JFrame implements Runnable {
 		lblEquipoLocal.setFont(new Font("Consolas", Font.PLAIN, 20));
 
 		panelGameVisitant = new JPanel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			protected void paintComponent(Graphics g) {
 			}
 		};
@@ -3406,6 +3578,10 @@ public class Home extends JFrame implements Runnable {
 						"N\u00FAmero ID", "Nombre", "Posici\u00F3n"
 				}
 				) {
+			/**
+					 * 
+					 */
+					private static final long serialVersionUID = 1L;
 			Class[] columnTypes = new Class[] {
 					String.class, String.class, String.class
 			};
@@ -3462,7 +3638,6 @@ public class Home extends JFrame implements Runnable {
 		panel_2.add(lblBateador);
 
 		lblEquipDef = new JLabel("");
-		lblEquipDef.setVerticalAlignment(SwingConstants.BOTTOM);
 		lblEquipDef.setOpaque(true);
 		lblEquipDef.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEquipDef.setForeground(Color.WHITE);
@@ -3472,7 +3647,6 @@ public class Home extends JFrame implements Runnable {
 		panel_2.add(lblEquipDef);
 
 		lblEquipOfen = new JLabel("");
-		lblEquipOfen.setVerticalAlignment(SwingConstants.BOTTOM);
 		lblEquipOfen.setOpaque(true);
 		lblEquipOfen.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEquipOfen.setForeground(Color.WHITE);
@@ -3482,7 +3656,6 @@ public class Home extends JFrame implements Runnable {
 		panel_2.add(lblEquipOfen);
 
 		lblBatAct = new JLabel("");
-		lblBatAct.setVerticalAlignment(SwingConstants.BOTTOM);
 		lblBatAct.setOpaque(true);
 		lblBatAct.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBatAct.setForeground(Color.WHITE);
@@ -3492,6 +3665,11 @@ public class Home extends JFrame implements Runnable {
 		panel_2.add(lblBatAct);;
 
 		panelControlBateo = new JPanel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			protected void paintComponent(Graphics g) {
 				g.setColor(getBackground());
 
@@ -3537,13 +3715,16 @@ public class Home extends JFrame implements Runnable {
 
 				if ( i < 3) { // para visita
 					auxGame.setHitsAway(auxGame.getHitsAway()+ 1);
-					loadBoxScoreGameSimulation(auxGame);
+					txtHitsVisita.setText(String.valueOf(auxGame.getHitsAway()));
+					//txtHitsLocal.setText(String.valueOf(game.getHitsHome()));
+					//loadBoxScoreGameSimulation(auxGame);
 
 				}
 
 				if (i < 6 && i >= 3) {
 					auxGame.setHitsHome(auxGame.getHitsHome()+ 1);	
-					loadBoxScoreGameSimulation(auxGame);
+					txtHitsLocal.setText(String.valueOf(auxGame.getHitsHome()));
+				//	loadBoxScoreGameSimulation(auxGame);
 
 				}
 
@@ -3591,13 +3772,16 @@ public class Home extends JFrame implements Runnable {
 
 				if ( i < 3) { // para visita
 					auxGame.setHitsAway(auxGame.getHitsAway()+ 1);
-					loadBoxScoreGameSimulation(auxGame);
+					txtHitsVisita.setText(String.valueOf(auxGame.getHitsAway()));
+					//txtHitsLocal.setText(String.valueOf(game.getHitsHome()));
+					//loadBoxScoreGameSimulation(auxGame);
 
 				}
 
 				if (i < 6 && i >= 3) {
 					auxGame.setHitsHome(auxGame.getHitsHome()+ 1);	
-					loadBoxScoreGameSimulation(auxGame);
+					txtHitsLocal.setText(String.valueOf(auxGame.getHitsHome()));
+				//	loadBoxScoreGameSimulation(auxGame);
 
 				}
 
@@ -3679,7 +3863,7 @@ public class Home extends JFrame implements Runnable {
 					auxGame.setHitsAway(auxGame.getHitsAway()+ 1);
 					carrerasPorInningVisita++;
 					carrerasPorInningLocal = 0;
-					loadBoxScoreGameSimulation(auxGame);
+					txtHitsVisita.setText(String.valueOf(auxGame.getHitsAway()));
 
 				}
 
@@ -3688,7 +3872,7 @@ public class Home extends JFrame implements Runnable {
 					auxGame.setHitsHome(auxGame.getHitsHome()+ 1);	
 					carrerasPorInningLocal++;
 					carrerasPorInningVisita = 0;
-					loadBoxScoreGameSimulation(auxGame);
+					txtHitsLocal.setText(String.valueOf(auxGame.getHitsHome()));
 
 				}
 
@@ -3773,13 +3957,16 @@ public class Home extends JFrame implements Runnable {
 
 				if ( i < 3) { // para visita
 					auxGame.setHitsAway(auxGame.getHitsAway()+ 1);
-					loadBoxScoreGameSimulation(auxGame);
+					txtHitsVisita.setText(String.valueOf(auxGame.getHitsAway()));
+					//txtHitsLocal.setText(String.valueOf(game.getHitsHome()));
+					//loadBoxScoreGameSimulation(auxGame);
 
 				}
 
 				if (i < 6 && i >= 3) {
 					auxGame.setHitsHome(auxGame.getHitsHome()+ 1);	
-					loadBoxScoreGameSimulation(auxGame);
+					txtHitsLocal.setText(String.valueOf(auxGame.getHitsHome()));
+				//	loadBoxScoreGameSimulation(auxGame);
 
 				}
 
@@ -3806,6 +3993,11 @@ public class Home extends JFrame implements Runnable {
 		panelControlBateo.add(lblControlBateo);
 
 		panel_4 = new JPanel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			protected void paintComponent(Graphics g) {
 				g.setColor(getBackground());
 
@@ -3904,14 +4096,16 @@ public class Home extends JFrame implements Runnable {
 			public void actionPerformed(ActionEvent e) {
 				
 
-				if ( i < 3) { // para visita
-					auxGame.setErroresAway(auxGame.getErroresAway() + 1);
-					loadBoxScoreGameSimulation(auxGame);
+				if ( i < 3) { // para local
+					auxGame.setErroresHome(auxGame.getErroresHome() + 1);
+					txtErroresLocal.setText(String.valueOf(auxGame.getErroresHome()));
+				//	loadBoxScoreGameSimulation(auxGame);
 				}
 
 				if (i < 6 && i >= 3) {
-					auxGame.setErroresHome(auxGame.getErroresHome() + 1);	
-					loadBoxScoreGameSimulation(auxGame);
+					auxGame.setErroresAway(auxGame.getErroresAway() + 1);
+					txtErroresVisita.setText(String.valueOf(auxGame.getErroresAway()));
+				//	loadBoxScoreGameSimulation(auxGame);
 				}
 			}
 		});
@@ -3925,6 +4119,11 @@ public class Home extends JFrame implements Runnable {
 		panel_4.add(btnErrores);
 
 		panel_5 = new JPanel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			protected void paintComponent(Graphics g) {
 				g.setColor(getBackground());
 
@@ -3965,7 +4164,7 @@ public class Home extends JFrame implements Runnable {
 				}
 				
 				JOptionPane.showMessageDialog(null, "Equipo Local: "+ auxGame.getHomeTeam() + " " + auxGame.getHomeRun() 
-				+ " - Equipo Visitante: " + auxGame.getAwayTeam() + " " + auxGame.getAwayRun());
+				+ "Vs.  Equipo Visitante: " + auxGame.getAwayTeam() + " " + auxGame.getAwayRun());
 				
 				auxGame.setFinished(true);
 
@@ -3973,6 +4172,7 @@ public class Home extends JFrame implements Runnable {
 
 				panelGameSimulation.setVisible(false);
 				loadGameFinalizadosBoxScore();
+				loadGameToday();
 				panelBgDashboard.setVisible(true);
 			}
 		});
@@ -3996,6 +4196,11 @@ public class Home extends JFrame implements Runnable {
 		panel_5.add(lblFinalizarPartido);
 
 		panel_1 = new JPanel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			protected void paintComponent(Graphics g) {
 				g.setColor(getBackground());
 
@@ -4066,6 +4271,10 @@ public class Home extends JFrame implements Runnable {
 		/**********************************************************/		
 
 		txtH1b = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -4113,6 +4322,10 @@ public class Home extends JFrame implements Runnable {
 		panel_1.add(label_15);
 
 		txtH2b = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -4151,6 +4364,10 @@ public class Home extends JFrame implements Runnable {
 		panel_1.add(label_16);
 
 		txtSBb = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -4180,6 +4397,10 @@ public class Home extends JFrame implements Runnable {
 		panel_1.add(txtSBb);
 
 		txtRb = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -4218,6 +4439,10 @@ public class Home extends JFrame implements Runnable {
 		panel_1.add(label_17);
 
 		txtRBIb = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -4256,6 +4481,10 @@ public class Home extends JFrame implements Runnable {
 		panel_1.add(label_18);
 
 		txtH3b = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -4303,6 +4532,10 @@ public class Home extends JFrame implements Runnable {
 		panel_1.add(label_20);
 
 		txtBBb = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -4332,6 +4565,10 @@ public class Home extends JFrame implements Runnable {
 		panel_1.add(txtBBb);
 
 		txtSOb = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -4370,6 +4607,10 @@ public class Home extends JFrame implements Runnable {
 		panel_1.add(label_21);
 
 		txtHRb = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -4419,6 +4660,10 @@ public class Home extends JFrame implements Runnable {
 		panel_1.add(lblNumero);
 
 		txtAVGb = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -4447,6 +4692,10 @@ public class Home extends JFrame implements Runnable {
 		txtAVGb.setColumns(10);
 
 		txtTurnos = new JTextField() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			/************* PARA REDONDEAR JTEXTFIELD *************/
 			@Override 
 			protected void paintComponent(Graphics g) {
@@ -4482,12 +4731,38 @@ public class Home extends JFrame implements Runnable {
 		lblTurnos.setFont(new Font("Consolas", Font.PLAIN, 20));
 		lblTurnos.setBounds(204, 423, 85, 31);
 		panel_1.add(lblTurnos);
+		
+		panel_3 = new JPanel() {
+			protected void paintComponent(Graphics g) {
+				g.setColor(getBackground());
 
-		lblNewLabel_1 = new JLabel("New label");
-		lblNewLabel_1.setFont(new Font("Consolas", Font.BOLD, 18));
+				g.fillRect(0, 0, getWidth(), getHeight());
+
+				super.paintComponent(g);
+			}
+		};
+		panel_3.setLayout(null);
+		panel_3.setOpaque(false);
+		panel_3.setBackground(new Color(0, 0, 0, 60));
+		panel_3.setBounds(90, 123, 135, 100);
+		panelGameSimulation.add(panel_3);
+		
+		lblTotalOuts = new JLabel("Total Outs");
+		lblTotalOuts.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblTotalOuts.setOpaque(true);
+		lblTotalOuts.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTotalOuts.setForeground(Color.WHITE);
+		lblTotalOuts.setFont(new Font("Consolas", Font.PLAIN, 20));
+		lblTotalOuts.setBackground(new Color(0, 30, 72));
+		lblTotalOuts.setBounds(0, 0, 135, 31);
+		panel_3.add(lblTotalOuts);
+
+		lblNewLabel_1 = new JLabel("");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setBounds(0, 37, 135, 50);
+		panel_3.add(lblNewLabel_1);
+		lblNewLabel_1.setFont(new Font("Consolas", Font.BOLD, 24));
 		lblNewLabel_1.setForeground(Color.WHITE);
-		lblNewLabel_1.setBounds(65, 131, 143, 132);
-		panelGameSimulation.add(lblNewLabel_1);
 
 		lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(Home.class.getResource("/iconos_imagenes/BgGameSimulation.png")));
@@ -4612,7 +4887,6 @@ public class Home extends JFrame implements Runnable {
 
 		for (Game auxGame : Lidom.getInstance().getListGame()) {
 			Locale spanishLocale = new Locale("es", "ES");
-			SimpleDateFormat formatter = new SimpleDateFormat("dd-MMMM-yyyy", spanishLocale);
 			//Dando formato para comparar fecha local de la maquina;
 			Date auxDateLocal = new Date();
 			SimpleDateFormat formatter1 = new SimpleDateFormat("dd-MMMM-yyyy", spanishLocale);
@@ -4653,6 +4927,7 @@ public class Home extends JFrame implements Runnable {
 		txtCarrerasLocal.setText(String.valueOf(myGame.getHomeRun()));
 		txtCarerasVisita.setText(String.valueOf(myGame.getAwayRun()));
 		txtErroresLocal.setText(String.valueOf(myGame.getErroresHome()));
+		txtErroresVisita.setText(String.valueOf(myGame.getErroresAway()));
 		lblEquipoVisitante.setBackground(new Color(239, 108, 0));
 		lblEquipoLocal.setBackground(new Color(0,30,72));
 
@@ -4839,7 +5114,6 @@ public class Home extends JFrame implements Runnable {
 			} catch (InterruptedException e) {
 			}
 		}
-
 	}
 	/*************/
 
@@ -4962,10 +5236,10 @@ public class Home extends JFrame implements Runnable {
 
 		txtCarerasVisita.setText(String.valueOf(game.getAwayRun()));
 		txtCarrerasLocal.setText(String.valueOf(game.getHomeRun()));
-		txtHitsVisita.setText(String.valueOf(game.getHitsAway()));
-		txtHitsLocal.setText(String.valueOf(game.getHitsHome()));
-		txtErroresLocal.setText(String.valueOf(game.getErroresHome()));
-		txtErroresVisita.setText(String.valueOf(game.getErroresAway()));
+	//	txtHitsVisita.setText(String.valueOf(game.getHitsAway()));
+	//	txtHitsLocal.setText(String.valueOf(game.getHitsHome()));
+	//	txtErroresLocal.setText(String.valueOf(game.getErroresHome()));
+	//	txtErroresVisita.setText(String.valueOf(game.getErroresAway()));
 		
 
 		if (numberOut < 3 && numberOut >= 0) {
@@ -5602,16 +5876,7 @@ public class Home extends JFrame implements Runnable {
 		columnBoxScore = new Object[modelBoxScore.getColumnCount()];
 
 		for (Game auxGame : Lidom.getInstance().getListGame()) {
-			Locale spanishLocale = new Locale("es", "ES");
-			SimpleDateFormat formatter = new SimpleDateFormat("dd-MMMM-yyyy", spanishLocale);
-			//Dando formato para comparar fecha local de la maquina;
-			Date auxDateLocal = new Date();
-			SimpleDateFormat formatter1 = new SimpleDateFormat("dd-MMMM-yyyy", spanishLocale);
-			String dateLocalString = formatter1.format(auxDateLocal); //local date en string.
-
-			String auxDateGame = auxGame.getDate(); // date of game.
-
-
+			
 			if (auxGame.isFinished() == true) {
 
 				columnBoxScore[0] = auxGame.getHomeTeam();

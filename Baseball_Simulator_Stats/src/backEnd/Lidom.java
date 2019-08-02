@@ -29,12 +29,14 @@ public class Lidom implements Serializable {
 	private ArrayList<Stadium>listStadium;
 	private ArrayList<Game> listGame;
 	private ArrayList<Player> listPlayer;
+	
 
 	private static Lidom LIDOM;
 
 	public static int generateIdTeam = 1;
 	public static int generateIdStadium = 1;
 	public static int generateIdGame = 1;
+	
 
 	/* Constructor */
 	private Lidom() {
@@ -660,7 +662,8 @@ public class Lidom implements Serializable {
 			}
 		}
 	}
-
+	
+	
 
 	public void writeCodes(int code, String name) {
 
@@ -762,4 +765,8 @@ public class Lidom implements Serializable {
 		return TeamFiltered;
 
 	}
+
+
+
+
 }

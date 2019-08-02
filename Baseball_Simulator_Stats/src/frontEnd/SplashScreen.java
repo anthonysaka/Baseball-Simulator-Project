@@ -1,34 +1,28 @@
 package frontEnd;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.sun.awt.AWTUtilities;
 
+import backEnd.Server;
+
 import javax.swing.JLabel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JProgressBar;
 import javax.swing.Timer;
-import javax.swing.UIManager;
-
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
 public class SplashScreen extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2256781198012375640L;
 	private JPanel contentPane;
 	private JLabel lblLogo;
@@ -63,6 +57,7 @@ public class SplashScreen extends JFrame {
 	 * Create the frame.
 	 */
 	public SplashScreen() {
+		
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 455, 478);
@@ -81,8 +76,6 @@ public class SplashScreen extends JFrame {
 		ImageIcon logoLidom = new ImageIcon(Home.class.getResource("/iconos_imagenes/preview-lidom (2).png"));
 		Icon lgLidom = new ImageIcon(logoLidom.getImage().getScaledInstance(lblLogo.getWidth(), lblLogo.getHeight(), Image.SCALE_SMOOTH));
 		lblLogo.setIcon(lgLidom);
-
-
 
 		progressBar = new JProgressBar();
 		progressBar.setForeground(new Color(25, 32, 58));
@@ -132,8 +125,17 @@ public class SplashScreen extends JFrame {
 				if (counter > 100) {
 					timer.stop();
 					dispose();
-					Home myAppHome = new Home();
-					myAppHome.setVisible(true);
+				//	Home myAppHome = new Home();
+				//	myAppHome.setVisible(true);
+					
+					Login lg = new Login(false);
+					
+					lg.setModal(true);
+					lg.setVisible(true);
+					
+					
+					
+					
 				}
 			}
 		};
