@@ -1949,7 +1949,7 @@ public class AddPlayer extends JDialog {
 											Player bateador = new Batter(id, name, number, lastname, equipoBateeador, dateBorn, placeBorn, height, weight, manobateador, posicion, manoDeBateo);
 											Lidom.getInstance().addPlayer(bateador);// agrego lista de lidom
 											Lidom.getInstance().addPlayerToTeam(equipoBateeador, bateador); // agrego a lista de roster del equipo
-											ManagementTeam.loadRosterPlayerByTeam();
+										//	ManagementTeam.loadRosterPlayerByTeam();
 
 											JOptionPane.showOptionDialog(null, "Registro de un BATEADOR con exito!", "Aviso!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options);
 											clean();

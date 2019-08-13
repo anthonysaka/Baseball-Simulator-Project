@@ -62,9 +62,7 @@ public class Login extends JDialog {
 			}
 		});
 	}           
-	/**
-	 * Create the dialog.
-	 */
+
 private boolean createU;
 
 	public Login(boolean create) {
@@ -141,7 +139,7 @@ private boolean createU;
 			btnLogin.addActionListener(new ActionListener() {
 				@SuppressWarnings("deprecation")
 				public void actionPerformed(ActionEvent e) {
-				System.out.println(UserController.getInstance().getListUsers().get(0).getUserName());
+				//System.out.println(UserController.getInstance().getListUsers().get(0).getUserName());
 				//	System.out.println(UserController.getInstance().getListUsers().get(1).getUserName());
 					
 					if (createU == false) {

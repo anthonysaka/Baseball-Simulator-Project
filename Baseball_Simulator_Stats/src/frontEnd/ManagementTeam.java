@@ -2717,7 +2717,7 @@ public class ManagementTeam extends JDialog {
 		}
 		loadInjuryPlayerByTeam();
 		loadRosterPlayerByTeam();
-	//	loadLineUpPlayerByTeam();
+		loadLineUpPlayerByTeam();
 		loadGamesByTeam();
 		loadLineUpLabel();
 
